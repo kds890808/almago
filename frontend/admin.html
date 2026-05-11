@@ -343,7 +343,7 @@ function logout() {
 async function loadAnalyses() {
   const token = localStorage.getItem("token");
 
-  const res = await fetch(https://almago-lllh.onrender.com/analysis-table", {
+  const res = await fetch("https://almago-lllh.onrender.com/analysis-table", {
     headers: { "Authorization": "Bearer " + token }
   });
 
@@ -966,7 +966,7 @@ async function addAdminPrompt() {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    `http://127.0.0.1:8000/admin/create?email=${email}&password=${password}`,
+    `http://almago-lllh.onrender.com/admin/create?email=${email}&password=${password}`,
     {
       method: "POST",
       headers: {

@@ -189,7 +189,7 @@ async function login() {
 
         showMainUI();
     } else {
-        alert(data.detail);
+        alert(data.detail || data.msg);
     }
 }
 
