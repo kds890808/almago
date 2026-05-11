@@ -173,7 +173,7 @@ async function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch("https://almago-lllh.onrender.com/login", {
+    const res = await fetch("https://almago-1llh.onrender.com/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -215,7 +215,7 @@ async function register() {
 
         console.log("🔥 fetch 직전");
 
-        const res = await fetch("https://almago-lllh.onrender.com/register", {
+        const res = await fetch("https://almago-1llh.onrender.com/register", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -265,7 +265,7 @@ function showMainUI() {
 
 // 메뉴
 async function loadMenus() {
-    const res = await fetch("https://almago-lllh.onrender.com/menus");
+    const res = await fetch("https://almago-1llh.onrender.com/menus");
     const data = await res.json();
 
     const container = document.getElementById("menu-area");
@@ -285,7 +285,7 @@ async function loadMenus() {
 async function loadAnalyses() {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("https://almago-lllh.onrender.com/analyses", {
+    const res = await fetch("https://almago-1llh.onrender.com/analyses", {
         headers: {"Authorization": "Bearer " + token}
     });
 
@@ -334,7 +334,7 @@ let raceTargets = {
 // 경주 데이터 불러오기
 // =========================
 async function loadRaceForHome() {
-  const res = await fetch("https://almago-lllh.onrender.com/race");
+  const res = await fetch("https://almago-1llh.onrender.com/race");
   const data = await res.json();
 
   const now = new Date();
