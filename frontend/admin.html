@@ -966,7 +966,7 @@ async function addAdminPrompt() {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    `http://almago-1llh.onrender.com/admin/create?email=${email}&password=${password}`,
+    `https://almago-1llh.onrender.com/admin/create?email=${email}&password=${password}`,
     {
       method: "POST",
       headers: {
