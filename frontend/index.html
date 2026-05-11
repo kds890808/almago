@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>분석 앱</title>
+
+  <style>
+    body {
+        font-family: Arial;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background: #f3f6ff;
+    }
+
+    input {
+        padding: 10px;
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    button {
+        padding: 10px;
+        margin-top: 10px;
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .card {
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #user-info {
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    .hero {
+        position: relative;
+        height: 200px;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .region-wrap {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .region-card {
+        flex: 1;
+        text-align: center;
+    }
+
+    .time {
+        font-size: 22px;
+        font-weight: bold;
+        color: red;
+    }
+
+    .region-card button {
+      margin-top: 10px;
+      background: #2563EB;
+    }
+
+    .region-card button:hover {
+  background: #4a7aa3;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="user-info"></div>
+
+<!-- 🔥 항상 보이는 영역 -->
+<div id="hero-area" class="hero">
+  <img src="https://images.unsplash.com/photo-1543353071-087092ec3931">
+  <div class="hero-overlay">
+    <h2>경마도 <span style="color:red;">AI 시대</span></h2>
+    <p>AI 경주마 추천 시스템</p>
+  </div>
+</div>
+
+<div class="region-wrap">
+  <div class="card region-card">
+    <h3>서울 1경주</h3>
+    <div id="seoul-time" class="time">--:--</div>
+    <small>AI 분석 제공</small>
+
+    <!-- 🔥 추가 -->
+    <button onclick="goAI('서울')">AI 추천보기</button>
+  </div>
+
+  <div class="card region-card">
+    <h3>부산 1경주</h3>
+    <div id="busan-time" class="time">--:--</div>
+    <small>AI 분석 제공</small>
+
+    <!-- 🔥 추가 -->
+    <button onclick="goAI('부산')">AI 추천보기</button>
+  </div>
+</div>
+
+<!-- 🔐 로그인 영역 -->
+<div id="login-area">
+  <h2>로그인</h2>
+  <input id="email" placeholder="email">
+  <input id="password" type="password" placeholder="password">
+  <button type="button" onclick="login()">로그인</button>
+  <button type="button" onclick="showRegister()">회원가입</button>
+</div>
+
+<div id="register-area" style="display:none;">
+
+  <h2>회원가입</h2>
+
+  <input id="reg-email" placeholder="아이디">
+  <input id="reg-password" type="password" placeholder="비밀번호">
+  <input id="reg-password2" type="password" placeholder="비밀번호 확인">
+
+  <input id="reg-name" placeholder="이름">
+  <input id="reg-birth" placeholder="생년월일">
+  <input id="reg-phone" placeholder="휴대폰번호">
+
+  <button type="button" onclick="register()">회원가입</button>
+  <button onclick="showLogin()">취소</button>
+
+</div>
+
+<hr>
+
+<!-- 🔓 로그인 후 영역 -->
+<div id="main-area" style="display:none;">
+
+  <h2>경기 목록</h2>
+  <div id="menu-area"></div>
+
+  <div id="list"></div>
+</div>
+
+<script>
+
+// 로그인
+async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch("https://almago-lllh.onrender.com/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("email", email);
+
+        showMainUI();
+    } else {
+        alert(data.detail);
+    }
+}
+
+//회원가입
+async function register() {
+    console.log("🔥 회원가입 버튼 눌림");
+    try {
+        console.log("register 실행됨");
+
+        const email = document.getElementById("reg-email").value;
+        const password = document.getElementById("reg-password").value;
+        const password2 = document.getElementById("reg-password2").value;
+        const name = document.getElementById("reg-name").value;
+        const birth = document.getElementById("reg-birth").value;
+        const phone = document.getElementById("reg-phone").value;
+
+        console.log(email, password, name, birth, phone);
+
+        if (password !== password2) {
+            alert("비밀번호가 다름");
+            return;
+        }
+
+        console.log("🔥 fetch 직전");
+
+        const res = await fetch("https://almago-lllh.onrender.com/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email, password, name, birth, phone
+            })
+        });
+
+        console.log("🔥 fetch 완료", res);
+
+        const data = await res.json();
+        console.log("응답:", data);
+
+        if (res.ok) {
+            alert("회원가입 완료");
+            showLogin();
+        } else {
+            alert("에러: " + JSON.stringify(data));
+        }
+
+    } catch (err) {
+        console.error("🔥 에러 발생:", err);
+        alert("에러 발생: " + err);
+    }
+}
+
+// 로그아웃
+function logout() {
+    localStorage.clear();
+    location.reload();
+}
+
+// UI 전환
+function showMainUI() {
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("main-area").style.display = "block";
+
+    // 🔥 추가 (핵심)
+    document.getElementById("hero-area").style.display = "none";
+
+    const email = localStorage.getItem("email");
+    document.getElementById("user-info").innerHTML =
+      `👤 ${email} <button onclick="logout()">로그아웃</button>`;
+
+    loadMenus();
+    loadAnalyses();
+}
+
+// 메뉴
+async function loadMenus() {
+    const res = await fetch("https://almago-lllh.onrender.com/menus");
+    const data = await res.json();
+
+    const container = document.getElementById("menu-area");
+    container.innerHTML = "";
+
+    data.forEach(m => {
+        container.innerHTML += `
+            <div class="card">
+                <h3>${m.name}</h3>
+                <button onclick="alert('${m.path}')">이동</button>
+            </div>
+        `;
+    });
+}
+
+// 분석
+async function loadAnalyses() {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("https://almago-lllh.onrender.com/analyses", {
+        headers: {"Authorization": "Bearer " + token}
+    });
+
+    const data = await res.json();
+
+    const list = document.getElementById("list");
+
+    // 🔥 핵심 추가 (없으면 그냥 종료)
+    if (!list) return;
+
+    list.innerHTML = "";
+
+    data.forEach(item => {
+        list.innerHTML += `
+            <div class="card">
+                <h3>${item.title}</h3>
+                <p>${item.content}</p>
+            </div>
+        `;
+    });
+}
+
+// 자동 로그인
+window.onload = async () => {
+    const token = localStorage.getItem("token");
+    if (token) showMainUI();
+
+    try {
+        await loadRaceForHome();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    } catch (e) {
+        console.error("🔥 race 로드 실패:", e);
+    }
+};
+
+// =========================
+// 경주 타겟 저장
+// =========================
+let raceTargets = {
+  서울: null,
+  부산: null
+};
+
+// =========================
+// 경주 데이터 불러오기
+// =========================
+async function loadRaceForHome() {
+  const res = await fetch("https://almago-lllh.onrender.com/race");
+  const data = await res.json();
+
+  const now = new Date();
+
+  const upcoming = data.filter(r => {
+    const dt = parseDateTime(r.경주일자, r.출발시각);
+    return dt > now;
+  });
+
+  upcoming.sort((a, b) =>
+    parseDateTime(a.경주일자, a.출발시각) -
+    parseDateTime(b.경주일자, b.출발시각)
+  );
+
+  // 지역별 첫 경기
+  upcoming.forEach(r => {
+    if (!raceTargets[r.지역]) {
+      raceTargets[r.지역] = parseDateTime(r.경주일자, r.출발시각);
+    }
+  });
+}
+
+// =========================
+// 날짜 파싱
+// =========================
+function parseDateTime(dateStr, timeStr) {
+  const cleanDate = dateStr.split(" ")[0].replace(/\//g, "-");
+  return new Date(`${cleanDate}T${timeStr}`);
+}
+
+// =========================
+// 카운트다운
+// =========================
+function updateCountdown() {
+  const now = new Date();
+
+  function format(target) {
+    if (!target) return "--:--";
+
+    const diff = target - now;
+    if (diff <= 0) return "출발";
+
+    const day = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hour = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const min = Math.floor((diff / (1000 * 60)) % 60);
+    const sec = Math.floor((diff / 1000) % 60);
+
+    return `${day}일 ${hour}시간 ${min}분 ${sec}초전`;
+      }
+
+  document.getElementById("seoul-time").innerText =
+    format(raceTargets["서울"]);
+
+  document.getElementById("busan-time").innerText =
+    format(raceTargets["부산"]);
+}
+
+// 회원가입
+function showRegister() {
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("register-area").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("register-area").style.display = "none";
+    document.getElementById("login-area").style.display = "block";
+}
+
+//홈화면분석보기
+function goAI(region) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("로그인 필요");
+    return;
+  }
+
+  location.href = "ai.html?region=" + region;
+}
+
+
+</script>
+
+<script>
+window.register = register;
+</script>
+</body>
+</html>
