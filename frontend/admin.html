@@ -343,7 +343,7 @@ function logout() {
 async function loadAnalyses() {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/analysis-table", {
+  const res = await fetch("https://almago-1llh.onrender.com/analysis-table", {
     headers: { "Authorization": "Bearer " + token }
   });
 
@@ -368,7 +368,7 @@ async function loadAnalyses() {
 async function togglePremium(id, currentPremium, currentAdmin) {
   const token = localStorage.getItem("token");
 
-  const res = await fetch(`https://almago-lllh.onrender.com/users/${id}?is_premium=${!currentPremium}&is_admin=${currentAdmin}`, {
+  const res = await fetch(`https://almago-1llh.onrender.com/users/${id}?is_premium=${!currentPremium}&is_admin=${currentAdmin}`, {
     method: "PUT",
     headers: {
       "Authorization": "Bearer " + token
@@ -389,7 +389,7 @@ async function togglePremium(id, currentPremium, currentAdmin) {
 async function toggleAdmin(id, currentPremium, currentAdmin) {
   const token = localStorage.getItem("token");
 
-  await fetch(`https://almago-lllh.onrender.com/users/${id}?is_premium=${currentPremium}&is_admin=${!currentAdmin}`, {
+  await fetch(`https://almago-1llh.onrender.com/users/${id}?is_premium=${currentPremium}&is_admin=${!currentAdmin}`, {
     method: "PUT",
     headers: {
       "Authorization": "Bearer " + token
@@ -407,7 +407,7 @@ async function deleteUser(id) {
 
   if (!confirm("진짜 삭제할까?")) return;
 
-  await fetch(`https://almago-lllh.onrender.com/users/${id}`, {
+  await fetch(`https://almago-1llh.onrender.com/users/${id}`, {
     method: "DELETE",
     headers: {
       "Authorization": "Bearer " + token
@@ -426,7 +426,7 @@ async function createMenu() {
   const name = document.getElementById("menu-name").value;
   const path = document.getElementById("menu-path").value;
 
-  const res = await fetch("https://almago-lllh.onrender.com/menus", {
+  const res = await fetch("https://almago-1llh.onrender.com/menus", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -452,7 +452,7 @@ async function createMenu() {
 // 메뉴추가(프론트연동)
 // =========================
 async function loadMenus() {
-  const res = await fetch("https://almago-lllh.onrender.com/menus");
+  const res = await fetch("https://almago-1llh.onrender.com/menus");
   const data = await res.json();
 
   const container = document.getElementById("menu-area");
@@ -480,7 +480,7 @@ async function addMenuPrompt() {
 
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/menus", {
+  const res = await fetch("https://almago-1llh.onrender.com/menus", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -502,7 +502,7 @@ async function addMenuPrompt() {
 // 메뉴로드
 // =========================
 async function loadSidebarMenus() {
-  const res = await fetch("https://almago-lllh.onrender.com/menus");
+  const res = await fetch("https://almago-1llh.onrender.com/menus");
   const data = await res.json();
 
   const menuList = document.getElementById("menu-list");
@@ -548,7 +548,7 @@ async function deleteMenu(id) {
 
   if (!confirm("진짜 삭제할까?")) return;
 
-  const res = await fetch(`https://almago-lllh.onrender.com/menus/${id}`, {
+  const res = await fetch(`https://almago-1llh.onrender.com/menus/${id}`, {
     method: "DELETE",
     headers: {
       "Authorization": "Bearer " + token
@@ -570,7 +570,7 @@ async function deleteMenu(id) {
 async function loadUsers() {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/admin/users", {
+  const res = await fetch("https://almago-1llh.onrender.com/admin/users", {
     headers: { "Authorization": "Bearer " + token }
   });
 
@@ -648,7 +648,7 @@ async function handleAction(button, action) {
 }
 
 async function loadRace() {
-  const res = await fetch("https://almago-lllh.onrender.com/race");
+  const res = await fetch("https://almago-1llh.onrender.com/race");
   const data = await res.json();
 
   raceData = data.map(r => [
@@ -679,7 +679,7 @@ async function uploadRace() {
   const formData = new FormData();
   formData.append("file", file);
 
-  await fetch("https://almago-lllh.onrender.com/upload-race", {
+  await fetch("https://almago-1llh.onrender.com/upload-race", {
     method: "POST",
     body: formData
   });
@@ -712,7 +712,7 @@ async function saveCell(td, value, rowIndex, colIndex) {
   const field = keys[colIndex];
 
   const token = localStorage.getItem("token");
-  await fetch(`https://almago-lllh.onrender.com/race/${id}`, {
+  await fetch(`https://almago-1llh.onrender.com/race/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -732,7 +732,7 @@ async function deleteRow(index) {
 
   if (!confirm("삭제할까?")) return;
 
-  await fetch(`https://almago-lllh.onrender.com/race/${id}`, {
+  await fetch(`https://almago-1llh.onrender.com/race/${id}`, {
     method: "DELETE",
     headers: {
       "Authorization": "Bearer " + token
@@ -812,7 +812,7 @@ function editCell(td, rowIndex, colIndex) {
 function showRaceDetail(raceNo) {
   console.log("클릭됨:", raceNo);  // 👈 이거 추가
 
-  fetch(`https://almago-lllh.onrender.com/race-detail/${raceNo}`)
+  fetch(`https://almago-1llh.onrender.com/race-detail/${raceNo}`)
     .then(res => res.json())
     .then(data => {
 
@@ -867,7 +867,7 @@ async function saveAnalysis() {
     triple: document.getElementById("triple").value
   };
 
-  await fetch("https://almago-lllh.onrender.com/analysis-save", {
+  await fetch("https://almago-1llh.onrender.com/analysis-save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -884,7 +884,7 @@ async function saveAnalysis() {
 async function loadAnalysisTable() {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/analysis-table", {
+  const res = await fetch("https://almago-1llh.onrender.com/analysis-table", {
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -943,7 +943,7 @@ async function saveAnalysisRow(id, region, race_no, race_date) {
     triple: document.getElementById(`triple_${id}`).value
   };
 
-  await fetch("https://almago-lllh.onrender.com/analysis-save", {
+  await fetch("https://almago-1llh.onrender.com/analysis-save", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
@@ -966,7 +966,7 @@ async function addAdminPrompt() {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    `http://almago-lllh.onrender.com/admin/create?email=${email}&password=${password}`,
+    `http://almago-1llh.onrender.com/admin/create?email=${email}&password=${password}`,
     {
       method: "POST",
       headers: {
@@ -988,7 +988,7 @@ async function addAdminPrompt() {
 async function loadAdmins() {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/admin/users", {
+  const res = await fetch("https://almago-1llh.onrender.com/admin/users", {
     headers: { "Authorization": "Bearer " + token }
   });
 
@@ -1044,7 +1044,7 @@ async function createAnalysis() {
 
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://almago-lllh.onrender.com/analysis-save", {
+  const res = await fetch("https://almago-1llh.onrender.com/analysis-save", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
