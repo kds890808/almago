@@ -12,4 +12,9 @@ lxml
 beautifulsoup4
 html5lib
 requests
+<<<<<<< HEAD
 psycopg2-binary
+=======
+bcrypt==4.0.1
+passlib[bcrypt]
+>>>>>>> b190f12 (index update)
