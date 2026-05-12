@@ -15,6 +15,9 @@ from playwright.sync_api import sync_playwright
 import os
 
 print("🔥 현재 DB 위치:", os.path.abspath("db.sqlite3"))
+from database import DATABASE_URL
+
+print("🔥 현재 DATABASE_URL:", DATABASE_URL)
 
 # =========================
 # 경주 테이블
