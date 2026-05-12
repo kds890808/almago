@@ -407,7 +407,7 @@ input:focus{
       서울 1경주
     </div>
 
-    <div id="seoul-time" class="ticket-time">
+    <div id="seoul-time-main" class="ticket-time">
       --:--
     </div>
 
@@ -427,7 +427,7 @@ input:focus{
       부산 1경주
     </div>
 
-    <div id="busan-time" class="ticket-time">
+    <div id="busan-time-main" class="ticket-time">
       --:--
     </div>
 
@@ -835,11 +835,20 @@ function updateCountdown() {
     return `${day}일 ${hour}시간 ${min}분 ${sec}초전`;
   }
 
-  document.getElementById("seoul-time").innerText =
-    format(raceTargets["서울"]);
+    const seoul = format(raceTargets["서울"]);
+    const busan = format(raceTargets["부산"]);
 
-  document.getElementById("busan-time").innerText =
-    format(raceTargets["부산"]);
+    const s1 = document.getElementById("seoul-time");
+    const b1 = document.getElementById("busan-time");
+
+    const s2 = document.getElementById("seoul-time-main");
+    const b2 = document.getElementById("busan-time-main");
+
+    if(s1) s1.innerText = seoul;
+    if(b1) b1.innerText = busan;
+
+    if(s2) s2.innerText = seoul;
+    if(b2) b2.innerText = busan;
 }
 
 // 회원가입 전환
