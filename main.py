@@ -8,7 +8,7 @@ from schemas import MenuCreate
 from passlib.context import CryptContext
 from auth import create_access_token 
 from fastapi.middleware.cors import CORSMiddleware
-from jose import jwt
+from jose import jwt 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import pandas as pd
 from playwright.sync_api import sync_playwright
