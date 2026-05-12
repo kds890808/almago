@@ -407,7 +407,7 @@ input:focus{
       서울 1경주
     </div>
 
-    <div id="seoul-time-main" class="ticket-time">
+    <div id="seoul-time" class="ticket-time">
       --:--
     </div>
 
@@ -427,7 +427,7 @@ input:focus{
       부산 1경주
     </div>
 
-    <div id="busan-time-main" class="ticket-time">
+    <div id="busan-time" class="ticket-time">
       --:--
     </div>
 
@@ -556,7 +556,7 @@ input:focus{
           서울 1경주
         </div>
 
-        <div id="seoul-time" class="ticket-time">
+        <div id="seoul-time2" class="ticket-time">
           --:--
         </div>
 
@@ -576,7 +576,7 @@ input:focus{
           부산 1경주
         </div>
 
-        <div id="busan-time" class="ticket-time">
+        <div id="busan-time2" class="ticket-time">
           --:--
         </div>
 
@@ -841,8 +841,8 @@ function updateCountdown() {
     const s1 = document.getElementById("seoul-time");
     const b1 = document.getElementById("busan-time");
 
-    const s2 = document.getElementById("seoul-time-main");
-    const b2 = document.getElementById("busan-time-main");
+    const s2 = document.getElementById("seoul-time2");
+    const b2 = document.getElementById("busan-time2");
 
     if(s1) s1.innerText = seoul;
     if(b1) b1.innerText = busan;
