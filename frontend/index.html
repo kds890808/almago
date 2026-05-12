@@ -279,6 +279,44 @@ input:focus{
     margin-bottom:8px;
 }
 
+/* 👇 여기 추가 */
+.ticket-card{
+  width:220px;
+  background:white;
+  border:3px solid #2563eb;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+
+.ticket-title{
+  font-size:20px;
+  font-weight:bold;
+  color:#2563eb;
+  margin-bottom:15px;
+}
+
+.ticket-time{
+  font-size:52px;
+  font-weight:bold;
+  color:#d40000;
+}
+
+.ticket-sub{
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.ticket-card button{
+  background:#0f2f73;
+  color:white;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:10px;
+}
+
 @media(max-width:480px){
 
     .logo-text{
@@ -406,23 +444,45 @@ input:focus{
 
     <div class="region-wrap">
 
-        <div class="region-card">
-            <div class="region-title">서울 1경주</div>
-            <div id="seoul-time" class="time">--:--</div>
+      <div class="ticket-card">
 
-            <button class="ai-btn" onclick="goAI('서울')">
-                AI 추천보기
-            </button>
+        <div class="ticket-title">
+          서울 1경주
         </div>
 
-        <div class="region-card">
-            <div class="region-title">부산 1경주</div>
-            <div id="busan-time" class="time">--:--</div>
-
-            <button class="ai-btn" onclick="goAI('부산')">
-                AI 추천보기
-            </button>
+        <div id="seoul-time" class="ticket-time">
+          --:--
         </div>
+
+        <div class="ticket-sub">
+          AI 분석 제공
+        </div>
+
+        <button onclick="goAI('서울')">
+          AI 추천보기
+        </button>
+
+      </div>
+
+      <div class="ticket-card">
+
+        <div class="ticket-title">
+          부산 1경주
+        </div>
+
+        <div id="busan-time" class="ticket-time">
+          --:--
+        </div>
+
+        <div class="ticket-sub">
+          AI 분석 제공
+        </div>
+
+        <button onclick="goAI('부산')">
+          AI 추천보기
+        </button>
+
+      </div>
 
     </div>
 
