@@ -332,6 +332,48 @@ input:focus{
         font-size:22px;
     }
 }
+    .quick-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:20px;
+}
+
+.quick-card{
+    border-radius:18px;
+    padding:22px;
+    color:white;
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    font-weight:700;
+}
+
+.quick-card:nth-child(1){
+    background:#4d8df7;
+}
+
+.quick-card:nth-child(2){
+    background:#284d91;
+}
+
+.quick-card:nth-child(3){
+    background:#002f87;
+}
+
+.quick-card:nth-child(4){
+    background:#0050d7;
+}
+
+.quick-title{
+    font-size:24px;
+}
+
+.quick-sub{
+    font-size:18px;
+    opacity:0.9;
+}
 </style>
 </head>
 
@@ -476,6 +518,30 @@ input:focus{
 
         <div id="user-info"></div>
 
+        <div class="quick-grid">
+
+  <div class="quick-card">
+      <div class="quick-title">📈 적중률</div>
+      <div class="quick-sub">등급 변경</div>
+  </div>
+
+  <div class="quick-card">
+      <div class="quick-title">🏇 경주정보</div>
+      <div class="quick-sub">과거/현재</div>
+  </div>
+
+  <div class="quick-card">
+      <div class="quick-title">🎯 적중률 확인</div>
+      <div class="quick-sub">과거 경주</div>
+  </div>
+
+  <div class="quick-card">
+      <div class="quick-title">💰 배당률</div>
+      <div class="quick-sub">현재/인기</div>
+  </div>
+
+</div>
+        
         <button class="logout-btn" onclick="logout()">
             로그아웃
         </button>
@@ -816,4 +882,3 @@ function togglePassword(){
 
 </body>
 </html>
-```
