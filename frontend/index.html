@@ -4,181 +4,128 @@
   <meta charset="UTF-8">
   <title>분석 앱</title>
 
-  <style>
-    body {
-        font-family: Arial;
-        max-width: 600px; 
-        margin: auto;
-        padding: 20px;
-        background: #f3f6ff;
-    }
- 
-    input {
-        padding: 10px;
-        margin: 5px 0;
-        width: 100%;
-    }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    button {
-        padding: 10px;
-        margin-top: 10px;
-        width: 100%;
-        background: #2563eb;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+body{
+    font-family:'Pretendard', Arial, sans-serif;
+    background:#f4f5f9;
+    color:#222;
+    max-width:500px;
+    margin:auto;
+    min-height:100vh;
+}
 
-    .card {
-        border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
-        background: white;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+.container{
+    padding:22px;
+}
 
-    #user-info {
-        text-align: right;
-        margin-bottom: 10px;
-    }
+.logo-area{
+    margin-top:20px;
+}
 
-        .user-bar{
-        display:flex;
-        justify-content:flex-end;
-        align-items:center;
-        gap:10px;
-    }
+.big-data{
+    font-size:24px;
+    font-weight:800;
+    color:#003c97;
+}
 
-    .logout-mini{
-        width:auto;
-        margin-top:0;
-        padding:6px 12px;
-        font-size:13px;
-        border-radius:6px;
-    }
+.logo-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+}
 
-    .hero {
-        position: relative;
-        height: 200px;
-        border-radius: 20px;
-        overflow: hidden;
-        margin-bottom: 20px;
-    }
+.logo-text{
+    font-size:56px;
+    font-weight:900;
+    color:#2e3142;
+    line-height:1;
+}
 
-    .hero img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.go-circle{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#0057d8;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    transform:rotate(-20deg);
+    font-size:28px;
+}
 
-    .hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,0.4);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+.logo-sub{
+    font-size:26px;
+    font-weight:800;
+    color:#2e3142;
+    margin-top:10px;
+}
 
-    .region-wrap {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
+</style>
 
-    .region-card {
-        flex: 1;
-        text-align: center;
-    }
-
-    .time {
-        font-size: 22px;
-        font-weight: bold;
-        color: red;
-    }
-
-    .region-card button {
-      margin-top: 10px;
-      background: #2563EB;
-    }
-
-    .region-card button:hover {
-  background: #4a7aa3;
-    }
-  </style>
 </head>
 
 <body>
+        </button>
+    </div>
 
-<div id="user-info"></div>
+    <div class="region-wrap">
 
-<!-- 🔥 항상 보이는 영역 -->
-<div id="hero-area" class="hero">
-  <img src="https://images.unsplash.com/photo-1543353071-087092ec3931">
-  <div class="hero-overlay">
-    <h2>경마도 <span style="color:red;">AI 시대</span></h2>
-    <p>AI 경주마 추천 시스템</p>
-  </div>
-</div>
+        <div class="region-card">
+            <div class="region-title">서울 1경주</div>
+            <div id="seoul-time" class="time">--:--</div>
+            <button class="ai-btn" onclick="goAI('서울')">
+                AI 추천보기
+            </button>
+        </div>
 
-<div class="region-wrap">
-  <div class="card region-card">
-    <h3>서울 1경주</h3>
-    <div id="seoul-time" class="time">--:--</div>
-    <small>AI 분석 제공</small>
+        <div class="region-card">
+            <div class="region-title">부산 1경주</div>
+            <div id="busan-time" class="time">--:--</div>
+            <button class="ai-btn" onclick="goAI('부산')">
+                AI 추천보기
+            </button>
+        </div>
 
-    <!-- 🔥 추가 -->
-    <button onclick="goAI('서울')">AI 추천보기</button>
-  </div>
+    </div>
 
-  <div class="card region-card">
-    <h3>부산 1경주</h3>
-    <div id="busan-time" class="time">--:--</div>
-    <small>AI 분석 제공</small>
-
-    <!-- 🔥 추가 -->
-    <button onclick="goAI('부산')">AI 추천보기</button>
-  </div>
-</div>
-
-<!-- 🔐 로그인 영역 -->
-<div id="login-area">
-  <h2>로그인</h2>
-  <input id="email" placeholder="email">
-  <input id="password" type="password" placeholder="password">
-  <button type="button" onclick="login()">로그인</button>
-  <button type="button" onclick="showRegister()">회원가입</button>
-</div>
-
-<div id="register-area" style="display:none;">
-
-  <h2>회원가입</h2>
-
-  <input id="reg-email" placeholder="아이디">
-  <input id="reg-password" type="password" placeholder="비밀번호">
-  <input id="reg-password2" type="password" placeholder="비밀번호 확인">
-
-  <input id="reg-name" placeholder="이름">
-  <input id="reg-birth" placeholder="생년월일">
-  <input id="reg-phone" placeholder="휴대폰번호">
-
-  <button type="button" onclick="register()">회원가입</button>
-  <button onclick="showLogin()">취소</button>
+    <div id="menu-area"></div>
+    <div id="list"></div>
 
 </div>
 
-<hr>
+</div>
 
-<!-- 🔓 로그인 후 영역 -->
-<div id="main-area" style="display:none;">
+<div class="bottom-menu">
 
-  <h2>경기 목록</h2>
-  <div id="menu-area"></div>
+    <div class="menu-item">
+        <div>🏇</div>
+        AI알마고란?
+    </div>
 
-  <div id="list"></div>
+    <div class="menu-item">
+        <div>📄</div>
+        초보자가이드
+    </div>
+
+    <div class="menu-item">
+        <div>🎯</div>
+        AI적중률
+    </div>
+
+    <div class="menu-item">
+        <div>🎫</div>
+        마권예매
+    </div>
+
 </div>
 
 <script>
@@ -434,6 +381,17 @@ function goAI(region) {
   location.href = "ai.html?region=" + region;
 }
 
+
+function togglePassword(){
+
+    const pw = document.getElementById("password");
+
+    if(pw.type === "password"){
+        pw.type = "text";
+    }else{
+        pw.type = "password";
+    }
+}
 
 </script>
 
