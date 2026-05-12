@@ -12,3 +12,4 @@ lxml
 beautifulsoup4
 html5lib
 requests
+psycopg2-binary
