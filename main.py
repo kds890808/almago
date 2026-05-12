@@ -65,15 +65,8 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-<<<<<<< HEAD
     allow_origins=["*"],
-    allow_credentials=False,
-=======
-    allow_origins=[
-        "https://gentle-pastelito-28f314.netlify.app"
-    ],
     allow_credentials=True,
->>>>>>> b190f12 (index update)
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -762,10 +755,7 @@ def get_admins_only(db: Session = Depends(get_db), current=Depends(get_current_u
             })
 
     return result
-<<<<<<< HEAD
-=======
 
 @app.get("/")
 def root():
     return {"msg": "almago server running"}
->>>>>>> b190f12 (index update)
