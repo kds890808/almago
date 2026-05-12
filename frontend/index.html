@@ -43,6 +43,21 @@
         margin-bottom: 10px;
     }
 
+        .user-bar{
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+        gap:10px;
+    }
+
+    .logout-mini{
+        width:auto;
+        margin-top:0;
+        padding:6px 12px;
+        font-size:13px;
+        border-radius:6px;
+    }
+
     .hero {
         position: relative;
         height: 200px;
@@ -256,8 +271,12 @@ function showMainUI() {
     document.getElementById("hero-area").style.display = "none";
 
     const email = localStorage.getItem("email");
-    document.getElementById("user-info").innerHTML =
-      `👤 ${email} <button onclick="logout()">로그아웃</button>`;
+    document.getElementById("user-info").innerHTML = `
+      <div class="user-bar">
+          <span>👤 ${email}</span>
+          <button class="logout-mini" onclick="logout()">로그아웃</button>
+      </div>
+    `;
 
     loadMenus();
     loadAnalyses();
