@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -52,6 +53,409 @@ body{
 
 .go-circle{
     width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#0057d8;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    transform:rotate(-20deg);
+    font-size:28px;
+}
+
+.logo-sub{
+    font-size:26px;
+    font-weight:800;
+    color:#2e3142;
+    margin-top:10px;
+}
+
+.hero-horse{
+    width:180px;
+    display:block;
+    margin:20px auto;
+}
+
+.section-title{
+    font-size:32px;
+    font-weight:800;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.input-label{
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:10px;
+    margin-top:18px;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+input{
+    width:100%;
+    height:68px;
+    border-radius:18px;
+    border:2px solid #e1e5ef;
+    padding:0 20px;
+    font-size:20px;
+    background:white;
+    outline:none;
+}
+
+input:focus{
+    border-color:#0048c7;
+}
+
+.password-eye{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:26px;
+    cursor:pointer;
+}
+
+.login-save{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    color:#666;
+    font-size:17px;
+}
+
+.login-save input{
+    width:22px;
+    height:22px;
+}
+
+.main-btn{
+    width:100%;
+    height:76px;
+    border:none;
+    border-radius:18px;
+    background:#003b92;
+    color:white;
+    font-size:26px;
+    font-weight:800;
+    margin-top:28px;
+    cursor:pointer;
+}
+
+.main-btn:hover{
+    opacity:0.95;
+}
+
+.link-row{
+    margin-top:28px;
+    display:flex;
+    justify-content:space-between;
+    font-size:16px;
+    gap:10px;
+}
+
+.link-row a{
+    text-decoration:none;
+    color:#2b71ff;
+    font-weight:600;
+}
+
+.user-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-top:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.user-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:18px;
+    font-weight:700;
+}
+
+.logout-btn{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:14px;
+    background:#111827;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+.region-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:25px;
+}
+
+.region-card{
+    background:white;
+    border-radius:22px;
+    padding:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.07);
+}
+
+.region-title{
+    font-size:28px;
+    font-weight:800;
+}
+
+.time{
+    margin-top:10px;
+    font-size:20px;
+    color:#e60023;
+    font-weight:800;
+}
+
+.ai-btn{
+    margin-top:18px;
+    width:100%;
+    height:60px;
+    border:none;
+    border-radius:15px;
+    background:#2563eb;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    margin-top:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.card button{
+    width:100%;
+    margin-top:15px;
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+}
+
+.bottom-menu{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:500px;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:16px 0;
+    border-top:1px solid #e5e5e5;
+}
+
+.menu-item{
+    text-align:center;
+    color:#5b6070;
+    font-size:14px;
+    font-weight:700;
+}
+
+.menu-item div{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+@media(max-width:480px){
+
+    .logo-text{
+        font-size:44px;
+    }
+
+    .hero-horse{
+        width:150px;
+    }
+
+    .main-btn{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- 로그인 영역 -->
+<div id="login-area">
+
+    <div class="logo-area">
+
+        <div class="big-data">BIG DATA</div>
+
+        <div class="logo-row">
+
+            <div>
+                <div class="logo-text">알마馬고</div>
+                <div class="logo-sub">ALMAGO</div>
+            </div>
+
+            <div class="go-circle">GO</div>
+
+        </div>
+
+        <img class="hero-horse"
+        src="https://cdn-icons-png.flaticon.com/512/188/188987.png">
+
+    </div>
+
+    <div class="section-title">로그인</div>
+
+    <div class="input-label">아이디</div>
+
+    <div class="input-wrap">
+        <input id="email" placeholder="아이디 입력">
+    </div>
+
+    <div class="input-label">비밀번호</div>
+
+    <div class="input-wrap">
+        <input id="password" type="password" placeholder="비밀번호 입력">
+        <span class="password-eye" onclick="togglePassword()">👁️</span>
+    </div>
+
+    <div class="login-save">
+        <input type="checkbox">
+        <span>로그인 상태 유지</span>
+    </div>
+
+    <button class="main-btn" onclick="login()">
+        로그인
+    </button>
+
+    <div class="link-row">
+        <div>
+            아직 회원이 아니세요?
+            <a href="#" onclick="showRegister()">회원가입</a>
+        </div>
+
+        <a href="#">아이디/비밀번호 찾기</a>
+    </div>
+
+</div>
+
+<!-- 회원가입 영역 -->
+<div id="register-area" style="display:none;">
+
+    <div class="section-title">회원가입</div>
+
+    <div class="input-label">아이디</div>
+    <input id="reg-email" placeholder="아이디 입력">
+
+    <div class="input-label">비밀번호</div>
+    <input id="reg-password" type="password" placeholder="비밀번호 입력">
+
+    <div class="input-label">비밀번호 확인</div>
+    <input id="reg-password2" type="password" placeholder="비밀번호 확인">
+
+    <div class="input-label">이름</div>
+    <input id="reg-name" placeholder="이름 입력">
+
+    <div class="input-label">생년월일</div>
+    <input id="reg-birth" placeholder="예: 19890808">
+
+    <div class="input-label">휴대폰번호</div>
+    <input id="reg-phone" placeholder="01012345678">
+
+    <button class="main-btn" onclick="register()">
+        회원가입
+    </button>
+
+    <button class="main-btn" style="background:#6b7280" onclick="showLogin()">
+        뒤로가기
+    </button>
+
+</div>
+
+<!-- 로그인 후 영역 -->
+<div id="main-area" style="display:none;">
+
+    <div class="user-card">
+
+        <div id="user-info"></div>
+
+        <button class="logout-btn" onclick="logout()">
+            로그아웃
+        </button>
+
+    </div>
+
+    <div class="region-wrap">
+
+        <div class="region-card">
+            <div class="region-title">서울 1경주</div>
+            <div id="seoul-time" class="time">--:--</div>
+
+            <button class="ai-btn" onclick="goAI('서울')">
+                AI 추천보기
+            </button>
+        </div>
+
+        <div class="region-card">
+            <div class="region-title">부산 1경주</div>
+            <div id="busan-time" class="time">--:--</div>
+
+            <button class="ai-btn" onclick="goAI('부산')">
+                AI 추천보기
+            </button>
+        </div>
+
+    </div>
+
+    <div id="menu-area"></div>
+    <div id="list"></div>
+
+</div>
+
+</div>
+
+<!-- 하단 메뉴 -->
+<div class="bottom-menu">
+
+    <div class="menu-item">
+        <div>🏇</div>
+        AI알마고란?
+    </div>
+
+    <div class="menu-item">
+        <div>📄</div>
+        초보자가이드
+    </div>
+
+    <div class="menu-item">
+        <div>🎯</div>
+        AI적중률
+    </div>
+
+    <div class="menu-item">
+        <div>🎫</div>
+        마권예매
+    </div>
+
 </div>
 
 <script>
@@ -81,11 +485,10 @@ async function login() {
     }
 }
 
-//회원가입
+// 회원가입
 async function register() {
-    console.log("🔥 회원가입 버튼 눌림");
+
     try {
-        console.log("register 실행됨");
 
         const email = document.getElementById("reg-email").value;
         const password = document.getElementById("reg-password").value;
@@ -94,14 +497,10 @@ async function register() {
         const birth = document.getElementById("reg-birth").value;
         const phone = document.getElementById("reg-phone").value;
 
-        console.log(email, password, name, birth, phone);
-
         if (password !== password2) {
-            alert("비밀번호가 다름");
+            alert("비밀번호가 다릅니다");
             return;
         }
-
-        console.log("🔥 fetch 직전");
 
         const res = await fetch("https://almago-1llh.onrender.com/register", {
             method: "POST",
@@ -111,10 +510,7 @@ async function register() {
             })
         });
 
-        console.log("🔥 fetch 완료", res);
-
         const data = await res.json();
-        console.log("응답:", data);
 
         if (res.ok) {
             alert("회원가입 완료");
@@ -124,7 +520,6 @@ async function register() {
         }
 
     } catch (err) {
-        console.error("🔥 에러 발생:", err);
         alert("에러 발생: " + err);
     }
 }
@@ -135,19 +530,18 @@ function logout() {
     location.reload();
 }
 
-// UI 전환
+// 메인 UI
 function showMainUI() {
+
     document.getElementById("login-area").style.display = "none";
+    document.getElementById("register-area").style.display = "none";
     document.getElementById("main-area").style.display = "block";
 
-    // 🔥 추가 (핵심)
-    document.getElementById("hero-area").style.display = "none";
-
     const email = localStorage.getItem("email");
+
     document.getElementById("user-info").innerHTML = `
       <div class="user-bar">
           <span>👤 ${email}</span>
-          <button class="logout-mini" onclick="logout()">로그아웃</button>
       </div>
     `;
 
@@ -155,8 +549,9 @@ function showMainUI() {
     loadAnalyses();
 }
 
-// 메뉴
+// 메뉴 로드
 async function loadMenus() {
+
     const res = await fetch("https://almago-1llh.onrender.com/menus");
     const data = await res.json();
 
@@ -173,8 +568,9 @@ async function loadMenus() {
     });
 }
 
-// 분석
+// 분석 로드
 async function loadAnalyses() {
+
     const token = localStorage.getItem("token");
 
     const res = await fetch("https://almago-1llh.onrender.com/analyses", {
@@ -185,7 +581,6 @@ async function loadAnalyses() {
 
     const list = document.getElementById("list");
 
-    // 🔥 핵심 추가 (없으면 그냥 종료)
     if (!list) return;
 
     list.innerHTML = "";
@@ -202,7 +597,9 @@ async function loadAnalyses() {
 
 // 자동 로그인
 window.onload = async () => {
+
     const token = localStorage.getItem("token");
+
     if (token) showMainUI();
 
     try {
@@ -210,22 +607,19 @@ window.onload = async () => {
         updateCountdown();
         setInterval(updateCountdown, 1000);
     } catch (e) {
-        console.error("🔥 race 로드 실패:", e);
+        console.error("race 로드 실패:", e);
     }
 };
 
-// =========================
-// 경주 타겟 저장
-// =========================
+// 경주 타겟
 let raceTargets = {
   서울: null,
   부산: null
 };
 
-// =========================
-// 경주 데이터 불러오기
-// =========================
+// 경주 데이터
 async function loadRaceForHome() {
+
   const res = await fetch("https://almago-1llh.onrender.com/race");
   const data = await res.json();
 
@@ -241,7 +635,6 @@ async function loadRaceForHome() {
     parseDateTime(b.경주일자, b.출발시각)
   );
 
-  // 지역별 첫 경기
   upcoming.forEach(r => {
     if (!raceTargets[r.지역]) {
       raceTargets[r.지역] = parseDateTime(r.경주일자, r.출발시각);
@@ -249,24 +642,23 @@ async function loadRaceForHome() {
   });
 }
 
-// =========================
 // 날짜 파싱
-// =========================
 function parseDateTime(dateStr, timeStr) {
   const cleanDate = dateStr.split(" ")[0].replace(/\//g, "-");
   return new Date(`${cleanDate}T${timeStr}`);
 }
 
-// =========================
 // 카운트다운
-// =========================
 function updateCountdown() {
+
   const now = new Date();
 
   function format(target) {
+
     if (!target) return "--:--";
 
     const diff = target - now;
+
     if (diff <= 0) return "출발";
 
     const day = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -275,7 +667,7 @@ function updateCountdown() {
     const sec = Math.floor((diff / 1000) % 60);
 
     return `${day}일 ${hour}시간 ${min}분 ${sec}초전`;
-      }
+  }
 
   document.getElementById("seoul-time").innerText =
     format(raceTargets["서울"]);
@@ -284,7 +676,7 @@ function updateCountdown() {
     format(raceTargets["부산"]);
 }
 
-// 회원가입
+// 회원가입 전환
 function showRegister() {
     document.getElementById("login-area").style.display = "none";
     document.getElementById("register-area").style.display = "block";
@@ -295,8 +687,9 @@ function showLogin() {
     document.getElementById("login-area").style.display = "block";
 }
 
-//홈화면분석보기
+// AI 페이지 이동
 function goAI(region) {
+
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -307,7 +700,7 @@ function goAI(region) {
   location.href = "ai.html?region=" + region;
 }
 
-
+// 비밀번호 보기
 function togglePassword(){
 
     const pw = document.getElementById("password");
@@ -321,8 +714,6 @@ function togglePassword(){
 
 </script>
 
-<script>
-window.register = register;
-</script>
 </body>
 </html>
+```
