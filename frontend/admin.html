@@ -334,35 +334,37 @@ document.getElementById("content").innerHTML = `
 
 <div class="card">
 
-    <div class="top-row">
+<div class="top-row">
 
-        <h2>🎨 디자인관리</h2>
+    <h2>🎨 디자인관리</h2>
 
-        <button class="main" onclick="openMenuAdd()">
-            + 버튼추가
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+
+    <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr 1fr 80px 100px;
+        gap:10px;
+        align-items:center;
+    ">
+
+        <input id="new-name" placeholder="버튼명">
+
+        <input id="new-icon" placeholder="아이콘">
+
+        <input id="new-desc" placeholder="설명">
+
+        <input id="new-path" placeholder="링크">
+
+        <input id="new-order" type="number" placeholder="순서">
+
+        <button class="main"
+            onclick="addDesignMenu()">
+            추가
         </button>
 
     </div>
-
-    <table class="admin-table">
-
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>아이콘</th>
-                <th>버튼명</th>
-                <th>설명</th>
-                <th>링크</th>
-                <th>순서</th>
-                <th>노출</th>
-                <th>관리</th>
-            </tr>
-        </thead>
-
-        <tbody id="design-list">
-        </tbody>
-
-    </table>
 
 </div>
 
@@ -1189,19 +1191,27 @@ async function loadDesignMenus(){
     });
 }  
 
-function openMenuAdd(){
+async function addDesignMenu(){
 
-    const name = prompt("버튼명");
-    if(!name) return;
+    const name =
+        document.getElementById("new-name").value;
 
-    const path = prompt("링크");
-    if(!path) return;
+    const icon =
+        document.getElementById("new-icon").value;
 
-    const icon = prompt("아이콘", "📄");
+    const description =
+        document.getElementById("new-desc").value;
 
-    const description = prompt("설명", "");
+    const path =
+        document.getElementById("new-path").value;
 
-    const order = prompt("순서", "0");
+    const order =
+        document.getElementById("new-order").value;
+
+    if(!name || !path){
+        alert("버튼명/링크 입력");
+        return;
+    }
 
     createDesignMenu(
         name,
@@ -1210,6 +1220,12 @@ function openMenuAdd(){
         description,
         order
     );
+
+    document.getElementById("new-name").value = "";
+    document.getElementById("new-icon").value = "";
+    document.getElementById("new-desc").value = "";
+    document.getElementById("new-path").value = "";
+    document.getElementById("new-order").value = "";
 }
 
 async function deleteMenu(id){
