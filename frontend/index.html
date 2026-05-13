@@ -385,6 +385,39 @@ input:focus{
     font-size:18px;
     opacity:0.9;
 }
+
+    .today-race-box{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    margin-top:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.today-title{
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+    margin-bottom:15px;
+}
+
+.today-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:15px;
+}
+
+.today-table th,
+.today-table td{
+    border:1px solid #dcdcdc;
+    padding:10px;
+    text-align:center;
+}
+
+.today-table th{
+    background:#f3f4f6;
+    font-weight:800;
+}
 </style>
 </head>
 
@@ -451,6 +484,32 @@ input:focus{
     </button>
 
   </div>
+    
+    <div class="today-race-box">
+
+    <div class="today-title">
+        금일경주
+    </div>
+
+    <table class="today-table">
+
+        <thead>
+            <tr>
+                <th>지역</th>
+                <th>순</th>
+                <th>일자</th>
+                <th>거리</th>
+                <th>출전</th>
+                <th>시간</th>
+            </tr>
+        </thead>
+
+        <tbody id="today-race-body">
+        </tbody>
+
+    </table>
+
+</div>
 
 </div>
 
@@ -784,6 +843,7 @@ window.onload = async () => {
 
     try {
         await loadRaceForHome();
+        await loadTodayRaceTable();
         updateCountdown();
         setInterval(updateCountdown, 1000);
     } catch (e) {
@@ -822,6 +882,36 @@ async function loadRaceForHome() {
   });
 }
 
+// 경주목록
+    async function loadTodayRaceTable(){
+
+    const res = await fetch("/race");
+    const data = await res.json();
+
+    const tbody = document.getElementById("today-race-body");
+
+    if(!tbody) return;
+
+    tbody.innerHTML = "";
+
+    // 최신 6개만
+    const rows = data.slice(0, 6);
+
+    rows.forEach(r => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${r.지역 || ""}</td>
+                <td>${r.경주 || ""}</td>
+                <td>${r.경주일자 || ""}</td>
+                <td>${r.거리 || ""}</td>
+                <td>${r.출전 || ""}</td>
+                <td>${r.출발시각 || ""}</td>
+            </tr>
+        `;
+    });
+}
+    
 // 날짜 파싱
 function parseDateTime(dateStr, timeStr) {
   const cleanDate = dateStr.split(" ")[0].replace(/\//g, "-");
