@@ -59,6 +59,15 @@ class Menu(Base):
     __tablename__ = "menus"
 
     id = Column(Integer, primary_key=True, index=True)
+
     name = Column(String)
+
     path = Column(String)
+
+    icon = Column(String, default="📄")
+
+    description = Column(String, default="")
+
+    sort_order = Column(Integer, default=0)
+
     is_active = Column(Boolean, default=True)
