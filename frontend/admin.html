@@ -166,6 +166,7 @@ tr:nth-child(even) {
     <button onclick="showPage('analysis')">🧠 분석 관리</button>
     <button onclick="showPage('users')">👤 회원 관리</button>
     <button onclick="showPage('race')">🏇 경주정보</button>
+    <button onclick="showPage('design')">🎨 디자인관리</button>
     <div id="menu-list"></div> 
    <button onclick="addMenuPrompt()">➕ 메뉴 추가</button>
     <button onclick="logout()">🚪 로그아웃</button>
@@ -326,6 +327,47 @@ function showPage(page) {
     `;
 
     setTimeout(loadRace, 0);
+  }
+if(page === 'design'){
+
+  document.getElementById("content").innerHTML = `
+
+    <div class="card">
+
+      <h2>🎨 디자인관리</h2>
+
+      <div class="form-group">
+        <input id="menu-name" placeholder="버튼명">
+      </div>
+
+      <div class="form-group">
+        <input id="menu-path" placeholder="링크">
+      </div>
+
+      <div class="form-group">
+        <input id="menu-icon" placeholder="아이콘">
+      </div>
+
+      <div class="form-group">
+        <input id="menu-desc" placeholder="설명">
+      </div>
+
+      <div class="form-group">
+        <input id="menu-order" type="number" placeholder="순서">
+      </div>
+
+      <button class="main" onclick="createDesignMenu()">
+        추가하기
+      </button>
+
+      <hr>
+
+      <div id="design-list"></div>
+
+    </div>
+  `;
+
+  loadDesignMenus();
   }
 }
 
@@ -1060,6 +1102,68 @@ async function createAnalysis() {
     alert("실패");
   }
 }
+  async function createDesignMenu(){
+
+    const token = localStorage.getItem("token");
+
+    await fetch("/menus",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+        },
+
+        body:JSON.stringify({
+
+            name:document.getElementById("menu-name").value,
+
+            path:document.getElementById("menu-path").value,
+
+            icon:document.getElementById("menu-icon").value,
+
+            description:document.getElementById("menu-desc").value,
+
+            sort_order:Number(document.getElementById("menu-order").value)
+        })
+    });
+
+    loadDesignMenus();
+}
+
+async function loadDesignMenus(){
+
+    const res = await fetch("/menus");
+
+    const data = await res.json();
+
+    const list = document.getElementById("design-list");
+
+    list.innerHTML = "";
+
+    data.forEach(m=>{
+
+        list.innerHTML += `
+
+        <div class="menu-card">
+
+            <div>
+                ${m.icon} ${m.name}
+            </div>
+
+            <div>
+                ${m.description}
+            </div>
+
+            <div>
+                ${m.path}
+            </div>
+
+        </div>
+        `;
+    });
+}  
 // 기본 페이지
 showPage('dashboard');
 loadSidebarMenus();
