@@ -417,9 +417,12 @@ def create_menu(
     current=Depends(require_admin)
 ):
     menu = Menu(
-        name=data.name,
-        path=data.path
-    )
+    name=data.name,
+    path=data.path,
+    icon=data.icon,
+    description=data.description,
+    sort_order=data.sort_order
+)
 
     db.add(menu)
     db.commit()
@@ -430,7 +433,10 @@ def create_menu(
 
 @app.get("/menus")
 def get_menus(db: Session = Depends(get_db)):
-    return db.query(Menu).all()
+    return db.query(Menu)\
+    .filter(Menu.is_active == True)\
+    .order_by(Menu.sort_order.asc())\
+    .all()
 
 
 @app.delete("/menus/{menu_id}")
