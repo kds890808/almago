@@ -386,7 +386,7 @@ input:focus{
     opacity:0.9;
 }
 
-    .today-race-box{
+.today-race-box{
     background:white;
     border-radius:20px;
     padding:15px;
@@ -394,6 +394,11 @@ input:focus{
     box-shadow:0 4px 15px rgba(0,0,0,0.06);
 
     height:320px;
+    overflow-y:auto;
+}
+
+.today-table-wrap{
+    max-height:240px;
     overflow-y:auto;
 }
 
@@ -409,7 +414,6 @@ input:focus{
     border-collapse:collapse;
     font-size:11px;
     table-layout:fixed;
-    display:block;
 }
     
 .today-table th,
@@ -637,29 +641,33 @@ input:focus{
 
     </div>
 
-        <div class="today-race-box">
+<div class="today-race-box">
 
     <div class="today-title">
         금일경주
     </div>
 
-    <table class="today-table">
+    <div class="today-table-wrap">
 
-        <thead>
-            <tr>
-                <th>지역</th>
-                <th>순</th>
-                <th>일자</th>
-                <th>거리</th>
-                <th>출전</th>
-                <th>시간</th>
-            </tr>
-        </thead>
+        <table class="today-table">
 
-        <tbody id="today-race-body">
-        </tbody>
+            <thead>
+                <tr>
+                    <th>지역</th>
+                    <th>순</th>
+                    <th>일자</th>
+                    <th>거리</th>
+                    <th>출전</th>
+                    <th>시간</th>
+                </tr>
+            </thead>
 
-    </table>
+            <tbody id="today-race-body">
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
