@@ -1169,7 +1169,11 @@ async function loadDesignMenus(){
 
     const list = document.getElementById("design-list");
 
-    list.innerHTML += `
+    list.innerHTML = "";
+
+    data.forEach(m => {
+
+        list.innerHTML += `
 
 <tr>
 
@@ -1227,7 +1231,7 @@ async function loadDesignMenus(){
 
 `;
     });
-}  
+}
 
 async function addDesignMenu(){
 
