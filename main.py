@@ -47,7 +47,7 @@ class raceAnalysis(Base):
     id = Column(Integer, primary_key=True, index=True)
     region = Column(String)
     race_no = Column(Integer)
-    race_date = Column(String)
+    race_date = Column(String) 
 
     star = Column(String)
     square = Column(String)
