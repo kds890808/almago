@@ -773,6 +773,30 @@ def root():
 def ai_page():
     return FileResponse("frontend/ai.html")
 
+@app.put("/menus/{menu_id}")
+def update_menu(
+    menu_id:int,
+    data:schemas.MenuCreate,
+    db:Session = Depends(get_db)
+):
+
+    menu = db.query(models.Menu)\
+        .filter(models.Menu.id == menu_id)\
+        .first()
+
+    if not menu:
+        return {"error":"not found"}
+
+    menu.name = data.name
+    menu.path = data.path
+    menu.icon = data.icon
+    menu.description = data.description
+    menu.sort_order = data.sort_order
+    menu.is_active = data.is_active
+
+    db.commit()
+
+    return {"message":"updated"}
 
 @app.get("/admin.html")
 def admin_page():
