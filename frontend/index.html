@@ -410,7 +410,7 @@ input:focus{
     width:100%;
     border-collapse:collapse;
     font-size:11px;
-    table-layout:fixed;
+    table-layout:auto;
 }
     
 .today-table th,
@@ -912,13 +912,41 @@ async function loadRaceForHome() {
             <tr>
                 <td>${r.지역 || ""}</td>
                 <td>${r.경주 || ""}</td>
-                <td>${r.경주일자 || ""}</td>
-                <td>${r.거리 || ""}</td>
+                <td>${formatRaceDate(r.경주일자)}</td>
+                <td>${formatDistance(r.거리)}</td>
                 <td>${r.출전 || ""}</td>
-                <td>${r.출발시각 || ""}</td>
+                <td>${formatRaceTime(r.출발시각)}</td>
             </tr>
         `;
     });
+}
+
+function formatRaceDate(value){
+    if(!value) return "";
+
+    const clean = String(value).split(" ")[0];
+
+    if(clean.includes("/")){
+        const parts = clean.split("/");
+        return `${parts[1]}/${parts[2]}`;
+    }
+
+    if(clean.includes("-")){
+        const parts = clean.split("-");
+        return `${parts[1]}/${parts[2]}`;
+    }
+
+    return clean;
+}
+
+function formatDistance(value){
+    if(!value) return "";
+    return String(value).replace("m", "").replace("M", "");
+}
+
+function formatRaceTime(value){
+    if(!value) return "";
+    return String(value).slice(0,5);
 }
     
 // 날짜 파싱
