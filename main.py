@@ -1,3 +1,5 @@
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Request, Body
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String
@@ -62,6 +64,7 @@ class raceAnalysis(Base):
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -758,4 +761,4 @@ def get_admins_only(db: Session = Depends(get_db), current=Depends(get_current_u
 
 @app.get("/")
 def root():
-    return {"msg": "almago server running"}
+    return FileResponse("frontend/index.html")
