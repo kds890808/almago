@@ -762,3 +762,12 @@ def get_admins_only(db: Session = Depends(get_db), current=Depends(get_current_u
 @app.get("/")
 def root():
     return FileResponse("frontend/index.html")
+
+@app.get("/ai.html")
+def ai_page():
+    return FileResponse("frontend/ai.html")
+
+
+@app.get("/admin.html")
+def admin_page():
+    return FileResponse("frontend/admin.html")
