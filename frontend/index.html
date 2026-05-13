@@ -670,7 +670,7 @@ async function register() {
             return;
         }
 
-        const res = await fetch("https://almago-1llh.onrender.com/register", {
+        const res = await fetch("/register", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -720,7 +720,7 @@ function showMainUI() {
 // 메뉴 로드
 async function loadMenus() {
 
-    const res = await fetch("https://almago-1llh.onrender.com/menus");
+    const res = await fetch("/menus");
     const data = await res.json();
 
     const container = document.getElementById("menu-area");
@@ -741,7 +741,7 @@ async function loadAnalyses() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("https://almago-1llh.onrender.com/analyses", {
+    const res = await fetch("/analyses", {
         headers: {"Authorization": "Bearer " + token}
     });
 
@@ -789,7 +789,7 @@ let raceTargets = {
 // 경주 데이터
 async function loadRaceForHome() {
 
-  const res = await fetch("https://almago-1llh.onrender.com/race");
+  const res = await fetch("/race");
   const data = await res.json();
 
   const now = new Date();
