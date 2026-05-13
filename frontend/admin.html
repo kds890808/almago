@@ -1154,40 +1154,63 @@ async function loadDesignMenus(){
 
     const list = document.getElementById("design-list");
 
-    list.innerHTML = "";
+    list.innerHTML += `
 
-    data.forEach(m=>{
+<tr>
 
-        list.innerHTML += `
+    <td>
+        <input type="checkbox"
+            ${m.is_active ? "checked" : ""}
+            id="active-${m.id}">
+    </td>
 
-        <tr>
+    <td>
+        <input
+            value="${m.sort_order}"
+            id="order-${m.id}"
+            style="width:60px">
+    </td>
 
-            <td>${m.id}</td>
+    <td>
+        <input
+            value="${m.icon}"
+            id="icon-${m.id}"
+            style="width:60px">
+    </td>
 
-            <td>${m.icon}</td>
+    <td>
+        <input
+            value="${m.name}"
+            id="name-${m.id}">
+    </td>
 
-            <td>${m.name}</td>
+    <td>
+        <input
+            value="${m.description}"
+            id="desc-${m.id}">
+    </td>
 
-            <td>${m.description}</td>
+    <td>
+        <input
+            value="${m.path}"
+            id="path-${m.id}">
+    </td>
 
-            <td>${m.path}</td>
+    <td>
 
-            <td>${m.sort_order}</td>
+        <button onclick="updateMenu(${m.id})">
+            수정
+        </button>
 
-            <td>
-                ${m.is_active ? "✅" : "❌"}
-            </td>
+        <button onclick="deleteMenu(${m.id})">
+            삭제
+        </button>
 
-            <td>
+    </td>
 
-                <button onclick="deleteMenu(${m.id})">
-                    삭제
-                </button>
+</tr>
 
-            </td>
-
-        </tr>
-        `;
+`;
     });
 }  
 
@@ -1245,6 +1268,52 @@ async function deleteMenu(id){
 
     loadDesignMenus();
 }  
+
+  async function updateMenu(id){
+
+    const token = localStorage.getItem("token");
+
+    const body = {
+
+        name:
+            document.getElementById(`name-${id}`).value,
+
+        path:
+            document.getElementById(`path-${id}`).value,
+
+        icon:
+            document.getElementById(`icon-${id}`).value,
+
+        description:
+            document.getElementById(`desc-${id}`).value,
+
+        sort_order:Number(
+            document.getElementById(`order-${id}`).value
+        ),
+
+        is_active:
+            document.getElementById(`active-${id}`).checked
+    };
+
+    await fetch(
+        "https://almago-1llh.onrender.com/menus/" + id,
+        {
+
+        method:"PUT",
+
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+        },
+
+        body:JSON.stringify(body)
+    });
+
+    alert("수정완료");
+
+    loadDesignMenus();
+}
+  
 // 기본 페이지
 showPage('dashboard');
 loadSidebarMenus();
