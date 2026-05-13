@@ -542,10 +542,6 @@ input:focus{
 
 </div>
         
-        <button class="logout-btn" onclick="logout()">
-            로그아웃
-        </button>
-
     </div>
 
     <div class="region-wrap">
@@ -710,6 +706,10 @@ function showMainUI() {
     document.getElementById("user-info").innerHTML = `
       <div class="user-bar">
           <span>👤 ${email}</span>
+
+          <button class="logout-top-btn" onclick="logout()">
+              로그아웃
+          </button>
       </div>
     `;
 
