@@ -421,9 +421,9 @@ def create_menu(
     path=data.path,
     icon=data.icon,
     description=data.description,
-    sort_order=data.sort_order
+    sort_order=data.sort_order,
+    is_active=data.is_active
 )
-
     db.add(menu)
     db.commit()
     db.refresh(menu)
