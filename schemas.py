@@ -35,8 +35,16 @@ class AnalysisOut(BaseModel):
 # 메뉴추가 관련
 # =========================
 class MenuCreate(BaseModel):
+
     name: str
+
     path: str
+
+    icon: str = "📄"
+
+    description: str = ""
+
+    sort_order: int = 0
 
 class MenuOut(BaseModel):
     id: int
