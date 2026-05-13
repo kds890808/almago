@@ -64,7 +64,7 @@ class raceAnalysis(Base):
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="frontend"), name="frontend")
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 app.add_middleware(
     CORSMiddleware,
