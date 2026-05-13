@@ -46,6 +46,8 @@ class MenuCreate(BaseModel):
 
     sort_order: int = 0
 
+    is_active: bool = True
+
 class MenuOut(BaseModel):
     id: int
     name: str
