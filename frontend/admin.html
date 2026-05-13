@@ -383,10 +383,30 @@ document.getElementById("content").innerHTML = `
 
 </div>
 
+<table class="admin-table">
+
+    <thead>
+        <tr>
+            <th>노출</th>
+            <th>순서</th>
+            <th>아이콘</th>
+            <th>버튼명</th>
+            <th>설명</th>
+            <th>링크</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+
+    <tbody id="design-list">
+    </tbody>
+
+</table>
+
+</div>
+
 `;
 
 loadDesignMenus();
-}
 }
 
 // =========================
@@ -1157,6 +1177,7 @@ async function createDesignMenu(
     });
 
     loadDesignMenus();
+  
 }
 
 async function loadDesignMenus(){
