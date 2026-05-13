@@ -330,45 +330,46 @@ function showPage(page) {
   }
 if(page === 'design'){
 
-  document.getElementById("content").innerHTML = `
+document.getElementById("content").innerHTML = `
 
-    <div class="card">
+<div class="card">
 
-      <h2>🎨 디자인관리</h2>
+    <div class="top-row">
 
-      <div class="form-group">
-        <input id="menu-name" placeholder="버튼명">
-      </div>
+        <h2>🎨 디자인관리</h2>
 
-      <div class="form-group">
-        <input id="menu-path" placeholder="링크">
-      </div>
-
-      <div class="form-group">
-        <input id="menu-icon" placeholder="아이콘">
-      </div>
-
-      <div class="form-group">
-        <input id="menu-desc" placeholder="설명">
-      </div>
-
-      <div class="form-group">
-        <input id="menu-order" type="number" placeholder="순서">
-      </div>
-
-      <button class="main" onclick="createDesignMenu()">
-        추가하기
-      </button>
-
-      <hr>
-
-      <div id="design-list"></div>
+        <button class="main" onclick="openMenuAdd()">
+            + 버튼추가
+        </button>
 
     </div>
-  `;
 
-  loadDesignMenus();
-  }
+    <table class="admin-table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>아이콘</th>
+                <th>버튼명</th>
+                <th>설명</th>
+                <th>링크</th>
+                <th>순서</th>
+                <th>노출</th>
+                <th>관리</th>
+            </tr>
+        </thead>
+
+        <tbody id="design-list">
+        </tbody>
+
+    </table>
+
+</div>
+
+`;
+
+loadDesignMenus();
+}
 }
 
 // =========================
@@ -1102,11 +1103,20 @@ async function createAnalysis() {
     alert("실패");
   }
 }
-  async function createDesignMenu(){
+  
+async function createDesignMenu(
+    name,
+    path,
+    icon,
+    description,
+    order
+){
 
     const token = localStorage.getItem("token");
 
-    await fetch("/menus",{
+    await fetch(
+        "https://almago-1llh.onrender.com/menus",
+        {
 
         method:"POST",
 
@@ -1117,15 +1127,15 @@ async function createAnalysis() {
 
         body:JSON.stringify({
 
-            name:document.getElementById("menu-name").value,
+            name:name,
 
-            path:document.getElementById("menu-path").value,
+            path:path,
 
-            icon:document.getElementById("menu-icon").value,
+            icon:icon,
 
-            description:document.getElementById("menu-desc").value,
+            description:description,
 
-            sort_order:Number(document.getElementById("menu-order").value)
+            sort_order:Number(order)
         })
     });
 
@@ -1134,7 +1144,9 @@ async function createAnalysis() {
 
 async function loadDesignMenus(){
 
-    const res = await fetch("/menus");
+    const res = await fetch(
+        "https://almago-1llh.onrender.com/menus"
+    );
 
     const data = await res.json();
 
@@ -1146,23 +1158,76 @@ async function loadDesignMenus(){
 
         list.innerHTML += `
 
-        <div class="menu-card">
+        <tr>
 
-            <div>
-                ${m.icon} ${m.name}
-            </div>
+            <td>${m.id}</td>
 
-            <div>
-                ${m.description}
-            </div>
+            <td>${m.icon}</td>
 
-            <div>
-                ${m.path}
-            </div>
+            <td>${m.name}</td>
 
-        </div>
+            <td>${m.description}</td>
+
+            <td>${m.path}</td>
+
+            <td>${m.sort_order}</td>
+
+            <td>
+                ${m.is_active ? "✅" : "❌"}
+            </td>
+
+            <td>
+
+                <button onclick="deleteMenu(${m.id})">
+                    삭제
+                </button>
+
+            </td>
+
+        </tr>
         `;
     });
+}  
+
+function openMenuAdd(){
+
+    const name = prompt("버튼명");
+    if(!name) return;
+
+    const path = prompt("링크");
+    if(!path) return;
+
+    const icon = prompt("아이콘", "📄");
+
+    const description = prompt("설명", "");
+
+    const order = prompt("순서", "0");
+
+    createDesignMenu(
+        name,
+        path,
+        icon,
+        description,
+        order
+    );
+}
+
+async function deleteMenu(id){
+
+    const token = localStorage.getItem("token");
+
+    await fetch(
+        "https://almago-1llh.onrender.com/menus/" + id,
+        {
+            method:"DELETE",
+
+            headers:{
+                "Authorization":"Bearer " + token
+            }
+        }
+    );
+
+    loadDesignMenus();
 }  
 // 기본 페이지
 showPage('dashboard');
