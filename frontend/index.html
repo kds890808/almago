@@ -1109,24 +1109,28 @@ function togglePassword(){
 
         grid.innerHTML += `
 
-        <a href="${menu.path}"
-           class="dynamic-menu-btn">
+<a href="${
+    menu.path.startsWith('http')
+    ? menu.path
+    : 'https://' + menu.path
+}"
+class="dynamic-menu-btn"
+target="_blank">
 
-            <div class="dynamic-menu-icon">
-                ${menu.icon}
-            </div>
+    <div class="dynamic-menu-icon">
+        ${menu.icon}
+    </div>
 
-            <div class="dynamic-menu-name">
-                ${menu.name}
-            </div>
+    <div class="dynamic-menu-name">
+        ${menu.name}
+    </div>
 
-            <div class="dynamic-menu-desc">
-                ${menu.description}
-            </div>
+    <div class="dynamic-menu-desc">
+        ${menu.description}
+    </div>
 
-        </a>
-
-        `;
+</a>
+`;
     });
 }
 
