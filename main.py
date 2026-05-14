@@ -76,7 +76,7 @@ except Exception as e:
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 app.add_middleware(
     CORSMiddleware,
