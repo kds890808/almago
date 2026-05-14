@@ -63,6 +63,34 @@ class raceAnalysis(Base):
 
 Base.metadata.create_all(bind=engine)
 
+from sqlalchemy import text
+
+with engine.connect() as conn:
+
+    conn.execute(text("""
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS icon VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS description VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT TRUE;
+    """))
+
+    conn.commit()
+
+print("menus 테이블 업데이트 완료")
+
 app = FastAPI()
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
