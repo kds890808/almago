@@ -61,36 +61,22 @@ class raceAnalysis(Base):
     triple = Column(String)
 
 
-Base.metadata.create_all(bind=engine)
-
 from sqlalchemy import text
 
-with engine.connect() as conn:
+try:
 
-    conn.execute(text("""
-        ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS icon VARCHAR;
-    """))
+    with engine.connect() as conn:
 
-    conn.execute(text("""
-        ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS description VARCHAR;
-    """))
+        conn.execute(text("DROP TABLE IF EXISTS menus"))
 
-    conn.execute(text("""
-        ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0;
-    """))
+        conn.commit()
 
-    conn.execute(text("""
-        ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS is_active BOOLEAN DEFAULT TRUE;
-    """))
+    print("menus 테이블 삭제 완료")
 
-    conn.commit()
+except Exception as e:
+    print("삭제 오류:", e)
 
-print("menus 테이블 업데이트 완료")
-
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
@@ -461,10 +447,14 @@ def create_menu(
 
 @app.get("/menus")
 def get_menus(db: Session = Depends(get_db)):
-    return db.query(Menu)\
-    .filter(Menu.is_active == True)\
-    .order_by(Menu.sort_order.asc())\
-    .all()
+
+    try:
+        return db.query(Menu)\
+            .order_by(Menu.sort_order.asc())\
+            .all()
+
+    except Exception as e:
+        return {"error": str(e)}
 
 
 @app.delete("/menus/{menu_id}")
