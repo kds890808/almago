@@ -60,23 +60,9 @@ class raceAnalysis(Base):
     double = Column(String)
     triple = Column(String)
 
-
-from sqlalchemy import text
-
-try:
-
-    with engine.connect() as conn:
-
-        conn.commit()
-
-    print("menus 테이블 삭제 완료")
-
-except Exception as e:
-    print("삭제 오류:", e)
-
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 app.add_middleware(
     CORSMiddleware,
