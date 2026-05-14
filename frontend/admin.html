@@ -468,10 +468,31 @@ loadDesignMenus();
 // 로그아웃
 // =========================
 function logout() {
-  localStorage.clear();
-  location.href = "index.html";
+
+    localStorage.clear();
+
+    document.getElementById("admin-main")
+        .style.display = "none";
+
+    document.getElementById("admin-login")
+        .style.display = "flex";
 }
 
+// =========================
+// 관리자화면
+// =========================
+  function showAdminPage(){
+
+    document.getElementById("admin-login")
+        .style.display = "none";
+
+    document.getElementById("admin-main")
+        .style.display = "flex";
+
+    showPage('dashboard');
+
+    loadSidebarMenus();
+}
 // =========================
 // 분석 조회
 // =========================
@@ -1463,9 +1484,16 @@ async function deleteMenu(id){
 }
   
 // 기본 페이지
-showPage('dashboard');
-loadSidebarMenus();
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
 
+if(
+    token &&
+    (role === "admin" || role === "superadmin")
+){
+    showAdminPage();
+}
+  
 </script>
 
 </body>
