@@ -449,6 +449,48 @@ input:focus{
     font-weight:800;
     color:#111;
 }
+    .dynamic-menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.dynamic-menu-btn{
+    background:white;
+    border-radius:16px;
+    padding:16px 10px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.06);
+    border:2px solid #2f66ff;
+
+    text-decoration:none;
+    color:#111;
+
+    transition:0.2s;
+}
+
+.dynamic-menu-btn:hover{
+    transform:translateY(-3px);
+}
+
+.dynamic-menu-icon{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.dynamic-menu-name{
+    font-size:16px;
+    font-weight:700;
+    color:#2457ff;
+}
+
+.dynamic-menu-desc{
+    font-size:12px;
+    color:#666;
+    margin-top:4px;
+}
     
 </style>
 </head>
@@ -662,6 +704,9 @@ input:focus{
 
     </div>
 
+<div id="dynamic-menu-grid" class="dynamic-menu-grid">
+</div>
+
 <div class="today-race-box">
 
     <div class="today-title">
@@ -798,6 +843,7 @@ function showMainUI() {
 
     loadMenus();
     loadAnalyses();
+    loadDynamicMenus();
 }
 
 // 메뉴 로드
@@ -1044,6 +1090,44 @@ function togglePassword(){
     }else{
         pw.type = "password";
     }
+}
+
+//버튼
+    async function loadDynamicMenus(){
+
+    const res = await fetch(
+        "https://almago-1llh.onrender.com/menus"
+    );
+
+    const data = await res.json();
+
+    const grid = document.getElementById("dynamic-menu-grid");
+
+    grid.innerHTML = "";
+
+    data.forEach(menu => {
+
+        grid.innerHTML += `
+
+        <a href="${menu.path}"
+           class="dynamic-menu-btn">
+
+            <div class="dynamic-menu-icon">
+                ${menu.icon}
+            </div>
+
+            <div class="dynamic-menu-name">
+                ${menu.name}
+            </div>
+
+            <div class="dynamic-menu-desc">
+                ${menu.description}
+            </div>
+
+        </a>
+
+        `;
+    });
 }
 
 </script>
