@@ -64,6 +64,8 @@ class Menu(Base):
 
     path = Column(String)
 
+    template = Column(String, default="link")
+
     icon = Column(String, default="📄")
 
     description = Column(String, default="")
