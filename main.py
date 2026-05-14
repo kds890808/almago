@@ -15,6 +15,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import pandas as pd
 from playwright.sync_api import sync_playwright
 import os
+from sqlalchemy import text
 
 print("🔥 현재 DB 위치:", os.path.abspath("db.sqlite3"))
 from database import DATABASE_URL
@@ -61,6 +62,12 @@ class raceAnalysis(Base):
     triple = Column(String)
 
 Base.metadata.create_all(bind=engine)
+with engine.connect() as conn:
+    conn.execute(text("""
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS template VARCHAR DEFAULT 'link';
+    """))
+    conn.commit()
 app = FastAPI()
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
@@ -417,6 +424,7 @@ def create_menu(
     menu = Menu(
     name=data.name,
     path=data.path,
+    template=data.template,
     icon=data.icon,
     description=data.description,
     sort_order=data.sort_order,
@@ -791,6 +799,7 @@ def update_menu(
 
     menu.name = data.name
     menu.path = data.path
+    menu.template = data.template
     menu.icon = data.icon
     menu.description = data.description
     menu.sort_order = data.sort_order
