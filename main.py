@@ -67,8 +67,6 @@ try:
 
     with engine.connect() as conn:
 
-        conn.execute(text("DROP TABLE IF EXISTS menus"))
-
         conn.commit()
 
     print("menus 테이블 삭제 완료")
