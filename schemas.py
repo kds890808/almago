@@ -48,11 +48,14 @@ class MenuCreate(BaseModel):
 
     is_active: bool = True
 
+    template: str = "link"
+
 class MenuOut(BaseModel):
     id: int
     name: str
     path: str
     is_active: bool
+    template: str
 
     class Config:
         orm_mode = True
