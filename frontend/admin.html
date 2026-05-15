@@ -248,8 +248,7 @@ tr:nth-child(even) {
     <button onclick="showPage('users')">👤 회원 관리</button>
     <button onclick="showPage('race')">🏇 경주정보</button>
     <button onclick="showPage('design')">🎨 디자인관리</button>
-    <hr><div id="menu-list"></div>
-    <button onclick="addMenuPrompt()">➕ 메뉴 추가</button>
+    <hr>
     <button onclick="logout()">🚪 로그아웃</button>
   </div>
 
@@ -499,8 +498,6 @@ function showAdminPage(){
     document.getElementById("admin-main").style.display = "flex";
 
     showPage('dashboard');
-
-    loadSidebarMenus();
 }
 // =========================
 // 분석 조회
@@ -592,185 +589,6 @@ async function deleteUser(id, isAdmin = false) {
 }
 
 // =========================
-// 메뉴추가
-// =========================
-async function createMenu() {
-  const token = localStorage.getItem("token");
-
-  const name = document.getElementById("menu-name").value;
-  const path = document.getElementById("menu-path").value;
-
-  const res = await fetch("https://almago-1llh.onrender.com/menus", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    },
-    body: JSON.stringify({
-      name: name,
-      path: path
-    })
-  });
-
-  const data = await res.json();
-
-  if (res.ok) {
-    alert("메뉴 생성 완료");
-    loadSidebarMenus();
-  } else {
-    alert(data.detail);
-  }
-}
-
-// =========================
-// 메뉴추가(프론트연동)
-// =========================
-async function loadMenus() {
-  const res = await fetch("https://almago-1llh.onrender.com/menus");
-  const data = await res.json();
-
-  const container = document.getElementById("menu-area");
-  container.innerHTML = "";
-
-  data
-.filter(m => !m.template)
-.forEach(m => {
-    container.innerHTML += `
-      <div class="card">
-        <h3>${m.name}</h3>
-        <button onclick="goMenu('${m.path}')">보기</button>
-      </div>
-    `;
-  });
-}
-
-// =========================
-// 메뉴추가
-// =========================
-async function addMenuPrompt(){
-
-    const name = prompt("메뉴 이름 입력");
-
-    if(!name) return;
-
-    const template = prompt(
-`템플릿 선택
-
-1 = 게시판형
-2 = HTML형
-3 = 링크형`
-    );
-
-    if(!template) return;
-
-    let path = "";
-    let templateType = "";
-
-    if(template === "1"){
-
-        path = "/frontend/board.html";
-
-        templateType = "board";
-
-    }
-    else if(template === "2"){
-
-        path = "/frontend/custom.html";
-
-        templateType = "html";
-
-    }
-    else{
-
-        path = prompt("링크 입력");
-
-        templateType = "link";
-    }
-
-    const token =
-        localStorage.getItem("token");
-
-    await fetch(
-        "https://almago-1llh.onrender.com/menus",
-        {
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":"Bearer " + token
-            },
-
-            body: JSON.stringify({
-
-                name:name,
-
-                path:path,
-
-                icon:"📄",
-
-                description:name,
-
-                sort_order:0,
-
-                is_active:true
-            })
-        }
-    );
-
-    loadDesignMenus();
-
-    loadSidebarMenus();
-
-    alert("메뉴 생성 완료");
-}
-
-// =========================
-// 메뉴로드
-// =========================
-async function loadSidebarMenus() {
-  const res = await fetch("https://almago-1llh.onrender.com/menus");
-  const data = await res.json();
-
-  const menuList = document.getElementById("menu-list");
-  menuList.innerHTML = "";
-
-  data
-.filter(m => !m.template)
-.forEach(m => {
-    const wrapper = document.createElement("div");
-
-    wrapper.style.display = "flex";
-    wrapper.style.justifyContent = "space-between";
-    wrapper.style.alignItems = "center";
-
-    const btn = document.createElement("button");
-    btn.innerText = "📄 " + m.name;
-    btn.onclick = () => {
-    location.href = m.path;
-};
-
-    // 🔥 이거 추가
-    const delBtn = document.createElement("button");
-
-    delBtn.innerText = "🗑";
-    delBtn.style.background = "transparent";
-    delBtn.style.border = "none";
-    delBtn.style.color = "#9ca3af";
-    delBtn.style.cursor = "pointer";
-
-    delBtn.onmouseover = () => delBtn.style.color = "#ef4444";
-    delBtn.onmouseout = () => delBtn.style.color = "#9ca3af";
-
-    delBtn.onclick = () => deleteSidebarMenu(m.id);
-
-    wrapper.appendChild(btn);
-    wrapper.appendChild(delBtn);
-
-    menuList.appendChild(wrapper);
-  });
-}
-
-// =========================
 // 메뉴삭제
 // =========================
 async function deleteSidebarMenu(id) {
@@ -787,7 +605,6 @@ async function deleteSidebarMenu(id) {
 
   if (res.ok) {
     alert("삭제 완료");
-    loadSidebarMenus();
   } else {
     const data = await res.json();
     alert(data.detail);
