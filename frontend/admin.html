@@ -737,7 +737,7 @@ async function loadSidebarMenus() {
   menuList.innerHTML = "";
 
   data
-.filter(m => m.template)
+.filter(m => !m.template)
 .forEach(m => {
     const wrapper = document.createElement("div");
 
@@ -1347,7 +1347,7 @@ async function loadDesignMenus(){
     list.innerHTML = "";
 
     data
-.filter(m => !m.template)
+.filter(m => m.template)
 .forEach(m => {
 
         list.innerHTML += `
