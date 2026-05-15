@@ -65,7 +65,7 @@ Base.metadata.create_all(bind=engine)
 with engine.connect() as conn:
     conn.execute(text("""
         ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS template VARCHAR DEFAULT 'link';
+        ADD COLUMN IF NOT EXISTS template VARCHAR;
     """))
     conn.commit()
 app = FastAPI()
