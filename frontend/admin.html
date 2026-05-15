@@ -637,31 +637,83 @@ async function loadMenus() {
 // =========================
 // 메뉴추가
 // =========================
-async function addMenuPrompt() {
-  const name = prompt("메뉴 이름 입력");
-  if (!name) return;
+async function addMenuPrompt(){
 
-  const path = prompt("경로 입력");
-  if (!path) return;
+    const name = prompt("메뉴 이름 입력");
 
-  const token = localStorage.getItem("token");
+    if(!name) return;
 
-  const res = await fetch("https://almago-1llh.onrender.com/menus", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    },
-    body: JSON.stringify({ name, path })
-  });
+    const template = prompt(
+`템플릿 선택
 
-  if (res.ok) {
+1 = 게시판형
+2 = HTML형
+3 = 링크형`
+    );
+
+    if(!template) return;
+
+    let path = "";
+    let templateType = "";
+
+    if(template === "1"){
+
+        path = "/frontend/board.html";
+
+        templateType = "board";
+
+    }
+    else if(template === "2"){
+
+        path = "/frontend/custom.html";
+
+        templateType = "html";
+
+    }
+    else{
+
+        path = prompt("링크 입력");
+
+        templateType = "link";
+    }
+
+    const token =
+        localStorage.getItem("token");
+
+    await fetch(
+        "https://almago-1llh.onrender.com/menus",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer " + token
+            },
+
+            body: JSON.stringify({
+
+                name:name,
+
+                path:path,
+
+                template:templateType,
+
+                icon:"📄",
+
+                description:name,
+
+                sort_order:0,
+
+                is_active:true
+            })
+        }
+    );
+
+    loadMenus();
+
+    loadDesignMenus();
+
     alert("메뉴 생성 완료");
-    loadSidebarMenus(); // 🔥 바로 반영
-  } else {
-    const data = await res.json();
-    alert(data.detail);
-  }
 }
 
 // =========================
