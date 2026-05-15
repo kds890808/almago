@@ -804,7 +804,7 @@ const premiumCountEl =
 
 if(premiumCountEl){
     premiumCountEl.innerText =
-        data.filter(u => u.is_premium).length;
+        data.filter(u => u.is_premium === true).length;
 }
 
   if (!Array.isArray(data)) {
