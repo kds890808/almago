@@ -206,6 +206,29 @@ tr:nth-child(even) {
     margin-bottom:20px;
     text-align:center;
 }
+
+  .race-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.race-tabs button{
+    padding:10px 16px;
+    border:none;
+    border-radius:10px;
+    background:#1f2a37;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.race-tabs button:hover{
+    background:#2d3d50;
+    transform:translateY(-2px);
+}
 </style>
 </head>
 
@@ -374,10 +397,34 @@ function showPage(page) {
 
   if (page === 'race') {
     document.getElementById("content").innerHTML = `
-      <div class="card">
-        <h2>경주 정보</h2>
+<div class="card">
+  <h2>경주 정보</h2>
 
-        <input type="file" id="fileInput">
+  <div class="race-tabs">
+
+    <button onclick="showRaceTab('race-upload')">
+      📋 출전표
+    </button>
+
+    <button onclick="showRaceTab('race-detail')">
+      🏇 경주상세정보
+    </button>
+
+    <button onclick="showRaceTab('horse-info')">
+      🐎 경주마정보
+    </button>
+
+    <button onclick="showRaceTab('jockey-info')">
+      👨‍✈️ 기수정보
+    </button>
+
+    <button onclick="showRaceTab('trainer-info')">
+      🧑‍🏫 조교사정보
+    </button>
+
+  </div>
+
+  <input type="file" id="fileInput">
         <button onclick="uploadRace()">업로드</button>
 
         <table>
@@ -473,6 +520,15 @@ document.getElementById("content").innerHTML = `
 
 loadDesignMenus();
 }
+}
+  
+// =========================
+// 경주 탭
+// =========================
+function showRaceTab(tab){
+
+    alert(tab);
+
 }
   
 // =========================
