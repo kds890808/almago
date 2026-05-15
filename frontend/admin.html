@@ -308,7 +308,7 @@ function showPage(page) {
               <th>관리</th>
             </tr>
           </thead>
-          <tbody id="user-table"></tbody>
+          <tbody id="admin-table"></tbody>
         </table>
       </div>
     `;
@@ -364,7 +364,7 @@ function showPage(page) {
               <th>관리</th> <!-- 🔥 추가 -->
             </tr>
           </thead>
-          <tbody id="user-table"></tbody>
+          <tbody id="member-table"></tbody>
 </table>
       </div>
     `;
@@ -567,19 +567,28 @@ async function toggleAdmin(id, currentPremium, currentAdmin) {
 // =========================
 // 삭제
 // =========================
-async function deleteUser(id) {
+async function deleteUser(id, isAdmin = false) {
+
   const token = localStorage.getItem("token");
 
   if (!confirm("진짜 삭제할까?")) return;
 
-  await fetch(`https://almago-1llh.onrender.com/users/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  });
+  await fetch(
+    `https://almago-1llh.onrender.com/users/${id}`,
+    {
+      method: "DELETE",
 
-  loadUsers();
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    }
+  );
+
+  if(isAdmin){
+    loadAdmins();
+  }else{
+    loadUsers();
+  }
 }
 
 // =========================
@@ -623,7 +632,9 @@ async function loadMenus() {
   const container = document.getElementById("menu-area");
   container.innerHTML = "";
 
-  data.forEach(m => {
+  data
+.filter(m => m.template)
+.forEach(m => {
     container.innerHTML += `
       <div class="card">
         <h3>${m.name}</h3>
@@ -725,7 +736,9 @@ async function loadSidebarMenus() {
   const menuList = document.getElementById("menu-list");
   menuList.innerHTML = "";
 
-  data.forEach(m => {
+  data
+.filter(m => m.template)
+.forEach(m => {
     const wrapper = document.createElement("div");
 
     wrapper.style.display = "flex";
@@ -750,7 +763,7 @@ async function loadSidebarMenus() {
     delBtn.onmouseover = () => delBtn.style.color = "#ef4444";
     delBtn.onmouseout = () => delBtn.style.color = "#9ca3af";
 
-    delBtn.onclick = () => deleteMenu(m.id);
+    delBtn.onclick = () => deleteSidebarMenu(m.id);
 
     wrapper.appendChild(btn);
     wrapper.appendChild(delBtn);
@@ -762,7 +775,7 @@ async function loadSidebarMenus() {
 // =========================
 // 메뉴삭제
 // =========================
-async function deleteMenu(id) {
+async function deleteSidebarMenu(id) {
   const token = localStorage.getItem("token");
 
   if (!confirm("진짜 삭제할까?")) return;
@@ -776,7 +789,7 @@ async function deleteMenu(id) {
 
   if (res.ok) {
     alert("삭제 완료");
-    loadSidebarMenus(); // 🔥 다시 불러오기
+    loadSidebarMenus();
   } else {
     const data = await res.json();
     alert(data.detail);
@@ -803,10 +816,12 @@ async function loadUsers() {
     return;
   }
 
-  const table = document.getElementById("user-table");
+  const table = document.getElementById("member-table");
   table.innerHTML = "";
 
-  data.forEach(u => {
+  data
+.filter(u => !u.is_admin)
+.forEach(u => {
     table.innerHTML += `
       <tr>
         <td>${u.id}</td>
@@ -1213,7 +1228,7 @@ async function loadAdmins() {
 
   const data = await res.json();
 
-  const table = document.getElementById("user-table");
+  const table = document.getElementById("admin-table");
   table.innerHTML = "";
 
   // 🔥 관리자만 필터
@@ -1234,7 +1249,7 @@ async function loadAdmins() {
 
         <td>
           <button class="btn btn-delete"
-            onclick="deleteUser(${u.id})">
+            onclick="deleteUser(${u.id}, true)">
             삭제
           </button>
         </td>
@@ -1331,7 +1346,9 @@ async function loadDesignMenus(){
 
     list.innerHTML = "";
 
-    data.forEach(m => {
+    data
+.filter(m => !m.template)
+.forEach(m => {
 
         list.innerHTML += `
 
@@ -1381,7 +1398,7 @@ async function loadDesignMenus(){
             수정
         </button>
 
-        <button onclick="deleteMenu(${m.id})">
+        <button onclick="deleteDesignMenu(${m.id})">
             삭제
         </button>
 
@@ -1430,7 +1447,7 @@ async function addDesignMenu(){
     document.getElementById("new-order").value = "";
 }
 
-async function deleteMenu(id){
+async function deleteDesignMenu(id){
 
     const token = localStorage.getItem("token");
 
