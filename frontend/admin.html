@@ -493,16 +493,14 @@ function logout() {
 // =========================
 // 관리자화면
 // =========================
-  function showAdminPage(){
+function showAdminPage(){
 
-    document.getElementById("admin-login")
-        .style.display = "none";
-
-    document.getElementById("admin-main")
-        .style.display = "flex";
+    document.getElementById("admin-login").style.display = "none";
+    document.getElementById("admin-main").style.display = "flex";
 
     showPage('dashboard');
 
+    loadSidebarMenus();
 }
 // =========================
 // 분석 조회
@@ -712,7 +710,7 @@ async function addMenuPrompt(){
 
     loadDesignMenus();
 
-    loadDesignMenus();
+    loadSidebarMenus();
 
     alert("메뉴 생성 완료");
 }
@@ -736,7 +734,7 @@ async function loadSidebarMenus() {
 
     const btn = document.createElement("button");
     btn.innerText = "📄 " + m.name;
-    btn.onclick = () => alert(m.path);
+    btn.onclick = () => {location.href = m.path;);
 
     // 🔥 이거 추가
     const delBtn = document.createElement("button");
