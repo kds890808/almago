@@ -229,6 +229,33 @@ tr:nth-child(even) {
     background:#2d3d50;
     transform:translateY(-2px);
 }
+
+  .dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    gap:15px;
+    margin-top:15px;
+}
+
+.stat-box{
+    background:#f4f6f8;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.stat-title{
+    font-size:14px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#1f2a37;
+}
 </style>
 </head>
 
@@ -291,24 +318,104 @@ function showPage(page) {
     document.getElementById("content").innerHTML = `
 
       <div class="card">
-        <h2>📊 대시보드</h2>
 
-        <div class="stats">
-          <div class="card">
-            <h3>회원수</h3>
-            <p id="user-count">0</p>
-          </div>
+  <h3>👤 회원 통계</h3>
 
-          <div class="card">
-            <h3>결제수</h3>
-            <p id="payment-count">0</p>
-          </div>
+  <div class="dashboard-grid">
 
-          <div class="card">
-            <h3>매출</h3>
-            <p id="payment-sum">0원</p>
-          </div>
-        </div>
+    <div class="stat-box">
+      <div class="stat-title">회원수</div>
+      <div class="stat-value" id="user-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">유료회원수</div>
+      <div class="stat-value" id="premium-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">금일가입</div>
+      <div class="stat-value" id="today-join-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">금일탈퇴</div>
+      <div class="stat-value" id="today-leave-count">0</div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="card">
+
+  <h3>💳 결제 통계</h3>
+
+  <div class="dashboard-grid">
+
+    <div class="stat-box">
+      <div class="stat-title">결제수</div>
+      <div class="stat-value" id="payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">경주권결제</div>
+      <div class="stat-value" id="race-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">일권결제</div>
+      <div class="stat-value" id="day-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">주권결제</div>
+      <div class="stat-value" id="week-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">월권결제</div>
+      <div class="stat-value" id="month-payment-count">0</div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="card">
+
+  <h3>💰 매출 통계</h3>
+
+  <div class="dashboard-grid">
+
+    <div class="stat-box">
+      <div class="stat-title">총매출</div>
+      <div class="stat-value" id="sales-total">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">경주권매출</div>
+      <div class="stat-value" id="race-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">일권매출</div>
+      <div class="stat-value" id="day-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">주권매출</div>
+      <div class="stat-value" id="week-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">월권매출</div>
+      <div class="stat-value" id="month-sales">0원</div>
+    </div>
+
+  </div>
+
+</div>
 
         <hr style="margin:30px 0;">
 
@@ -335,7 +442,10 @@ function showPage(page) {
       </div>
     `;
 
-    setTimeout(loadAdmins, 0);
+    setTimeout(() => {
+    loadAdmins();
+    loadUsers();
+    }, 0);
   }
 
   if (page === 'analysis') {
@@ -680,7 +790,12 @@ async function loadUsers() {
   console.log("🔥 상태코드:", res.status);
 
   const data = await res.json();
-  console.log("🔥 유저 데이터:", data);
+
+document.getElementById("user-count").innerText =
+    data.filter(u => !u.is_admin).length;
+
+document.getElementById("premium-count").innerText =
+    data.filter(u => u.is_premium).length;
 
   if (!Array.isArray(data)) {
     alert("유저 데이터 오류: " + JSON.stringify(data));
@@ -688,7 +803,12 @@ async function loadUsers() {
   }
 
   const table = document.getElementById("member-table");
-  table.innerHTML = "";
+
+if(!table){
+    return;
+}
+
+table.innerHTML = "";
 
   data
 .filter(u => !u.is_admin)
