@@ -791,11 +791,21 @@ async function loadUsers() {
 
   const data = await res.json();
 
-document.getElementById("user-count").innerText =
-    data.filter(u => !u.is_admin).length;
+const userCountEl =
+    document.getElementById("user-count");
 
-document.getElementById("premium-count").innerText =
-    data.filter(u => u.is_premium).length;
+if(userCountEl){
+    userCountEl.innerText =
+        data.filter(u => !u.is_admin).length;
+}
+
+const premiumCountEl =
+    document.getElementById("premium-count");
+
+if(premiumCountEl){
+    premiumCountEl.innerText =
+        data.filter(u => u.is_premium).length;
+}
 
   if (!Array.isArray(data)) {
     alert("유저 데이터 오류: " + JSON.stringify(data));
