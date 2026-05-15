@@ -1157,12 +1157,13 @@ async function loadDesignMenus(){
 
     const data = await res.json();
 
-    const list = document.getElementById("design-list");
+const list = document.getElementById("design-list");
 
-    list.innerHTML = "";
+list.innerHTML = "";
 
-    data
+data
 .filter(m => m.template)
+.sort((a, b) => a.sort_order - b.sort_order)
 .forEach(m => {
 
         list.innerHTML += `
