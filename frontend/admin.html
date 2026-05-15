@@ -633,7 +633,7 @@ async function loadMenus() {
   container.innerHTML = "";
 
   data
-.filter(m => m.template)
+.filter(m => !m.template)
 .forEach(m => {
     container.innerHTML += `
       <div class="card">
