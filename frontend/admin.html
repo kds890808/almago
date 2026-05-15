@@ -734,7 +734,9 @@ async function loadSidebarMenus() {
 
     const btn = document.createElement("button");
     btn.innerText = "📄 " + m.name;
-    btn.onclick = () => {location.href = m.path;);
+    btn.onclick = () => {
+    location.href = m.path;
+};
 
     // 🔥 이거 추가
     const delBtn = document.createElement("button");
