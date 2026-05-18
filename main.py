@@ -543,6 +543,8 @@ async def upload_race_detail(
 
     df = pd.read_excel(file.file)
 
+    print("컬럼:",df.columns.tolist())
+
     region = str(df["지역"].iloc[0])
 
     race_date = pd.to_datetime(
