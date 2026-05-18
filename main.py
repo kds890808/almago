@@ -568,11 +568,17 @@ def get_race_detail(
     db: Session = Depends(get_db)
 ):
 
-    races = db.query(Race).filter(
-        Race.지역 == region,
-        Race.경주일자 == raceDate,
-        Race.경주 == raceNo
-    ).all()
+    formattedDate = (
+    raceDate[:4] + "/" +
+    raceDate[4:6] + "/" +
+    raceDate[6:8]
+)
+
+races = db.query(Race).filter(
+    Race.지역 == region,
+    Race.경주일자.contains(formattedDate),
+    Race.경주 == raceNo
+).all()
 
     result=[]
 
