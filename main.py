@@ -506,44 +506,82 @@ async def upload_race(file: UploadFile = File(...)):
     try:
 
         df = pd.read_excel(file.file)
+
+        # NaN → 빈문자
         df = df.fillna("")
 
         db = SessionLocal()
 
+        # 기존 데이터 삭제
         db.query(Race).delete()
         db.commit()
 
         for _, row in df.iterrows():
 
+            # 날짜 처리
             race_date = ""
 
-            if row["경주일자"] != "":
-                race_date = pd.to_datetime(
+            if row.get("경주일자", "") != "":
+
+                temp_date = pd.to_datetime(
                     row["경주일자"],
                     errors="coerce"
-                ).strftime("%Y/%m/%d")
+                )
+
+                race_date = (
+                    temp_date.strftime("%Y/%m/%d")
+                    if pd.notna(temp_date)
+                    else ""
+                )
 
             race = Race(
 
-                지역=str(row["지역"]),
+                지역=str(
+                    row.get("지역","")
+                ),
 
-                순=int(float(row["순"]))
-                if row["순"] != ""
-                else 0,
+                순=(
+                    int(float(row["순"]))
+                    if row.get("순","") != ""
+                    else 0
+                ),
 
                 경주일자=race_date,
 
-                경주=int(float(row["경주"]))
-                if row["경주"] != ""
-                else 0,
+                경주=(
+                    int(float(row["경주"]))
+                    if row.get("경주","") != ""
+                    else 0
+                ),
 
-                등급=str(row["등급"]),
-                거리=str(row["거리"]),
-                편성=str(row["편성"]),
-                출전=str(row["출전"]),
-                경주명=str(row["경주명"]),
-                출발시각=str(row["출발시각"]),
-                비고=str(row["비고"])
+                등급=str(
+                    row.get("등급","")
+                ),
+
+                거리=str(
+                    row.get("거리","")
+                ),
+
+                편성=str(
+                    row.get("편성","")
+                ),
+
+                출전=str(
+                    row.get("출전","")
+                ),
+
+                경주명=str(
+                    row.get("경주명","")
+                ),
+
+                출발시각=str(
+                    row.get("출발시각","")
+                ),
+
+                비고=str(
+                    row.get("비고","")
+                )
+
             )
 
             db.add(race)
@@ -551,11 +589,20 @@ async def upload_race(file: UploadFile = File(...)):
         db.commit()
         db.close()
 
-        return {"msg":"저장 완료"}
+        return {
+            "msg":"저장 완료"
+        }
 
     except Exception as e:
 
-        print("🔥 upload-race 오류:", repr(e))
+        import traceback
+
+        traceback.print_exc()
+
+        print(
+            "🔥 upload-race 오류:",
+            repr(e)
+        )
 
         raise HTTPException(
             status_code=500,
