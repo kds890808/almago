@@ -503,50 +503,65 @@ def delete_menu(
 @app.post("/upload-race")
 async def upload_race(file: UploadFile = File(...)):
 
-    df = pd.read_excel(file.file)
+    try:
 
-    # NaN 처리
-    df = df.fillna("")
+        df = pd.read_excel(file.file)
+        df = df.fillna("")
 
-    db = SessionLocal()
+        db = SessionLocal()
 
-    db.query(Race).delete()
-    db.commit()
+        db.query(Race).delete()
+        db.commit()
 
-    for _, row in df.iterrows():
+        for _, row in df.iterrows():
 
-        race = Race(
+            race_date = ""
 
-            지역=str(row["지역"]),
+            if row["경주일자"] != "":
+                race_date = pd.to_datetime(
+                    row["경주일자"],
+                    errors="coerce"
+                ).strftime("%Y/%m/%d")
 
-            순=int(float(row["순"]))
-            if row["순"] != ""
-            else 0,
+            race = Race(
 
-            경주일자=pd.to_datetime(
-                row["경주일자"]
-            ).strftime("%Y/%m/%d"),
+                지역=str(row["지역"]),
 
-            경주=int(float(row["경주"]))
-            if row["경주"] != ""
-            else 0,
+                순=int(float(row["순"]))
+                if row["순"] != ""
+                else 0,
 
-            등급=str(row["등급"]),
-            거리=str(row["거리"]),
-            편성=str(row["편성"]),
-            출전=str(row["출전"]),
-            경주명=str(row["경주명"]),
-            출발시각=str(row["출발시각"]),
-            비고=str(row["비고"])
+                경주일자=race_date,
 
+                경주=int(float(row["경주"]))
+                if row["경주"] != ""
+                else 0,
+
+                등급=str(row["등급"]),
+                거리=str(row["거리"]),
+                편성=str(row["편성"]),
+                출전=str(row["출전"]),
+                경주명=str(row["경주명"]),
+                출발시각=str(row["출발시각"]),
+                비고=str(row["비고"])
+            )
+
+            db.add(race)
+
+        db.commit()
+        db.close()
+
+        return {"msg":"저장 완료"}
+
+    except Exception as e:
+
+        print("🔥 upload-race 오류:", repr(e))
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
         )
-
-        db.add(race)
-
-    db.commit()
-    db.close()
-
-    return {"msg":"저장 완료"}
+        
 # =========================
 # 경주상세보기
 # =========================
