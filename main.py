@@ -537,19 +537,32 @@ async def upload_race(file: UploadFile = File(...)):
 # =========================
 @app.post("/upload-race-detail")
 async def upload_race_detail(
-    file: UploadFile=File(...),
-    db: Session=Depends(get_db)
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
 ):
 
     df = pd.read_excel(file.file)
 
-    print("컬럼:",df.columns.tolist())
+    # 컬럼명 앞뒤 공백 제거
+    df.columns = df.columns.str.strip()
 
-    region = str(df["지역"].iloc[0])
+    print("컬럼:", df.columns.tolist())
 
-    race_date = pd.to_datetime(
-        df["경주일자"].iloc[0]
-    ).strftime("%Y/%m/%d")
+    # 지역 컬럼 없으면 기본값
+    region = (
+        str(df["지역"].iloc[0])
+        if "지역" in df.columns
+        else "서울"
+    )
+
+    # 날짜 컬럼 없으면 기본값
+    race_date = (
+        pd.to_datetime(
+            df["경주일자"].iloc[0]
+        ).strftime("%Y/%m/%d")
+        if "경주일자" in df.columns
+        else "2026/05/15"
+    )
 
     db.query(
         RaceDetail
@@ -558,26 +571,27 @@ async def upload_race_detail(
         RaceDetail.경주일자 == race_date
     ).delete()
 
-    for _,row in df.iterrows():
+    for _, row in df.iterrows():
 
-        item=RaceDetail(
+        item = RaceDetail(
 
-            지역=str(row.get("지역","")),
-            경주일자=pd.to_datetime(
-                row.get("경주일자")
-            ).strftime("%Y/%m/%d"),
-            경주=int(float(
-                row.get("경주",0)
-            )),
+            지역=region,
+            경주일자=race_date,
+
+            경주=(
+                    int(float(row.get("경주",0)))
+                    if pd.notna(row.get("경주"))
+                    else 0
+                ),
 
             번호=row.get("번호",""),
             마명=row.get("마명",""),
 
             기수명=row.get("기수명",""),
             조교사=row.get(
-               "조교사명",
-               row.get("조교사","")
-           ),
+                "조교사명",
+                row.get("조교사","")
+            ),
 
             체중=row.get("체중",""),
             증감=row.get("증감",""),
@@ -585,10 +599,8 @@ async def upload_race_detail(
             전적=row.get("전적",""),
             거리전적=row.get("해당거리전적",""),
 
-
             장구현황=row.get("장구현황",""),
             특이사항=row.get("특이사항","")
-
         )
 
         db.add(item)
