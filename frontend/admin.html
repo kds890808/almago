@@ -1095,7 +1095,7 @@ return `
 onclick="
 showRaceDetail(
 '${r[1]}',
-'${r[3]}',
+'${r[3].replace(/\D/g,"")}',
 '${cell}'
 )
 "
