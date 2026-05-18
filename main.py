@@ -545,7 +545,9 @@ async def upload_race_detail(
         item=RaceDetail(
 
             지역=str(row.get("지역","")),
-            경주일자=str(row.get("경주일자","")),
+            경주일자=pd.to_datetime(
+                row.get("경주일자")
+            ).strftime("%Y/%m/%d"),
             경주=int(row.get("경주",0)),
 
             번호=row.get("번호",""),
@@ -558,7 +560,7 @@ async def upload_race_detail(
             증감=row.get("증감",""),
 
             전적=row.get("전적",""),
-            거리전적=row.get("해당거리전적","")
+            거리전적=row.get("해당거리전적",""),
 
 
             장구현황=row.get("장구현황",""),
