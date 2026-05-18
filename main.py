@@ -560,73 +560,83 @@ def delete_race(race_id: int):
 # =========================
 # 경주 상세
 # =========================
-@app.get(
-"/race-detail/{region}/{raceDate}/{raceNo}"
-)
+@app.get("/race-detail/{region}/{raceDate}/{raceNo}")
 def get_race_detail(
     region:str,
     raceDate:str,
     raceNo:int
 ):
 
-    meet_map={
+    try:
 
-        "서울":"1",
-        "제주":"2",
-        "부산경남":"3"
+        meet_map = {
+            "서울":"1",
+            "제주":"2",
+            "부산경남":"3"
+        }
 
-    }
+        meet = meet_map.get(region,"1")
 
-    meet=meet_map.get(
-        region,
-        "1"
-    )
+        url=(
 
-    url=(
+            f"https://race.kra.co.kr/"
+            f"chulmainfo/"
+            f"ChulmaDetailInfoList.do?"
+            f"Act=02"
+            f"&Sub=1"
+            f"&meet={meet}"
+            f"&rcDate={raceDate}"
+            f"&rcNo={raceNo}"
 
-        f"https://race.kra.co.kr/"
-        f"chulmainfo/"
-        f"ChulmaDetailInfoList.do?"
-        f"Act=02"
-        f"&Sub=1"
-        f"&meet={meet}"
-        f"&rcDate={raceDate}"
-        f"&rcNo={raceNo}"
-
-    )
-
-    with sync_playwright() as p:
-
-        browser=p.chromium.launch(
-            headless=True
         )
 
-        page=browser.new_page()
+        print("🔥 URL:",url)
 
-        page.goto(
-            url,
-            timeout=10000
+        with sync_playwright() as p:
+
+            browser=p.chromium.launch(
+                headless=True
+            )
+
+            page=browser.new_page()
+
+            page.goto(
+                url,
+                timeout=15000
+            )
+
+            page.wait_for_timeout(
+                3000
+            )
+
+            html=page.content()
+
+            browser.close()
+
+        tables=pd.read_html(html)
+
+        print(
+            "🔥 테이블 개수:",
+            len(tables)
         )
 
-        page.wait_for_selector(
-            "table"
+        if len(tables)==0:
+            return []
+
+        df=tables[0]
+
+        return df.fillna("").to_dict(
+            orient="records"
         )
 
-        html=page.content()
+    except Exception as e:
 
-        browser.close()
-
-    tables=pd.read_html(html)
-
-    if not tables:
+        print(
+            "🔥 상세에러:",
+            str(e)
+        )
 
         return []
-
-    df=tables[0]
-
-    return df.to_dict(
-        orient="records"
-    )
 
 
 # =========================
