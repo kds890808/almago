@@ -584,28 +584,37 @@ async def upload_race_detail(
         else 0
     ),
 
-    번호=row.get("번호",""),
-    마명=row.get("마명",""),
+    번호=str(row.get("번호","")),
+    마명=str(row.get("마명","")),
 
-    기수명=row.get("기수명",""),
-    조교사=row.get(
-        "조교사명",
-        row.get("조교사","")
+    기수명=str(row.get("기수명","")),
+    조교사=str(
+        row.get(
+            "조교사명",
+            row.get("조교사","")
+        )
     ),
 
-    산지=row.get("산지",""),
-    성별=row.get("성별",""),
-    연령=row.get("연령",""),
-    레이팅=row.get("레이팅",""),
+    산지=str(row.get("산지","")),
+    성별=str(row.get("성별","")),
+    연령=str(row.get("연령","")),
+    레이팅=str(row.get("레이팅","")),
 
-    체중=row.get("체중",""),
-    증감=row.get("증감",""),
+    체중=str(row.get("체중","")),
+    증감=str(row.get("증감","")),
 
-    전적=row.get("전적",""),
-    거리전적=row.get("해당거리전적",""),
+    전적=str(row.get("전적","")),
+    거리전적=str(
+        row.get("해당거리전적","")
+    ),
 
-    장구현황=row.get("장구현황",""),
-    특이사항=row.get("특이사항","")
+    장구현황=str(
+        row.get("장구현황","")
+    ),
+
+    특이사항=str(
+        row.get("특이사항","")
+    )
 )
 
         db.add(item)
