@@ -590,7 +590,7 @@ def get_race_detail(
         f"Act=02"
         f"&Sub=1"
         f"&meet={meet}"
-        f"&rcDate={raceDate.replace('-','')}"
+        f"&rcDate={raceDate}"
         f"&rcNo={raceNo}"
 
     )
