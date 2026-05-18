@@ -1174,11 +1174,35 @@ raceDate,
 raceNo
 );
 
-fetch(
-`https://almago-1llh.onrender.com/race-detail/${region}/${raceDate}/${raceNo}`
-)
-.then(res=>res.json())
+const url =
+`https://almago-1llh.onrender.com/race-detail/${region}/${raceDate}/${raceNo}`;
+
+console.log("🌍 URL:",url);
+  
+fetch(url)
+.then(async res=>{
+
+console.log(
+"📡 응답상태",
+res.status
+);
+
+const text = await res.text();
+
+console.log(
+"📦 원본응답",
+text
+);
+
+return JSON.parse(text);
+
+})
 .then(data=>{
+
+console.log(
+"📦 데이터",
+data
+);
 
 window.currentRace=
 Array.isArray(data)
