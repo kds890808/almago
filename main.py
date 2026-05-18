@@ -500,38 +500,56 @@ def delete_menu(
 # =========================
 # 경주 업로드
 # =========================
+# =========================
+# 경주 업로드
+# =========================
 @app.post("/upload-race")
-async def upload_race(file: UploadFile = File(...)):
+async def upload_race(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+
     df = pd.read_excel(file.file)
 
-    db = SessionLocal()
+    # 기존 데이터 전부 삭제
     db.query(Race).delete()
 
+    db.commit()
+
     for _, row in df.iterrows():
+
         race = Race(
-            지역=row["지역"],
+
+            지역=str(row["지역"]),
+
             순=int(row["순"]),
-            경주일자=pd.to_datetime(
+
+            경주일자=
+            pd.to_datetime(
                 row["경주일자"]
             ).strftime("%Y/%m/%d"),
 
-            경주=int(float(
-                row["경주"]
-            )),
-            등급=row["등급"],
-            거리=row["거리"],
-            편성=row["편성"],
-            출전=row["출전"],
-            경주명=row["경주명"],
+            경주=int(
+                float(row["경주"])
+            ),
+
+            등급=str(row["등급"]),
+            거리=str(row["거리"]),
+            편성=str(row["편성"]),
+            출전=str(row["출전"]),
+            경주명=str(row["경주명"]),
             출발시각=str(row["출발시각"]),
-            비고=row["비고"],
+            비고=str(row["비고"])
+
         )
+
         db.add(race)
 
     db.commit()
-    db.close()
 
-    return {"msg": "저장 완료"}
+    return {
+        "msg":"저장 완료"
+    }
 # =========================
 # 경주상세보기
 # =========================
