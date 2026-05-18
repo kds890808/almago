@@ -511,8 +511,13 @@ async def upload_race(file: UploadFile = File(...)):
         race = Race(
             지역=row["지역"],
             순=int(row["순"]),
-            경주일자=row["경주일자"],
-            경주=int(row["경주"]),
+            경주일자=pd.to_datetime(
+                row["경주일자"]
+            ).strftime("%Y/%m/%d"),
+
+            경주=int(float(
+                row["경주"]
+            )),
             등급=row["등급"],
             거리=row["거리"],
             편성=row["편성"],
@@ -559,13 +564,18 @@ async def upload_race_detail(
             경주일자=pd.to_datetime(
                 row.get("경주일자")
             ).strftime("%Y/%m/%d"),
-            경주=int(row.get("경주",0)),
+            경주=int(float(
+                row.get("경주",0)
+            )),
 
             번호=row.get("번호",""),
             마명=row.get("마명",""),
 
             기수명=row.get("기수명",""),
-            조교사=row.get("조교사명",""),
+            조교사=row.get(
+               "조교사명",
+               row.get("조교사","")
+           ),
 
             체중=row.get("체중",""),
             증감=row.get("증감",""),
