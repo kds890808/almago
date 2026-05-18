@@ -519,20 +519,33 @@ async def upload_race(file: UploadFile = File(...)):
         for _, row in df.iterrows():
 
             # 날짜 처리
-            race_date = ""
+            raw_date = str(
+                row.get("경주일자","")
+            )
 
-            if row.get("경주일자", "") != "":
+            # 요일 제거
+            raw_date = (
+                raw_date
+                .replace("(월)","")
+                .replace("(화)","")
+                .replace("(수)","")
+                .replace("(목)","")
+                .replace("(금)","")
+                .replace("(토)","")
+                .replace("(일)","")
+                .strip()
+            )
 
-                temp_date = pd.to_datetime(
-                    row["경주일자"],
-                    errors="coerce"
-                )
+            temp_date = pd.to_datetime(
+                raw_date,
+                errors="coerce"
+            )
 
-                race_date = (
-                    temp_date.strftime("%Y/%m/%d")
-                    if pd.notna(temp_date)
-                    else ""
-                )
+            race_date = (
+                temp_date.strftime("%Y/%m/%d")
+                if pd.notna(temp_date)
+                else ""
+            )
 
             race = Race(
 
