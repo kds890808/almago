@@ -633,27 +633,53 @@ async def upload_race_detail(
 
     df = pd.read_excel(file.file)
 
-    # 컬럼명 앞뒤 공백 제거
+    # 컬럼명 공백 제거
     df.columns = df.columns.str.strip()
+
+    df = df.fillna("")
 
     print("컬럼:", df.columns.tolist())
 
-    # 지역 컬럼 없으면 기본값
+    # 지역
     region = (
-        str(df["지역"].iloc[0])
-        if "지역" in df.columns
+        str(df["지역명"].iloc[0])
+        if "지역명" in df.columns
         else "서울"
     )
 
-    # 날짜 컬럼 없으면 기본값
-    race_date = (
-        pd.to_datetime(
-            df["경주일자"].iloc[0]
-        ).strftime("%Y/%m/%d")
-        if "경주일자" in df.columns
-        else "2026/05/15"
-    )
+    # 날짜 처리
+    race_date = ""
 
+    if "날짜" in df.columns:
+
+        raw_date = str(
+            df["날짜"].iloc[0]
+        )
+
+        raw_date = (
+            raw_date
+            .replace("(월)","")
+            .replace("(화)","")
+            .replace("(수)","")
+            .replace("(목)","")
+            .replace("(금)","")
+            .replace("(토)","")
+            .replace("(일)","")
+            .strip()
+        )
+
+        temp_date = pd.to_datetime(
+            raw_date,
+            errors="coerce"
+        )
+
+        race_date = (
+            temp_date.strftime("%Y/%m/%d")
+            if pd.notna(temp_date)
+            else ""
+        )
+
+    # 기존 상세 삭제
     db.query(
         RaceDetail
     ).filter(
@@ -661,51 +687,81 @@ async def upload_race_detail(
         RaceDetail.경주일자 == race_date
     ).delete()
 
+    db.commit()
+
     for _, row in df.iterrows():
 
         item = RaceDetail(
 
-    지역=region,
-    경주일자=race_date,
+            지역=str(
+                row.get("지역명","서울")
+            ),
 
-    경주=(
-        int(float(row.get("경주",0)))
-        if pd.notna(row.get("경주"))
-        else 0
-    ),
+            경주일자=race_date,
 
-    번호=str(row.get("번호","")),
-    마명=str(row.get("마명","")),
+            경주=(
+                int(float(
+                    row.get("경주번호",0)
+                ))
+                if row.get("경주번호","") != ""
+                else 0
+            ),
 
-    기수명=str(row.get("기수명","")),
-    조교사=str(
-        row.get(
-            "조교사명",
-            row.get("조교사","")
+            번호=str(
+                row.get("번호","")
+            ),
+
+            마명=str(
+                row.get("마명","")
+            ),
+
+            기수명=str(
+                row.get("기수명","")
+            ),
+
+            조교사=str(
+                row.get("조교사명","")
+            ),
+
+            산지=str(
+                row.get("마중","")
+            ),
+
+            성별=str(
+                row.get("성별","")
+            ),
+
+            연령=str(
+                row.get("연령","")
+            ),
+
+            레이팅=str(
+                row.get("레이팅","")
+            ),
+
+            체중=str(
+                row.get("중량","")
+            ),
+
+            증감=str(
+                row.get("증감","")
+            ),
+
+            전적=str(
+                row.get("출전주기","")
+            ),
+
+            거리전적="",
+
+            장구현황=str(
+                row.get("장구현황","")
+            ),
+
+            특이사항=str(
+                row.get("특이사항","")
+            )
+
         )
-    ),
-
-    산지=str(row.get("산지","")),
-    성별=str(row.get("성별","")),
-    연령=str(row.get("연령","")),
-    레이팅=str(row.get("레이팅","")),
-
-    체중=str(row.get("체중","")),
-    증감=str(row.get("증감","")),
-
-    전적=str(row.get("전적","")),
-    거리전적=str(
-        row.get("해당거리전적","")
-    ),
-
-    장구현황=str(
-        row.get("장구현황","")
-    ),
-
-    특이사항=str(
-        row.get("특이사항","")
-    )
-)
 
         db.add(item)
 
