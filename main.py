@@ -501,67 +501,52 @@ def delete_menu(
 # 경주 업로드
 # =========================
 @app.post("/upload-race")
-async def upload_race(
-    file: UploadFile = File(...),
-    db: Session = Depends(get_db)
-):
+async def upload_race(file: UploadFile = File(...)):
 
-    try:
+    df = pd.read_excel(file.file)
 
-        df = pd.read_excel(file.file)
+    # NaN 처리
+    df = df.fillna("")
 
-        # NaN → 빈문자 처리
-        df = df.fillna("")
+    db = SessionLocal()
 
-        # 기존 데이터 삭제
-        db.query(Race).delete()
-        db.commit()
+    db.query(Race).delete()
+    db.commit()
 
-        for _, row in df.iterrows():
+    for _, row in df.iterrows():
 
-            race = Race(
+        race = Race(
 
-                지역=str(row.get("지역","")),
+            지역=str(row["지역"]),
 
-                순=int(float(
-                    row.get("순",0)
-                )),
+            순=int(float(row["순"]))
+            if row["순"] != ""
+            else 0,
 
-                경주일자=
-                pd.to_datetime(
-                    row.get("경주일자")
-                ).strftime("%Y/%m/%d"),
+            경주일자=pd.to_datetime(
+                row["경주일자"]
+            ).strftime("%Y/%m/%d"),
 
-                경주=int(float(
-                    row.get("경주",0)
-                )),
+            경주=int(float(row["경주"]))
+            if row["경주"] != ""
+            else 0,
 
-                등급=str(row.get("등급","")),
-                거리=str(row.get("거리","")),
-                편성=str(row.get("편성","")),
-                출전=str(row.get("출전","")),
-                경주명=str(row.get("경주명","")),
-                출발시각=str(row.get("출발시각","")),
-                비고=str(row.get("비고",""))
+            등급=str(row["등급"]),
+            거리=str(row["거리"]),
+            편성=str(row["편성"]),
+            출전=str(row["출전"]),
+            경주명=str(row["경주명"]),
+            출발시각=str(row["출발시각"]),
+            비고=str(row["비고"])
 
-            )
-
-            db.add(race)
-
-        db.commit()
-
-        return {
-            "msg":"저장 완료"
-        }
-
-    except Exception as e:
-
-        print("🔥 업로드 오류:", e)
-
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
         )
+
+        db.add(race)
+
+    db.commit()
+    db.close()
+
+    return {"msg":"저장 완료"}
 # =========================
 # 경주상세보기
 # =========================
