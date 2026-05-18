@@ -1438,8 +1438,17 @@ html=`
 
 <th>번호</th>
 <th>마명</th>
+<th>마종</th>
+<th>성별</th>
+<th>연령</th>
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
 <th>기수</th>
 <th>조교사</th>
+<th>출전주기</th>
+<th>장구</th>
+<th>특이사항</th>
 
 </tr>
 
@@ -1447,7 +1456,7 @@ ${window.currentRace.map(r=>`
 
 <tr>
 
-<td>${r.번호}</td>
+<td>${r.번호||''}</td>
 
 <td
 style="
@@ -1461,12 +1470,21 @@ showHorseDetail(
 )
 ">
 
-${r.마명}
+${r.마명||''}
 
 </td>
 
+<td>${r.산지||''}</td>
+<td>${r.성별||''}</td>
+<td>${r.연령||''}</td>
+<td>${r.레이팅||''}</td>
+<td>${r.체중||''}</td>
+<td>${r.증감||''}</td>
 <td>${r.기수명||''}</td>
 <td>${r.조교사||''}</td>
+<td>${r.전적||''}</td>
+<td>${r.장구현황||''}</td>
+<td>${r.특이사항||''}</td>
 
 </tr>
 
@@ -1474,7 +1492,6 @@ ${r.마명}
 
 </table>
 `;
-
 }
 
 document.getElementById(
