@@ -533,9 +533,16 @@ function showPage(page) {
     </button>
 
   </div>
+  
+<div class="card">
 
-  <input type="file" id="fileInput">
-        <button onclick="uploadRace()">업로드</button>
+<h3>📂 업로드</h3>
+
+<div id="race-upload-area">
+출전표 또는 상세 업로드 선택
+</div>
+
+</div>
 
         <table>
           <thead>
@@ -555,15 +562,28 @@ function showPage(page) {
           </thead>
           <tbody id="race-table"></tbody>
         </table>
+<div class="card">
 
-        <div class="card">
-          <h3>출마표 상세</h3>
-          <div id="race-detail-area">클릭하면 표시됨</div>
-        </div>
-      </div>
+<h3>🏇 출마표 상세</h3>
+
+<div id="race-detail-area">
+
+클릭하면 표시됨
+
+</div>
+
+</div>
+
+</div>
     `;
 
-    setTimeout(loadRace, 0);
+    setTimeout(()=>{
+
+loadRace();
+showRaceTab('race-upload');
+
+},0);
+    
   }
 if(page === 'design'){
 
@@ -637,7 +657,99 @@ loadDesignMenus();
 // =========================
 function showRaceTab(tab){
 
-    alert(tab);
+if(tab==="race-upload"){
+
+document.getElementById(
+"race-upload-area"
+).innerHTML=`
+
+<h3>📋 출전표 업로드</h3>
+
+<input
+type="file"
+id="fileInput"
+accept=".xlsx">
+
+<button
+class="main"
+onclick="uploadRace()">
+
+출전표 업로드
+
+</button>
+
+`;
+
+}
+
+if(tab==="race-detail"){
+
+document.getElementById(
+"race-upload-area"
+).innerHTML=`
+
+<h3>🏇 경주상세정보 업로드</h3>
+
+<input
+type="file"
+id="raceDetailFile"
+accept=".xlsx">
+
+<button
+class="main"
+onclick="uploadRaceDetail()">
+
+경주상세정보 업로드
+
+</button>
+
+`;
+
+}
+
+}
+
+// =========================
+// 경주 상세보기 업로드
+// =========================
+async function uploadRaceDetail(){
+
+const file=
+document.getElementById(
+"raceDetailFile"
+).files[0];
+
+if(!file){
+
+alert(
+"파일 선택해줘"
+);
+
+return;
+
+}
+
+const formData=
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const res=
+await fetch(
+"https://almago-1llh.onrender.com/upload-race-detail",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data=
+await res.json();
+
+alert(data.msg);
 
 }
   
