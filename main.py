@@ -558,26 +558,75 @@ def delete_race(race_id: int):
 
 
 # =========================
-# 경주 긁어오기
+# 경주 상세
 # =========================
-@app.get("/race-detail/{rcNo}")
-def get_race_detail(rcNo: int):
+@app.get(
+"/race-detail/{region}/{raceDate}/{raceNo}"
+)
+def get_race_detail(
+    region:str,
+    raceDate:str,
+    raceNo:int
+):
+
+    meet_map={
+
+        "서울":"1",
+        "제주":"2",
+        "부산경남":"3"
+
+    }
+
+    meet=meet_map.get(
+        region,
+        "1"
+    )
+
+    url=(
+
+        f"https://race.kra.co.kr/"
+        f"chulmainfo/"
+        f"ChulmaDetailInfoList.do?"
+        f"Act=02"
+        f"&Sub=1"
+        f"&meet={meet}"
+        f"&rcDate={raceDate.replace('-','')}"
+        f"&rcNo={raceNo}"
+
+    )
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
 
-        page.goto("https://race.kra.co.kr/chulmainfo/ChulmaDetailInfoList.do?Act=02&Sub=1&meet=1")
-        page.wait_for_selector("table")
-        page.click(f"a[onclick*='rcNo={rcNo}']")
-        page.wait_for_selector("table")
+        browser=p.chromium.launch(
+            headless=True
+        )
 
-        html = page.content()
+        page=browser.new_page()
+
+        page.goto(
+            url,
+            timeout=10000
+        )
+
+        page.wait_for_selector(
+            "table"
+        )
+
+        html=page.content()
+
         browser.close()
 
-    tables = pd.read_html(html)
-    df = tables[0]
+    tables=pd.read_html(html)
 
-    return df.to_dict(orient="records")
+    if not tables:
+
+        return []
+
+    df=tables[0]
+
+    return df.to_dict(
+        orient="records"
+    )
 
 
 # =========================
