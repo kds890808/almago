@@ -562,15 +562,12 @@ function showPage(page) {
           </thead>
           <tbody id="race-table"></tbody>
         </table>
-<div class="card">
-
-<h3>🏇 출마표 상세</h3>
-
-<div id="race-detail-area">
+<div
+class="card"
+id="race-detail-area"
+style="display:none;">
 
 클릭하면 표시됨
-
-</div>
 
 </div>
 
@@ -657,6 +654,7 @@ loadDesignMenus();
 // =========================
 function showRaceTab(tab){
 
+// 출전표
 if(tab==="race-upload"){
 
 document.getElementById(
@@ -678,9 +676,22 @@ onclick="uploadRace()">
 
 </button>
 
-<hr style="margin:20px 0;">
+`;
 
-<h3>🏇 KRA 상세 업로드</h3>
+document.getElementById(
+"race-detail-area"
+).style.display="none";
+
+}
+
+// 경주상세
+if(tab==="race-detail"){
+
+document.getElementById(
+"race-upload-area"
+).innerHTML=`
+
+<h3>🏇 경주상세 업로드</h3>
 
 <input
 type="file"
@@ -691,34 +702,54 @@ accept=".xlsx">
 class="main"
 onclick="uploadRaceDetail()">
 
-KRA 상세 업로드
+경주상세 업로드
 
 </button>
+
+<hr>
+
+<div style="
+padding:15px;
+background:#f8fafc;
+border-radius:10px;
+text-align:center;
+">
+
+경주번호 클릭 시 상세정보 표시
+
+</div>
 
 `;
 
 }
 
-if(tab==="race-detail"){
+// 말정보
+if(tab==="horse-info"){
 
 document.getElementById(
 "race-upload-area"
-).innerHTML=`
+).innerHTML=
+"<h3>🐎 말 정보 준비중</h3>";
 
-<h3>🏇 경주상세정보</h3>
+}
 
-<div style="
-padding:20px;
-background:#f8fafc;
-border-radius:10px;
-">
+// 기수
+if(tab==="jockey-info"){
 
-경주번호를 클릭하면
-KRA 상세정보가 표시됩니다
+document.getElementById(
+"race-upload-area"
+).innerHTML=
+"<h3>👨‍✈️ 기수 정보 준비중</h3>";
 
-</div>
+}
 
-`;
+// 조교사
+if(tab==="trainer-info"){
+
+document.getElementById(
+"race-upload-area"
+).innerHTML=
+"<h3>🧑‍🏫 조교사 정보 준비중</h3>";
 
 }
 
@@ -1343,6 +1374,12 @@ window.currentRace=
 Array.isArray(data)
 ? data
 : [];
+
+showRaceTab('race-detail');
+
+document.getElementById(
+"race-detail-area"
+).style.display="block";
 
 document.getElementById(
 "race-detail-area"
