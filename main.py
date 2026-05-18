@@ -558,85 +558,43 @@ def delete_race(race_id: int):
 
 
 # =========================
-# 경주 상세
+# 경주 상세 조회
 # =========================
 @app.get("/race-detail/{region}/{raceDate}/{raceNo}")
 def get_race_detail(
-    region:str,
-    raceDate:str,
-    raceNo:int
+    region: str,
+    raceDate: str,
+    raceNo: int,
+    db: Session = Depends(get_db)
 ):
 
-    try:
+    races = db.query(Race).filter(
+        Race.지역 == region,
+        Race.경주일자 == raceDate,
+        Race.경주 == raceNo
+    ).all()
 
-        meet_map = {
-            "서울":"1",
-            "제주":"2",
-            "부산경남":"3"
-        }
+    result=[]
 
-        meet = meet_map.get(region,"1")
+    for r in races:
 
-        url=(
+        result.append({
 
-            f"https://race.kra.co.kr/"
-            f"chulmainfo/"
-            f"ChulmaDetailInfoList.do?"
-            f"Act=02"
-            f"&Sub=1"
-            f"&meet={meet}"
-            f"&rcDate={raceDate}"
-            f"&rcNo={raceNo}"
+            "번호": getattr(r,"번호",""),
+            "마명": getattr(r,"마명",""),
+            "기수명": getattr(r,"기수명",""),
+            "조교사": getattr(r,"조교사",""),
+            "산지": getattr(r,"산지",""),
+            "성별": getattr(r,"성별",""),
+            "연령": getattr(r,"연령",""),
+            "레이팅": getattr(r,"레이팅",""),
+            "증감": getattr(r,"증감",""),
+            "장구현황": getattr(r,"장구현황",""),
+            "특이사항": getattr(r,"특이사항","")
 
-        )
+        })
 
-        print("🔥 URL:",url)
-
-        with sync_playwright() as p:
-
-            browser=p.chromium.launch(
-                headless=True
-            )
-
-            page=browser.new_page()
-
-            page.goto(
-                url,
-                timeout=15000
-            )
-
-            page.wait_for_timeout(
-                3000
-            )
-
-            html=page.content()
-
-            browser.close()
-
-        tables=pd.read_html(html)
-
-        print(
-            "🔥 테이블 개수:",
-            len(tables)
-        )
-
-        if len(tables)==0:
-            return []
-
-        df=tables[0]
-
-        return df.fillna("").to_dict(
-            orient="records"
-        )
-
-    except Exception as e:
-
-        print(
-            "🔥 상세에러:",
-            str(e)
-        )
-
-        return []
+    return result
 
 
 # =========================
