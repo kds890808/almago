@@ -575,33 +575,38 @@ async def upload_race_detail(
 
         item = RaceDetail(
 
-            지역=region,
-            경주일자=race_date,
+    지역=region,
+    경주일자=race_date,
 
-            경주=(
-                    int(float(row.get("경주",0)))
-                    if pd.notna(row.get("경주"))
-                    else 0
-                ),
+    경주=(
+        int(float(row.get("경주",0)))
+        if pd.notna(row.get("경주"))
+        else 0
+    ),
 
-            번호=row.get("번호",""),
-            마명=row.get("마명",""),
+    번호=row.get("번호",""),
+    마명=row.get("마명",""),
 
-            기수명=row.get("기수명",""),
-            조교사=row.get(
-                "조교사명",
-                row.get("조교사","")
-            ),
+    기수명=row.get("기수명",""),
+    조교사=row.get(
+        "조교사명",
+        row.get("조교사","")
+    ),
 
-            체중=row.get("체중",""),
-            증감=row.get("증감",""),
+    산지=row.get("산지",""),
+    성별=row.get("성별",""),
+    연령=row.get("연령",""),
+    레이팅=row.get("레이팅",""),
 
-            전적=row.get("전적",""),
-            거리전적=row.get("해당거리전적",""),
+    체중=row.get("체중",""),
+    증감=row.get("증감",""),
 
-            장구현황=row.get("장구현황",""),
-            특이사항=row.get("특이사항","")
-        )
+    전적=row.get("전적",""),
+    거리전적=row.get("해당거리전적",""),
+
+    장구현황=row.get("장구현황",""),
+    특이사항=row.get("특이사항","")
+)
 
         db.add(item)
 
