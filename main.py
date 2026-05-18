@@ -544,9 +544,9 @@ async def upload_race_detail(
 
         item=RaceDetail(
 
-            지역=row.get("지역",""),
-            경주일자=row.get("날짜",""),
-            경주=row.get("경주번호",""),
+            지역=str(row.get("지역","")),
+            경주일자=str(row.get("경주일자","")),
+            경주=int(row.get("경주",0)),
 
             번호=row.get("번호",""),
             마명=row.get("마명",""),
@@ -554,17 +554,12 @@ async def upload_race_detail(
             기수명=row.get("기수명",""),
             조교사=row.get("조교사명",""),
 
-            산지=row.get("산지",""),
-            성별=row.get("성별",""),
-            연령=row.get("연령",""),
-
-            레이팅=row.get("레이팅",""),
-
-            체중=row.get("중량",""),
+            체중=row.get("체중",""),
             증감=row.get("증감",""),
 
             전적=row.get("전적",""),
-            거리전적=row.get("해당거리전적",""),
+            거리전적=row.get("해당거리전적","")
+
 
             장구현황=row.get("장구현황",""),
             특이사항=row.get("특이사항","")
