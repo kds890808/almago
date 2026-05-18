@@ -536,9 +536,20 @@ async def upload_race_detail(
     db: Session=Depends(get_db)
 ):
 
-    df=pd.read_excel(file.file)
+    df = pd.read_excel(file.file)
 
-    db.query(RaceDetail).delete()
+    region = str(df["지역"].iloc[0])
+
+    race_date = pd.to_datetime(
+        df["경주일자"].iloc[0]
+    ).strftime("%Y/%m/%d")
+
+    db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.지역 == region,
+        RaceDetail.경주일자 == race_date
+    ).delete()
 
     for _,row in df.iterrows():
 
@@ -652,12 +663,12 @@ def get_race_detail(
         raceDate[6:8]
     )
 
-    races=db.query(
+    races = db.query(
         RaceDetail
     ).filter(
-        RaceDetail.지역==region,
-        RaceDetail.경주일자.contains(formattedDate),
-        RaceDetail.경주==raceNo
+        RaceDetail.지역 == region,
+        RaceDetail.경주일자 == formattedDate,
+        RaceDetail.경주 == raceNo
     ).all()
 
     return [
