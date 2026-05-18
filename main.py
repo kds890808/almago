@@ -41,6 +41,38 @@ class Race(Base):
     출발시각 = Column(String)
     비고 = Column(String)
 
+# =========================
+# 경주 테이블
+# =========================
+class RaceDetail(Base):
+    __tablename__="race_detail"
+
+    id=Column(Integer,primary_key=True,index=True)
+
+    지역=Column(String)
+    경주일자=Column(String)
+    경주=Column(Integer)
+
+    번호=Column(String)
+    마명=Column(String)
+
+    기수명=Column(String)
+    조교사=Column(String)
+
+    산지=Column(String)
+    성별=Column(String)
+    연령=Column(String)
+
+    레이팅=Column(String)
+
+    체중=Column(String)
+    증감=Column(String)
+
+    전적=Column(String)
+    거리전적=Column(String)
+
+    장구현황=Column(String)
+    특이사항=Column(String)
 
 class raceAnalysis(Base):
     __tablename__ = "analysis"
@@ -84,7 +116,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = "mysecret"
 ALGORITHM = "HS256"
 security = HTTPBearer()
-
 
 # =========================
 # DB 연결
@@ -496,8 +527,56 @@ async def upload_race(file: UploadFile = File(...)):
     db.close()
 
     return {"msg": "저장 완료"}
+# =========================
+# 경주상세보기
+# =========================
+@app.post("/upload-race-detail")
+async def upload_race_detail(
+    file: UploadFile=File(...),
+    db: Session=Depends(get_db)
+):
 
+    df=pd.read_excel(file.file)
 
+    db.query(RaceDetail).delete()
+
+    for _,row in df.iterrows():
+
+        item=RaceDetail(
+
+            지역=row.get("지역",""),
+            경주일자=row.get("날짜",""),
+            경주=row.get("경주번호",""),
+
+            번호=row.get("번호",""),
+            마명=row.get("마명",""),
+
+            기수명=row.get("기수명",""),
+            조교사=row.get("조교사명",""),
+
+            산지=row.get("산지",""),
+            성별=row.get("성별",""),
+            연령=row.get("연령",""),
+
+            레이팅=row.get("레이팅",""),
+
+            체중=row.get("중량",""),
+            증감=row.get("증감",""),
+
+            전적=row.get("전적",""),
+            거리전적=row.get("해당거리전적",""),
+
+            장구현황=row.get("장구현황",""),
+            특이사항=row.get("특이사항","")
+
+        )
+
+        db.add(item)
+
+    db.commit()
+
+    return {"msg":"상세 저장 완료"}
+    
 @app.get("/race")
 def get_race():
     db = SessionLocal()
@@ -562,46 +641,47 @@ def delete_race(race_id: int):
 # =========================
 @app.get("/race-detail/{region}/{raceDate}/{raceNo}")
 def get_race_detail(
-    region: str,
-    raceDate: str,
-    raceNo: int,
-    db: Session = Depends(get_db)
+    region:str,
+    raceDate:str,
+    raceNo:int,
+    db: Session=Depends(get_db)
 ):
 
-    formattedDate = (
-    raceDate[:4] + "/" +
-    raceDate[4:6] + "/" +
-    raceDate[6:8]
-)
+    formattedDate=(
+        raceDate[:4]
+        +"/"+
+        raceDate[4:6]
+        +"/"+
+        raceDate[6:8]
+    )
 
-races = db.query(Race).filter(
-    Race.지역 == region,
-    Race.경주일자.contains(formattedDate),
-    Race.경주 == raceNo
-).all()
+    races=db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.지역==region,
+        RaceDetail.경주일자.contains(formattedDate),
+        RaceDetail.경주==raceNo
+    ).all()
 
-    result=[]
-
-    for r in races:
-
-        result.append({
-
-            "번호": getattr(r,"번호",""),
-            "마명": getattr(r,"마명",""),
-            "기수명": getattr(r,"기수명",""),
-            "조교사": getattr(r,"조교사",""),
-            "산지": getattr(r,"산지",""),
-            "성별": getattr(r,"성별",""),
-            "연령": getattr(r,"연령",""),
-            "레이팅": getattr(r,"레이팅",""),
-            "증감": getattr(r,"증감",""),
-            "장구현황": getattr(r,"장구현황",""),
-            "특이사항": getattr(r,"특이사항","")
-
-        })
-
-    return result
-
+    return [
+        {
+            "번호": r.번호,
+            "마명": r.마명,
+            "기수명": r.기수명,
+            "조교사": r.조교사,
+            "산지": r.산지,
+            "성별": r.성별,
+            "연령": r.연령,
+            "레이팅": r.레이팅,
+            "체중": r.체중,
+            "증감": r.증감,
+            "전적": r.전적,
+            "거리전적": r.거리전적,
+            "장구현황": r.장구현황,
+            "특이사항": r.특이사항
+        }
+        for r in races
+    ]
 
 # =========================
 # 경주 분석 저장
