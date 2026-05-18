@@ -1172,7 +1172,10 @@ fetch(
 .then(res=>res.json())
 .then(data=>{
 
-window.currentRace=data;
+window.currentRace=
+Array.isArray(data)
+? data
+: [];
 
 document.getElementById(
 "race-detail-area"
