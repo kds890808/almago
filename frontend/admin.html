@@ -736,9 +736,7 @@ document.getElementById(
 
 if(!file){
 
-alert(
-"파일 선택해줘"
-);
+alert("파일 선택해줘");
 
 return;
 
@@ -761,10 +759,20 @@ body:formData
 }
 );
 
-const data=
-await res.json();
+// 🔥 추가
+const text = await res.text();
 
-alert(data.msg);
+console.log("응답:", text);
+
+if(!res.ok){
+
+alert("업로드 실패");
+
+return;
+
+}
+
+alert(text);
 
 }
   
