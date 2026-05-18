@@ -678,17 +678,9 @@ onclick="uploadRace()">
 
 </button>
 
-`;
+<hr style="margin:20px 0;">
 
-}
-
-if(tab==="race-detail"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=`
-
-<h3>🏇 경주상세정보 업로드</h3>
+<h3>🏇 KRA 상세 업로드</h3>
 
 <input
 type="file"
@@ -699,9 +691,32 @@ accept=".xlsx">
 class="main"
 onclick="uploadRaceDetail()">
 
-경주상세정보 업로드
+KRA 상세 업로드
 
 </button>
+
+`;
+
+}
+
+if(tab==="race-detail"){
+
+document.getElementById(
+"race-upload-area"
+).innerHTML=`
+
+<h3>🏇 경주상세정보</h3>
+
+<div style="
+padding:20px;
+background:#f8fafc;
+border-radius:10px;
+">
+
+경주번호를 클릭하면
+KRA 상세정보가 표시됩니다
+
+</div>
 
 `;
 
