@@ -1088,17 +1088,38 @@ function renderTable() {
       <tr>
         ${cells.map((cell, colIndex) => {
 
-          if (colIndex === 3) {
-            return `
-                  <td 
-                        onclick="showRaceDetail('${cell}')"
-                        ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})"
-                        style="cursor:pointer; color:blue; font-weight:bold;"
-                      >
-                        ${cell}
-                      </td>
-                    `;
-                  }
+if (colIndex === 3) {
+
+return `
+<td
+onclick="
+showRaceDetail(
+'${r[1]}',
+'${r[3]}',
+'${cell}'
+)
+"
+
+ondblclick="
+editCell(
+this,
+${rowIndex},
+${colIndex+1}
+)
+"
+
+style="
+cursor:pointer;
+color:blue;
+font-weight:bold;
+"
+>
+
+${cell}
+
+</td>
+`;
+}
 
           return `
             <td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
@@ -1139,41 +1160,132 @@ function editCell(td, rowIndex, colIndex) {
 // =========================
 // 출전표상세긁어오기
 // =========================
-function showRaceDetail(raceNo) {
-  console.log("클릭됨:", raceNo);  // 👈 이거 추가
+function showRaceDetail(
+    region,
+    raceDate,
+    raceNo
+){
 
-  fetch(`https://almago-1llh.onrender.com/race-detail/${raceNo}`)
-    .then(res => res.json())
-    .then(data => {
+fetch(
+`https://almago-1llh.onrender.com/race-detail/${region}/${raceDate}/${raceNo}`
+)
+.then(res=>res.json())
+.then(data=>{
 
-      let html = `
-        <table>
-          <tr>
-            <th>번호</th>
-            <th>마명</th>
-            <th>성별</th>
-            <th>나이</th>
-            <th>조교사</th>
-          </tr>
-      `;
+window.currentRace=data;
 
-      data.forEach(row => {
-        html += `
-          <tr>
-            <td>${row.번호}</td>
-            <td>${row.마명}</td>
-            <td>${row.성별}</td>
-            <td>${row.나이}</td>
-            <td>${row.조교사}</td>
-          </tr>
-        `;
-      });
+document.getElementById(
+"race-detail-area"
+).innerHTML=`
 
-      html += `</table>`;
+<h3>🏇 ${raceNo}경주</h3>
 
-      document.getElementById("race-detail-area").innerHTML = html;
-    });
+<div class="race-tabs">
+
+<button onclick="showRaceDetailTab('entry')">
+📋 출전표
+</button>
+
+<button onclick="showRaceDetailTab('weight')">
+⚖ 체중
+</button>
+
+<button onclick="showRaceDetailTab('record')">
+📈 전적
+</button>
+
+<button onclick="showRaceDetailTab('distance')">
+🏃 거리전적
+</button>
+
+<button onclick="showRaceDetailTab('pace')">
+🔥 전개
+</button>
+
+</div>
+
+<div id="race-detail-content"></div>
+
+`;
+
+showRaceDetailTab('entry');
+
+});
+
 }
+
+// =========================
+// 경주 상세 탭
+// =========================
+function showRaceDetailTab(type){
+
+let html='';
+
+if(type==='entry'){
+
+html=`
+
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+<th>기수</th>
+<th>조교사</th>
+
+</tr>
+
+${window.currentRace.map(r=>`
+
+<tr>
+
+<td>${r.번호}</td>
+
+<td
+style="
+cursor:pointer;
+color:#2563eb;
+font-weight:bold
+"
+onclick="
+showHorseDetail(
+'${r.마명}'
+)
+">
+
+${r.마명}
+
+</td>
+
+<td>${r.기수명||''}</td>
+<td>${r.조교사||''}</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+`;
+
+}
+
+document.getElementById(
+"race-detail-content"
+).innerHTML=html;
+
+}
+
+// =========================
+// 말 상세
+// =========================
+function showHorseDetail(name){
+
+alert(
+`🐎 ${name} 상세 (준비중)`
+);
+
+}  
 
 // =========================
 // 분석결과저장
