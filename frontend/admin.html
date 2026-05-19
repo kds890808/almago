@@ -1194,44 +1194,71 @@ function editCell(td, rowIndex, colIndex) {
 // 출전표상세긁어오기
 // =========================
 function showRaceDetail(raceNo) {
-  console.log("클릭됨:", raceNo);  // 👈 이거 추가
 
-  fetch(`https://almago-1llh.onrender.com/race-detail/${raceNo}`)
-    .then(res => res.json())
-    .then(data => {
+  console.log("클릭됨:", raceNo);
 
-      let html = `
-        <table>
-          <tr>
-            <th>날짜</th>
-            <th>지역</th>
-            <th>경주</th>
-            <th>번호</th>
-            <th>마명</th>
-            <th>성별</th>
-            <th>나이</th>
-            <th>조교사</th>
-          </tr>
+  fetch(
+    `https://almago-1llh.onrender.com/race-detail/${raceNo}`
+  )
+  .then(res=>res.json())
+  .then(data=>{
+
+    let html=`
+
+    <table style="
+    width:100%;
+    border-collapse:collapse;
+    ">
+
+    <tr>
+
+      <th>날짜</th>
+      <th>지역</th>
+      <th>경주</th>
+
+      <th>번호</th>
+      <th>마명</th>
+      <th>성별</th>
+      <th>나이</th>
+
+      <th>조교사</th>
+
+    </tr>
+
+    `;
+
+    data.forEach(row=>{
+
+      html +=`
+
+      <tr>
+
+        <td>${row.경주일자 || "-"}</td>
+        <td>${row.지역 || "-"}</td>
+        <td>${row.경주 || "-"}</td>
+
+        <td>${row.번호 || "-"}</td>
+        <td>${row.마명 || "-"}</td>
+        <td>${row.성별 || "-"}</td>
+        <td>${row.나이 || "-"}</td>
+
+        <td>${row.조교사 || "-"}</td>
+
+      </tr>
+
       `;
 
-      data.forEach(row => {
-        html += `
-          <tr>
-            <td>${row.번호}</td>
-            <td>${row.마명}</td>
-            <td>${row.성별}</td>
-            <td>${row.나이}</td>
-            <td>${row.조교사}</td>
-          </tr>
-        `;
-      });
-
-      html += `</table>`;
-
-      document.getElementById("race-detail-area").innerHTML = html;
     });
-}
 
+    html += `</table>`;
+
+    document.getElementById(
+      "race-detail-area"
+    ).innerHTML=html;
+
+  });
+
+}
 // =========================
 // 분석결과저장
 // =========================
