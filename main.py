@@ -68,25 +68,35 @@ class raceAnalysis(Base):
 # 경주상세 테이블
 # =========================
 class RaceDetail(Base):
-    __tablename__ = "race_detail"
 
-    id = Column(Integer, primary_key=True,index=True)
+    __tablename__="race_detail"
 
-    경주일자 = Column(String)
-    지역 = Column(String)
-    경주 = Column(Integer)
+    id=Column(Integer,primary_key=True,index=True)
 
-    번호 = Column(String)
-    마명 = Column(String)
-    성별 = Column(String)
-    나이 = Column(String)
+    경주일자=Column(String)
+    지역=Column(String)
+    경주=Column(Integer)
 
-    기수 = Column(String)
-    조교사 = Column(String)
+    번호=Column(String)
+    마명=Column(String)
+    성별=Column(String)
+    나이=Column(String)
 
-    부담중량 = Column(String)
-    체중 = Column(String)
-    최근전적 = Column(String)
+    기수=Column(String)
+    조교사=Column(String)
+
+    부담중량=Column(String)
+    체중=Column(String)
+
+    레이팅=Column(String)
+    증감=Column(String)
+    마주명=Column(String)
+    조교횟수=Column(String)
+    출전주기=Column(String)
+    장구현황=Column(String)
+    특이사항=Column(String)
+
+    최근전적=Column(String)
 
 
 Base.metadata.create_all(bind=engine)
