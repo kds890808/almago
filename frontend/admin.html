@@ -1745,20 +1745,31 @@ let html=`
 
 <thead>
 <tr>
+
+<th>지역</th>
+<th>날짜</th>
+<th>경주번호</th>
+
 <th>번호</th>
 <th>마명</th>
+<th>마중</th>
 <th>성별</th>
-<th>나이</th>
+<th>연령</th>
+
 <th>레이팅</th>
-<th>기수</th>
-<th>조교사</th>
-<th>마주명</th>
 <th>중량</th>
 <th>증감</th>
-<th>조교횟수</th>
-<th>출전주기</th>
+
+<th>기수명</th>
+<th>조교사명</th>
+<th>마주명</th>
+
+<th>조교 횟수</th>
+<th>출전 주기</th>
+
 <th>장구현황</th>
 <th>특이사항</th>
+
 </tr>
 </thead>
 
@@ -1768,32 +1779,38 @@ let html=`
 
 data.forEach(item=>{
 
-html+=`
+html += `
 
 <tr>
-${item.경주일자?.replace(
+
+<td>${item.지역 || "-"}</td>
+<td>${item.경주일자?.replace(
 /(\d{4})(\d{2})(\d{2})/,
 "$1-$2-$3"
-) || "-"}
-<td>${item.지역 || "-"}</td>
+) || "-"}</td>
 <td>${item.경주 || "-"}</td>
+
 <td>${item.번호 || ""}</td>
 <td>${item.마명 || ""}</td>
+<td>${item.체중 || ""}</td>
 <td>${item.성별 || ""}</td>
 <td>${item.나이 || ""}</td>
+
 <td>${item.레이팅 || ""}</td>
+<td>${item.부담중량 || ""}</td>
+<td>${item.증감 || ""}</td>
+
 <td>${item.기수 || ""}</td>
 <td>${item.조교사 || ""}</td>
 <td>${item.마주명 || ""}</td>
-<td>${item.부담중량 || ""}</td>
-<td>${item.증감 || ""}</td>
+
 <td>${item.조교횟수 || ""}</td>
 <td>${item.출전주기 || ""}</td>
+
 <td>${item.장구현황 || ""}</td>
 <td>${item.특이사항 || ""}</td>
 
 </tr>
-
 `;
 
 });
