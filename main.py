@@ -97,7 +97,13 @@ class RaceDetail(Base):
     특이사항=Column(String)
 
     최근전적=Column(String)
-
+    레이팅 = Column(String)
+    증감 = Column(String)
+    마주명 = Column(String)
+    조교횟수 = Column(String)
+    출전주기 = Column(String)
+    장구현황 = Column(String)
+    특이사항 = Column(String)
 
 Base.metadata.create_all(bind=engine)
 
@@ -132,6 +138,14 @@ with engine.connect() as conn:
         ALTER TABLE race_detail
         ADD COLUMN IF NOT EXISTS "최근전적" VARCHAR;
     """))
+
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "레이팅" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "증감" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "마주명" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "조교횟수" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "출전주기" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "장구현황" VARCHAR'))
+    conn.execute(text('ALTER TABLE race_detail ADD COLUMN IF NOT EXISTS "특이사항" VARCHAR'))
 
     conn.commit()
 with engine.connect() as conn:
@@ -720,6 +734,35 @@ async def upload_race_detail(
                         "마체중",
                         row.get("마중","")
                     )
+                ),
+
+                # 추가 항목들
+                레이팅=str(
+                    row.get("레이팅","")
+                ),
+
+                증감=str(
+                    row.get("증감","")
+                ),
+
+                마주명=str(
+                    row.get("마주명","")
+                ),
+
+                조교횟수=str(
+                    row.get("조교 횟수","")
+                ),
+
+                출전주기=str(
+                    row.get("출전 주기","")
+                ),
+
+                장구현황=str(
+                    row.get("장구현황","")
+                ),
+
+                특이사항=str(
+                    row.get("특이사항","")
                 ),
 
                 최근전적=str(
