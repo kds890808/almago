@@ -696,8 +696,8 @@ async def upload_race_detail(
                     row.get("지역","")
                 ),
 
-                경주 = clean(
-                    row.get("경주번호","")
+                경주 = int(
+                    경주번호값
                 ),
 
                 번호 = clean(
@@ -829,7 +829,7 @@ def get_race_detail(
     data = db.query(
         RaceDetail
     ).filter(
-        RaceDetail.경주 == str(rcNo)
+        RaceDetail.경주 == rcNo
     ).all()
 
     return [
