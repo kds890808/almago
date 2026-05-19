@@ -611,21 +611,23 @@ async def upload_race_detail(
     for _, row in df.iterrows():
 
         item = RaceDetail(
-            경주일자=str(row["경주일자"]),
-            지역=row["지역"],
-            경주=int(row["경주"]),
+
+            경주일자=str(row["날짜"]),
+            지역="서울",   # 일단 고정
+            경주=int(row["경주번호"]),
 
             번호=str(row["번호"]),
-            마명=row["마명"],
-            성별=row["성별"],
-            나이=str(row["나이"]),
+            마명=str(row["마명"]),
+            성별=str(row["성별"]),
+            나이=str(row["연령"]),
 
-            기수=row["기수"],
-            조교사=row["조교사"],
+            기수=str(row["기수명"]),
+            조교사=str(row["조교사명"]),
 
-            부담중량=str(row["부담중량"]),
-            체중=str(row["체중"]),
-            최근전적=str(row["최근전적"])
+            부담중량=str(row["중량"]),
+            체중=str(row["마중"]),
+            최근전적=str(row["특이사항"])
+
         )
 
         db.add(item)
