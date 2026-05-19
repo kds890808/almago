@@ -821,24 +821,35 @@ def get_race_detail_data(
 # 경주 긁어오기
 # =========================
 @app.get("/race-detail/{rcNo}")
-def get_race_detail(rcNo: int):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+def get_race_detail(
+    rcNo:int,
+    db:Session=Depends(get_db)
+):
 
-        page.goto("https://race.kra.co.kr/chulmainfo/ChulmaDetailInfoList.do?Act=02&Sub=1&meet=1")
-        page.wait_for_selector("table")
-        page.click(f"a[onclick*='rcNo={rcNo}']")
-        page.wait_for_selector("table")
+    data = db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.경주 == str(rcNo)
+    ).all()
 
-        html = page.content()
-        browser.close()
+    return [
 
-    tables = pd.read_html(html)
-    df = tables[0]
+    {
+        "경주일자":r.경주일자,
+        "지역":r.지역,
+        "경주":r.경주,
 
-    return df.to_dict(orient="records")
+        "번호":r.번호,
+        "마명":r.마명,
 
+        "성별":r.성별,
+        "나이":r.나이,
+
+        "조교사":r.조교사
+    }
+
+    for r in data
+]
 
 # =========================
 # 경주 분석 저장
