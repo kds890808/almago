@@ -1227,11 +1227,54 @@ function showRaceDetail(raceNo) {
 
   console.log("클릭됨:", raceNo);
 
-  fetch(
-    `https://almago-1llh.onrender.com/race-detail/${raceNo}`
-  )
-  .then(res=>res.json())
-  .then(data=>{
+fetch(
+`https://almago-1llh.onrender.com/race-detail/${raceNo}`
+)
+.then(async res=>{
+
+    if(!res.ok){
+
+        const text =
+        await res.text();
+
+        console.log(
+            "백엔드오류:",
+            text
+        );
+
+        throw new Error(
+            "상세데이터 불러오기 실패"
+        );
+    }
+
+    return res.json();
+
+})
+.then(data=>{
+
+    let html=`
+
+    ...
+`
+})
+.catch(err=>{
+
+document.getElementById(
+"race-detail-area"
+).innerHTML=`
+
+<div style="
+color:red;
+padding:20px;
+">
+
+상세데이터 오류:
+${err.message}
+
+</div>
+`;
+
+});
 
     let html=`
 
