@@ -41,38 +41,6 @@ class Race(Base):
     출발시각 = Column(String)
     비고 = Column(String)
 
-# =========================
-# 경주 테이블
-# =========================
-class RaceDetail(Base):
-    __tablename__="race_detail"
-
-    id=Column(Integer,primary_key=True,index=True)
-
-    지역=Column(String)
-    경주일자=Column(String)
-    경주=Column(Integer)
-
-    번호=Column(String)
-    마명=Column(String)
-
-    기수명=Column(String)
-    조교사=Column(String)
-
-    산지=Column(String)
-    성별=Column(String)
-    연령=Column(String)
-
-    레이팅=Column(String)
-
-    체중=Column(String)
-    증감=Column(String)
-
-    전적=Column(String)
-    거리전적=Column(String)
-
-    장구현황=Column(String)
-    특이사항=Column(String)
 
 class raceAnalysis(Base):
     __tablename__ = "analysis"
@@ -116,6 +84,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = "mysecret"
 ALGORITHM = "HS256"
 security = HTTPBearer()
+
 
 # =========================
 # DB 연결
@@ -502,273 +471,33 @@ def delete_menu(
 # =========================
 @app.post("/upload-race")
 async def upload_race(file: UploadFile = File(...)):
-
-    try:
-
-        df = pd.read_excel(file.file)
-
-        # NaN → 빈문자
-        df = df.fillna("")
-
-        db = SessionLocal()
-
-        # 기존 데이터 삭제
-        db.query(Race).delete()
-        db.commit()
-
-        for _, row in df.iterrows():
-
-            # 날짜 처리
-            raw_date = str(
-                row.get("경주일자","")
-            )
-
-            # 요일 제거
-            raw_date = (
-                raw_date
-                .replace("(월)","")
-                .replace("(화)","")
-                .replace("(수)","")
-                .replace("(목)","")
-                .replace("(금)","")
-                .replace("(토)","")
-                .replace("(일)","")
-                .strip()
-            )
-
-            temp_date = pd.to_datetime(
-                raw_date,
-                errors="coerce"
-            )
-
-            race_date = (
-                temp_date.strftime("%Y/%m/%d")
-                if pd.notna(temp_date)
-                else ""
-            )
-
-            race = Race(
-
-                지역=str(
-                    row.get("지역","")
-                ),
-
-                순=(
-                    int(float(row["순"]))
-                    if row.get("순","") != ""
-                    else 0
-                ),
-
-                경주일자=race_date,
-
-                경주=(
-                    int(float(row["경주"]))
-                    if row.get("경주","") != ""
-                    else 0
-                ),
-
-                등급=str(
-                    row.get("등급","")
-                ),
-
-                거리=str(
-                    row.get("거리","")
-                ),
-
-                편성=str(
-                    row.get("편성","")
-                ),
-
-                출전=str(
-                    row.get("출전","")
-                ),
-
-                경주명=str(
-                    row.get("경주명","")
-                ),
-
-                출발시각=str(
-                    row.get("출발시각","")
-                ),
-
-                비고=str(
-                    row.get("비고","")
-                )
-
-            )
-
-            db.add(race)
-
-        db.commit()
-        db.close()
-
-        return {
-            "msg":"저장 완료"
-        }
-
-    except Exception as e:
-
-        import traceback
-
-        traceback.print_exc()
-
-        print(
-            "🔥 upload-race 오류:",
-            repr(e)
-        )
-
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
-        
-# =========================
-# 경주상세보기
-# =========================
-@app.post("/upload-race-detail")
-async def upload_race_detail(
-    file: UploadFile = File(...),
-    db: Session = Depends(get_db)
-):
-
     df = pd.read_excel(file.file)
 
-    # 컬럼명 공백 제거
-    df.columns = df.columns.str.strip()
-
-    df = df.fillna("")
-
-    print("컬럼:", df.columns.tolist())
-
-    # 지역
-    region = (
-        str(df["지역명"].iloc[0])
-        if "지역명" in df.columns
-        else "서울"
-    )
-
-    # 날짜 처리
-    race_date = ""
-
-    if "날짜" in df.columns:
-
-        raw_date = str(
-            df["날짜"].iloc[0]
-        )
-
-        raw_date = (
-            raw_date
-            .replace("(월)","")
-            .replace("(화)","")
-            .replace("(수)","")
-            .replace("(목)","")
-            .replace("(금)","")
-            .replace("(토)","")
-            .replace("(일)","")
-            .strip()
-        )
-
-        temp_date = pd.to_datetime(
-            raw_date,
-            errors="coerce"
-        )
-
-        race_date = (
-            temp_date.strftime("%Y/%m/%d")
-            if pd.notna(temp_date)
-            else ""
-        )
-
-    # 기존 상세 삭제
-    db.query(
-        RaceDetail
-    ).filter(
-        RaceDetail.지역 == region,
-        RaceDetail.경주일자 == race_date
-    ).delete()
-
-    db.commit()
+    db = SessionLocal()
+    db.query(Race).delete()
 
     for _, row in df.iterrows():
-
-        item = RaceDetail(
-
-            지역=str(
-                row.get("지역명","서울")
-            ),
-
-            경주일자=race_date,
-
-            경주=(
-                int(float(
-                    row.get("경주번호",0)
-                ))
-                if row.get("경주번호","") != ""
-                else 0
-            ),
-
-            번호=str(
-                row.get("번호","")
-            ),
-
-            마명=str(
-                row.get("마명","")
-            ),
-
-            기수명=str(
-                row.get("기수명","")
-            ),
-
-            조교사=str(
-                row.get("조교사명","")
-            ),
-
-            산지=str(
-                row.get("마중","")
-            ),
-
-            성별=str(
-                row.get("성별","")
-            ),
-
-            연령=str(
-                row.get("연령","")
-            ),
-
-            레이팅=str(
-                row.get("레이팅","")
-            ),
-
-            체중=str(
-                row.get("중량","")
-            ),
-
-            증감=str(
-                row.get("증감","")
-            ),
-
-            전적=str(
-                row.get("출전주기","")
-            ),
-
-            거리전적="",
-
-            장구현황=str(
-                row.get("장구현황","")
-            ),
-
-            특이사항=str(
-                row.get("특이사항","")
-            )
-
+        race = Race(
+            지역=row["지역"],
+            순=int(row["순"]),
+            경주일자=row["경주일자"],
+            경주=int(row["경주"]),
+            등급=row["등급"],
+            거리=row["거리"],
+            편성=row["편성"],
+            출전=row["출전"],
+            경주명=row["경주명"],
+            출발시각=str(row["출발시각"]),
+            비고=row["비고"],
         )
-
-        db.add(item)
+        db.add(race)
 
     db.commit()
+    db.close()
 
-    return {"msg":"상세 저장 완료"}
-    
+    return {"msg": "저장 완료"}
+
+
 @app.get("/race")
 def get_race():
     db = SessionLocal()
@@ -829,51 +558,27 @@ def delete_race(race_id: int):
 
 
 # =========================
-# 경주 상세 조회
+# 경주 긁어오기
 # =========================
-@app.get("/race-detail/{region}/{raceDate}/{raceNo}")
-def get_race_detail(
-    region:str,
-    raceDate:str,
-    raceNo:int,
-    db: Session=Depends(get_db)
-):
+@app.get("/race-detail/{rcNo}")
+def get_race_detail(rcNo: int):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
 
-    formattedDate=(
-        raceDate[:4]
-        +"/"+
-        raceDate[4:6]
-        +"/"+
-        raceDate[6:8]
-    )
+        page.goto("https://race.kra.co.kr/chulmainfo/ChulmaDetailInfoList.do?Act=02&Sub=1&meet=1")
+        page.wait_for_selector("table")
+        page.click(f"a[onclick*='rcNo={rcNo}']")
+        page.wait_for_selector("table")
 
-    races = db.query(
-        RaceDetail
-    ).filter(
-        RaceDetail.지역 == region,
-        RaceDetail.경주일자 == formattedDate,
-        RaceDetail.경주 == raceNo
-    ).all()
+        html = page.content()
+        browser.close()
 
-    return [
-        {
-            "번호": r.번호,
-            "마명": r.마명,
-            "기수명": r.기수명,
-            "조교사": r.조교사,
-            "산지": r.산지,
-            "성별": r.성별,
-            "연령": r.연령,
-            "레이팅": r.레이팅,
-            "체중": r.체중,
-            "증감": r.증감,
-            "전적": r.전적,
-            "거리전적": r.거리전적,
-            "장구현황": r.장구현황,
-            "특이사항": r.특이사항
-        }
-        for r in races
-    ]
+    tables = pd.read_html(html)
+    df = tables[0]
+
+    return df.to_dict(orient="records")
+
 
 # =========================
 # 경주 분석 저장
@@ -1107,12 +812,3 @@ def update_menu(
 @app.get("/admin.html")
 def admin_page():
     return FileResponse("frontend/admin.html")
-
-@app.get("/race-detail-all")
-def get_race_detail_all(
-    db: Session = Depends(get_db)
-):
-
-    return db.query(
-        RaceDetail
-    ).all()
