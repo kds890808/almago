@@ -1661,14 +1661,6 @@ formData.append(
 file
 );
 
-await fetch(
-"https://almago-1llh.onrender.com/upload-race-detail",
-{
-method:"POST",
-body:formData
-}
-);
-
 const res = await fetch(
 "https://almago-1llh.onrender.com/upload-race-detail",
 {
@@ -1678,10 +1670,81 @@ body:formData
 );
 
 if(res.ok){
-    alert("경주상세 업로드 완료");
+
+    alert(
+        "경주상세 업로드 완료"
+    );
+
+    loadRaceDetail();
+
 }else{
-    alert("업로드 실패");
+
+    alert(
+        "업로드 실패"
+    );
+
 }
+
+}
+
+  async function loadRaceDetail(){
+
+const res=await fetch(
+"https://almago-1llh.onrender.com/race-detail-data/1"
+);
+
+const data=await res.json();
+
+let html=`
+
+<table>
+
+<thead>
+<tr>
+<th>번호</th>
+<th>마명</th>
+<th>성별</th>
+<th>나이</th>
+<th>기수</th>
+<th>조교사</th>
+<th>중량</th>
+<th>체중</th>
+</tr>
+</thead>
+
+<tbody>
+
+`;
+
+data.forEach(item=>{
+
+html+=`
+
+<tr>
+
+<td>${item.번호}</td>
+<td>${item.마명}</td>
+<td>${item.성별}</td>
+<td>${item.나이}</td>
+<td>${item.기수}</td>
+<td>${item.조교사}</td>
+<td>${item.부담중량}</td>
+<td>${item.체중}</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+</tbody>
+</table>
+`;
+
+document.getElementById(
+"race-detail-list"
+).innerHTML=html;
 
 }
   
