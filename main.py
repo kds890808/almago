@@ -564,28 +564,84 @@ async def upload_race(file: UploadFile = File(...)):
     print("컬럼:", df.columns.tolist())
 
     db = SessionLocal()
+
     db.query(Race).delete()
 
     for _, row in df.iterrows():
-        race = Race(
-            지역=row["지역"],
-            순=int(row["순"]),
-            경주일자=row["경주일자"],
-            경주=int(row["경주"]),
-            등급=row["등급"],
-            거리=row["거리"],
-            편성=row["편성"],
-            출전=row["출전"],
-            경주명=row["경주명"],
-            출발시각=str(row["출발시각"]),
-            비고=row["비고"],
-        )
-        db.add(race)
+
+        try:
+
+            print(
+                "출전표행:",
+                row.to_dict()
+            )
+
+            race = Race(
+
+                지역 = clean(
+                    row.get("지역","")
+                ),
+
+                순 = int(
+                    row.get("순",0)
+                ),
+
+                경주일자 = clean(
+                    row.get("경주일자","")
+                ),
+
+                경주 = int(
+                    row.get("경주",0)
+                ),
+
+                등급 = clean(
+                    row.get("등급","")
+                ),
+
+                거리 = clean(
+                    row.get("거리","")
+                ),
+
+                편성 = clean(
+                    row.get("편성","")
+                ),
+
+                출전 = clean(
+                    row.get("출전","")
+                ),
+
+                경주명 = clean(
+                    row.get("경주명","")
+                ),
+
+                출발시각 = clean(
+                    row.get("출발시각","")
+                ),
+
+                비고 = clean(
+                    row.get("비고","")
+                )
+
+            )
+
+            db.add(race)
+
+        except Exception as e:
+
+            print("🔥 출전표 에러:")
+            print(e)
+
+            return {
+                "error":str(e),
+                "row":row.to_dict()
+            }
 
     db.commit()
     db.close()
 
-    return {"msg": "저장 완료"}
+    return {
+        "msg":"저장 완료"
+    }
 
 
 @app.get("/race")
