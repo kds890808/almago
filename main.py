@@ -620,7 +620,7 @@ async def upload_race_detail(
                 str(row["경주번호"])
                 .replace("R","")
                 .replace("경주","")
-            )
+            ),
 
             번호=str(row["번호"]),
             마명=str(row["마명"]),
