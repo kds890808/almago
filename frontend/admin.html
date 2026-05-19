@@ -637,7 +637,64 @@ loadDesignMenus();
 // =========================
 function showRaceTab(tab){
 
-    alert(tab);
+let html="";
+
+if(tab==="race-upload"){
+
+html=`
+
+<input type="file" id="fileInput">
+<button onclick="uploadRace()">
+출전표 업로드
+</button>
+
+<table>
+<thead>
+<tr>
+<th>지역</th>
+<th>순</th>
+<th>경주일자</th>
+<th>경주</th>
+<th>등급</th>
+</tr>
+</thead>
+
+<tbody id="race-table"></tbody>
+
+</table>
+
+`;
+
+loadRace();
+
+}
+
+if(tab==="race-detail"){
+
+html=`
+
+<input
+type="file"
+id="raceDetailFile">
+
+<button
+onclick="uploadRaceDetail()">
+
+경주상세 업로드
+
+</button>
+
+<div id="race-detail-list">
+업로드 후 표시
+</div>
+
+`;
+
+}
+
+document.getElementById(
+"race-tab-content"
+).innerHTML=html;
 
 }
   
@@ -1606,7 +1663,33 @@ async function deleteDesignMenu(id){
 
     loadDesignMenus();
 }
+async function uploadRaceDetail(){
 
+const file=
+document.getElementById(
+"raceDetailFile"
+).files[0];
+
+const formData=
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+await fetch(
+"https://almago-1llh.onrender.com/upload-race-detail",
+{
+method:"POST",
+body:formData
+}
+);
+
+alert("경주상세 업로드 완료");
+
+}
+  
   async function adminLogin(){
 
     const email =
