@@ -615,18 +615,18 @@ async def upload_race_detail(
 
     for _, row in df.iterrows():
 
-        print(row.to_dict())
+    try:
 
-        # 경주번호 정리
+        print("행 데이터:", row.to_dict())
+
         경주번호값 = str(
             row.get("경주번호", "0")
         ).replace(
-            "R", ""
+            "R",""
         ).replace(
-            "경주", ""
+            "경주",""
         ).strip()
 
-        # 빈값/NaN 방지
         if (
             경주번호값 == ""
             or 경주번호값.lower() == "nan"
@@ -636,7 +636,7 @@ async def upload_race_detail(
         item = RaceDetail(
 
             경주일자=str(
-                row.get("날짜", "")
+                row.get("날짜","")
             ),
 
             지역="서울",
@@ -646,54 +646,57 @@ async def upload_race_detail(
             ),
 
             번호=str(
-                row.get("번호", "")
+                row.get("번호","")
             ),
 
             마명=str(
-                row.get("마명", "")
+                row.get("마명","")
             ),
 
             성별=str(
-                row.get("성별", "")
+                row.get("성별","")
             ),
 
             나이=str(
-                row.get("연령", "")
+                row.get("연령","")
             ),
 
             기수=str(
-                row.get("기수명", "")
+                row.get("기수명","")
             ),
 
             조교사=str(
-                row.get("조교사명", "")
+                row.get("조교사명","")
             ),
 
             부담중량=str(
-                row.get("중량", "")
+                row.get("중량","")
             ),
 
             체중=str(
                 row.get(
                     "마체중",
-                    row.get("마중", "")
+                    row.get("마중","")
                 )
             ),
 
             최근전적=str(
-                row.get("특이사항", "")
+                row.get("특이사항","")
             )
 
         )
 
         db.add(item)
 
-    db.commit()
-    db.close()
+    except Exception as e:
 
-    return {
-        "msg": "경주상세 저장 완료"
-    }
+        print("🔥 에러 발생:")
+        print(e)
+
+        return {
+            "error": str(e),
+            "row": row.to_dict()
+        }
 
 @app.get("/race-detail-data/{race_no}")
 def get_race_detail_data(
