@@ -681,6 +681,16 @@ onclick="uploadRaceDetail()">
 
 </button>
 
+<select
+id="raceNoSelect"
+onchange="loadRaceDetail()">
+
+<option>
+경주 선택
+</option>
+
+</select>
+
 <div id="race-detail-list">
 업로드 후 표시
 </div>
@@ -692,6 +702,14 @@ onclick="uploadRaceDetail()">
 document.getElementById(
 "race-tab-content"
 ).innerHTML=html;
+
+
+// 🔥 HTML 넣은 뒤 실행
+if(tab==="race-detail"){
+
+loadRaceList();
+
+}
 
 }
   
@@ -1690,6 +1708,55 @@ async function deleteDesignMenu(id){
 
     loadDesignMenus();
 }
+
+async function loadRaceList(){
+
+const res = await fetch(
+"https://almago-1llh.onrender.com/race"
+);
+
+const data = await res.json();
+
+const select =
+document.getElementById(
+"raceNoSelect"
+);
+
+select.innerHTML="";
+
+const raceNos = [
+...new Set(
+data
+.filter(r => r.경주)
+.map(r => Number(r.경주))
+)
+];
+
+raceNos.sort(
+(a,b)=>a-b
+);
+
+raceNos.forEach(no=>{
+
+select.innerHTML += `
+<option value="${no}">
+${no}경주
+</option>
+`;
+
+});
+
+if(raceNos.length>0){
+
+select.value=
+raceNos[0];
+
+loadRaceDetail();
+
+}
+
+}
+
 async function uploadRaceDetail(){
 
 const file=
@@ -1719,7 +1786,7 @@ if(res.ok){
         "경주상세 업로드 완료"
     );
 
-    loadRaceDetail();
+    loadRaceList();
 
 }else{
 
@@ -1733,8 +1800,13 @@ if(res.ok){
 
   async function loadRaceDetail(){
 
-const res=await fetch(
-"https://almago-1llh.onrender.com/race-detail-data/1"
+const raceNo =
+document.getElementById(
+"raceNoSelect"
+).value;
+
+const res = await fetch(
+`https://almago-1llh.onrender.com/race-detail-data/${raceNo}`
 );
 
 const data=await res.json();
