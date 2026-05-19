@@ -533,16 +533,9 @@ function showPage(page) {
     </button>
 
   </div>
-  
-<div class="card">
 
-<h3>📂 업로드</h3>
-
-<div id="race-upload-area">
-출전표 또는 상세 업로드 선택
-</div>
-
-</div>
+  <input type="file" id="fileInput">
+        <button onclick="uploadRace()">업로드</button>
 
         <table>
           <thead>
@@ -562,25 +555,15 @@ function showPage(page) {
           </thead>
           <tbody id="race-table"></tbody>
         </table>
-<div
-class="card"
-id="race-detail-area"
-style="display:none;">
 
-클릭하면 표시됨
-
-</div>
-
-</div>
+        <div class="card">
+          <h3>출마표 상세</h3>
+          <div id="race-detail-area">클릭하면 표시됨</div>
+        </div>
+      </div>
     `;
 
-    setTimeout(()=>{
-
-loadRace();
-showRaceTab('race-upload');
-
-},0);
-    
+    setTimeout(loadRace, 0);
   }
 if(page === 'design'){
 
@@ -654,156 +637,7 @@ loadDesignMenus();
 // =========================
 function showRaceTab(tab){
 
-// 출전표
-if(tab==="race-upload"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=`
-
-<h3>📋 출전표 업로드</h3>
-
-<input
-type="file"
-id="fileInput"
-accept=".xlsx">
-
-<button
-class="main"
-onclick="uploadRace()">
-
-출전표 업로드
-
-</button>
-
-`;
-
-document.getElementById(
-"race-detail-area"
-).style.display="none";
-
-}
-
-// 경주상세
-if(tab==="race-detail"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=`
-
-<h3>🏇 경주상세 업로드</h3>
-
-<input
-type="file"
-id="raceDetailFile"
-accept=".xlsx">
-
-<button
-class="main"
-onclick="uploadRaceDetail()">
-
-경주상세 업로드
-
-</button>
-
-<hr>
-
-<div style="
-padding:15px;
-background:#f8fafc;
-border-radius:10px;
-text-align:center;
-">
-
-경주번호 클릭 시 상세정보 표시
-
-</div>
-
-`;
-
-}
-
-// 말정보
-if(tab==="horse-info"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=
-"<h3>🐎 말 정보 준비중</h3>";
-
-}
-
-// 기수
-if(tab==="jockey-info"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=
-"<h3>👨‍✈️ 기수 정보 준비중</h3>";
-
-}
-
-// 조교사
-if(tab==="trainer-info"){
-
-document.getElementById(
-"race-upload-area"
-).innerHTML=
-"<h3>🧑‍🏫 조교사 정보 준비중</h3>";
-
-}
-
-}
-
-// =========================
-// 경주 상세보기 업로드
-// =========================
-async function uploadRaceDetail(){
-
-const file=
-document.getElementById(
-"raceDetailFile"
-).files[0];
-
-if(!file){
-
-alert("파일 선택해줘");
-
-return;
-
-}
-
-const formData=
-new FormData();
-
-formData.append(
-"file",
-file
-);
-
-const res=
-await fetch(
-"https://almago-1llh.onrender.com/upload-race-detail",
-{
-method:"POST",
-body:formData
-}
-);
-
-// 🔥 추가
-const text = await res.text();
-
-console.log("응답:", text);
-
-if(!res.ok){
-
-alert("업로드 실패");
-
-return;
-
-}
-
-alert(text);
+    alert(tab);
 
 }
   
@@ -1254,39 +1088,17 @@ function renderTable() {
       <tr>
         ${cells.map((cell, colIndex) => {
 
-if (colIndex === 3) {
-
-const dateOnly = String(r[3]).split(" ")[0];
-
-return `
-<td
-onclick="
-console.log(
-'🔥 td 클릭',
-'${r[1]}',
-'${dateOnly}',
-'${r[4]}'
-);
-
-showRaceDetail(
-'${r[1]}',
-'${dateOnly.replaceAll('/','')}',
-'${r[4]}'
-)
-"
-
-style="
-cursor:pointer;
-color:blue;
-font-weight:bold;
-"
->
-
-${cell}
-
-</td>
-`;
-}
+          if (colIndex === 3) {
+            return `
+                  <td 
+                        onclick="showRaceDetail('${cell}')"
+                        ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})"
+                        style="cursor:pointer; color:blue; font-weight:bold;"
+                      >
+                        ${cell}
+                      </td>
+                    `;
+                  }
 
           return `
             <td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
@@ -1327,261 +1139,41 @@ function editCell(td, rowIndex, colIndex) {
 // =========================
 // 출전표상세긁어오기
 // =========================
-function showRaceDetail(
-    region,
-    raceDate,
-    raceNo
-){
+function showRaceDetail(raceNo) {
+  console.log("클릭됨:", raceNo);  // 👈 이거 추가
 
-console.log(
-"🚀 호출",
-region,
-raceDate,
-raceNo
-);
+  fetch(`https://almago-1llh.onrender.com/race-detail/${raceNo}`)
+    .then(res => res.json())
+    .then(data => {
 
-const url =
-`https://almago-1llh.onrender.com/race-detail/${region}/${raceDate}/${raceNo}`;
+      let html = `
+        <table>
+          <tr>
+            <th>번호</th>
+            <th>마명</th>
+            <th>성별</th>
+            <th>나이</th>
+            <th>조교사</th>
+          </tr>
+      `;
 
-console.log("🌍 URL:",url);
-  
-fetch(url)
-.then(async res=>{
+      data.forEach(row => {
+        html += `
+          <tr>
+            <td>${row.번호}</td>
+            <td>${row.마명}</td>
+            <td>${row.성별}</td>
+            <td>${row.나이}</td>
+            <td>${row.조교사}</td>
+          </tr>
+        `;
+      });
 
-console.log(
-"📡 응답상태",
-res.status
-);
+      html += `</table>`;
 
-const text = await res.text();
-
-console.log(
-"📦 원본응답",
-text
-);
-
-return JSON.parse(text);
-
-})
-.then(data=>{
-
-console.log(
-"📦 데이터",
-data
-);
-
-window.currentRace=
-Array.isArray(data)
-? data
-: [];
-
-document.getElementById(
-"race-detail-area"
-).style.display="block";
-
-document.getElementById(
-"race-detail-area"
-).innerHTML=`
-
-<h3>🏇 ${raceNo}경주</h3>
-
-<div class="race-tabs">
-
-<button onclick="showRaceDetailTab('entry')">
-📋 출전표
-</button>
-
-<button onclick="showRaceDetailTab('weight')">
-⚖ 체중
-</button>
-
-<button onclick="showRaceDetailTab('record')">
-📈 전적
-</button>
-
-<button onclick="showRaceDetailTab('distance')">
-🏃 거리전적
-</button>
-
-<button onclick="showRaceDetailTab('pace')">
-🔥 전개
-</button>
-
-</div>
-
-<div id="race-detail-content"></div>
-
-`;
-
-showRaceDetailTab('entry');
-
-});
-
+      document.getElementById("race-detail-area").innerHTML = html;
+    });
 }
-
-// =========================
-// 경주 상세 탭
-// =========================
-function showRaceDetailTab(type){
-
-let html='';
-
-if(type==='entry'){
-
-html=`
-
-<table>
-
-<tr>
-
-<th>번호</th>
-<th>마명</th>
-<th>마종</th>
-<th>성별</th>
-<th>연령</th>
-<th>레이팅</th>
-<th>중량</th>
-<th>증감</th>
-<th>기수</th>
-<th>조교사</th>
-<th>출전주기</th>
-<th>장구</th>
-<th>특이사항</th>
-
-</tr>
-
-${window.currentRace.map(r=>`
-
-<tr>
-
-<td>${r.번호||''}</td>
-
-<td
-style="
-cursor:pointer;
-color:#2563eb;
-font-weight:bold
-"
-onclick="
-showHorseDetail(
-'${r.마명}'
-)
-">
-
-${r.마명||''}
-
-</td>
-
-<td>${r.산지||''}</td>
-<td>${r.성별||''}</td>
-<td>${r.연령||''}</td>
-<td>${r.레이팅||''}</td>
-<td>${r.체중||''}</td>
-<td>${r.증감||''}</td>
-<td>${r.기수명||''}</td>
-<td>${r.조교사||''}</td>
-<td>${r.전적||''}</td>
-<td>${r.장구현황||''}</td>
-<td>${r.특이사항||''}</td>
-
-</tr>
-
-`).join("")}
-
-</table>
-`;
-}
-
-document.getElementById(
-"race-detail-content"
-).innerHTML=html;
-
-}
-// =========================
-// 상세경주
-// =========================
-  async function loadRaceDetailList(){
-
-const res = await fetch(
-"https://almago-1llh.onrender.com/race-detail-all"
-);
-
-const data = await res.json();
-
-let html=`
-
-<table>
-
-<tr>
-
-<th>지역</th>
-<th>날짜</th>
-<th>경주번호</th>
-<th>번호</th>
-<th>마명</th>
-<th>마종</th>
-<th>성별</th>
-<th>연령</th>
-<th>레이팅</th>
-<th>중량</th>
-<th>증감</th>
-<th>기수명</th>
-<th>조교사명</th>
-<th>출전주기</th>
-<th>장구현황</th>
-<th>특이사항</th>
-
-</tr>
-
-`;
-
-data.forEach(r=>{
-
-html+=`
-
-<tr>
-
-<td>${r.지역||''}</td>
-<td>${r.경주일자||''}</td>
-<td>${r.경주||''}</td>
-<td>${r.번호||''}</td>
-<td>${r.마명||''}</td>
-<td>${r.산지||''}</td>
-<td>${r.성별||''}</td>
-<td>${r.연령||''}</td>
-<td>${r.레이팅||''}</td>
-<td>${r.체중||''}</td>
-<td>${r.증감||''}</td>
-<td>${r.기수명||''}</td>
-<td>${r.조교사||''}</td>
-<td>${r.전적||''}</td>
-<td>${r.장구현황||''}</td>
-<td>${r.특이사항||''}</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document.getElementById(
-"race-detail-list"
-).innerHTML=html;
-
-}
-  
-// =========================
-// 말 상세
-// =========================
-function showHorseDetail(name){
-
-alert(
-`🐎 ${name} 상세 (준비중)`
-);
-
-}  
 
 // =========================
 // 분석결과저장
