@@ -505,66 +505,49 @@ function showPage(page) {
     setTimeout(loadUsers, 0);
   }
 
-  if (page === 'race') {
-    document.getElementById("content").innerHTML = `
+if (page === 'race') {
+document.getElementById("content").innerHTML = `
+
 <div class="card">
-  <h2>경주 정보</h2>
 
-  <div class="race-tabs">
+<h2>경주 정보</h2>
 
-    <button onclick="showRaceTab('race-upload')">
-      📋 출전표
-    </button>
+<div class="race-tabs">
 
-    <button onclick="showRaceTab('race-detail')">
-      🏇 경주상세정보
-    </button>
+<button onclick="showRaceTab('race-upload')">
+📋 출전표
+</button>
 
-    <button onclick="showRaceTab('horse-info')">
-      🐎 경주마정보
-    </button>
+<button onclick="showRaceTab('race-detail')">
+🏇 경주상세정보
+</button>
 
-    <button onclick="showRaceTab('jockey-info')">
-      👨‍✈️ 기수정보
-    </button>
+<button onclick="showRaceTab('horse-info')">
+🐎 경주마정보
+</button>
 
-    <button onclick="showRaceTab('trainer-info')">
-      🧑‍🏫 조교사정보
-    </button>
+<button onclick="showRaceTab('jockey-info')">
+👨‍✈️ 기수정보
+</button>
 
-  </div>
+<button onclick="showRaceTab('trainer-info')">
+🧑‍🏫 조교사정보
+</button>
 
-  <input type="file" id="fileInput">
-        <button onclick="uploadRace()">업로드</button>
+</div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>지역</th>
-              <th>순</th>
-              <th>경주일자</th>
-              <th>경주</th>
-              <th>등급</th>
-              <th>거리</th>
-              <th>편성</th>
-              <th>출전</th>
-              <th>경주명</th>
-              <th>출발시각</th>
-              <th>비고</th>
-            </tr>
-          </thead>
-          <tbody id="race-table"></tbody>
-        </table>
+<div id="race-tab-content"></div>
 
-        <div class="card">
-          <h3>출마표 상세</h3>
-          <div id="race-detail-area">클릭하면 표시됨</div>
-        </div>
-      </div>
-    `;
+</div>
 
-    setTimeout(loadRace, 0);
-  }
+`;
+
+setTimeout(()=>{
+showRaceTab("race-upload");
+},0);
+
+}
+  
 if(page === 'design'){
 
 document.getElementById("content").innerHTML = `
