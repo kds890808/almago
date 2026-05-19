@@ -610,66 +610,90 @@ async def upload_race_detail(
 
     db = SessionLocal()
 
+    # 기존 상세 삭제
     db.query(RaceDetail).delete()
 
     for _, row in df.iterrows():
 
         print(row.to_dict())
 
+        # 경주번호 정리
+        경주번호값 = str(
+            row.get("경주번호", "0")
+        ).replace(
+            "R", ""
+        ).replace(
+            "경주", ""
+        ).strip()
+
+        # 빈값/NaN 방지
+        if (
+            경주번호값 == ""
+            or 경주번호값.lower() == "nan"
+        ):
+            경주번호값 = "0"
+
         item = RaceDetail(
 
-            경주일자=str(row.get("날짜","")),
+            경주일자=str(
+                row.get("날짜", "")
+            ),
+
             지역="서울",
 
-            경주번호값 = str(
-                row.get("경주번호","0")
-            ).replace(
-                "R",""
-            ).replace(
-                "경주",""
-            ).strip()
+            경주=int(
+                float(경주번호값)
+            ),
 
-            if (
-                경주번호값 == ""
-                or 경주번호값.lower()=="nan"
-            ):
-                경주번호값="0"
+            번호=str(
+                row.get("번호", "")
+            ),
 
-            item = RaceDetail(
+            마명=str(
+                row.get("마명", "")
+            ),
 
-                경주일자=str(row.get("날짜","")),
-                지역="서울",
+            성별=str(
+                row.get("성별", "")
+            ),
 
-                경주=int(float(경주번호값)),
+            나이=str(
+                row.get("연령", "")
+            ),
 
-                번호=str(row.get("번호","")),
-                마명=str(row.get("마명","")),
-                성별=str(row.get("성별","")),
-                나이=str(row.get("연령","")),
+            기수=str(
+                row.get("기수명", "")
+            ),
 
-                기수=str(row.get("기수명","")),
-                조교사=str(row.get("조교사명","")),
+            조교사=str(
+                row.get("조교사명", "")
+            ),
 
-                부담중량=str(row.get("중량","")),
+            부담중량=str(
+                row.get("중량", "")
+            ),
 
-                체중=str(
-                    row.get(
-                        "마체중",
-                        row.get("마중","")
-                    )
-                ),
-
-                최근전적=str(
-                    row.get("특이사항","")
+            체중=str(
+                row.get(
+                    "마체중",
+                    row.get("마중", "")
                 )
+            ),
+
+            최근전적=str(
+                row.get("특이사항", "")
             )
+
+        )
 
         db.add(item)
 
     db.commit()
     db.close()
 
-    return {"msg":"경주상세 저장 완료"}
+    return {
+        "msg": "경주상세 저장 완료"
+    }
 
 @app.get("/race-detail-data/{race_no}")
 def get_race_detail_data(
