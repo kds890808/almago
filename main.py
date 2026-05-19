@@ -1107,3 +1107,12 @@ def update_menu(
 @app.get("/admin.html")
 def admin_page():
     return FileResponse("frontend/admin.html")
+
+@app.get("/race-detail-all")
+def get_race_detail_all(
+    db: Session = Depends(get_db)
+):
+
+    return db.query(
+        RaceDetail
+    ).all()
