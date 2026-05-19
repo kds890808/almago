@@ -1497,7 +1497,81 @@ document.getElementById(
 ).innerHTML=html;
 
 }
+// =========================
+// 상세경주
+// =========================
+  async function loadRaceDetailList(){
 
+const res = await fetch(
+"https://almago-1llh.onrender.com/race-detail-all"
+);
+
+const data = await res.json();
+
+let html=`
+
+<table>
+
+<tr>
+
+<th>지역</th>
+<th>날짜</th>
+<th>경주번호</th>
+<th>번호</th>
+<th>마명</th>
+<th>마종</th>
+<th>성별</th>
+<th>연령</th>
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
+<th>기수명</th>
+<th>조교사명</th>
+<th>출전주기</th>
+<th>장구현황</th>
+<th>특이사항</th>
+
+</tr>
+
+`;
+
+data.forEach(r=>{
+
+html+=`
+
+<tr>
+
+<td>${r.지역||''}</td>
+<td>${r.경주일자||''}</td>
+<td>${r.경주||''}</td>
+<td>${r.번호||''}</td>
+<td>${r.마명||''}</td>
+<td>${r.산지||''}</td>
+<td>${r.성별||''}</td>
+<td>${r.연령||''}</td>
+<td>${r.레이팅||''}</td>
+<td>${r.체중||''}</td>
+<td>${r.증감||''}</td>
+<td>${r.기수명||''}</td>
+<td>${r.조교사||''}</td>
+<td>${r.전적||''}</td>
+<td>${r.장구현황||''}</td>
+<td>${r.특이사항||''}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document.getElementById(
+"race-detail-list"
+).innerHTML=html;
+
+}
+  
 // =========================
 // 말 상세
 // =========================
