@@ -736,7 +736,23 @@ async def upload_race_detail(
     return {
         "msg":"경주상세 저장 완료"
     }
+    
+@app.get("/race-detail-data/{race_no}")
+def get_race_detail_data(
+    race_no:int,
+    db:Session=Depends(get_db)
+):
 
+    rows=(
+        db.query(RaceDetail)
+        .filter(
+            RaceDetail.경주==race_no
+        )
+        .all()
+    )
+
+    return rows
+    
 @app.get("/race-detail-data/{race_no}")
 def get_race_detail_data(
     race_no:int,
