@@ -68,6 +68,7 @@ with engine.connect() as conn:
         ADD COLUMN IF NOT EXISTS template VARCHAR;
     """))
     conn.commit()
+    
 app = FastAPI()
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
@@ -85,6 +86,29 @@ SECRET_KEY = "mysecret"
 ALGORITHM = "HS256"
 security = HTTPBearer()
 
+# =========================
+# 경주상세 테이블
+# =========================
+class RaceDetail(Base):
+    __tablename__ = "race_detail"
+
+    id = Column(Integer, primary_key=True,index=True)
+
+    경주일자 = Column(String)
+    지역 = Column(String)
+    경주 = Column(Integer)
+
+    번호 = Column(String)
+    마명 = Column(String)
+    성별 = Column(String)
+    나이 = Column(String)
+
+    기수 = Column(String)
+    조교사 = Column(String)
+
+    부담중량 = Column(String)
+    체중 = Column(String)
+    최근전적 = Column(String)
 
 # =========================
 # DB 연결
@@ -556,7 +580,61 @@ def delete_race(race_id: int):
 
     return {"msg": "삭제 완료"}
 
+# =========================
+# 경주상세 업로드
+# =========================
+@app.post("/upload-race-detail")
+async def upload_race_detail(
+    file: UploadFile = File(...)
+):
 
+    df = pd.read_excel(file.file)
+
+    db = SessionLocal()
+
+    db.query(RaceDetail).delete()
+
+    for _, row in df.iterrows():
+
+        item = RaceDetail(
+            경주일자=str(row["경주일자"]),
+            지역=row["지역"],
+            경주=int(row["경주"]),
+
+            번호=str(row["번호"]),
+            마명=row["마명"],
+            성별=row["성별"],
+            나이=str(row["나이"]),
+
+            기수=row["기수"],
+            조교사=row["조교사"],
+
+            부담중량=str(row["부담중량"]),
+            체중=str(row["체중"]),
+            최근전적=str(row["최근전적"])
+        )
+
+        db.add(item)
+
+    db.commit()
+    db.close()
+
+    return {"msg":"경주상세 저장 완료"}
+
+@app.get("/race-detail-data/{race_no}")
+def get_race_detail_data(
+    race_no:int,
+    db:Session=Depends(get_db)
+):
+
+    data = db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.경주 == race_no
+    ).all()
+
+    return data
+    
 # =========================
 # 경주 긁어오기
 # =========================
