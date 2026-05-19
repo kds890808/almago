@@ -1185,9 +1185,9 @@ function renderTable() {
                   }
 
           return `
-            <td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
-              ${cell || ""}
-            </td>
+          <td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
+              ${String(cell)==="NaN" ? "" : (cell || "")}
+          </td>
           `;
 
         }).join("")}
