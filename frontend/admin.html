@@ -627,11 +627,13 @@ if(tab==="race-upload"){
 html=`
 
 <input type="file" id="fileInput">
+
 <button onclick="uploadRace()">
 출전표 업로드
 </button>
 
 <table>
+
 <thead>
 <tr>
 <th>지역</th>
@@ -645,6 +647,18 @@ html=`
 <tbody id="race-table"></tbody>
 
 </table>
+
+<div id="race-detail-area"
+style="
+margin-top:20px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:10px;
+">
+
+경주 클릭시 상세 표시
+
+</div>
 
 `;
 
