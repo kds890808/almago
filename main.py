@@ -616,7 +616,11 @@ async def upload_race_detail(
 
             경주일자=str(row["날짜"]),
             지역="서울",   # 일단 고정
-            경주=int(row["경주번호"]),
+            경주=int(
+                str(row["경주번호"])
+                .replace("R","")
+                .replace("경주","")
+            )
 
             번호=str(row["번호"]),
             마명=str(row["마명"]),
@@ -628,7 +632,9 @@ async def upload_race_detail(
 
             부담중량=str(row["중량"]),
             체중=str(row["마중"]),
-            최근전적=str(row["특이사항"])
+            최근전적=str(
+                row.get("특이사항","")
+            )
 
         )
 
