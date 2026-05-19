@@ -1223,40 +1223,72 @@ function editCell(td, rowIndex, colIndex) {
 // =========================
 // 출전표상세긁어오기
 // =========================
-function showRaceDetail(raceNo) {
+function showRaceDetail(raceNo){
 
-  console.log("클릭됨:", raceNo);
+console.log("클릭됨:", raceNo);
 
 fetch(
 `https://almago-1llh.onrender.com/race-detail/${raceNo}`
 )
-.then(async res=>{
 
-    if(!res.ok){
+.then(res=>res.json())
 
-        const text =
-        await res.text();
-
-        console.log(
-            "백엔드오류:",
-            text
-        );
-
-        throw new Error(
-            "상세데이터 불러오기 실패"
-        );
-    }
-
-    return res.json();
-
-})
 .then(data=>{
 
-    let html=`
+let html=`
 
-    ...
-`
+<table style="
+width:100%;
+border-collapse:collapse;
+">
+
+<tr>
+
+<th>날짜</th>
+<th>지역</th>
+<th>경주</th>
+
+<th>번호</th>
+<th>마명</th>
+<th>성별</th>
+<th>나이</th>
+
+<th>조교사</th>
+
+</tr>
+`;
+
+data.forEach(row=>{
+
+html +=`
+
+<tr>
+
+<td>${row.경주일자 || "-"}</td>
+<td>${row.지역 || "-"}</td>
+<td>${row.경주 || "-"}</td>
+
+<td>${row.번호 || "-"}</td>
+<td>${row.마명 || "-"}</td>
+<td>${row.성별 || "-"}</td>
+<td>${row.나이 || "-"}</td>
+
+<td>${row.조교사 || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+html += "</table>";
+
+document.getElementById(
+"race-detail-area"
+).innerHTML=html;
+
 })
+
 .catch(err=>{
 
 document.getElementById(
@@ -1275,61 +1307,6 @@ ${err.message}
 `;
 
 });
-
-    let html=`
-
-    <table style="
-    width:100%;
-    border-collapse:collapse;
-    ">
-
-    <tr>
-
-      <th>날짜</th>
-      <th>지역</th>
-      <th>경주</th>
-
-      <th>번호</th>
-      <th>마명</th>
-      <th>성별</th>
-      <th>나이</th>
-
-      <th>조교사</th>
-
-    </tr>
-
-    `;
-
-    data.forEach(row=>{
-
-      html +=`
-
-      <tr>
-
-        <td>${row.경주일자 || "-"}</td>
-        <td>${row.지역 || "-"}</td>
-        <td>${row.경주 || "-"}</td>
-
-        <td>${row.번호 || "-"}</td>
-        <td>${row.마명 || "-"}</td>
-        <td>${row.성별 || "-"}</td>
-        <td>${row.나이 || "-"}</td>
-
-        <td>${row.조교사 || "-"}</td>
-
-      </tr>
-
-      `;
-
-    });
-
-    html += `</table>`;
-
-    document.getElementById(
-      "race-detail-area"
-    ).innerHTML=html;
-
-  });
 
 }
 // =========================
