@@ -1669,7 +1669,19 @@ body:formData
 }
 );
 
-alert("경주상세 업로드 완료");
+const res = await fetch(
+"https://almago-1llh.onrender.com/upload-race-detail",
+{
+method:"POST",
+body:formData
+}
+);
+
+if(res.ok){
+    alert("경주상세 업로드 완료");
+}else{
+    alert("업로드 실패");
+}
 
 }
   
