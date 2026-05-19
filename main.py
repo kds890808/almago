@@ -688,84 +688,77 @@ async def upload_race_detail(
 
             item = RaceDetail(
 
-                경주일자=str(
+                경주일자 = clean(
                     row.get("날짜","")
                 ),
 
-                지역="★",
-
-                경주=int(
-                    float(경주번호값)
+                지역 = clean(
+                    row.get("지역","")
                 ),
 
-                번호=clean(
+                경주 = clean(
+                    row.get("경주번호","")
+                ),
+
+                번호 = clean(
                     row.get("번호","")
                 ),
 
-                마명=clean(
+                마명 = clean(
                     row.get("마명","")
                 ),
 
-                성별=clean(
+                체중 = clean(
+                    row.get("마중","")
+                ),
+
+                성별 = clean(
                     row.get("성별","")
                 ),
 
-                나이=clean(
+                나이 = clean(
                     row.get("연령","")
                 ),
 
-                기수=clean(
-                    row.get("기수명","")
-                ),
-
-                조교사=clean(
-                    row.get("조교사명","")
-                ),
-
-                부담중량=clean(
-                    row.get("중량","")
-                ),
-
-                체중=clean(
-                    row.get(
-                        "마체중",
-                        row.get("마중","")
-                    )
-                ),
-
-                # 추가 항목들
-                레이팅=clean(
+                레이팅 = clean(
                     row.get("레이팅","")
                 ),
 
-                증감=clean(
+                부담중량 = clean(
+                    row.get("중량","")
+                ),
+
+                증감 = clean(
                     row.get("증감","")
                 ),
 
-                마주명=clean(
+                기수 = clean(
+                    row.get("기수명","")
+                ),
+
+                조교사 = clean(
+                    row.get("조교사명","")
+                ),
+
+                마주명 = clean(
                     row.get("마주명","")
                 ),
 
-                조교횟수=clean(
+                조교횟수 = clean(
                     row.get("조교 횟수","")
                 ),
 
-                출전주기=clean(
+                출전주기 = clean(
                     row.get("출전 주기","")
                 ),
 
-                장구현황=clean(
+                장구현황 = clean(
                     row.get("장구현황","")
                 ),
 
-                특이사항=clean(
-                    row.get("특이사항","")
-                ),
-
-                최근전적=str(
+                특이사항 = clean(
                     row.get("특이사항","")
                 )
-
             )
             
             db.add(item)
