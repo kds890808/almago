@@ -92,6 +92,39 @@ class RaceDetail(Base):
 Base.metadata.create_all(bind=engine)
 
 with engine.connect() as conn:
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "나이" VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "기수" VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "조교사" VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "부담중량" VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "체중" VARCHAR;
+    """))
+
+    conn.execute(text("""
+        ALTER TABLE race_detail
+        ADD COLUMN IF NOT EXISTS "최근전적" VARCHAR;
+    """))
+
+    conn.commit()
+with engine.connect() as conn:
     conn.execute(text("""
         ALTER TABLE menus
         ADD COLUMN IF NOT EXISTS template VARCHAR;
