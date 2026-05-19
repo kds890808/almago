@@ -606,37 +606,63 @@ async def upload_race_detail(
 
     df = pd.read_excel(file.file)
 
+    print("상세컬럼:", df.columns.tolist())
+
     db = SessionLocal()
 
     db.query(RaceDetail).delete()
 
     for _, row in df.iterrows():
 
+        print(row.to_dict())
+
         item = RaceDetail(
 
-            경주일자=str(row["날짜"]),
-            지역="서울",   # 일단 고정
-            경주=int(
-                str(row["경주번호"])
-                .replace("R","")
-                .replace("경주","")
-            ),
+            경주일자=str(row.get("날짜","")),
+            지역="서울",
 
-            번호=str(row["번호"]),
-            마명=str(row["마명"]),
-            성별=str(row["성별"]),
-            나이=str(row["연령"]),
+            경주번호값 = str(
+                row.get("경주번호","0")
+            ).replace(
+                "R",""
+            ).replace(
+                "경주",""
+            ).strip()
 
-            기수=str(row["기수명"]),
-            조교사=str(row["조교사명"]),
+            if (
+                경주번호값 == ""
+                or 경주번호값.lower()=="nan"
+            ):
+                경주번호값="0"
 
-            부담중량=str(row["중량"]),
-            체중=str(row["마중"]),
-            최근전적=str(
-                row.get("특이사항","")
+            item = RaceDetail(
+
+                경주일자=str(row.get("날짜","")),
+                지역="서울",
+
+                경주=int(float(경주번호값)),
+
+                번호=str(row.get("번호","")),
+                마명=str(row.get("마명","")),
+                성별=str(row.get("성별","")),
+                나이=str(row.get("연령","")),
+
+                기수=str(row.get("기수명","")),
+                조교사=str(row.get("조교사명","")),
+
+                부담중량=str(row.get("중량","")),
+
+                체중=str(
+                    row.get(
+                        "마체중",
+                        row.get("마중","")
+                    )
+                ),
+
+                최근전적=str(
+                    row.get("특이사항","")
+                )
             )
-
-        )
 
         db.add(item)
 
