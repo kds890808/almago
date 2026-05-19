@@ -61,13 +61,7 @@ class raceAnalysis(Base):
     double = Column(String)
     triple = Column(String)
 
-Base.metadata.create_all(bind=engine)
-with engine.connect() as conn:
     conn.execute(text("""
-        ALTER TABLE menus
-        ADD COLUMN IF NOT EXISTS template VARCHAR;
-    """))
-    conn.commit()
     
 app = FastAPI()
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
@@ -110,6 +104,14 @@ class RaceDetail(Base):
     체중 = Column(String)
     최근전적 = Column(String)
 
+Base.metadata.create_all(bind=engine)
+with engine.connect() as conn:
+
+        ALTER TABLE menus
+        ADD COLUMN IF NOT EXISTS template VARCHAR;
+    """))
+    conn.commit()
+    
 # =========================
 # DB 연결
 # =========================
@@ -633,7 +635,22 @@ def get_race_detail_data(
         RaceDetail.경주 == race_no
     ).all()
 
-    return data
+    return [
+
+    {
+        "번호":r.번호,
+        "마명":r.마명,
+        "성별":r.성별,
+        "나이":r.나이,
+        "기수":r.기수,
+        "조교사":r.조교사,
+        "부담중량":r.부담중량,
+        "체중":r.체중,
+        "최근전적":r.최근전적
+    }
+
+    for r in data
+]
     
 # =========================
 # 경주 긁어오기
