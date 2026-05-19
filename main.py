@@ -97,13 +97,6 @@ class RaceDetail(Base):
     특이사항=Column(String)
 
     최근전적=Column(String)
-    레이팅 = Column(String)
-    증감 = Column(String)
-    마주명 = Column(String)
-    조교횟수 = Column(String)
-    출전주기 = Column(String)
-    장구현황 = Column(String)
-    특이사항 = Column(String)
 
 Base.metadata.create_all(bind=engine)
 
@@ -652,7 +645,11 @@ def delete_race(race_id: int):
     db.close()
 
     return {"msg": "삭제 완료"}
-
+    
+def clean(v):
+    if str(v).lower() == "nan":
+        return "-"
+    return str(v)
 # =========================
 # 경주상세 업로드
 # =========================
@@ -701,35 +698,35 @@ async def upload_race_detail(
                     float(경주번호값)
                 ),
 
-                번호=str(
+                번호=clean(
                     row.get("번호","")
                 ),
 
-                마명=str(
+                마명=clean(
                     row.get("마명","")
                 ),
 
-                성별=str(
+                성별=clean(
                     row.get("성별","")
                 ),
 
-                나이=str(
+                나이=clean(
                     row.get("연령","")
                 ),
 
-                기수=str(
+                기수=clean(
                     row.get("기수명","")
                 ),
 
-                조교사=str(
+                조교사=clean(
                     row.get("조교사명","")
                 ),
 
-                부담중량=str(
+                부담중량=clean(
                     row.get("중량","")
                 ),
 
-                체중=str(
+                체중=clean(
                     row.get(
                         "마체중",
                         row.get("마중","")
@@ -737,31 +734,31 @@ async def upload_race_detail(
                 ),
 
                 # 추가 항목들
-                레이팅=str(
+                레이팅=clean(
                     row.get("레이팅","")
                 ),
 
-                증감=str(
+                증감=clean(
                     row.get("증감","")
                 ),
 
-                마주명=str(
+                마주명=clean(
                     row.get("마주명","")
                 ),
 
-                조교횟수=str(
+                조교횟수=clean(
                     row.get("조교 횟수","")
                 ),
 
-                출전주기=str(
+                출전주기=clean(
                     row.get("출전 주기","")
                 ),
 
-                장구현황=str(
+                장구현황=clean(
                     row.get("장구현황","")
                 ),
 
-                특이사항=str(
+                특이사항=clean(
                     row.get("특이사항","")
                 ),
 
@@ -770,7 +767,7 @@ async def upload_race_detail(
                 )
 
             )
-
+            
             db.add(item)
 
         except Exception as e:
@@ -789,22 +786,6 @@ async def upload_race_detail(
     return {
         "msg":"경주상세 저장 완료"
     }
-    
-@app.get("/race-detail-data/{race_no}")
-def get_race_detail_data(
-    race_no:int,
-    db:Session=Depends(get_db)
-):
-
-    rows=(
-        db.query(RaceDetail)
-        .filter(
-            RaceDetail.경주==race_no
-        )
-        .all()
-    )
-
-    return rows
     
 @app.get("/race-detail-data/{race_no}")
 def get_race_detail_data(
