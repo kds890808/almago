@@ -1203,6 +1203,9 @@ function showRaceDetail(raceNo) {
       let html = `
         <table>
           <tr>
+            <th>날짜</th>
+            <th>지역</th>
+            <th>경주</th>
             <th>번호</th>
             <th>마명</th>
             <th>성별</th>
@@ -1741,7 +1744,12 @@ data.forEach(item=>{
 html+=`
 
 <tr>
-
+${item.경주일자?.replace(
+/(\d{4})(\d{2})(\d{2})/,
+"$1-$2-$3"
+) || "-"}
+<td>${item.지역 || "-"}</td>
+<td>${item.경주 || "-"}</td>
 <td>${item.번호 || ""}</td>
 <td>${item.마명 || ""}</td>
 <td>${item.성별 || ""}</td>
