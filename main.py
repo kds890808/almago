@@ -692,7 +692,7 @@ async def upload_race_detail(
                     row.get("날짜","")
                 ),
 
-                지역="서울",
+                지역="★",
 
                 경주=int(
                     float(경주번호값)
