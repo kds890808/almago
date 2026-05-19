@@ -632,10 +632,21 @@ html=`
 출전표 업로드
 </button>
 
+<button onclick="deleteSelectedRows()">
+선택삭제
+</button>
+
 <table>
 
 <thead>
 <tr>
+
+<th>
+<input
+type="checkbox"
+id="selectAll"
+onclick="toggleAllRows(this)">
+</th>
 
 <th>지역</th>
 <th>순</th>
@@ -651,7 +662,9 @@ html=`
 <th>출발시각</th>
 <th>비고</th>
 
-<th>관리</th>
+<th style="width:90px">
+관리
+</th>
 
 </tr>
 </thead>
@@ -659,18 +672,6 @@ html=`
 <tbody id="race-table"></tbody>
 
 </table>
-
-<div id="race-detail-area"
-style="
-margin-top:20px;
-padding:15px;
-border:1px solid #ddd;
-border-radius:10px;
-">
-
-경주 클릭시 상세 표시
-
-</div>
 
 `;
 
@@ -1161,43 +1162,51 @@ async function deleteRow(index) {
 // 출전표렌더링
 // =========================
 function renderTable() {
-  const table = document.getElementById("race-table");
-  table.innerHTML = "";
 
-  raceData.forEach((r, rowIndex) => {
+const table =
+document.getElementById(
+"race-table"
+);
 
-    const cells = r.slice(1);
+table.innerHTML="";
 
-    table.innerHTML += `
-      <tr>
-        ${cells.map((cell, colIndex) => {
+raceData.forEach(
+(r,rowIndex)=>{
 
-          if (colIndex === 3) {
-            return `
-                  <td 
-                        onclick="showRaceDetail('${cell}')"
-                        ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})"
-                        style="cursor:pointer; color:blue; font-weight:bold;"
-                      >
-                        ${cell}
-                      </td>
-                    `;
-                  }
+const cells =
+r.slice(1);
 
-          return `
-          <td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
-              ${String(cell)==="NaN" ? "" : (cell || "")}
-          </td>
-          `;
+table.innerHTML += `
+<tr>
 
-        }).join("")}
+<td>
+<input
+type="checkbox"
+class="row-check"
+value="${r[0]}">
+</td>
 
-        <td>
-          <button onclick="deleteRow(${rowIndex})">🗑</button>
-        </td>
-      </tr>
-    `;
-  });
+${cells.map((cell,colIndex)=>{
+
+return `
+<td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
+${String(cell)==="NaN" ? "" : (cell || "")}
+</td>
+`;
+
+}).join("")}
+
+<td>
+<button onclick="deleteRow(${rowIndex})">
+🗑
+</button>
+</td>
+
+</tr>
+`;
+
+});
+
 }
 
 function editCell(td, rowIndex, colIndex) {
@@ -1220,95 +1229,7 @@ function editCell(td, rowIndex, colIndex) {
     saveCell(td, input.value, rowIndex, colIndex);
   });
 }
-// =========================
-// 출전표상세긁어오기
-// =========================
-function showRaceDetail(raceNo){
 
-console.log("클릭됨:", raceNo);
-
-fetch(
-`https://almago-1llh.onrender.com/race-detail/${raceNo}`
-)
-
-.then(res=>res.json())
-
-.then(data=>{
-
-let html=`
-
-<table style="
-width:100%;
-border-collapse:collapse;
-">
-
-<tr>
-
-<th>날짜</th>
-<th>지역</th>
-<th>경주</th>
-
-<th>번호</th>
-<th>마명</th>
-<th>성별</th>
-<th>나이</th>
-
-<th>조교사</th>
-
-</tr>
-`;
-
-data.forEach(row=>{
-
-html +=`
-
-<tr>
-
-<td>${row.경주일자 || "-"}</td>
-<td>${row.지역 || "-"}</td>
-<td>${row.경주 || "-"}</td>
-
-<td>${row.번호 || "-"}</td>
-<td>${row.마명 || "-"}</td>
-<td>${row.성별 || "-"}</td>
-<td>${row.나이 || "-"}</td>
-
-<td>${row.조교사 || "-"}</td>
-
-</tr>
-
-`;
-
-});
-
-html += "</table>";
-
-document.getElementById(
-"race-detail-area"
-).innerHTML=html;
-
-})
-
-.catch(err=>{
-
-document.getElementById(
-"race-detail-area"
-).innerHTML=`
-
-<div style="
-color:red;
-padding:20px;
-">
-
-상세데이터 오류:
-${err.message}
-
-</div>
-`;
-
-});
-
-}
 // =========================
 // 분석결과저장
 // =========================
@@ -1982,6 +1903,71 @@ document.getElementById(
 
     showAdminPage();
 }
+
+// =========================
+// 출전표 전체선택
+// =========================
+function toggleAllRows(source){
+
+document
+.querySelectorAll(".row-check")
+.forEach(c=>{
+
+c.checked =
+source.checked;
+
+});
+
+}
+
+
+// =========================
+// 선택삭제
+// =========================
+async function deleteSelectedRows(){
+
+const checks =
+document.querySelectorAll(
+".row-check:checked"
+);
+
+if(checks.length===0){
+
+alert(
+"선택된 항목 없음"
+);
+
+return;
+}
+
+if(
+!confirm(
+`${checks.length}개 삭제할까?`
+)
+){
+return;
+}
+
+for(const c of checks){
+
+await fetch(
+`https://almago-1llh.onrender.com/race/${c.value}`,
+{
+method:"DELETE"
+}
+);
+
+}
+
+await loadRace();
+
+document.getElementById(
+"selectAll"
+).checked=false;
+
+}
+
+
   
 // 기본 페이지
 const token = localStorage.getItem("token");
