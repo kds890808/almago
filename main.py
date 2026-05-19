@@ -40,15 +40,18 @@ class Race(Base):
     경주명 = Column(String)
     출발시각 = Column(String)
     비고 = Column(String)
-
-
+    
+# =========================
+# 분석 테이블
+# =========================
 class raceAnalysis(Base):
     __tablename__ = "analysis"
 
     id = Column(Integer, primary_key=True, index=True)
+
     region = Column(String)
     race_no = Column(Integer)
-    race_date = Column(String) 
+    race_date = Column(String)
 
     star = Column(String)
     square = Column(String)
@@ -60,25 +63,6 @@ class raceAnalysis(Base):
     single = Column(String)
     double = Column(String)
     triple = Column(String)
-
-    conn.execute(text("""
-    
-app = FastAPI()
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-SECRET_KEY = "mysecret"
-ALGORITHM = "HS256"
-security = HTTPBearer()
 
 # =========================
 # 경주상세 테이블
@@ -104,14 +88,42 @@ class RaceDetail(Base):
     체중 = Column(String)
     최근전적 = Column(String)
 
-Base.metadata.create_all(bind=engine)
-with engine.connect() as conn:
 
+Base.metadata.create_all(bind=engine)
+
+with engine.connect() as conn:
+    conn.execute(text("""
         ALTER TABLE menus
         ADD COLUMN IF NOT EXISTS template VARCHAR;
     """))
     conn.commit()
-    
+
+app = FastAPI()
+
+app.mount(
+    "/frontend",
+    StaticFiles(directory="frontend"),
+    name="frontend"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto"
+)
+
+SECRET_KEY = "mysecret"
+ALGORITHM = "HS256"
+security = HTTPBearer()
+
+
 # =========================
 # DB 연결
 # =========================
