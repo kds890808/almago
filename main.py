@@ -511,6 +511,8 @@ def delete_menu(
 async def upload_race(file: UploadFile = File(...)):
     df = pd.read_excel(file.file)
 
+    print("컬럼:", df.columns.tolist())
+
     db = SessionLocal()
     db.query(Race).delete()
 
