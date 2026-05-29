@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>배당률</title>
+
+<style>
+
+body{
+    background:#f3f4f8;
+    font-family:sans-serif;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.08);
+
+}
+
+.title{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#0f1f4d;
+
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:15px;
+
+    margin-top:20px;
+
+}
+
+.rate-card{
+
+    background:#fafafa;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+}
+
+.rate-title{
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.rate-value{
+
+    margin-top:10px;
+
+    font-size:36px;
+
+    font-weight:bold;
+
+    color:#2457d6;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#2457d6;
+
+    color:white;
+
+    padding:12px;
+
+}
+
+td{
+
+    padding:12px;
+
+    text-align:center;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.high{
+
+    color:#dc2626;
+
+    font-weight:bold;
+
+}
+
+.low{
+
+    color:#16a34a;
+
+    font-weight:bold;
+
+}
+
+.home-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2457d6;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="title">
+        💰 배당률 현황
+        </div>
+
+        <div class="grid">
+
+            <div class="rate-card">
+
+                <div class="rate-title">
+                최고 배당
+                </div>
+
+                <div class="rate-value">
+                217.8배
+                </div>
+
+            </div>
+
+            <div class="rate-card">
+
+                <div class="rate-title">
+                평균 배당
+                </div>
+
+                <div class="rate-value">
+                14.2배
+                </div>
+
+            </div>
+
+            <div class="rate-card">
+
+                <div class="rate-title">
+                단승 평균
+                </div>
+
+                <div class="rate-value">
+                3.8배
+                </div>
+
+            </div>
+
+            <div class="rate-card">
+
+                <div class="rate-title">
+                삼쌍승 평균
+                </div>
+
+                <div class="rate-value">
+                156배
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>📋 최근 배당 결과</h2>
+
+        <table>
+
+            <tr>
+
+                <th>경주</th>
+
+                <th>인기순위</th>
+
+                <th>배당</th>
+
+            </tr>
+
+            <tr>
+
+                <td>부산6경주</td>
+
+                <td>1번마</td>
+
+                <td class="low">
+                2.1배
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>부산6경주</td>
+
+                <td>7번마</td>
+
+                <td class="high">
+                8.5배
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>서울8경주</td>
+
+                <td>11번마</td>
+
+                <td class="high">
+                15.2배
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>제주3경주</td>
+
+                <td>4번마</td>
+
+                <td class="high">
+                27.8배
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <button
+    class="home-btn"
+    onclick="location.href='/'"
+    >
+    🏠 홈으로
+    </button>
+
+</div>
+
+</body>
+</html>

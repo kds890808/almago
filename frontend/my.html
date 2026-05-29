@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>마이페이지</title>
+
+<style>
+
+body{
+    background:#f3f4f8;
+    font-family:sans-serif;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+}
+
+.user-bar{
+
+    display:flex;
+
+    justify-content:
+    space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    margin-bottom:20px;
+
+    font-weight:bold;
+
+    position:sticky;
+
+    top:10px;
+
+    z-index:100;
+
+}
+
+.logout-btn{
+
+    background:#0f1f4d;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 20px;
+
+    cursor:pointer;
+
+}
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.08);
+
+}
+
+.info-title{
+
+    font-weight:bold;
+
+    margin-top:15px;
+
+}
+
+.info-value{
+
+    margin-top:5px;
+
+    padding:10px;
+
+    background:#f7f7f7;
+
+    border-radius:10px;
+
+}
+
+input{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+}
+
+button.change-btn{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2457d6;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.card h2{
+
+    margin-top:0;
+
+    color:#0f1f4d;
+
+}
+
+.home-btn{
+
+    background:#2457d6;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:8px 14px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.info-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.info-label{
+
+    font-weight:bold;
+
+    color:#555;
+
+}
+
+.info-data{
+
+    color:#111;
+
+    font-weight:bold;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="user-info"></div>
+
+    <div class="card">
+
+<h2>회원정보</h2>
+
+<div class="info-row">
+    <span class="info-label">
+    아이디
+    </span>
+
+    <span
+    id="my-email"
+    class="info-data"
+    >
+    -
+    </span>
+</div>
+
+<div class="info-row">
+    <span class="info-label">
+    이름
+    </span>
+
+    <span
+    id="my-name"
+    class="info-data"
+    >
+    -
+    </span>
+</div>
+
+<div class="info-row">
+    <span class="info-label">
+    생년월일
+    </span>
+
+    <span
+    id="my-birth"
+    class="info-data"
+    >
+    -
+    </span>
+</div>
+
+<div class="info-row">
+    <span class="info-label">
+    전화번호
+    </span>
+
+    <span
+    id="my-phone"
+    class="info-data"
+    >
+    -
+    </span>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+    <h2>비밀번호 변경</h2>
+
+    <input
+    id="old-password"
+    type="password"
+    placeholder="현재 비밀번호"
+    >
+
+    <input
+    id="new-password"
+    type="password"
+    placeholder="새 비밀번호"
+    >
+
+    <button
+    class="change-btn"
+    onclick="changePassword()"
+    >
+    비밀번호 변경
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+window.onload = async function(){
+
+    const email =
+    localStorage.getItem(
+        "email"
+    );
+
+        const res =
+await fetch(
+    `/my-profile/${email}`
+);
+
+const user =
+await res.json();
+
+document.getElementById(
+    "user-info"
+).innerHTML = `
+
+<div class="user-bar">
+
+    <div>
+
+        <button
+        class="home-btn"
+        onclick="goHome()"
+        >
+        🏠 홈
+        </button>
+
+        &nbsp;&nbsp;
+
+        👤 ${user.email}
+
+        &nbsp;&nbsp;
+
+        💰 ${user.point}P
+
+    </div>
+
+    <button
+    class="logout-btn"
+    onclick="logout()"
+    >
+    로그아웃
+    </button>
+
+</div>
+
+`;
+
+    document.getElementById(
+        "my-email"
+    ).innerText =
+    user.email || "-";
+
+    document.getElementById(
+        "my-name"
+    ).innerText =
+    user.name || "-";
+
+    document.getElementById(
+        "my-birth"
+    ).innerText =
+    user.birth || "-";
+
+    document.getElementById(
+        "my-phone"
+    ).innerText =
+    user.phone || "-";
+
+}
+
+function logout(){
+
+    localStorage.clear();
+
+    location.href="/";
+
+}
+
+async function changePassword(){
+
+    const email =
+    localStorage.getItem(
+        "email"
+    );
+
+    const oldPassword =
+    document.getElementById(
+        "old-password"
+    ).value;
+
+    const newPassword =
+    document.getElementById(
+        "new-password"
+    ).value;
+
+    if(
+        !oldPassword ||
+        !newPassword
+    ){
+        alert(
+            "비밀번호를 입력하세요"
+        );
+        return;
+    }
+
+    const res =
+    await fetch(
+        `/change-password?email=${email}&old_password=${oldPassword}&new_password=${newPassword}`,
+        {
+            method:"POST"
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(res.ok){
+
+        alert(
+            "비밀번호 변경 완료"
+        );
+
+        document.getElementById(
+            "old-password"
+        ).value="";
+
+        document.getElementById(
+            "new-password"
+        ).value="";
+
+    }else{
+
+        alert(
+            data.detail
+        );
+
+    }
+
+}
+
+function goHome(){
+
+    location.href="/";
+
+}
+
+</script>
+
+</body>
+</html>

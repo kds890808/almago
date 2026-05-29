@@ -1,0 +1,3450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>관리자</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f6f8; }
+
+.admin { display:flex; height:100vh; }
+
+/* 사이드바 */
+.sidebar {
+
+  width:220px;
+  min-width:220px;
+
+  background:#1f2a37;
+  color:white;
+
+  padding:20px;
+
+  flex-shrink:0;
+  box-sizing:border-box;
+}
+
+.sidebar h2 { margin-bottom:20px; }
+
+.sidebar button {
+  width:100%;
+  padding:10px;
+  margin-bottom:8px;
+  border:none;
+  background:none;
+  color:#cbd5e1;
+  text-align:left;
+  cursor:pointer;
+}
+
+.sidebar button:hover {
+  background:#374151;
+  color:white;
+}
+
+/* 콘텐츠 */
+.content {
+
+  flex:1;
+  padding:30px;
+
+  overflow-x:auto;
+}
+
+/* 카드 */
+.card {
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  margin-bottom:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+
+  width:100%;
+  height:42px;
+
+  padding:0 12px;
+
+  margin:8px 0;
+
+  border:1px solid #d1d5db;
+  border-radius:4px;
+
+  box-sizing:border-box;
+
+  font-size:14px;
+}
+
+button.main {
+
+  background:#2563eb;
+  color:white;
+
+  width:100%;
+  height:42px;
+
+  border:none;
+  border-radius:4px;
+
+  font-size:15px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+/* 🔥 여기 추가 */
+table {
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.trainer-table{
+
+    width:100%;
+    border-collapse:collapse;
+
+    table-layout:auto;
+}
+
+.trainer-table td{
+
+    padding:12px;
+
+    white-space:normal;
+    word-break:break-word;
+
+}
+
+.trainer-table td:nth-child(1),
+.trainer-table td:nth-child(3){
+
+    width:140px;
+    font-weight:bold;
+}
+
+.trainer-table td{
+
+    word-break:break-word;
+    overflow-wrap:break-word;
+}
+
+th{
+  background:#1f2a37;
+  color:white;
+  padding:10px;
+}
+
+td{
+
+    padding:10px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ddd;
+
+    word-break:break-word; /* 긴 내용 줄바꿈 */
+
+    overflow-wrap:break-word;
+}
+
+tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* ===== 뱃지 ===== */
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge-premium {
+  background: #22c55e;
+  color: white;
+}
+
+.badge-free {
+  background: #9ca3af;
+  color: white;
+}
+
+.badge-admin {
+  background: #f59e0b;
+  color: white;
+  margin-left: 6px;
+}
+
+/* ===== 버튼 ===== */
+.btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn:active {
+  transform: scale(0.9);
+}
+
+.btn-premium {
+  background: #22c55e;
+  color: white;
+}
+
+.btn-admin {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-delete {
+  background: #ef4444;
+  color: white;
+}
+
+  .admin-table input{
+    width:100%;
+    padding:6px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:13px;
+}
+
+.admin-table button{
+    padding:6px 10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+  #admin-login{
+    width:100%;
+    height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#f4f6f8;
+}
+
+.login-card{
+    width:360px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:16px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-card h2{
+    margin-bottom:20px;
+    text-align:center;
+}
+
+  .race-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.race-tabs button{
+    padding:10px 16px;
+    border:none;
+    border-radius:10px;
+    background:#1f2a37;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.race-tabs button:hover{
+    background:#2d3d50;
+    transform:translateY(-2px);
+}
+
+  .dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    gap:15px;
+    margin-top:15px;
+}
+
+.stat-box{
+    background:#f4f6f8;
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.stat-title{
+    font-size:14px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#1f2a37;
+}
+
+.trainer-tabs{
+    display:flex;
+    gap:10px;
+    margin:20px 0;
+    flex-wrap:wrap;
+}
+
+.trainer-tabs .main{
+
+    width:120px !important;
+    height:40px !important;
+
+    padding:0 !important;
+    flex:none !important;
+
+    background:#2563eb;
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    font-size:14px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+  .upload-btn{
+
+    width:300px;
+
+    height:42px;
+
+    background:#2563eb;
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+    .upload-area{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:15px 0;
+
+    width:auto;
+}
+
+.upload-area input[type="file"]{
+
+    width:220px !important;
+
+    flex:none;
+}
+
+.upload-btn{
+
+    width:180px !important;
+
+    flex:none;
+}
+
+.trainer-table{
+
+    width:100%;
+    border-collapse:collapse;
+
+    table-layout:auto;
+}
+
+.trainer-table td{
+
+    padding:12px;
+    text-align:left;
+}
+
+.trainer-table td:nth-child(1),
+.trainer-table td:nth-child(3){
+
+    width:140px;
+    font-weight:bold;
+}
+
+.trainer-content{
+
+    margin-top:15px;
+}
+
+.trainer-card{
+
+    width:100%;
+    max-width:100%;
+    overflow:hidden;
+    box-sizing:border-box;
+}
+  
+</style>
+</head>
+
+<body>
+
+<div id="admin-login">
+
+    <div class="login-card">
+
+        <h2>관리자 로그인</h2>
+
+        <input
+            id="admin-email"
+            placeholder="이메일">
+
+        <input
+            id="admin-password"
+            type="password"
+            placeholder="비밀번호">
+
+        <button class="main"
+            onclick="adminLogin()">
+
+            로그인
+
+        </button>
+
+    </div>
+
+</div>
+
+<div class="admin" id="admin-main" style="display:none;">
+
+  <!-- 사이드바 -->
+  <div class="sidebar">
+    <h2>관리자</h2>
+
+    <button onclick="showPage('dashboard')">📊 대시보드</button>
+    <button onclick="showPage('analysis')">🧠 분석 관리</button>
+    <button onclick="showPage('users')">👤 회원 관리</button>
+    <button onclick="showPage('race')">🏇 경주정보</button>
+    <button onclick="showPage('design')">🎨 디자인관리</button>
+    <hr>
+    <button onclick="logout()">🚪 로그아웃</button>
+  </div>
+
+  <!-- 콘텐츠 -->
+  <div class="content" id="content"></div>
+
+</div>
+
+<script>
+let raceData = [];
+
+// =========================
+// 페이지 전환
+// =========================
+function showPage(page) {
+  if (page === 'dashboard') {
+    document.getElementById("content").innerHTML = `
+
+      <div class="card">
+
+  <h3>👤 회원 통계</h3>
+
+  <div class="dashboard-grid">
+
+    <div class="stat-box">
+      <div class="stat-title">회원수</div>
+      <div class="stat-value" id="user-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">유료회원수</div>
+      <div class="stat-value" id="premium-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">금일가입</div>
+      <div class="stat-value" id="today-join-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">금일탈퇴</div>
+      <div class="stat-value" id="today-leave-count">0</div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="card">
+
+  <h3>💳 결제 통계</h3>
+
+  <div class="dashboard-grid">
+
+    <div class="stat-box">
+      <div class="stat-title">결제수</div>
+      <div class="stat-value" id="payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">경주권결제</div>
+      <div class="stat-value" id="race-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">일권결제</div>
+      <div class="stat-value" id="day-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">주권결제</div>
+      <div class="stat-value" id="week-payment-count">0</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">월권결제</div>
+      <div class="stat-value" id="month-payment-count">0</div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="card">
+
+  <h3>💰 매출 통계</h3>
+
+  <div class="dashboard-grid">
+
+    <div class="stat-box">
+      <div class="stat-title">총매출</div>
+      <div class="stat-value" id="sales-total">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">경주권매출</div>
+      <div class="stat-value" id="race-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">일권매출</div>
+      <div class="stat-value" id="day-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">주권매출</div>
+      <div class="stat-value" id="week-sales">0원</div>
+    </div>
+
+    <div class="stat-box">
+      <div class="stat-title">월권매출</div>
+      <div class="stat-value" id="month-sales">0원</div>
+    </div>
+
+  </div>
+
+</div>
+
+        <hr style="margin:30px 0;">
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>👤 관리자 관리</h3>
+
+          <button class="btn btn-admin" onclick="addAdminPrompt()">
+            ➕ 관리자 추가
+          </button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>이메일</th>
+              <th>이름</th>
+              <th>유료</th>
+              <th>포인트</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody id="admin-table"></tbody>
+        </table>
+      </div>
+    `;
+
+    setTimeout(() => {
+    loadAdmins();
+    loadUsers();
+    }, 0);
+  }
+
+  if (page === 'analysis') {
+    document.getElementById("content").innerHTML = `
+      <div class="card">
+        <h2>분석 관리</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>지역</th>
+              <th>경주번호</th>
+              <th>날짜</th>
+              <th>★</th>
+              <th>■</th>
+              <th>□</th>
+              <th>▲</th>
+              <th>△</th>
+              <th>복병마</th>
+              <th>단식</th>
+              <th>복식</th>
+              <th>쌍식</th>
+              <th>저장</th>
+            </tr>
+          </thead>
+          <tbody id="analysis-table"></tbody>
+        </table>
+      </div>
+    `;
+
+    setTimeout(loadAnalysisTable, 0);
+  }
+
+  if (page === 'users') {
+    document.getElementById("content").innerHTML = `
+      <div class="card">
+        <h2>회원 관리</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>아이디</th>
+              <th>이름</th>
+              <th>생년월일</th>
+              <th>전화번호</th>
+              <th>유료</th>
+              <th>포인트</th>
+              <th>관리</th> <!-- 🔥 추가 -->
+            </tr>
+          </thead>
+          <tbody id="member-table"></tbody>
+</table>
+      </div>
+    `;
+
+    // 🔥 자동 호출
+    setTimeout(loadUsers, 0);
+  }
+
+if (page === 'race') {
+document.getElementById("content").innerHTML = `
+
+<div class="card">
+
+<h2>경주 정보</h2>
+
+<div class="race-tabs">
+
+<button onclick="showRaceTab('race-upload')">
+📋 출전표
+</button>
+
+<button onclick="showRaceTab('race-detail')">
+🏇 경주상세정보
+</button>
+
+<button onclick="showRaceTab('horse-info')">
+🐎 경주마정보
+</button>
+
+<button onclick="showRaceTab('jockey-info')">
+👨‍✈️ 기수정보
+</button>
+
+<button onclick="showRaceTab('trainer-info')">
+🧑‍🏫 조교사정보
+</button>
+
+</div>
+
+<div id="race-tab-content"></div>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+showRaceTab("race-upload");
+},0);
+
+}
+  
+if(page === 'design'){
+
+document.getElementById("content").innerHTML = `
+
+<div class="card">
+
+<div class="top-row">
+
+    <h2>🎨 디자인관리</h2>
+
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+
+    <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr 1fr 1fr 80px 100px;
+        gap:10px;
+        align-items:center;
+    ">
+
+        <input id="new-name" placeholder="버튼명">
+
+        <input id="new-icon" placeholder="아이콘">
+
+        <input id="new-desc" placeholder="설명">
+
+        <input id="new-path" placeholder="링크">
+
+        <input id="new-order" type="number" placeholder="순서">
+
+        <button class="main"
+            onclick="addDesignMenu()">
+            추가
+        </button>
+
+    </div>
+
+</div>
+
+<table class="admin-table">
+
+    <thead>
+        <tr>
+            <th>노출</th>
+            <th>순서</th>
+            <th>아이콘</th>
+            <th>버튼명</th>
+            <th>설명</th>
+            <th>링크</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+
+    <tbody id="design-list">
+    </tbody>
+
+</table>
+
+</div>
+
+`;
+
+loadDesignMenus();
+}
+}
+  
+// =========================
+// 경주 탭
+// =========================
+function showRaceTab(tab){
+
+let html="";
+
+
+if(tab==="horse-info"){
+
+html=`
+
+<h3>🐎 경주마 정보</h3>
+
+<input
+type="file"
+id="horseFile">
+
+<button
+class="main"
+onclick="uploadHorseInfo()">
+
+경주마 자료 업로드
+
+</button>
+
+<div id="horse-result"
+style="margin-top:20px;">
+</div>
+
+`;
+
+}
+
+
+if(tab==="jockey-info"){
+
+html=`
+
+<h3>👨‍✈️ 기수 정보</h3>
+
+<input
+type="file"
+id="jockeyFile">
+
+<button
+class="main"
+onclick="uploadJockeyInfo()">
+
+기수 자료 업로드
+
+</button>
+
+<div id="jockey-result"
+style="margin-top:20px;">
+
+업로드 후 표시
+
+</div>
+
+`;
+
+}
+
+
+if(tab==="trainer-info"){
+
+html=`
+
+<h3>🧑‍🏫 조교사 정보</h3>
+
+<div class="upload-area">
+
+<input
+type="file"
+id="trainerFile">
+
+<button
+class="upload-btn"
+onclick="uploadTrainerInfo()">
+
+조교사 자료 업로드
+
+</button>
+
+</div>
+
+<hr style="margin:20px 0;">
+
+<div
+id="trainer-result"
+style="margin-top:20px;">
+
+업로드 후 표시
+
+</div>
+
+`;
+
+}
+
+if(tab==="race-upload"){
+
+html=`
+
+<input type="file" id="fileInput">
+
+<button onclick="uploadRace()">
+출전표 업로드
+</button>
+
+<button onclick="deleteSelectedRows()">
+선택삭제
+</button>
+
+<table>
+
+<thead>
+<tr>
+
+<th>
+<input
+type="checkbox"
+id="selectAll"
+onclick="toggleAllRows(this)">
+</th>
+
+<th>지역</th>
+<th>마명</th>
+<th>순</th>
+<th>경주일자</th>
+<th>경주</th>
+<th>등급</th>
+
+<th>거리</th>
+<th>편성</th>
+<th>출전</th>
+
+<th>경주명</th>
+<th>출발시각</th>
+
+<th>예정</th>
+
+<th>비고</th>
+
+<th style="width:90px">
+관리
+</th>
+
+</tr>
+</thead>
+
+<tbody id="race-table"></tbody>
+
+</table>
+
+`;
+
+loadRace();
+
+}
+
+if(tab==="race-detail"){
+
+html=`
+
+<input
+type="file"
+id="raceDetailFile">
+
+<button
+onclick="uploadRaceDetail()">
+
+경주상세 업로드
+
+</button>
+
+<select
+id="raceNoSelect"
+onchange="loadRaceDetail()">
+
+<option>
+경주 선택
+</option>
+
+</select>
+
+<div id="race-detail-list">
+업로드 후 표시
+</div>
+
+`;
+
+}
+
+document.getElementById(
+"race-tab-content"
+).innerHTML=html;
+
+
+// 🔥 HTML 넣은 뒤 실행
+
+if(tab==="race-detail"){
+    loadRaceList();
+}
+
+if(tab==="horse-info"){
+    loadHorse();
+}
+
+if(tab==="jockey-info"){
+    loadJockey();
+}
+
+if(tab==="trainer-info"){
+    loadTrainer();
+}
+
+}
+
+// =========================
+// 조교사 업로드
+// =========================
+async function uploadTrainerInfo(){
+
+const file=
+document.getElementById(
+"trainerFile"
+).files[0];
+
+if(!file){
+
+alert(
+"파일 선택해줘"
+);
+
+return;
+
+}
+
+const formData=
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const res=
+await fetch(
+"/upload-trainer",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data=
+await res.json();
+
+alert(
+data.message
+);
+
+loadTrainer();
+
+}
+  
+// =========================
+// 로그아웃
+// =========================
+function logout() {
+
+    localStorage.clear();
+
+    document.getElementById("admin-main")
+        .style.display = "none";
+
+    document.getElementById("admin-login")
+        .style.display = "flex";
+}
+
+// =========================
+// 관리자화면
+// =========================
+function showAdminPage(){
+
+    document.getElementById("admin-login").style.display = "none";
+    document.getElementById("admin-main").style.display = "flex";
+
+    showPage('dashboard');
+}
+// =========================
+// 분석 조회
+// =========================
+async function loadAnalyses() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/analysis-table", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+
+  const data = await res.json();
+
+  const list = document.getElementById("analysis-list");
+  list.innerHTML = "";
+
+  data.forEach(item => {
+    list.innerHTML += `
+      <div class="card">
+        ${item.region} ${item.race_no}경주<br>
+        ★ ${item.star} / ■ ${item.square} / ▲ ${item.up}
+      </div>
+    `;
+  });
+}
+
+// =========================
+// 유료변경
+// =========================
+async function togglePremium(id, currentPremium, currentAdmin) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`/users/${id}?is_premium=${!currentPremium}&is_admin=${currentAdmin}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+    alert("실패: " + res.status);
+    return;
+  }
+
+  loadUsers();
+}
+
+// =========================
+// 관리자변경
+// =========================
+async function toggleAdmin(id, currentPremium, currentAdmin) {
+  const token = localStorage.getItem("token");
+
+  await fetch(`/users/${id}?is_premium=${currentPremium}&is_admin=${!currentAdmin}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  loadUsers();
+}
+
+// =========================
+// 삭제
+// =========================
+async function deleteUser(id, isAdmin = false) {
+
+  const token = localStorage.getItem("token");
+
+  if (!confirm("진짜 삭제할까?")) return;
+
+  await fetch(
+    `/users/${id}`,
+    {
+      method: "DELETE",
+
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    }
+  );
+
+  if(isAdmin){
+    loadAdmins();
+  }else{
+    loadUsers();
+  }
+}
+
+// =========================
+// 메뉴삭제
+// =========================
+async function deleteSidebarMenu(id) {
+  const token = localStorage.getItem("token");
+
+  if (!confirm("진짜 삭제할까?")) return;
+
+  const res = await fetch(`/menus/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (res.ok) {
+    alert("삭제 완료");
+  } else {
+    const data = await res.json();
+    alert(data.detail);
+  }
+}
+
+// =========================
+// 회원조회
+// =========================
+async function loadUsers() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/admin/users", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+
+  console.log("🔥 상태코드:", res.status);
+
+  const data = await res.json();
+
+const userCountEl =
+    document.getElementById("user-count");
+
+if(userCountEl){
+    userCountEl.innerText =
+        data.filter(u => !u.is_admin).length;
+}
+
+const premiumCountEl =
+    document.getElementById("premium-count");
+
+if(premiumCountEl){
+    premiumCountEl.innerText =
+        data.filter(u => u.is_premium).length;
+}
+
+  if (!Array.isArray(data)) {
+    alert("유저 데이터 오류: " + JSON.stringify(data));
+    return;
+  }
+
+  const table = document.getElementById("member-table");
+
+if(!table){
+    return;
+}
+
+table.innerHTML = "";
+
+  data
+.filter(u => !u.is_admin)
+.forEach(u => {
+    table.innerHTML += `
+      <tr>
+        <td>${u.id}</td>
+
+        <td>
+          ${u.email}
+          ${u.is_admin ? '<span class="badge badge-admin">관리자</span>' : ''}
+        </td>
+
+        <td>
+  <span
+    style="
+      cursor:pointer;
+      color:#2563eb;
+      font-weight:bold;
+    "
+    onclick="openUserModal(${u.id})">
+
+    ${u.name || "-"}
+
+  </span>
+</td>
+        <td>${u.birth || "-"}</td>
+        <td>${u.phone || "-"}</td>
+
+        <td>
+          <span class="badge ${u.is_premium ? 'badge-premium' : 'badge-free'}">
+            ${u.is_premium ? '유료' : '무료'}
+          </span>
+        </td>
+
+<td>
+
+<div style="
+display:flex;
+flex-direction:column;
+gap:6px;
+align-items:center;
+">
+
+<div
+onclick="loadPointHistory()"
+
+style="
+cursor:pointer;
+font-weight:bold;
+color:#003c97;
+">
+
+${u.point || 0} P
+
+</div>
+
+<div style="
+display:flex;
+gap:4px;
+">
+
+<button
+class="btn btn-premium"
+onclick="givePoint(${u.id}, 1000)">
++1000
+</button>
+
+<button
+class="btn btn-admin"
+onclick="givePoint(${u.id}, 5000)">
++5000
+</button>
+
+<button
+class="btn btn-delete"
+onclick="usePoint(${u.id}, 1000)">
+-1000
+</button>
+
+</div>
+
+</div>
+
+</td>
+
+        <td>
+          <button class="btn btn-premium"
+            onclick="handleAction(this, () => togglePremium(${u.id}, ${u.is_premium}, ${u.is_admin}))">
+            유료
+          </button>
+
+          <button class="btn btn-admin"
+            onclick="handleAction(this, () => toggleAdmin(${u.id}, ${u.is_premium}, ${u.is_admin}))">
+            관리자
+          </button>
+
+          <button class="btn btn-delete"
+            onclick="handleAction(this, () => deleteUser(${u.id}))">
+            삭제
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+// =========================
+// 회원상세
+// =========================
+  async function openUserModal(id){
+
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+        "/admin/users",
+        {
+            headers:{
+                "Authorization":"Bearer " + token
+            }
+        }
+    );
+
+    const data = await res.json();
+
+    const user = data.find(u => u.id === id);
+
+    if(!user){
+        alert("회원 없음");
+        return;
+    }
+
+    document.getElementById("user-modal-body").innerHTML = `
+
+    <div style="
+        display:grid;
+        grid-template-columns:120px 1fr;
+        gap:10px;
+        align-items:center;
+    ">
+
+        <b>이메일</b>
+        <input value="${user.email || ''}">
+
+        <b>이름</b>
+        <input value="${user.name || ''}">
+
+        <b>생년월일</b>
+        <input value="${user.birth || ''}">
+
+        <b>전화번호</b>
+        <input value="${user.phone || ''}">
+
+        <b>유료여부</b>
+        <input value="${user.is_premium ? '유료' : '무료'}">
+
+        <b>관리자</b>
+        <input value="${user.is_admin ? '관리자' : '일반회원'}">
+
+    </div>
+
+    <div style="
+        display:flex;
+        gap:10px;
+        margin-top:20px;
+    ">
+
+        <button class="btn btn-premium">
+            수정
+        </button>
+
+        <button class="btn btn-delete">
+            사용중지
+        </button>
+
+    </div>
+    `;
+
+    document.getElementById("user-modal")
+        .style.display = "flex";
+}
+  
+// =========================
+// 기수함수
+// =========================
+async function loadJockey(){
+
+const res =
+await fetch(
+"/jockey"
+);
+
+const data =
+await res.json();
+
+let html="";
+
+data.forEach(j=>{
+
+html += `
+
+<div style="
+padding:20px;
+border:1px solid #ddd;
+margin-bottom:15px;
+border-radius:12px;
+background:white;
+">
+
+<h3 style="
+margin-bottom:15px;
+color:#1f2a37;
+">
+👨‍✈️ ${j.기수명 || "-"}
+</h3>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+">
+
+<tr>
+<td><b>지역</b></td>
+<td>${j.지역명 || "-"}</td>
+
+<td><b>성명</b></td>
+<td>${j.기수명 || "-"}</td>
+</tr>
+
+<tr>
+<td><b>생년월일</b></td>
+<td>${j.생년월일 || "-"}</td>
+
+<td><b>데뷔일자</b></td>
+<td>${j.데뷔일자 || "-"}</td>
+</tr>
+
+<tr>
+<td><b>기승가능중량</b></td>
+<td>${j.기승가능중량 || "-"}</td>
+
+<td><b>최근1년</b></td>
+<td>${j.최근1년 || "-"}</td>
+</tr>
+
+<tr>
+<td><b>통산전적</b></td>
+<td>${j.통산전적 || "-"}</td>
+
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td><b>통산승률</b></td>
+<td>${j.통산승률 || "-"}</td>
+
+<td><b>최근1년승률</b></td>
+<td>${j.최근1년승률 || "-"}</td>
+</tr>
+
+<tr>
+<td><b>통산복승률</b></td>
+<td>${j.통산복승률 || "-"}</td>
+
+<td><b>최근1년복승률</b></td>
+<td>${j.최근1년복승률 || "-"}</td>
+</tr>
+
+<tr>
+<td><b>통산연승률</b></td>
+<td>${j.통산연승률 || "-"}</td>
+
+<td><b>최근1년연승률</b></td>
+<td>${j.최근1년연승률 || "-"}</td>
+</tr>
+
+</table>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"jockey-result"
+).innerHTML = html;
+
+}
+
+// =========================
+// 조교사
+// =========================
+async function loadTrainer(){
+
+const res=
+await fetch(
+"/trainer"
+);
+
+const data=
+await res.json();
+
+let html="";
+
+data.forEach(t=>{
+
+const safe=v=>
+(!v||v==="nan")?"-":v;
+
+html+=`
+
+<div class="trainer-card"
+style="
+padding:20px;
+border:1px solid #ddd;
+margin-bottom:15px;
+border-radius:12px;
+background:white;
+">
+
+<h3 style="
+margin-bottom:20px;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:28px;
+color:#1f2a37;
+">
+
+🧑‍🏫 ${safe(t.조교사명)}
+
+</h3>
+
+<div class="trainer-tabs">
+
+<button
+class="main"
+onclick="showTrainerTab('${t.tr_no}','info')">
+인적사항
+</button>
+
+<button
+class="main"
+onclick="showTrainerTab('${t.tr_no}','horse')">
+위탁관리말
+</button>
+
+<button
+class="main"
+onclick="showTrainerTab('${t.tr_no}','year')">
+연도별성적
+</button>
+
+<button
+class="main"
+onclick="showTrainerTab('${t.tr_no}','recent')">
+최근1개월
+</button>
+
+</div>
+
+<div
+id="trainer-content-${t.tr_no}"
+class="trainer-content">
+
+<table class="trainer-table"
+style="
+width:100%;
+">
+
+<tr>
+
+<td><b>지역</b></td>
+
+<td>${safe(t.지역명)}</td>
+
+<td><b>데뷔일자</b></td>
+
+<td>${safe(t.데뷔일자)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>통산전적</b></td>
+
+<td colspan="3">
+${safe(t.통산전적)}
+</td>
+
+</tr>
+
+<tr>
+
+<td><b>통산승률</b></td>
+<td>${safe(t.통산승률)}</td>
+
+<td><b>최근1년승률</b></td>
+<td>${safe(t.최근1년승률)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>통산복승률</b></td>
+<td>${safe(t.통산복승률)}</td>
+
+<td><b>최근1년복승률</b></td>
+<td>${safe(t.최근1년복승률)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>통산연승률</b></td>
+<td>${safe(t.통산연승률)}</td>
+
+<td><b>최근1년연승률</b></td>
+<td>${safe(t.최근1년연승률)}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"trainer-result"
+).innerHTML=html;
+
+}
+  
+// =========================
+// 회원상세 닫기
+// =========================
+  function closeUserModal(){
+
+    document.getElementById("user-modal")
+        .style.display = "none";
+}
+  
+// =========================
+// 애니메이션
+// =========================
+async function handleAction(button, action) {
+  const originalText = button.innerText;
+
+  button.disabled = true;
+  button.innerText = "처리중...";
+
+  try {
+    await action();  // 🔥 핵심 수정
+  } catch (e) {
+    alert("에러 발생: " + e);
+  }
+
+  button.disabled = false;
+  button.innerText = originalText;
+}
+
+async function loadRace() {
+  const res = await fetch("/race");
+  const data = await res.json();
+
+  raceData = data.map(r => [
+    r.id,
+    r.지역,
+    r.마명,
+    r.순,
+    r.경주일자,
+    r.경주,
+    r.등급,
+    r.거리,
+    r.편성,
+    r.출전,
+    r.경주명,
+    r.출발시각,
+    r.비고
+  ]);
+
+  renderTable();
+}
+
+// =========================
+// 포인트 지급
+// =========================
+async function givePoint(userId, point){
+
+const token =
+localStorage.getItem("token");
+
+const res = await fetch(
+
+`/users/${userId}/point?point=${point}`,
+
+{
+method:"PUT",
+
+headers:{
+"Authorization":"Bearer " + token
+}
+
+}
+
+);
+
+const data = await res.json();
+
+if(!res.ok){
+
+alert(data.detail || "포인트 지급 실패");
+return;
+
+}
+
+alert(
+`${point}P 지급 완료`
+);
+
+loadUsers();
+
+}
+
+// =========================
+// 포인트 차감
+// =========================
+async function usePoint(userId, point){
+
+const token =
+localStorage.getItem("token");
+
+const res = await fetch(
+
+`/users/${userId}/use-point?point=${point}`,
+
+{
+method:"PUT",
+
+headers:{
+"Authorization":"Bearer " + token
+}
+
+}
+
+);
+
+const data = await res.json();
+
+if(!res.ok){
+
+alert(data.detail || "포인트 차감 실패");
+return;
+
+}
+
+alert(
+`${point}P 차감 완료`
+);
+
+loadUsers();
+
+}
+  
+// =========================
+// 출전표수정삭제
+// =========================
+async function uploadRace() {
+  const input = document.getElementById("fileInput");
+  const file = input.files[0];
+
+  if (!file) {
+    alert("출전표 파일을 먼저 선택해줘");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/upload-race", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  console.log("출전표 업로드 응답:", data);
+
+  if (!res.ok) {
+    alert("출전표 업로드 실패: " + JSON.stringify(data));
+    return;
+  }
+
+  alert("출전표 업로드 완료");
+  await loadRace();
+}
+
+async function saveCell(td, value, rowIndex, colIndex) {
+  const id = raceData[rowIndex][0];
+
+  const keys = ["id","지역","마명","순","경주일자","경주","등급","거리","편성","출전","경주명","출발시각","비고"];
+
+  const field = keys[colIndex];
+
+  const token = localStorage.getItem("token");
+  await fetch(`/race/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      [field]: value
+    })
+  });
+
+  raceData[rowIndex][colIndex] = value;
+  td.innerText = value;
+}
+
+async function deleteRow(index) {
+  const token = localStorage.getItem("token");
+  const id = raceData[index][0];
+
+  if (!confirm("삭제할까?")) return;
+
+  await fetch(`/race/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  raceData.splice(index, 1);
+  renderTable();
+}
+
+
+function getCountdown(date,time){
+
+const raceDate=new Date(
+`${date} ${time}`
+);
+
+const now=new Date();
+
+const diff=
+raceDate-now;
+
+if(diff<=0){
+return "종료";
+}
+
+const days=Math.floor(
+diff/(1000*60*60*24)
+);
+
+const hours=Math.floor(
+(diff%(1000*60*60*24))
+/
+(1000*60*60)
+);
+
+const mins=Math.floor(
+(diff%(1000*60*60))
+/
+(1000*60)
+);
+
+if(days===0){
+return `🔴 ${hours}시간 ${mins}분`;
+}
+
+if(days===1){
+return `🟠 내일`;
+}
+
+if(days<=3){
+return `🟡 ${days}일`;
+}
+
+return `🟢 ${days}일`;
+}
+  
+// =========================
+// 출전표렌더링
+// =========================
+function renderTable() {
+
+const table =
+document.getElementById(
+"race-table"
+);
+
+if(!table){
+return;
+}
+
+table.innerHTML="";
+
+raceData.forEach(
+(r,rowIndex)=>{
+
+const cells = [
+
+r[1], // 지역
+r[2], // 마명
+r[3], // 순
+r[4], // 경주일자
+r[5], // 경주
+r[6], // 등급
+r[7], // 거리
+r[8], // 편성
+r[9], // 출전
+r[10], // 경주명
+r[11], // 출발시각
+
+getCountdown(
+r[4],
+r[11]
+),
+
+r[12] // 비고
+
+];
+
+table.innerHTML += `
+<tr>
+
+<td>
+<input
+type="checkbox"
+class="row-check"
+value="${r[0]}">
+</td>
+
+${cells.map((cell,colIndex)=>{
+
+return `
+<td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
+${String(cell)==="NaN" ? "" : (cell || "")}
+</td>
+`;
+
+}).join("")}
+
+<td>
+<button onclick="deleteRow(${rowIndex})">
+🗑
+</button>
+</td>
+
+</tr>
+`;
+
+});
+
+}
+
+function editCell(td, rowIndex, colIndex) {
+  const oldValue = td.innerText;
+
+  td.innerHTML = `<input type="text" value="${oldValue}" style="width:100%">`;
+
+  const input = td.querySelector("input");
+  input.focus();
+
+  // Enter 누르면 저장
+  input.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      saveCell(td, input.value, rowIndex, colIndex);
+    }
+  });
+
+  // 포커스 벗어나도 저장
+  input.addEventListener("blur", function() {
+    saveCell(td, input.value, rowIndex, colIndex);
+  });
+}
+
+// =========================
+// 분석결과저장
+// =========================
+async function saveAnalysis() {
+  const token = localStorage.getItem("token");
+  const data = {
+    region: document.getElementById("region").value,
+    race_no: document.getElementById("race_no").value,
+    race_date: document.getElementById("race_date").value,
+
+    star: document.getElementById("star").value,
+    square: document.getElementById("square").value,
+    empty: document.getElementById("empty").value,
+    up: document.getElementById("up").value,
+    triangle: document.getElementById("triangle").value,
+    darkhorse: document.getElementById("darkhorse").value,
+
+    single: document.getElementById("single").value,
+    double: document.getElementById("double").value,
+    triple: document.getElementById("triple").value
+  };
+
+  await fetch("/analysis-save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify(data)
+  });
+
+  alert("저장 완료");
+}
+// =========================
+// 분석관리
+// =========================
+async function loadAnalysisTable() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/analysis-table", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  const data = await res.json();
+
+  const table = document.getElementById("analysis-table");
+  table.innerHTML = "";
+
+  data.forEach(row => {
+    table.innerHTML += `
+      <tr>
+        <td>${row.지역}</td>
+        <td>${row.경주}</td>
+        <td>${row.경주일자}</td>
+
+        <td><input id="star_${row.id}" value="${row.star || ''}"></td>
+        <td><input id="square_${row.id}" value="${row.square || ''}"></td>
+        <td><input id="empty_${row.id}" value="${row.empty || ''}"></td>
+        <td><input id="up_${row.id}" value="${row.up || ''}"></td>
+        <td><input id="triangle_${row.id}" value="${row.triangle || ''}"></td>
+        <td><input id="dark_${row.id}" value="${row.darkhorse || ''}"></td>
+
+        <td><input id="single_${row.id}" value="${row.single || ''}"></td>
+        <td><input id="double_${row.id}" value="${row.double || ''}"></td>
+        <td><input id="triple_${row.id}" value="${row.triple || ''}"></td>
+
+        <td>
+          <button onclick="saveAnalysisRow(${row.id}, '${row.지역}', ${row.경주}, '${row.경주일자}')">
+            저장
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+// =========================
+// 행저장
+// =========================
+async function saveAnalysisRow(id, region, race_no, race_date) {
+  const data = {
+    region: region,
+    race_no: race_no,
+    race_date: race_date,
+
+    star: document.getElementById(`star_${id}`).value,
+    square: document.getElementById(`square_${id}`).value,
+    empty: document.getElementById(`empty_${id}`).value,
+    up: document.getElementById(`up_${id}`).value,
+    triangle: document.getElementById(`triangle_${id}`).value,
+    darkhorse: document.getElementById(`dark_${id}`).value,
+
+    single: document.getElementById(`single_${id}`).value,
+    double: document.getElementById(`double_${id}`).value,
+    triple: document.getElementById(`triple_${id}`).value
+  };
+
+  await fetch("/analysis-save", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  alert("저장 완료");
+}
+
+
+// =========================
+// 관리자 추가 함수
+// =========================
+async function addAdminPrompt() {
+  const email = prompt("이메일 입력");
+  if (!email) return;
+
+  const password = prompt("비밀번호 입력");
+  if (!password) return;
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `/admin/create?email=${email}&password=${password}`,
+    {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    }
+  );
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("관리자 추가 완료");
+    loadAdmins();
+  } else {
+    alert("실패: " + JSON.stringify(data));
+  }
+}
+
+async function loadAdmins() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/admin/users", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+
+  const data = await res.json();
+
+  const table = document.getElementById("admin-table");
+  table.innerHTML = "";
+
+  // 🔥 관리자만 필터
+  const admins = data.filter(u => u.is_admin);
+
+  admins.forEach(u => {
+    table.innerHTML += `
+      <tr>
+        <td>${u.id}</td>
+        <td>${u.email} <span class="badge badge-admin">관리자</span></td>
+        <td>${u.name || "-"}</td>
+
+        <td>
+          <span class="badge ${u.is_premium ? 'badge-premium' : 'badge-free'}">
+            ${u.is_premium ? '유료' : '무료'}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn btn-delete"
+            onclick="deleteUser(${u.id}, true)">
+            삭제
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+async function createAnalysis() {
+  const data = {
+    region: document.getElementById("new_region").value,
+    race_no: Number(document.getElementById("new_race_no").value),
+    race_date: document.getElementById("new_race_date").value,
+
+    star: document.getElementById("new_star").value,
+    square: document.getElementById("new_square").value,
+    empty: document.getElementById("new_empty").value,
+    up: document.getElementById("new_up").value,
+    triangle: document.getElementById("new_triangle").value,
+    darkhorse: document.getElementById("new_darkhorse").value,
+
+    single: document.getElementById("new_single").value,
+    double: document.getElementById("new_double").value,
+    triple: document.getElementById("new_triple").value
+  };
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/analysis-save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("추가 완료");
+    loadAnalysisTable(); // 🔥 다시 불러오기
+  } else {
+    alert("실패");
+  }
+}
+  
+async function createDesignMenu(
+    name,
+    path,
+    icon,
+    description,
+    order
+){
+
+    const token = localStorage.getItem("token");
+
+    await fetch(
+        "/menus",
+        {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+        },
+
+        body:JSON.stringify({
+
+            name:name,
+
+            path:path,
+
+            icon:icon,
+
+            description:description,
+
+            sort_order:Number(order)
+        })
+    });
+
+    loadDesignMenus();
+  
+}
+
+async function loadDesignMenus(){
+
+    const res = await fetch(
+        "/menus"
+    );
+
+    const data = await res.json();
+
+const list = document.getElementById("design-list");
+
+list.innerHTML = "";
+
+data
+.filter(m => m.template)
+.sort((a, b) => a.sort_order - b.sort_order)
+.forEach(m => {
+
+        list.innerHTML += `
+
+<tr>
+
+    <td>
+        <input type="checkbox"
+            ${m.is_active ? "checked" : ""}
+            id="active-${m.id}">
+    </td>
+
+    <td>
+        <input
+            value="${m.sort_order}"
+            id="order-${m.id}"
+            style="width:60px">
+    </td>
+
+    <td>
+        <input
+            value="${m.icon}"
+            id="icon-${m.id}"
+            style="width:60px">
+    </td>
+
+    <td>
+        <input
+            value="${m.name}"
+            id="name-${m.id}">
+    </td>
+
+    <td>
+        <input
+            value="${m.description}"
+            id="desc-${m.id}">
+    </td>
+
+    <td>
+        <input
+            value="${m.path}"
+            id="path-${m.id}">
+    </td>
+
+    <td>
+
+        <button onclick="updateMenu(${m.id})">
+            수정
+        </button>
+
+        <button onclick="deleteDesignMenu(${m.id})">
+            삭제
+        </button>
+
+    </td>
+
+</tr>
+
+`;
+    });
+}
+
+async function addDesignMenu(){
+
+    const name =
+        document.getElementById("new-name").value;
+
+    const icon =
+        document.getElementById("new-icon").value;
+
+    const description =
+        document.getElementById("new-desc").value;
+
+    const path =
+        document.getElementById("new-path").value;
+
+    const order =
+        document.getElementById("new-order").value;
+
+    if(!name || !path){
+        alert("버튼명/링크 입력");
+        return;
+    }
+
+    createDesignMenu(
+        name,
+        path,
+        icon,
+        description,
+        order
+    );
+
+    document.getElementById("new-name").value = "";
+    document.getElementById("new-icon").value = "";
+    document.getElementById("new-desc").value = "";
+    document.getElementById("new-path").value = "";
+    document.getElementById("new-order").value = "";
+}
+
+async function deleteDesignMenu(id){
+
+    const token = localStorage.getItem("token");
+
+    await fetch(
+        "/menus/" + id,
+        {
+            method:"DELETE",
+
+            headers:{
+                "Authorization":"Bearer " + token
+            }
+        }
+    );
+
+    loadDesignMenus();
+}  
+
+  async function updateMenu(id){
+
+    const token = localStorage.getItem("token");
+
+    const body = {
+
+        name:
+            document.getElementById(`name-${id}`).value,
+
+        path:
+            document.getElementById(`path-${id}`).value,
+
+        icon:
+            document.getElementById(`icon-${id}`).value,
+
+        description:
+            document.getElementById(`desc-${id}`).value,
+
+        sort_order:Number(
+            document.getElementById(`order-${id}`).value
+        ),
+
+        is_active:
+            document.getElementById(`active-${id}`).checked
+    };
+
+    await fetch(
+        "/menus/" + id,
+        {
+
+        method:"PUT",
+
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer " + token
+        },
+
+        body:JSON.stringify(body)
+    });
+
+    alert("수정완료");
+
+    loadDesignMenus();
+}
+
+async function loadRaceList(){
+
+const res=await fetch(
+"/race"
+);
+
+const data=await res.json();
+
+const select=
+document.getElementById(
+"raceNoSelect"
+);
+
+select.innerHTML="";
+
+const races=[
+...new Map(
+data.map(r=>[
+
+`${r.경주일자}_${r.지역}_${r.경주}`,
+
+{
+날짜:r.경주일자,
+지역:r.지역,
+경주:r.경주
+}
+
+])
+
+).values()
+];
+
+races.sort(
+(a,b)=>a.경주-b.경주
+);
+
+races.forEach(r=>{
+
+select.innerHTML += `
+
+<option
+value="${r.날짜}|${r.지역}|${r.경주}"
+>
+
+${r.날짜}
+${r.지역}
+${r.경주}경주
+
+</option>
+
+`;
+
+});
+
+if(races.length>0){
+
+select.selectedIndex=0;
+
+loadRaceDetail();
+
+}
+
+}
+
+async function uploadRaceDetail(){
+
+const file=
+document.getElementById(
+"raceDetailFile"
+).files[0];
+
+const formData=
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const res = await fetch(
+"/upload-race-detail",
+{
+method:"POST",
+body:formData
+}
+);
+
+if(res.ok){
+
+    alert(
+        "경주상세 업로드 완료"
+    );
+
+    loadRaceList();
+
+}else{
+
+    alert(
+        "업로드 실패"
+    );
+
+}
+
+}
+
+async function loadRaceDetail(){
+
+const value=
+document.getElementById(
+"raceNoSelect"
+).value;
+
+if(!value) return;
+
+const [date,region,raceNo]=
+value.split("|");
+
+const res = await fetch(
+`/race-detail-data/${raceNo}?date=${date}&region=${region}`
+);
+
+const data=await res.json();
+
+let html=`
+
+<table>
+
+<thead>
+<tr>
+
+<th>지역</th>
+<th>날짜</th>
+<th>경주번호</th>
+
+<th>번호</th>
+<th>마명</th>
+<th>마중</th>
+<th>성별</th>
+<th>연령</th>
+
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
+
+<th>기수명</th>
+<th>조교사명</th>
+<th>마주명</th>
+
+<th>조교 횟수</th>
+<th>출전 주기</th>
+
+<th>장구현황</th>
+<th>특이사항</th>
+
+</tr>
+</thead>
+
+<tbody>
+`;
+
+data.forEach(item=>{
+
+html += `
+
+<tr>
+
+<td>${item.지역 || "-"}</td>
+
+<td>
+${item.경주일자?.replace(
+/(\d{4})(\d{2})(\d{2})/,
+"$1-$2-$3"
+) || "-"}
+</td>
+
+<td>${item.경주번호 || item.경주 || "-"}</td>
+
+<td>${item.번호 || "-"}</td>
+<td>${item.마명 || ""}</td>
+<td>${item.체중 || ""}</td>
+<td>${item.성별 || ""}</td>
+<td>${item.나이 || ""}</td>
+
+<td>${item.레이팅 || ""}</td>
+<td>${item.부담중량 || ""}</td>
+<td>${item.증감 || ""}</td>
+
+<td>${item.기수 || ""}</td>
+<td>${item.조교사 || ""}</td>
+<td>${item.마주명 || ""}</td>
+
+<td>${item.조교횟수 || ""}</td>
+<td>${item.출전주기 || ""}</td>
+
+<td>${item.장구현황 || ""}</td>
+<td>${item.특이사항 || ""}</td>
+
+</tr>
+`;
+
+});
+
+html += `
+</tbody>
+</table>
+`;
+
+document.getElementById(
+"race-detail-list"
+).innerHTML = html;
+
+}
+
+  async function adminLogin(){
+
+    const email =
+        document.getElementById("admin-email").value;
+
+    const password =
+        document.getElementById("admin-password").value;
+
+    const res = await fetch(
+        "/login",
+        {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            email,
+            password
+        })
+    });
+
+    const data = await res.json();
+
+    if(!res.ok){
+        alert("로그인 실패");
+        return;
+    }
+
+    // 관리자만 허용
+    if(
+        data.role !== "admin" &&
+        data.role !== "superadmin"
+    ){
+        alert("관리자 전용");
+        return;
+    }
+
+    localStorage.setItem(
+        "token",
+        data.access_token
+    );
+
+    localStorage.setItem(
+        "role",
+        data.role
+    );
+
+    showAdminPage();
+}
+
+// =========================
+// 출전표 전체선택
+// =========================
+function toggleAllRows(source){
+
+document
+.querySelectorAll(".row-check")
+.forEach(c=>{
+
+c.checked =
+source.checked;
+
+});
+
+}
+
+// =========================
+// 경주마기수조교사 자료수집
+// =========================
+async function collectHorseInfo(){
+
+try{
+
+console.log("🐎 버튼 클릭");
+
+const res = await fetch(
+"/collect-horse",
+{
+method:"POST"
+}
+);
+
+console.log("상태:",res.status);
+
+const text = await res.text();
+
+console.log("응답원본:",text);
+
+let data={};
+
+try{
+data=JSON.parse(text);
+}catch(e){
+console.log("JSON변환실패",e);
+}
+
+alert(
+data.message || "수집완료"
+);
+
+await loadHorse();
+
+}catch(e){
+
+console.log("에러:",e);
+
+alert(
+"오류:"+e
+);
+
+}
+
+}
+
+async function loadHorse(){
+
+const res=
+await fetch(
+"/horse"
+);
+
+const data=
+await res.json();
+
+console.log(data);
+
+let html="";
+
+data.forEach(h=>{
+
+const safe = v =>
+    (!v || v === "nan" || v === "NaN") ? "-" : v;
+
+html+=`
+
+<div style="
+padding:20px;
+border:1px solid #ddd;
+margin-bottom:15px;
+border-radius:12px;
+background:white;
+">
+
+<h3 style="
+margin-bottom:20px;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:28px;
+color:#1f2a37;
+">
+
+🐎 ${safe(h.마명)}
+
+</h3>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+">
+
+<tr>
+
+<td><b>성별</b></td>
+<td>${safe(h.성별)}</td>
+
+<td><b>나이</b></td>
+<td>${safe(h.나이)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>조교사</b></td>
+<td>${safe(h.조교사)}</td>
+
+<td><b>마주</b></td>
+<td>${safe(h.마주)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>부마</b></td>
+<td>${safe(h.부마)}</td>
+
+<td><b>모마</b></td>
+<td>${safe(h.모마)}</td>
+
+</tr>
+
+<tr>
+
+<td><b>통산전적</b></td>
+
+<td colspan="3">
+${safe(h.통산전적)}
+</td>
+
+</tr>
+
+<tr>
+
+<td><b>승률</b></td>
+<td>${safe(h.승률)}</td>
+
+<td><b>수득상금</b></td>
+<td>${safe(h.수득상금)}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"horse-result"
+).innerHTML=html;
+
+}
+
+async function collectJockeyInfo(){
+
+const res = await fetch(
+"/collect-jockey",
+{
+method:"POST"
+}
+);
+
+alert(
+"기수 정보 수집 완료"
+);
+
+}
+
+async function collectTrainerInfo(){
+
+const res = await fetch(
+"/collect-trainer",
+{
+method:"POST"
+}
+);
+
+alert(
+"조교사 정보 수집 완료"
+);
+
+}
+  
+// =========================
+// 선택삭제
+// =========================
+async function deleteSelectedRows(){
+
+const checks =
+document.querySelectorAll(
+".row-check:checked"
+);
+
+if(checks.length===0){
+
+alert(
+"선택된 항목 없음"
+);
+
+return;
+}
+
+if(
+!confirm(
+`${checks.length}개 삭제할까?`
+)
+){
+return;
+}
+
+for(const c of checks){
+
+await fetch(
+`/race/${c.value}`,
+{
+method:"DELETE"
+}
+);
+
+}
+
+await loadRace();
+
+document.getElementById(
+"selectAll"
+).checked=false;
+
+}
+
+// =========================
+// 경주마 업로드
+// =========================
+async function uploadHorseInfo(){
+
+    const file =
+    document.getElementById(
+        "horseFile"
+    ).files[0];
+
+    if(!file){
+
+        alert(
+            "파일 선택해줘"
+        );
+
+        return;
+    }
+
+    const formData =
+    new FormData();
+
+    formData.append(
+        "file",
+        file
+    );
+
+    try{
+
+        const res =
+        await fetch(
+            "/upload-horse",
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+        const text =
+        await res.text();
+
+        console.log(text);
+
+        let data={};
+
+        try{
+
+            data=
+            JSON.parse(text);
+
+        }catch{
+
+            data={
+                message:text
+            };
+
+        }
+
+        if(res.ok){
+
+            alert(
+                data.message ||
+                "업로드 완료"
+            );
+
+            loadHorse();
+
+        }else{
+
+            alert(
+                data.error ||
+                "업로드 실패"
+            );
+
+        }
+
+    }catch(e){
+
+        console.log(e);
+
+        alert(
+            "오류 발생"
+        );
+
+    }
+
+}
+
+// =========================
+// 기수 업로드
+// =========================
+async function uploadJockeyInfo(){
+
+const file=
+document.getElementById(
+"jockeyFile"
+).files[0];
+
+if(!file){
+
+alert(
+"파일 선택해줘"
+);
+
+return;
+
+}
+
+const formData=
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const res=
+await fetch(
+"/upload-jockey",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data=
+await res.json();
+
+alert(
+data.message
+);
+
+loadJockey();
+
+}
+  
+// 기본 페이지
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+
+if(
+    token &&
+    (role === "admin" || role === "superadmin")
+){
+    showAdminPage();
+}
+
+// =========================
+// 조교사 탭분리
+// =========================
+async function showTrainerTab(
+tr_no,
+tab
+){
+
+const target=
+document.getElementById(
+`trainer-content-${tr_no}`
+);
+
+let url="";
+
+if(tab==="info"){
+loadTrainer();
+return;
+}
+
+if(tab==="horse"){
+url=`/trainer-horse/${tr_no}`;
+}
+
+if(tab==="year"){
+url=`/trainer-year/${tr_no}`;
+}
+
+if(tab==="recent"){
+url=`/trainer-recent/${tr_no}`;
+}
+
+target.innerHTML="불러오는중...";
+
+const res=await fetch(url);
+
+const data=await res.json();
+
+let html="<table>";
+
+if(tab==="horse"){
+
+html+=`
+<tr>
+<th>마명</th>
+<th>마주명</th>
+<th>조번</th>
+<th>등급</th>
+<th>레이팅</th>
+<th>산지</th>
+<th>성별</th>
+<th>연령</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.마명||"-"}</td>
+<td>${r.마주명||"-"}</td>
+<td>${r.조번||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.레이팅||"-"}</td>
+<td>${r.산지||"-"}</td>
+<td>${r.성별||"-"}</td>
+<td>${r.연령||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+if(tab==="year"){
+
+html+=`
+<tr>
+
+<th>연도</th>
+<th>출전</th>
+<th>1위</th>
+<th>2위</th>
+<th>3위</th>
+<th>승률</th>
+<th>복승률</th>
+<th>연승률</th>
+<th>순위상금</th>
+
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.연도||"-"}</td>
+<td>${r.출전||"-"}</td>
+<td>${r.일위||"-"}</td>
+<td>${r.이위||"-"}</td>
+<td>${r.삼위||"-"}</td>
+<td>${r.승률||"-"}</td>
+<td>${r.복승률||"-"}</td>
+<td>${r.연승률||"-"}</td>
+<td>${r.순위상금||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+if(tab==="recent"){
+
+html+=`
+<tr>
+
+<th>날짜</th>
+<th>마번</th>
+<th>마명</th>
+<th>기수명</th>
+<th>등급</th>
+<th>순위</th>
+<th>중량</th>
+<th>거리</th>
+<th>기록</th>
+<th>도착차</th>
+<th>마체중</th>
+
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.경주일자||"-"}</td>
+<td>${r.마번||"-"}</td>
+<td>${r.마명||"-"}</td>
+<td>${r.기수명||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.순위||"-"}</td>
+<td>${r.중량||"-"}</td>
+<td>${r.거리||"-"}</td>
+<td>${r.기록||"-"}</td>
+<td>${r.도착차||"-"}</td>
+<td>${r.마체중||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+html+="</table>";
+
+target.innerHTML=html;
+
+}
+
+async function givePoint(userId, point){
+
+const token =
+localStorage.getItem("token");
+
+const res = await fetch(
+
+`/users/${userId}/point?point=${point}`,
+
+{
+method:"PUT",
+
+headers:{
+"Authorization":"Bearer " + token
+}
+
+}
+
+);
+
+const data = await res.json();
+
+alert(
+`${point}P 지급 완료`
+);
+
+loadUsers();
+
+}
+
+
+// =========================
+// 포인트 로그 조회
+// =========================
+async function loadPointHistory(){
+
+const res = await fetch(
+"/point-history"
+);
+
+const data = await res.json();
+
+let html = `
+
+<div
+id="point-history-box"
+
+style="
+margin-top:20px;
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+">
+
+<h3 style="
+margin-bottom:15px;
+">
+💰 포인트 로그
+</h3>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>회원</th>
+<th>유형</th>
+<th>변화</th>
+<th>남은P</th>
+<th>설명</th>
+<th>시간</th>
+
+</tr>
+
+`;
+
+data.forEach(h=>{
+
+html += `
+
+<tr>
+
+<td>${h.id}</td>
+
+<td>${h.email}</td>
+
+<td>
+${h.type === "charge"
+? "지급"
+: "사용"}
+</td>
+
+<td style="
+color:${h.amount > 0 ? "#2563eb" : "#ef4444"};
+font-weight:bold;
+">
+
+${h.amount}
+
+</td>
+
+<td>${h.remain_point}</td>
+
+<td>${h.description}</td>
+
+<td style="
+font-size:12px;
+">
+${h.created_at}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html += `
+</table>
+</div>
+`;
+
+document.getElementById(
+"user-modal-body"
+).innerHTML = html;
+
+document.getElementById(
+"modal-title"
+).innerText =
+"💰 포인트 로그";
+  
+document.getElementById(
+"user-modal"
+).style.display = "flex";
+
+}
+  
+</script>
+  <div id="user-modal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+width:700px;
+background:white;
+border-radius:16px;
+padding:30px;
+max-height:90vh;
+overflow:auto;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+">
+
+<h2 id="modal-title">
+회원 상세
+</h2>
+
+<button onclick="closeUserModal()">✖</button>
+
+</div>
+
+<div id="user-modal-body"></div>
+
+</div>
+</div>
+  
+</body>
+</html>
+
+

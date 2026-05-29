@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI 분석</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 20px;
+}
+
+/* 상단 추천 */
+.top-area {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.main-picks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  flex: 1;
+}
+
+.pick {
+  text-align: center;
+}
+
+.pick .icon {
+  font-size: 20px;
+}
+
+.pick .name {
+  font-size: 14px;
+  color: #555;
+}
+
+.pick .num {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* 복병마 */
+.darkhorse {
+  width: 140px;
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+.darkhorse .title {
+  font-size: 14px;
+}
+
+.darkhorse .name {
+  font-size: 12px;
+  color: gray;
+}
+
+.darkhorse .num {
+  font-size: 40px;
+  font-weight: bold;
+  background: black;
+  color: white;
+}
+
+/* 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #3b82f6;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #e0e7ff;
+}
+
+.btn {
+  background: #2563eb;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>AI 분석 결과</h2>
+
+<div id="analysis-area"></div>
+
+<script>
+async function loadAI(region) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("로그인 필요");
+    return;
+  }
+
+  const res = await fetch(
+  "https://almago-1llh.onrender.com/analysis-table",
+{
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+
+    alert("데이터 로드 실패");
+    return;
+
+}
+
+  const data = await res.json();
+
+
+// =========================
+// 실제 금일/예정 경주 기준 연동
+// =========================
+const raceRes = await fetch("/race");
+
+const raceData = await raceRes.json();
+
+const realRaces =
+raceData
+.filter(r =>
+    r.지역 === region
+)
+.map(r => ({
+
+    region : r.지역,
+
+    raceNo : String(r.경주),
+
+    date : String(r.경주일자)
+        .replace(/\(.*?\)/g,"")
+        .trim()
+
+}));
+
+
+// 실제 출전표에 있는 경주만 출력
+const filtered =
+data
+.filter(r => {
+
+    const analysisDate =
+    String(r.날짜 || "")
+    .replace(/\(.*?\)/g,"")
+    .trim();
+
+    return realRaces.some(real =>
+
+        real.region === r.지역 &&
+
+        real.raceNo ===
+        String(r.경주) &&
+
+        real.date ===
+        analysisDate
+
+    );
+
+})
+.sort(
+(a,b)=>
+Number(a.경주) - Number(b.경주)
+);
+
+  if(filtered.length === 0){
+
+    document.getElementById(
+        "analysis-area"
+    ).innerHTML =
+    "현재 표시할 AI 분석이 없습니다.";
+
+    return;
+
+}
+  
+  const area = document.getElementById("analysis-area");
+  area.innerHTML = "";
+
+  filtered.forEach(r => {
+
+    // 문자열 → 배열 변환
+    const star = r.star || "-";
+    const square = r.square || "-";
+    const empty = r.empty || "-";
+    const up = r.up || "-";
+    const triangle = r.triangle || "-";
+
+    area.innerHTML += `
+      <div style="background:white; padding:20px; margin-bottom:20px; border-radius:10px;">
+
+        <h3>${r.지역} ${r.경주}경주</h3>
+
+        <div class="top-area">
+
+          <div class="main-picks">
+            <div class="pick">
+              <div class="icon">★</div>
+              <div class="name">1순위</div>
+              <div class="num">${star}</div>
+            </div>
+
+            <div class="pick">
+              <div class="icon">■</div>
+              <div class="name">2순위</div>
+              <div class="num">${square}</div>
+            </div>
+
+            <div class="pick">
+              <div class="icon">□</div>
+              <div class="name">3순위</div>
+              <div class="num">${empty}</div>
+            </div>
+
+            <div class="pick">
+              <div class="icon">▲</div>
+              <div class="name">4순위</div>
+              <div class="num">${up}</div>
+            </div>
+
+            <div class="pick">
+              <div class="icon">△</div>
+              <div class="name">5순위</div>
+              <div class="num">${triangle}</div>
+            </div>
+          </div>
+
+          <div class="darkhorse">
+            <div class="title">복병마(W)</div>
+            <div class="name">추천</div>
+            <div class="num">${r.darkhorse || "-"}</div>
+          </div>
+
+        </div>
+
+        <table>
+          <tr>
+            <th>승식</th>
+            <th>추천마번</th>
+            <th>확률</th>
+            <th></th>
+          </tr>
+
+          <tr>
+            <td>단식</td>
+            <td>${r.single || "-"}</td>
+            <td>30%</td>
+            <td><span class="btn">더보기</span></td>
+          </tr>
+
+          <tr>
+            <td>복식</td>
+            <td>${r.double || "-"}</td>
+            <td>70%</td>
+            <td><span class="btn">더보기</span></td>
+          </tr>
+
+          <tr>
+            <td>쌍식</td>
+            <td>${r.triple || "-"}</td>
+            <td>11%</td>
+            <td><span class="btn">더보기</span></td>
+          </tr>
+
+          <tr>
+            <td>삼쌍식</td>
+            <td>${r.triple || "-"}</td>
+            <td>15%</td>
+            <td><span class="btn">더보기</span></td>
+          </tr>
+
+        </table>
+
+      </div>
+    `;
+  });
+}
+
+const params = new URLSearchParams(location.search);
+const region = params.get("region");
+
+loadAI(region);
+</script>
+
+</body>
+</html>

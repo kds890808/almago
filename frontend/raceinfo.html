@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>경주정보</title>
+
+<style>
+
+body{
+    background:#f3f4f8;
+    font-family:sans-serif;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.08);
+
+}
+
+.title{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#0f1f4d;
+
+    margin-bottom:20px;
+
+}
+
+.tab-wrap{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+.tab-btn{
+
+    flex:1;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2457d6;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:15px;
+
+}
+
+.info-box{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.08);
+
+}
+
+.region{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#0f1f4d;
+
+}
+
+.race-count{
+
+    margin-top:10px;
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    color:#2457d6;
+
+}
+
+.list-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.08);
+
+}
+
+.race-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.home-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2457d6;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="title">
+        🏇 경주정보
+        </div>
+
+        <div class="tab-wrap">
+
+            <button class="tab-btn">
+            금일경주
+            </button>
+
+            <button class="tab-btn">
+            과거경주
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="info-box">
+
+            <div class="region">
+            🏇 부산
+            </div>
+
+            <div class="race-count">
+            6
+            </div>
+
+        </div>
+
+        <div class="info-box">
+
+            <div class="region">
+            🏇 서울
+            </div>
+
+            <div class="race-count">
+            11
+            </div>
+
+        </div>
+
+        <div class="info-box">
+
+            <div class="region">
+            🏇 제주
+            </div>
+
+            <div class="race-count">
+            8
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="list-card">
+
+        <h3>📋 금일 주요 경주</h3>
+
+        <div class="race-row">
+            <span>부산 1경주</span>
+            <span>11:00</span>
+        </div>
+
+        <div class="race-row">
+            <span>제주 3경주</span>
+            <span>13:20</span>
+        </div>
+
+        <div class="race-row">
+            <span>서울 5경주</span>
+            <span>15:10</span>
+        </div>
+
+        <div class="race-row">
+            <span>부산 6경주</span>
+            <span>17:30</span>
+        </div>
+
+    </div>
+
+    <button
+    class="home-btn"
+    onclick="location.href='/'"
+    >
+    🏠 홈으로
+    </button>
+
+</div>
+
+</body>
+</html>

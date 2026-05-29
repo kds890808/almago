@@ -1,0 +1,3294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALMAGO</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+ 
+body{
+    font-family:'Pretendard', Arial, sans-serif;
+    background:#f4f5f9;
+    color:#222;
+    max-width:500px;
+    margin:auto;
+    min-height:100vh;
+}
+
+.container{
+    padding:22px;
+    padding-bottom:120px;
+}
+
+.logo-area{
+    margin-top:20px;
+}
+
+.big-data{
+    font-size:24px;
+    font-weight:800;
+    color:#003c97;
+}
+
+.logo-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+.logo-text{
+    font-size:56px;
+    font-weight:900;
+    color:#2e3142;
+    line-height:1;
+}
+
+.go-circle{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#0057d8;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    transform:rotate(-20deg);
+    font-size:28px;
+}
+
+.logo-sub{
+    font-size:26px;
+    font-weight:800;
+    color:#2e3142;
+    margin-top:10px;
+}
+
+.hero-horse{
+    width:180px;
+    display:block;
+    margin:20px auto;
+}
+
+.section-title{
+    font-size:32px;
+    font-weight:800;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.input-label{
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:10px;
+    margin-top:18px;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+input{
+    width:100%;
+    height:68px;
+    border-radius:18px;
+    border:2px solid #e1e5ef;
+    padding:0 20px;
+    font-size:20px;
+    background:white;
+    outline:none;
+}
+
+input:focus{
+    border-color:#0048c7;
+}
+
+.password-eye{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:26px;
+    cursor:pointer;
+}
+
+.login-save{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    color:#666;
+    font-size:17px;
+}
+
+.login-save input{
+    width:22px;
+    height:22px;
+}
+
+.main-btn{
+    width:100%;
+    height:76px;
+    border:none;
+    border-radius:18px;
+    background:#003b92;
+    color:white;
+    font-size:26px;
+    font-weight:800;
+    margin-top:28px;
+    cursor:pointer;
+}
+
+.main-btn:hover{
+    opacity:0.95;
+}
+
+.link-row{
+    margin-top:28px;
+    display:flex;
+    justify-content:space-between;
+    font-size:16px;
+    gap:10px;
+}
+
+.link-row a{
+    text-decoration:none;
+    color:#2b71ff;
+    font-weight:600;
+}
+
+.user-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-top:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.user-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:18px;
+    font-weight:700;
+}
+
+.logout-btn{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:14px;
+    background:#111827;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+    .logout-top-btn{
+    border:none;
+    background:#111827;
+    color:white;
+    padding:10px 16px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.region-wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:25px;
+}
+
+.region-card{
+    background:white;
+    border-radius:22px;
+    padding:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.07);
+}
+
+.region-title{
+    font-size:28px;
+    font-weight:800;
+}
+
+.time{
+    margin-top:10px;
+    font-size:20px;
+    color:#e60023;
+    font-weight:800;
+}
+
+.ai-btn{
+    margin-top:18px;
+    width:100%;
+    height:60px;
+    border:none;
+    border-radius:15px;
+    background:#2563eb;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    margin-top:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.card button{
+    width:100%;
+    margin-top:15px;
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+}
+
+.bottom-menu{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:500px;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:16px 0;
+    border-top:1px solid #e5e5e5;
+}
+
+.menu-item{
+    text-align:center;
+    color:#5b6070;
+    font-size:14px;
+    font-weight:700;
+}
+
+.menu-item div{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+/* 👇 여기 추가 */
+.ticket-card{
+  width:45%;
+  background:white;
+  border:3px solid #2563eb;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+
+.ticket-title{
+
+  font-size:20px;
+  font-weight:bold;
+  color:#2563eb;
+  margin-bottom:15px;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+}
+
+.ticket-card{
+
+  width:45%;
+  min-width:0;
+
+  background:white;
+  border:3px solid #2563eb;
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  position:relative;
+
+}
+
+@media(max-width:480px){
+
+.ticket-title{
+
+    font-size:17px;
+
+}
+
+}
+
+.ticket-time{
+
+font-size:34px;
+
+line-height:1.1;
+
+font-weight:900;
+
+color:#d40000;
+
+margin:10px 0;
+
+}
+
+.ticket-day{
+
+font-size:15px;
+
+font-weight:700;
+
+color:#666;
+
+margin-top:5px;
+
+}
+
+.ticket-info{
+
+font-size:13px;
+
+color:#666;
+
+margin-bottom:10px;
+
+}
+
+.ticket-sub{
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.ticket-card button{
+  background:#0f2f73;
+  color:white;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:10px;
+}
+
+@media(max-width:480px){
+
+    .logo-text{
+        font-size:44px;
+    }
+
+    .hero-horse{
+        width:150px;
+    }
+
+    .main-btn{
+        font-size:22px;
+    }
+
+    .ticket-time{
+
+        font-size:24px;
+
+    }
+
+}
+    .quick-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:20px;
+}
+
+.quick-card{
+    border-radius:18px;
+    padding:22px;
+    color:white;
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    font-weight:700;
+}
+
+.quick-card:nth-child(1){
+    background:#4d8df7;
+}
+
+.quick-card:nth-child(2){
+    background:#284d91;
+}
+
+.quick-card:nth-child(3){
+    background:#002f87;
+}
+
+.quick-card:nth-child(4){
+    background:#0050d7;
+}
+
+.quick-card{
+
+    border-radius:18px;
+    padding:22px;
+
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:flex-start;
+
+}
+
+.quick-sub{
+    font-size:18px;
+    opacity:0.9;
+}
+
+.today-race-box{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    margin-top:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+.today-table-wrap{
+    max-height:240px;
+    overflow-y:auto;
+}
+
+.today-title{
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+    margin-bottom:15px;
+}
+.race-tabs-wrap{
+
+    display:flex;
+    gap:8px;
+
+    margin-bottom:15px;
+
+    overflow-x:auto;
+
+}
+#today-race-list{
+
+    max-height:420px;
+    overflow-y:auto;
+
+    padding-top:10px;
+
+}
+
+.race-card{
+    background:#f8f9ff;
+    border:1px solid #dfe6ff;
+    border-radius:14px;
+
+    padding:12px 14px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.race-left{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.race-title{
+    font-size:15px;
+    font-weight:800;
+    color:#1f3fbf;
+}
+
+.race-sub{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#1e293b;
+
+    letter-spacing:-0.5px;
+
+}
+
+.race-time{
+    font-size:18px;
+    font-weight:800;
+    color:#111;
+}
+    .dynamic-menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.dynamic-menu-btn{
+    background:white;
+    border-radius:16px;
+    padding:16px 10px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.06);
+    border:2px solid #2f66ff;
+
+    text-decoration:none;
+    color:#111;
+
+    transition:0.2s;
+}
+
+.dynamic-menu-btn:hover{
+    transform:translateY(-3px);
+}
+
+.dynamic-menu-icon{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.dynamic-menu-name{
+    font-size:16px;
+    font-weight:700;
+    color:#2457ff;
+}
+
+.dynamic-menu-desc{
+    font-size:12px;
+    color:#666;
+    margin-top:4px;
+}
+    .modal{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(
+0,0,0,0.5
+);
+
+z-index:9999;
+
+justify-content:center;
+align-items:center;
+
+padding:15px;
+
+}
+
+.modal-content{
+
+background:white;
+
+width:100%;
+max-width:900px;
+
+max-height:80vh;
+
+overflow:auto;
+
+border-radius:20px;
+
+padding:20px;
+
+}
+
+.modal-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+.close-btn{
+
+border:none;
+
+background:#ef4444;
+
+color:white;
+
+width:40px;
+height:40px;
+
+border-radius:50%;
+
+font-size:18px;
+
+cursor:pointer;
+
+}
+
+.trainer-tab-btn{
+
+width:100%;
+
+border:none;
+border-radius:999px;
+
+padding:10px 18px;
+
+background:#f5f5f5;
+
+font-size:14px;
+font-weight:700;
+
+cursor:pointer;
+
+transition:all .25s;
+
+box-shadow:
+0 2px 8px rgba(0,0,0,.08);
+
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+}
+
+.trainer-tab-btn:hover{
+
+transform:translateY(-2px);
+
+background:#2563eb;
+
+color:white;
+
+box-shadow:
+0 8px 16px rgba(
+37,99,235,.25
+);
+
+}
+
+.race-tab{
+
+    border:none;
+    padding:10px 18px;
+    border-radius:999px;
+
+    background:#f3f4f6;
+
+    color:#111;
+    font-weight:700;
+
+    cursor:pointer;
+    white-space:nowrap;
+
+    min-width:70px;
+}
+
+.race-tab.active{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+.race-detail-btn{
+
+    border:none;
+    background:#2563eb;
+
+    color:white;
+    font-weight:700;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    min-width:90px;
+
+}
+
+#user-point{
+
+    background:#eef4ff;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    transition:0.2s;
+
+}
+
+#user-point:hover{
+
+    background:#dbe7ff;
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- 로그인 영역 -->
+<div id="login-area">
+
+    <div class="logo-area">
+
+        <div class="big-data">BIG DATA</div>
+
+        <div class="logo-row">
+
+            <div>
+                <div class="logo-text">알마馬고</div>
+                <div class="logo-sub">ALMAGO</div>
+            </div>
+
+            <div class="go-circle">GO</div>
+
+        </div>
+
+<div class="region-wrap">
+
+  <div class="ticket-card">
+
+    <div class="ticket-title">
+
+    🏇 로딩중...
+
+    </div>
+
+    <div class="ticket-info">
+
+    등급 · 거리
+
+    </div>
+
+    <div class="ticket-day">
+
+    D-day
+
+    </div>
+
+    <div id="seoul-time"
+    class="ticket-time">
+
+    --:--
+
+    </div>
+
+    <div class="ticket-sub">
+
+    AI 분석 제공
+
+    </div>
+    
+    <button onclick="goAI('서울')">
+      AI 추천보기
+    </button>
+
+  </div>
+
+  <div class="ticket-card">
+
+    <div class="ticket-title">
+
+    🏇 로딩중...
+
+    </div>
+
+    <div class="ticket-info">
+
+    등급 · 거리
+
+    </div>
+
+    <div class="ticket-day">
+
+    D-day
+
+    </div>
+
+    <div id="busan-time"
+    class="ticket-time">
+
+    --:--
+
+    </div>
+
+    <div class="ticket-sub">
+
+    AI 분석 제공
+    </div>
+
+    <button onclick="goAI('부산')">
+      AI 추천보기
+    </button>
+
+  </div>
+    
+</div>
+
+    </div>
+
+    <div class="input-label">아이디</div>
+
+    <div class="input-wrap">
+        <input
+id="email"
+placeholder="아이디 입력"
+
+onkeydown="
+if(event.key==='Enter'){
+document.getElementById(
+'password'
+).focus();
+}
+"
+>
+    </div>
+
+    <div class="input-label">비밀번호</div>
+
+    <div class="input-wrap">
+        <input
+id="password"
+type="password"
+placeholder="비밀번호 입력"
+
+onkeydown="
+if(event.key==='Enter'){
+login();
+}
+"
+>
+        <span class="password-eye" onclick="togglePassword()">👁️</span>
+    </div>
+
+    <div class="login-save">
+        <input type="checkbox">
+        <span>로그인 상태 유지</span>
+    </div>
+
+    <button class="main-btn" onclick="login()">
+        로그인
+    </button>
+
+    <div class="link-row">
+        <div>
+            아직 회원이 아니세요?
+            <a href="#" onclick="showRegister()">회원가입</a>
+        </div>
+
+        <a href="#" onclick="showFindAccount()">
+        아이디/비밀번호 찾기
+        </a>
+    </div>
+
+</div>
+
+<!-- 회원가입 영역 -->
+<div id="register-area" style="display:none;">
+
+    <div class="section-title">회원가입</div>
+
+    <div class="input-label">아이디</div>
+    <input id="reg-email" placeholder="아이디 입력">
+
+    <div class="input-label">비밀번호</div>
+    <input id="reg-password" type="password" placeholder="비밀번호 입력">
+
+    <div class="input-label">비밀번호 확인</div>
+    <input id="reg-password2" type="password" placeholder="비밀번호 확인">
+
+    <div class="input-label">이름</div>
+    <input id="reg-name" placeholder="이름 입력">
+
+    <div class="input-label">생년월일</div>
+    <input id="reg-birth" placeholder="예: 19890808">
+
+    <div class="input-label">휴대폰번호</div>
+    <input id="reg-phone" placeholder="01012345678">
+
+    <button class="main-btn" onclick="register()">
+        회원가입
+    </button>
+
+    <button class="main-btn" style="background:#6b7280" onclick="showLogin()">
+        뒤로가기
+    </button>
+
+</div>
+<!-- 아이디/비밀번호 찾기 영역 -->
+<div id="find-area" style="display:none;">
+
+    <div class="section-title">
+        아이디/비밀번호 찾기
+    </div>
+
+    <div class="input-label">이름</div>
+    <input id="find-name" placeholder="이름 입력">
+
+    <div class="input-label">생년월일</div>
+    <input id="find-birth" placeholder="예: 19890808">
+
+    <div class="input-label">휴대폰번호</div>
+    <input id="find-phone" placeholder="01012345678">
+
+    <button class="main-btn" onclick="findId()">
+        아이디 찾기
+    </button>
+
+    <div
+    id="find-result"
+    style="
+    margin-top:15px;
+    font-size:18px;
+    font-weight:700;
+    color:#2563eb;
+    "
+    >
+    </div>
+    
+    <div class="input-label">아이디</div>
+    <input id="find-email" placeholder="비밀번호를 찾을 아이디 입력">
+
+    <div class="input-label">새 비밀번호</div>
+    <input id="new-password" type="password" placeholder="새 비밀번호 입력">
+
+    <button class="main-btn" onclick="resetPassword()">
+        비밀번호 재설정
+    </button>
+
+    <button class="main-btn" style="background:#6b7280" onclick="showLogin()">
+        뒤로가기
+    </button>
+
+</div>
+<!-- 로그인 후 영역 -->
+<div id="main-area" style="display:none;">
+
+    <div class="user-card">
+
+        <div id="user-info"></div>
+
+        <div class="quick-grid">
+
+  <div
+  class="quick-card"
+  onclick="goHitRate()"
+  >
+      <div class="quick-title">📈 적중률</div>
+      <div class="quick-sub">등급 변경</div>
+  </div>
+
+  <div
+  class="quick-card"
+  onclick="goRaceInfo()"
+  >
+      <div class="quick-title">🏇 경주정보</div>
+      <div class="quick-sub">과거/현재</div>
+  </div>
+
+  <div
+  class="quick-card"
+  onclick="goResult()"
+  >
+      <div class="quick-title">🎯 적중률 확인</div>
+      <div class="quick-sub">과거 경주</div>
+  </div>
+
+  <div
+  class="quick-card"
+  onclick="goDividend()"
+  >
+      <div class="quick-title">💰 배당률</div>
+      <div class="quick-sub">현재/인기</div>
+  </div>
+
+</div>
+   
+    </div>
+
+    <div class="region-wrap">
+
+      <div class="ticket-card">
+
+      <div class="ticket-title">
+
+      🏇 로딩중...
+
+      </div>
+
+      <div class="ticket-info">
+
+      등급 · 거리
+
+      </div>
+
+      <div class="ticket-day">
+
+      D-day
+
+      </div>
+
+      <div id="seoul-time2"
+      class="ticket-time">
+
+      --:--
+
+      </div>
+
+      <div class="ticket-sub">
+
+      AI 분석 제공
+
+      </div>
+
+        <button onclick="goAI('서울')">
+          AI 추천보기
+        </button>
+
+      </div>
+
+      <div class="ticket-card">
+
+      <div class="ticket-title">
+
+      🏇 로딩중...
+
+      </div>
+
+      <div class="ticket-info">
+
+      등급 · 거리
+
+      </div>
+
+      <div class="ticket-day">
+
+      D-day
+
+      </div>
+
+      <div id="busan-time2"
+      class="ticket-time">
+
+      --:--
+
+      </div>
+
+      <div class="ticket-sub">
+
+      AI 분석 제공
+
+      </div>
+
+      <button onclick="goAI('부산')">
+
+      AI 추천보기
+
+      </button>
+
+      </div>
+
+    </div>
+
+<div id="dynamic-menu-grid" class="dynamic-menu-grid">
+</div>
+
+<div class="today-race-box">
+
+    <div id="race-detail-view"></div>
+
+    <div
+    id="today-title"
+    class="today-title">
+    금일경주
+    </div>
+
+    <div id="today-race-list"></div>
+
+</div>
+
+        <!--
+    <div id="menu-area"></div> 
+    <div id="list"></div>
+    -->
+
+
+</div>
+</div>
+    
+<!-- 하단 메뉴 -->
+<div class="bottom-menu">
+
+    <div class="menu-item">
+        <div>🏇</div>
+        AI알마고란?
+    </div>
+
+    <div class="menu-item">
+        <div>📄</div>
+        초보자가이드
+    </div>
+
+    <div class="menu-item">
+        <div>🎯</div>
+        AI적중률
+    </div>
+
+    <div class="menu-item">
+        <div>🎫</div>
+        마권예매
+    </div>
+
+</div>
+
+    <div id="race-modal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="modal-title">
+                경주상세
+            </h2>
+
+            <button
+            class="close-btn"
+            onclick="closeRaceModal()">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="modal-body">
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="horse-modal" class="modal">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h2>
+경주마 정보
+</h2>
+
+<button
+class="close-btn"
+onclick="closeHorseModal()"
+>
+
+✕
+
+</button>
+
+</div>
+
+<div id="horse-body">
+
+</div>
+
+</div>
+
+</div>
+    
+<script>
+
+// 로그인
+async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch("/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("email", email);
+
+        showMainUI();
+    } else {
+        alert(data.detail || data.msg);
+    }
+}
+
+// 회원가입
+async function register() {
+
+    try {
+
+        const email = document.getElementById("reg-email").value;
+        const password = document.getElementById("reg-password").value;
+        const password2 = document.getElementById("reg-password2").value;
+        const name = document.getElementById("reg-name").value;
+        const birth = document.getElementById("reg-birth").value;
+        const phone = document.getElementById("reg-phone").value;
+
+        if (password !== password2) {
+            alert("비밀번호가 다릅니다");
+            return;
+        }
+
+        const res = await fetch("/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email, password, name, birth, phone
+            })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            alert("회원가입 완료");
+            showLogin();
+        } else {
+            alert("에러: " + JSON.stringify(data));
+        }
+
+    } catch (err) {
+        alert("에러 발생: " + err);
+    }
+}
+
+// 로그아웃
+function logout() {
+    localStorage.clear();
+    location.reload();
+}
+
+function goPoint(){
+
+    location.href =
+    "point.html";
+
+}
+
+// 메인 UI
+async function showMainUI() {
+
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("register-area").style.display = "none";
+    document.getElementById("main-area").style.display = "block";
+    document.getElementById("find-area").style.display = "none";
+
+    const email = localStorage.getItem("email");
+    const res = await fetch(`/my-profile/${email}`);
+    const user = await res.json();
+
+document.getElementById("user-info").innerHTML = `
+  <div class="user-bar">
+
+      <div style="
+      display:flex;
+      align-items:center;
+      gap:12px;
+      ">
+
+          <span
+onclick="location.href='my.html'"
+style="cursor:pointer;"
+>
+👤 ${user.name || email}님
+</span>
+
+          <span
+          id="user-point"
+
+          onclick="goPoint()"
+
+          style="
+          font-weight:800;
+          color:#003c97;
+          cursor:pointer;
+          ">
+
+          💰 0P
+
+</span>
+
+      </div>
+
+      <button class="logout-top-btn" onclick="logout()">
+          로그아웃
+      </button>
+
+  </div>
+`;
+
+    loadMenus();
+    loadDynamicMenus();
+    loadMyPoint();
+}
+
+// 메뉴 로드
+async function loadMenus() {
+
+    const container =
+    document.getElementById(
+        "menu-area"
+    );
+
+    // menu-area가 없으면 종료
+    if(!container){
+        return;
+    }
+
+    const res = await fetch("/menus");
+    const data = await res.json();
+
+    container.innerHTML="";
+
+    data.forEach(m => {
+
+        container.innerHTML += `
+
+        <div class="card">
+
+            <h3>${m.name}</h3>
+
+            <button onclick="
+            alert('${m.path}')
+            ">
+            이동
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+// 자동 로그인
+window.onload = async () => {
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        await loadRaceForHome();
+        await loadTodayRaceTable();
+
+        updateCountdown();
+        setInterval(
+            updateCountdown,
+            1000
+        );
+
+    } catch(e){
+
+        console.error(
+            "race 로드 실패:",
+            e
+        );
+
+    }
+
+    if(token){
+        showMainUI();
+    }
+
+};
+
+// 경주 타겟
+let raceTargets = {
+    card1:null,
+    card2:null
+};
+
+// 경주 데이터
+async function loadRaceForHome() {
+
+    const res = await fetch("/race");
+    const data = await res.json();
+
+    const now = new Date();
+
+    // 미래 경기만
+    const upcoming = data.filter(r=>{
+
+        const dt=
+        parseDateTime(
+            r.경주일자,
+            r.출발시각
+        );
+
+        return dt > now;
+
+    });
+
+    // 출발시간 기준 정렬
+    upcoming.sort(
+    (a,b)=>{
+
+    const aTime=
+    parseDateTime(
+    a.경주일자,
+    a.출발시각
+    ).getTime();
+
+    const bTime=
+    parseDateTime(
+    b.경주일자,
+    b.출발시각
+    ).getTime();
+
+    return aTime-bTime;
+
+    }
+    );
+
+    // 지역 중복 없이 가장 빠른 2경주
+    const uniqueRegionRaces=[];
+
+    upcoming.forEach(r=>{
+
+        const exists=
+        uniqueRegionRaces.some(
+            item=>item.지역===r.지역
+        );
+
+        if(!exists){
+            uniqueRegionRaces.push(r);
+        }
+
+    });
+
+    const firstRace=uniqueRegionRaces[0];
+    const secondRace=uniqueRegionRaces[1];
+
+    raceTargets.card1=
+firstRace
+? {
+
+date:parseDateTime(
+firstRace.경주일자,
+firstRace.출발시각
+),
+
+title:
+`${firstRace.지역} ${firstRace.경주}경주`,
+
+info:
+`${firstRace.등급} · ${formatDistance(firstRace.거리)}m`,
+
+horses:
+`${firstRace.출전}`
+
+}
+: null;
+
+    raceTargets.card2=
+secondRace
+? {
+
+date:parseDateTime(
+secondRace.경주일자,
+secondRace.출발시각
+),
+
+title:
+`${secondRace.지역} ${secondRace.경주}경주`,
+
+info:
+`${secondRace.등급} · ${formatDistance(secondRace.거리)}m`,
+
+horses:
+`${secondRace.출전}`
+
+}
+: null;
+
+}
+// 경주목록
+async function loadTodayRaceTable(){
+
+    const res=await fetch("/race");
+    const data=await res.json();
+
+    const raceList=
+    document.getElementById(
+        "today-race-list"
+    );
+
+    if(!raceList) return;
+
+    raceList.innerHTML="";
+
+
+    // =====================
+    // 제목 변경
+    // =====================
+
+    const title=
+    document.getElementById(
+        "today-title"
+    );
+
+    const now=
+    new Date();
+
+    let today=
+    now.getDay();
+
+    // 데이터 있을 때 경주일 기준
+    if(
+        data &&
+        data.length>0
+    ){
+
+        const firstRaceDate=
+        parseDateTime(
+            data[0].경주일자,
+            data[0].출발시각
+        );
+
+        today=
+        firstRaceDate.getDay();
+
+    }
+
+    const hasUpcoming=
+    data.some(r=>{
+
+        const dt=
+        parseDateTime(
+            r.경주일자,
+            r.출발시각
+        );
+
+        return dt>now;
+
+    });
+
+    if(
+        today===5 ||
+        today===6 ||
+        today===0
+    ){
+
+        title.innerText=
+        "금일경주";
+
+    }else{
+
+        title.innerText=
+        hasUpcoming
+        ? "예정경주"
+        : "지난경주";
+
+    }
+
+
+// =====================
+// 지역 필터
+// =====================
+
+// 위 카드 기준 지역 추출
+const allowedRegions=[
+    raceTargets.card1?.title?.split(" ")[0],
+    raceTargets.card2?.title?.split(" ")[0]
+].filter(Boolean);
+
+const filteredData=
+data.filter(r=>
+    allowedRegions.includes(
+        r.지역
+    )
+);
+
+    // =====================
+    // 지역 그룹화
+    // =====================
+
+    const grouped={};
+
+    filteredData.forEach(r=>{
+
+        if(!grouped[r.지역]){
+
+            grouped[r.지역]=[];
+
+        }
+
+        grouped[r.지역].push(r);
+
+    });
+
+
+    const regions=
+    allowedRegions.filter(
+    region =>
+    (grouped[region] || []).length > 0
+    );
+
+    if(regions.length===0){
+
+        raceList.innerHTML=
+        "경주 없음";
+
+        return;
+    }
+
+    const selectedRegion=
+    regions[0] || "서울";
+
+
+    // =====================
+    // 탭 생성
+    // =====================
+
+    const tabsHtml=`
+
+<div class="race-tabs-wrap">
+
+${regions.map(region=>`
+
+<button
+class="
+race-tab
+${region===selectedRegion ? 'active' : ''}
+"
+data-region="${region}"
+>
+
+${region}
+
+</button>
+
+`).join("")}
+
+</div>
+
+<div id="tab-race-content"></div>
+
+`;
+
+    raceList.innerHTML=
+    tabsHtml;
+
+
+    // =====================
+    // 탭 내용 출력
+    // =====================
+
+    function renderRegion(region){
+
+    const content=
+    document.getElementById(
+    "tab-race-content"
+    );
+
+    if(!content) return;
+
+    const races=
+    [
+    ...new Map(
+    (grouped[region] || [])
+    .map(r=>[
+    r.경주,
+    r
+    ])
+    ).values()
+    ]
+    .sort(
+    (a,b)=>
+    Number(a.경주)-
+    Number(b.경주)
+    );
+
+    if(races.length===0){
+
+        content.innerHTML=
+        "경주 없음";
+
+        return;
+    }
+
+    content.innerHTML=
+    races.map(r=>`
+
+    <div class="race-card">
+
+    <div style="width:100%;">
+
+    <!-- 첫 줄 -->
+    <div style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    ">
+
+        <div class="race-title">
+        ${r.경주}경주
+        </div>
+
+        <span style="
+        background:#eef2ff;
+        padding:4px 8px;
+        border-radius:999px;
+        font-size:12px;
+        ">
+
+        🏷 ${r.등급 || "-"}
+
+        </span>
+
+        <span style="
+        background:#ecfdf5;
+        padding:4px 8px;
+        border-radius:999px;
+        font-size:12px;
+        ">
+
+        🐎 ${r.출전 || "-"}
+
+        </span>
+
+    </div>
+
+    <!-- 둘째 줄 -->
+    <div style="
+    margin-top:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    ">
+
+        <div class="race-sub">
+
+        ${formatDistance(r.거리)}m
+        &nbsp;
+        ${formatRaceTime(r.출발시각)}
+
+        </div>
+
+        <button
+        class="race-detail-btn"
+        onclick="
+        showRaceDetail(
+        '${r.지역=="부산"?"부산경남":r.지역}',
+        ${r.경주},
+        '${r.경주일자}'
+        )
+        "
+        >
+
+        상세보기
+
+        </button>
+</div>
+    </div>
+
+</div>
+
+`).join("");
+
+}
+    
+
+            
+    // 기본 탭
+    renderRegion(
+        selectedRegion
+    );
+
+
+    // 탭 클릭
+    document
+    .querySelectorAll(
+    ".race-tab"
+    )
+    .forEach(btn=>{
+
+        btn.onclick=()=>{
+
+            document
+            .querySelectorAll(
+            ".race-tab"
+            )
+            .forEach(b=>{
+
+                b.style.background=
+                "#f3f4f6";
+
+                b.style.color=
+                "#111";
+
+            });
+
+            btn.style.background=
+            "#2563eb";
+
+            btn.style.color=
+            "white";
+
+            renderRegion(
+                btn.dataset.region
+            );
+
+        };
+
+    });
+
+}
+
+function formatRaceDate(value){
+    if(!value) return "";
+
+    const clean=
+    String(value)
+
+    .replace(/\(.*?\)/g,"")
+
+    .split(" ")[0];
+
+    if(clean.includes("/")){
+        const parts = clean.split("/");
+        return `${parts[1]}/${parts[2]}`;
+    }
+
+    if(clean.includes("-")){
+        const parts = clean.split("-");
+        return `${parts[1]}/${parts[2]}`;
+    }
+
+    return clean;
+}
+
+function formatDistance(value){
+    if(!value) return "";
+    return String(value).replace("m", "").replace("M", "");
+}
+
+function formatRaceTime(value){
+    if(!value) return "";
+    return String(value).slice(0,5);
+}
+
+// 날짜 파싱
+function parseDateTime(dateStr,timeStr){
+
+const cleanDate=
+String(dateStr)
+.replace(/\(.*?\)/g,"")
+.replace(/\//g,"-")
+.trim();
+
+let cleanTime=
+String(timeStr).trim();
+
+
+// 10 35 → 10:35 변환
+if(
+cleanTime.includes(" ") &&
+!cleanTime.includes(":")
+){
+
+cleanTime=
+cleanTime.replace(/\s+/g,":");
+
+}
+
+
+// 초 없으면 추가
+if(
+cleanTime.split(":").length===2
+){
+
+cleanTime += ":00";
+
+}
+
+return new Date(
+`${cleanDate}T${cleanTime}`
+);
+
+}
+
+// 카운트다운
+function updateCountdown(){
+
+    const now=new Date();
+
+    function format(target){
+
+        if(!target)
+            return "--:--";
+
+        const diff=
+        target.date-now;
+
+        if(diff<=0)
+            return "출발";
+
+        const day=
+        Math.floor(
+        diff/(1000*60*60*24)
+        );
+
+        const hour=
+        Math.floor(
+        (diff/(1000*60*60))%24
+        );
+
+        const min=
+        Math.floor(
+        (diff/(1000*60))%60
+        );
+
+        const sec=
+        Math.floor(
+        (diff/1000)%60
+        );
+
+        return `D-${day}<br>${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+            }
+
+    const titles =
+    document.querySelectorAll(
+    ".ticket-title"
+    );
+
+    const infos =
+document.querySelectorAll(
+".ticket-info"
+);
+
+const days =
+document.querySelectorAll(
+".ticket-day"
+);
+
+    if(titles[0]){
+        titles[0].innerText =
+        raceTargets.card1?.title || "-";
+    }
+
+    if(titles[1]){
+        titles[1].innerText =
+        raceTargets.card2?.title || "-";
+    }
+
+    if(titles[2]){
+        titles[2].innerText =
+        raceTargets.card1?.title || "-";
+    }
+
+    if(titles[3]){
+        titles[3].innerText =
+        raceTargets.card2?.title || "-";
+    }
+
+    if(infos[0]){
+infos[0].innerText =
+raceTargets.card1?.info || "-";
+}
+
+if(infos[1]){
+infos[1].innerText =
+raceTargets.card2?.info || "-";
+}
+
+if(infos[2]){
+infos[2].innerText =
+raceTargets.card1?.info || "-";
+}
+
+if(infos[3]){
+infos[3].innerText =
+raceTargets.card2?.info || "-";
+}
+
+if(days[0]){
+days[0].innerText =
+`🐎 ${raceTargets.card1?.horses || "-"}`;
+}
+
+if(days[1]){
+days[1].innerText =
+`🐎 ${raceTargets.card2?.horses || "-"}`;
+}
+
+if(days[2]){
+days[2].innerText =
+`🐎 ${raceTargets.card1?.horses || "-"}`;
+}
+
+if(days[3]){
+days[3].innerText =
+`🐎 ${raceTargets.card2?.horses || "-"}`;
+}
+
+    document.getElementById(
+    "seoul-time"
+    ).innerHTML=
+    format(raceTargets.card1);
+
+    document.getElementById(
+    "busan-time"
+    ).innerHTML=
+    format(raceTargets.card2);
+
+    document.getElementById(
+    "seoul-time2"
+    ).innerHTML=
+    format(raceTargets.card1);
+
+    document.getElementById(
+    "busan-time2"
+    ).innerHTML=
+    format(raceTargets.card2);
+
+}
+
+// 회원가입 전환
+function showRegister() {
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("register-area").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("register-area").style.display = "none";
+    document.getElementById("find-area").style.display = "none";
+    document.getElementById("login-area").style.display = "block";
+}
+    
+function showFindAccount() {
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("register-area").style.display = "none";
+    document.getElementById("find-area").style.display = "block";
+}
+
+// AI 페이지 이동
+async function goAI(region) {
+
+    const token =
+    localStorage.getItem("token");
+
+    if (!token) {
+
+        alert("로그인 필요");
+        return;
+
+    }
+
+    // 포인트 차감 요청
+    const res = await fetch(
+        "/use-ai",
+        {
+            method:"POST",
+
+            headers:{
+                "Authorization":"Bearer " + token
+            }
+        }
+    );
+
+    const data = await res.json();
+
+    // 실패
+    if(!res.ok){
+
+        alert(
+            data.detail || "포인트 부족"
+        );
+
+        return;
+
+    }
+
+    // 성공
+    alert(
+        `100P 차감 완료\n남은 포인트: ${data.remain_point}P`
+    );
+
+    location.href =
+    "ai.html?region=" + region;
+
+}
+
+// 비밀번호 보기
+function togglePassword(){
+
+    const pw = document.getElementById("password");
+
+    if(pw.type === "password"){
+        pw.type = "text";
+    }else{
+        pw.type = "password";
+    }
+}
+
+async function findId(){
+
+    const name =
+    document.getElementById(
+    "find-name"
+    ).value;
+
+    const birth =
+    document.getElementById(
+    "find-birth"
+    ).value;
+
+    const phone =
+    document.getElementById(
+    "find-phone"
+    ).value;
+
+    const res = await fetch(
+    "/find-id",
+    {
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            name,
+            birth,
+            phone
+        })
+    });
+
+    const data =
+    await res.json();
+
+    if(res.ok){
+
+    document.getElementById(
+    "find-result"
+    ).innerText =
+    `가입된 아이디: ${data.email}`;
+
+}else{
+
+    document.getElementById(
+    "find-result"
+    ).innerText =
+    "";
+
+    alert(
+    data.detail || "찾기 실패"
+    );
+
+}
+
+}
+
+async function resetPassword(){
+
+    const email =
+    document.getElementById(
+    "find-email"
+    ).value;
+
+    const name =
+    document.getElementById(
+    "find-name"
+    ).value;
+
+    const birth =
+    document.getElementById(
+    "find-birth"
+    ).value;
+
+    const phone =
+    document.getElementById(
+    "find-phone"
+    ).value;
+
+    const newPassword =
+    document.getElementById(
+    "new-password"
+    ).value;
+
+    const res = await fetch(
+    "/reset-password",
+    {
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            email,
+            name,
+            birth,
+            phone,
+            new_password:newPassword
+
+        })
+    });
+
+    const data =
+    await res.json();
+
+    if(res.ok){
+
+    // 자동 로그인
+    const loginRes = await fetch(
+    "/login",
+    {
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            email,
+            password:newPassword
+
+        })
+    });
+
+    const loginData =
+    await loginRes.json();
+
+    if(loginRes.ok){
+
+        localStorage.setItem(
+        "token",
+        loginData.access_token
+        );
+
+        localStorage.setItem(
+        "email",
+        email
+        );
+
+        alert(
+        "비밀번호 변경 및 로그인 완료"
+        );
+
+        showMainUI();
+
+    }else{
+
+        alert(
+        "비밀번호는 변경됐지만 로그인 실패"
+        );
+
+        showLogin();
+
+    }
+
+}else{
+
+    alert(
+    data.detail || "변경 실패"
+    );
+
+}
+
+}
+
+//버튼
+    async function loadDynamicMenus(){
+
+    const res = await fetch("/menus");
+
+    const data = await res.json();
+
+    const grid =
+    document.getElementById(
+        "dynamic-menu-grid"
+    );
+
+    grid.innerHTML="";
+
+    data.forEach(menu=>{
+
+        grid.innerHTML += `
+
+<a href="${
+menu.path.startsWith('http')
+? menu.path
+: 'https://' + menu.path
+}"
+class="dynamic-menu-btn"
+target="_blank">
+
+<div class="dynamic-menu-icon">
+${menu.icon}
+</div>
+
+<div class="dynamic-menu-name">
+${menu.name}
+</div>
+
+<div class="dynamic-menu-desc">
+${menu.description}
+</div>
+
+</a>
+`;
+
+    });
+
+}
+
+async function showRaceDetail(
+region,
+raceNo,
+date
+){
+
+console.log(
+"지역:",
+region,
+"경주:",
+raceNo
+);
+
+const url =
+`/race-detail/${region}/${raceNo}?date=${date}`;
+
+console.log(
+"호출URL:",
+url
+);
+
+const res=await fetch(url);
+
+const data=await res.json();
+
+console.log(
+"받은데이터:",
+data
+);
+
+let html=`
+
+<div class="card">
+
+<h2>
+${region} ${raceNo}경주
+</h2>
+
+<div style="overflow-x:auto;">
+
+<table style="
+width:max-content;
+min-width:100%;
+border-collapse:collapse;
+font-size:13px;
+">
+
+<style>
+th,td{
+border:1px solid #ddd;
+padding:8px;
+white-space:nowrap;
+text-align:center;
+}
+
+th{
+background:#f5f7ff;
+position:sticky;
+top:0;
+}
+</style>
+
+<tr>
+
+<th>지역</th>
+<th>날짜</th>
+<th>경주번호</th>
+<th>번호</th>
+<th>마명</th>
+<th>마중</th>
+<th>성별</th>
+<th>연령</th>
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
+<th>기수명</th>
+<th>조교사명</th>
+<th>마주명</th>
+<th>조교횟수</th>
+<th>출전주기</th>
+<th>장구현황</th>
+<th>특이사항</th>
+
+</tr>
+
+`;
+
+data.forEach(row=>{
+
+html += `
+
+<tr>
+
+<td>${row["지역"] || ""}</td>
+<td>${row["날짜"] || ""}</td>
+<td>${row["경주번호"] || ""}</td>
+<td>${row["번호"] || ""}</td>
+<td>
+
+<a
+href="#"
+onclick="
+event.preventDefault();
+showHorseInfo(
+'${row["마명"]}'
+)
+"
+style="
+color:#2563eb;
+font-weight:bold;
+text-decoration:none;
+"
+>
+
+${row["마명"] || ""}
+
+</a>
+
+</td>
+<td>${row["마중"] || ""}</td>
+<td>${row["성별"] || ""}</td>
+<td>${row["연령"] || ""}</td>
+<td>${row["레이팅"] || ""}</td>
+<td>${row["중량"] || ""}</td>
+<td>${row["증감"] || ""}</td>
+<td>
+
+<a
+href="#"
+onclick="
+event.preventDefault();
+showJockeyInfo(
+'${row["기수명"]}'
+)
+"
+style="
+color:#16a34a;
+font-weight:bold;
+text-decoration:none;
+"
+>
+
+${row["기수명"] || ""}
+
+</a>
+
+</td>
+<td>
+
+<a
+href="#"
+onclick="
+event.preventDefault();
+showTrainerInfo(
+'${row["조교사명"]}'
+)
+"
+style="
+color:#dc2626;
+font-weight:bold;
+text-decoration:none;
+"
+>
+
+${row["조교사명"] || ""}
+
+</a>
+
+</td>
+
+<td>${row["마주명"] || ""}</td>
+<td>${row["조교횟수"] || ""}</td>
+<td>${row["출전주기"] || ""}</td>
+<td>${row["장구현황"] || ""}</td>
+<td>${row["특이사항"] || ""}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `
+</table>
+</div>
+</div>
+`;
+
+document.getElementById(
+"modal-title"
+).innerText =
+`${region} ${raceNo}경주`;
+
+document.getElementById(
+"modal-body"
+).innerHTML = html;
+
+document.getElementById(
+"race-modal"
+).style.display="flex";
+
+}
+
+function closeRaceModal(){
+
+document.getElementById(
+"race-modal"
+).style.display="none";
+
+}
+
+
+// 팝업 바깥 누르면 닫힘
+window.onclick=function(e){
+
+const raceModal=
+document.getElementById(
+"race-modal"
+);
+
+const horseModal=
+document.getElementById(
+"horse-modal"
+);
+
+if(e.target===raceModal){
+raceModal.style.display="none";
+}
+
+if(e.target===horseModal){
+horseModal.style.display="none";
+}
+
+}
+
+async function showHorseInfo(horseName){
+
+const res = await fetch(
+`/horse/${encodeURIComponent(horseName)}`
+);
+
+const data = await res.json();
+
+let html=`
+
+<div class="card">
+
+<h2>
+🏇 ${data.마명 || horseName}
+</h2>
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+"
+>
+
+<tr>
+<th>성별</th>
+<td>${data.성별 || "-"}</td>
+</tr>
+
+<tr>
+<th>나이</th>
+<td>${data.나이 || "-"}</td>
+</tr>
+
+<tr>
+<th>조교사</th>
+<td>${data.조교사 || "-"}</td>
+</tr>
+
+<tr>
+<th>마주</th>
+<td>${data.마주 || "-"}</td>
+</tr>
+
+<tr>
+<th>부마</th>
+<td>${data.부마 || "-"}</td>
+</tr>
+
+<tr>
+<th>모마</th>
+<td>${data.모마 || "-"}</td>
+</tr>
+
+<tr>
+<th>통산전적</th>
+<td>${data.통산전적 || "-"}</td>
+</tr>
+
+<tr>
+<th>승률</th>
+<td>${data.승률 || "-"}</td>
+</tr>
+
+<tr>
+<th>수득상금</th>
+<td>${data.수득상금 || "-"}</td>
+</tr>
+
+<tr>
+<th>생년월일</th>
+<td>${data.생년월일 || "-"}</td>
+</tr>
+
+<tr>
+<th>산지</th>
+<td>${data.산지 || "-"}</td>
+</tr>
+
+</table>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 경주마 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+function closeHorseModal(){
+
+document.getElementById(
+"horse-modal"
+).style.display="none";
+
+}
+
+async function showJockeyInfo(jockeyName){
+
+const res = await fetch(
+`/jockey/${encodeURIComponent(jockeyName)}`
+);
+
+const j = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#dcfce7;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🏇
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${j.기수명 || jockeyName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${j.지역명 || "-"} ·
+데뷔 ${j.데뷔일자 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>기승가능중량</b>
+<div>${j.기승가능중량 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산전적</b>
+<div>${j.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${j.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${j.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${j.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${j.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${j.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${j.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 기수 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerInfo(
+trainerName
+){
+
+const res = await fetch(
+`/trainer/${encodeURIComponent(
+trainerName
+)}`
+);
+
+const t = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+margin-bottom:25px;
+flex-wrap:wrap;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#fee2e2;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🐎
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${t.조교사명 || trainerName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${t.지역명 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+">
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+min-width:520px;
+">
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','info')
+"
+>
+📋 인적사항
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','horse')
+"
+>
+🐎 위탁관리말
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','year')
+"
+>
+📈 연도별성적
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','recent')
+"
+>
+🕒 최근1개월
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="trainer-tab-content">
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>통산전적</b>
+<div>${t.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${t.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${t.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${t.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년전적</b>
+<div>${t.최근1년 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${t.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${t.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${t.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🐎 조교사 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerTab(
+trainerName,
+tab
+){
+
+let url="";
+
+if(tab==="info"){
+showTrainerInfo(trainerName);
+return;
+}
+
+if(tab==="horse"){
+url=`/trainer-horse-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="year"){
+url=`/trainer-year-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="recent"){
+url=`/trainer-recent-name/${encodeURIComponent(trainerName)}`;
+}
+
+const res=await fetch(url);
+
+const data=await res.json();
+
+let html=`
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+">
+
+<style>
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+white-space:nowrap;
+}
+
+th{
+background:#f5f7ff;
+}
+</style>
+`;
+
+
+// =====================
+// 위탁관리말
+// =====================
+
+if(tab==="horse"){
+
+html+=`
+<tr>
+<th>마명</th>
+<th>마주명</th>
+<th>조번</th>
+<th>등급</th>
+<th>레이팅</th>
+<th>산지</th>
+<th>성별</th>
+<th>연령</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.마명||"-"}</td>
+<td>${r.마주명||"-"}</td>
+<td>${r.조번||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.레이팅||"-"}</td>
+<td>${r.산지||"-"}</td>
+<td>${r.성별||"-"}</td>
+<td>${r.연령||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 연도별성적
+// =====================
+
+if(tab==="year"){
+
+html+=`
+<tr>
+<th>연도</th>
+<th>출전</th>
+<th>1위</th>
+<th>2위</th>
+<th>3위</th>
+<th>승률</th>
+<th>복승률</th>
+<th>연승률</th>
+<th>순위상금</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.연도||"-"}</td>
+<td>${r.출전||"-"}</td>
+<td>${r.일위||"-"}</td>
+<td>${r.이위||"-"}</td>
+<td>${r.삼위||"-"}</td>
+<td>${r.승률||"-"}</td>
+<td>${r.복승률||"-"}</td>
+<td>${r.연승률||"-"}</td>
+<td>${r.순위상금||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 최근1개월
+// =====================
+
+if(tab==="recent"){
+
+html+=`
+<tr>
+<th>날짜</th>
+<th>마번</th>
+<th>마명</th>
+<th>기수명</th>
+<th>등급</th>
+<th>순위</th>
+<th>중량</th>
+<th>거리</th>
+<th>기록</th>
+<th>도착차</th>
+<th>마체중</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.경주일자||"-"}</td>
+<td>${r.마번||"-"}</td>
+<td>${r.마명||"-"}</td>
+<td>${r.기수명||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.순위||"-"}</td>
+<td>${r.중량||"-"}</td>
+<td>${r.거리||"-"}</td>
+<td>${r.기록||"-"}</td>
+<td>${r.도착차||"-"}</td>
+<td>${r.마체중||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+html+="</table>";
+
+document.getElementById(
+"trainer-tab-content"
+).innerHTML=html;
+
+}
+
+// =========================
+// 내 포인트 표시
+// =========================
+async function loadMyPoint(){
+
+const email =
+localStorage.getItem(
+"email"
+);
+
+const res =
+await fetch("/my-info", {
+
+headers:{
+Authorization:
+"Bearer " +
+localStorage.getItem(
+"token"
+)
+}
+
+});
+
+const user =
+await res.json();
+
+if(!user) return;
+
+document.getElementById(
+"user-point"
+).innerText =
+`💰 ${user.point || 0}P`;
+
+}    
+
+function goHitRate(){
+    location.href="hitrate.html";
+}
+
+function goRaceInfo(){
+    location.href="raceinfo.html";
+}
+
+function goResult(){
+    location.href="result.html";
+}
+
+function goDividend(){
+    location.href="dividend.html";
+}
+
+</script>
+
+    
+</body>
+</html>
