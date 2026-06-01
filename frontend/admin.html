@@ -1280,22 +1280,29 @@ display:flex;
 gap:4px;
 ">
 
-<button
-class="btn btn-premium"
-onclick="givePoint(${u.id}, 1000)">
-+1000
-</button>
+<input
+type="number"
+id="point-${u.id}"
+placeholder="포인트"
+style="
+width:90px;
+height:30px;
+">
 
 <button
-class="btn btn-admin"
-onclick="givePoint(${u.id}, 5000)">
-+5000
+class="btn btn-premium"
+onclick="givePoint(${u.id})">
+
+지급
+
 </button>
 
 <button
 class="btn btn-delete"
-onclick="usePoint(${u.id}, 1000)">
--1000
+onclick="usePoint(${u.id})">
+
+차감
+
 </button>
 
 </div>
@@ -1709,7 +1716,21 @@ async function loadRace() {
 // =========================
 // 포인트 지급
 // =========================
-async function givePoint(userId, point){
+async function givePoint(userId){
+
+const point =
+Number(
+document.getElementById(
+`point-${userId}`
+).value
+);
+
+if(!point){
+
+alert("포인트 입력");
+return;
+
+}
 
 const token =
 localStorage.getItem("token");
@@ -1738,9 +1759,7 @@ return;
 
 }
 
-alert(
-`${point}P 지급 완료`
-);
+alert(`${point}P 지급 완료`);
 
 loadUsers();
 
@@ -1749,7 +1768,21 @@ loadUsers();
 // =========================
 // 포인트 차감
 // =========================
-async function usePoint(userId, point){
+async function usePoint(userId){
+
+const point =
+Number(
+document.getElementById(
+`point-${userId}`
+).value
+);
+
+if(!point){
+
+alert("포인트 입력");
+return;
+
+}
 
 const token =
 localStorage.getItem("token");
@@ -1778,9 +1811,7 @@ return;
 
 }
 
-alert(
-`${point}P 차감 완료`
-);
+alert(`${point}P 차감 완료`);
 
 loadUsers();
 
@@ -2457,7 +2488,8 @@ data.map(r=>[
 {
 날짜:r.경주일자,
 지역:r.지역,
-경주:r.경주
+경주:r.경주,
+출발시각:r.출발시각
 }
 
 ])
@@ -2471,15 +2503,19 @@ races.sort(
 
 races.forEach(r=>{
 
+const dateText =
+String(r.날짜).split(" ")[0];
+
 select.innerHTML += `
 
 <option
 value="${r.날짜}|${r.지역}|${r.경주}"
 >
 
-${r.날짜}
+${dateText}
 ${r.지역}
 ${r.경주}경주
+(${r.출발시각 || "-"})
 
 </option>
 
@@ -3262,37 +3298,6 @@ html+="</table>";
 target.innerHTML=html;
 
 }
-
-async function givePoint(userId, point){
-
-const token =
-localStorage.getItem("token");
-
-const res = await fetch(
-
-`/users/${userId}/point?point=${point}`,
-
-{
-method:"PUT",
-
-headers:{
-"Authorization":"Bearer " + token
-}
-
-}
-
-);
-
-const data = await res.json();
-
-alert(
-`${point}P 지급 완료`
-);
-
-loadUsers();
-
-}
-
 
 // =========================
 // 포인트 로그 조회

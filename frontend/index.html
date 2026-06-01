@@ -823,7 +823,7 @@ box-shadow:
 
     </div>
     
-    <button onclick="goAI('서울')">
+    <button id="seoul-ai-btn">
       AI 추천보기
     </button>
 
@@ -861,7 +861,7 @@ box-shadow:
     AI 분석 제공
     </div>
 
-    <button onclick="goAI('부산')">
+    <button id="busan-ai-btn">
       AI 추천보기
     </button>
 
@@ -1085,8 +1085,8 @@ login();
 
       </div>
 
-        <button onclick="goAI('서울')">
-          AI 추천보기
+        <button id="main-ai-btn1">
+        AI 추천보기
         </button>
 
       </div>
@@ -1124,10 +1124,8 @@ login();
 
       </div>
 
-      <button onclick="goAI('부산')">
-
+      <button id="main-ai-btn2">
       AI 추천보기
-
       </button>
 
       </div>
@@ -1470,6 +1468,14 @@ async function loadRaceForHome() {
             r.출발시각
         );
 
+        console.log(
+             r.지역,
+             r.경주,
+             r.경주일자,
+             r.출발시각,
+             dt
+        );
+
         return dt > now;
 
     });
@@ -1525,6 +1531,8 @@ firstRace.출발시각
 
 title:
 `${firstRace.지역} ${firstRace.경주}경주`,
+raceNo:firstRace.경주,
+region:firstRace.지역,
 
 info:
 `${firstRace.등급} · ${formatDistance(firstRace.거리)}m`,
@@ -1546,6 +1554,8 @@ secondRace.출발시각
 
 title:
 `${secondRace.지역} ${secondRace.경주}경주`,
+raceNo:secondRace.경주,
+region:secondRace.지역,
 
 info:
 `${secondRace.등급} · ${formatDistance(secondRace.거리)}m`,
@@ -1555,6 +1565,46 @@ horses:
 
 }
 : null;
+
+// =======================
+// AI 버튼 연결
+// =======================
+
+const btnMain1 =
+document.getElementById(
+"main-ai-btn1"
+);
+
+if(btnMain1 && raceTargets.card1){
+
+    btnMain1.onclick=()=>{
+
+        goAI(
+            raceTargets.card1.region,
+            raceTargets.card1.raceNo
+        );
+
+    };
+
+}
+
+const btnMain2 =
+document.getElementById(
+"main-ai-btn2"
+);
+
+if(btnMain2 && raceTargets.card2){
+
+    btnMain2.onclick=()=>{
+
+        goAI(
+            raceTargets.card2.region,
+            raceTargets.card2.raceNo
+        );
+
+    };
+
+}
 
 }
 // 경주목록
@@ -1931,6 +1981,7 @@ const cleanDate=
 String(dateStr)
 .replace(/\(.*?\)/g,"")
 .replace(/\//g,"-")
+.split(" ")[0]
 .trim();
 
 let cleanTime=
@@ -2100,6 +2151,42 @@ days[3].innerText =
 
 }
 
+const btn1 =
+document.getElementById(
+"seoul-ai-btn"
+);
+
+if(btn1 && raceTargets.card1){
+
+    btn1.onclick=()=>{
+
+        goAI(
+            raceTargets.card1.region,
+            raceTargets.card1.raceNo
+        );
+
+    };
+
+}
+
+const btn2 =
+document.getElementById(
+"busan-ai-btn"
+);
+
+if(btn2 && raceTargets.card2){
+
+    btn2.onclick=()=>{
+
+        goAI(
+            raceTargets.card2.region,
+            raceTargets.card2.raceNo
+        );
+
+    };
+
+}
+
 // 회원가입 전환
 function showRegister() {
     document.getElementById("login-area").style.display = "none";
@@ -2119,7 +2206,16 @@ function showFindAccount() {
 }
 
 // AI 페이지 이동
-async function goAI(region) {
+async function goAI(
+    region,
+    raceNo
+) {
+
+console.log(
+"GO AI",
+region,
+raceNo
+);
 
     const token =
     localStorage.getItem("token");
@@ -2162,7 +2258,7 @@ async function goAI(region) {
     );
 
     location.href =
-    "ai.html?region=" + region;
+    `ai.html?region=${region}&raceNo=${raceNo}`;
 
 }
 

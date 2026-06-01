@@ -1591,7 +1591,7 @@ def get_race_detail_data(
         RaceDetail.경주 == race_no
     )
 
-    # 지역 먼저 필터
+    # 지역 필터
     if region:
         query = query.filter(
             RaceDetail.지역 == region
@@ -1602,31 +1602,40 @@ def get_race_detail_data(
 
         rows = query.all()
 
-        input_date = str(date)
+        # 예:
+        # 2026-06-06 00:00:00
+        # ↓
+        # 20260606
+        input_clean = ''.join(
+            c for c in str(date)
+            if c.isdigit()
+        )[:8]
 
         data = []
 
         for r in rows:
 
-            db_date = str(r.경주일자)
-
-            input_clean = ''.join(
-                c for c in input_date
-                if c.isdigit()
-            )
-
+            # 예:
+            # 20260606
+            # ↓
+            # 20260606
             db_clean = ''.join(
-                c for c in db_date
+                c for c in str(r.경주일자)
                 if c.isdigit()
+            )[:8]
+
+            print(
+                "비교:",
+                input_clean,
+                db_clean
             )
 
-            if input_clean[-4:] == db_clean[-4:]:
+            if input_clean == db_clean:
                 data.append(r)
 
     else:
 
         data = query.all()
-
 
     print("조회건수 =", len(data))
 
@@ -1685,64 +1694,70 @@ def get_race_detail(
 
         rows = query.all()
 
-        input_date = str(date)
+        input_clean = ''.join(
+            c for c in str(date)
+            if c.isdigit()
+        )[:8]
 
         data = []
 
         for r in rows:
 
-            db_date = str(r.경주일자)
-
-            # 숫자만 남김
-            input_clean = ''.join(
-                c for c in input_date
-                if c.isdigit()
-            )
-
             db_clean = ''.join(
-                c for c in db_date
+                c for c in str(r.경주일자)
                 if c.isdigit()
+            )[:8]
+
+            print(
+                "홈팝업 비교:",
+                input_clean,
+                db_clean
             )
 
-            # 뒤 4자리(월일) 비교
-            if input_clean[-4:] == db_clean[-4:]:
+            if input_clean == db_clean:
                 data.append(r)
 
     else:
 
         data = query.all()
 
+    print(
+        "홈팝업 조회건수 =",
+        len(data)
+    )
+
     return [
 
-    {
-        "지역":r.지역 or "",
-        "날짜":r.경주일자 or "",
-        "경주번호":r.경주 or "",
+        {
+            "지역": r.지역 or "",
+            "날짜": r.경주일자 or "",
+            "경주번호": r.경주 or "",
 
-        "번호":r.번호 or "",
-        "마명":r.마명 or "",
-        "마중":r.체중 or "",
+            "번호": r.번호 or "",
+            "마명": r.마명 or "",
+            "마중": r.체중 or "",
 
-        "성별":r.성별 or "",
-        "연령":r.나이 or "",
+            "성별": r.성별 or "",
+            "연령": r.나이 or "",
 
-        "레이팅":r.레이팅 or "",
-        "중량":r.부담중량 or "",
-        "증감":r.증감 or "",
+            "레이팅": r.레이팅 or "",
+            "중량": r.부담중량 or "",
+            "증감": r.증감 or "",
 
-        "기수명":r.기수 or "",
-        "조교사명":r.조교사 or "",
+            "기수명": r.기수 or "",
+            "조교사명": r.조교사 or "",
 
-        "마주명":r.마주명 or "",
-        "조교횟수":r.조교횟수 or "",
-        "출전주기":r.출전주기 or "",
+            "마주명": r.마주명 or "",
+            "조교횟수": r.조교횟수 or "",
+            "출전주기": r.출전주기 or "",
 
-        "장구현황":r.장구현황 or "",
-        "특이사항":r.특이사항 or ""
+            "장구현황": r.장구현황 or "",
+            "특이사항": r.특이사항 or ""
 
-    }
+        }
 
-    for r in data
+        for r in data
+
     ]
 # =========================
 # 경주 분석 저장
@@ -3040,11 +3055,13 @@ def use_ai(
     db: Session = Depends(get_db),
     current = Depends(get_current_user)
 ):
+    print("CURRENT =", current)
 
     member = db.query(Member).filter(
         Member.email == current["email"]
     ).first()
-
+    print("CURRENT =", current)
+    
     if not member:
         raise HTTPException(404, "회원 없음")
 
@@ -3241,3 +3258,62 @@ def dividend_page():
     return FileResponse(
         "frontend/dividend.html"
     )
+
+@app.get("/race-detail")
+def get_all_race_detail(
+    db: Session = Depends(get_db)
+):
+    data = db.query(
+        RaceDetail
+    ).all()
+
+    return [
+        {
+            "경주일자": r.경주일자,
+            "지역": r.지역,
+            "경주": r.경주,
+            "번호": r.번호,
+            "마명": r.마명,
+            "기수": r.기수,
+            "조교사": r.조교사
+        }
+        for r in data
+    ]
+
+@app.post("/use-final-analysis")
+def use_final_analysis(
+    db: Session = Depends(get_db),
+    current = Depends(get_current_user)
+):
+
+    member = db.query(Member).filter(
+        Member.email == current["email"]
+    ).first()
+
+    if not member:
+        raise HTTPException(404, "회원 없음")
+
+    need_point = 300
+
+    if member.point < need_point:
+        raise HTTPException(400, "포인트 부족")
+
+    member.point -= need_point
+
+    history = PointHistory(
+        email=member.email,
+        type="use",
+        amount=-need_point,
+        remain_point=member.point,
+        description="종합분석 열람",
+        created_at=str(datetime.now())
+    )
+
+    db.add(history)
+
+    db.commit()
+
+    return {
+        "msg":"차감 완료",
+        "remain_point":member.point
+    }

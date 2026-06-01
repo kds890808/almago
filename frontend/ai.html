@@ -90,6 +90,33 @@ th {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.analysis-box{
+
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+
+}
+
+.locked-box{
+
+    background:#eee;
+    padding:20px;
+    text-align:center;
+    border-radius:10px;
+
+}
+
+.card{
+
+background:white;
+padding:12px;
+border-radius:8px;
+box-shadow:0 1px 3px rgba(0,0,0,.1);
+
+}
 </style>
 
 </head>
@@ -101,7 +128,10 @@ th {
 <div id="analysis-area"></div>
 
 <script>
-async function loadAI(region) {
+async function loadAI(
+    region,
+    raceNo
+) {
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -110,7 +140,7 @@ async function loadAI(region) {
   }
 
   const res = await fetch(
-  "https://almago-1llh.onrender.com/analysis-table",
+  "/analysis-table",
 {
     headers: {
       "Authorization": "Bearer " + token
@@ -152,33 +182,39 @@ raceData
 }));
 
 
-// 실제 출전표에 있는 경주만 출력
+console.log("AI DATA =", data);
+console.log("RACE DATA =", raceData);
+console.log("첫번째 AI =", data[0]);
+
+// 선택한 지역 + 경주만 출력
+
 const filtered =
-data
-.filter(r => {
+data.filter(r =>
 
-    const analysisDate =
-    String(r.날짜 || "")
-    .replace(/\(.*?\)/g,"")
-    .trim();
+    r.지역 === region &&
 
-    return realRaces.some(real =>
+    String(r.경주) ===
+    String(raceNo)
 
-        real.region === r.지역 &&
-
-        real.raceNo ===
-        String(r.경주) &&
-
-        real.date ===
-        analysisDate
-
-    );
-
-})
-.sort(
-(a,b)=>
-Number(a.경주) - Number(b.경주)
 );
+
+const latest =
+filtered.length
+? [filtered[0]]
+: [];
+
+console.log(
+"filtered 개수:",
+filtered.length
+);
+
+console.log(
+"filtered 데이터:",
+filtered
+);
+
+  
+
 
   if(filtered.length === 0){
 
@@ -194,7 +230,7 @@ Number(a.경주) - Number(b.경주)
   const area = document.getElementById("analysis-area");
   area.innerHTML = "";
 
-  filtered.forEach(r => {
+  for (const r of latest) {
 
     // 문자열 → 배열 변환
     const star = r.star || "-";
@@ -202,102 +238,1110 @@ Number(a.경주) - Number(b.경주)
     const empty = r.empty || "-";
     const up = r.up || "-";
     const triangle = r.triangle || "-";
+    const detailRes = await fetch(
+`/race-detail-data/${r.경주}?date=${r.경주일자}&region=${r.지역}`
+);
+
+    const detailData =
+    await detailRes.json();
+    console.log(
+    "조회",
+    r.지역,
+    r.경주,
+    r.경주일자
+    );
+
+console.log(detailData);
 
     area.innerHTML += `
       <div style="background:white; padding:20px; margin-bottom:20px; border-radius:10px;">
 
         <h3>${r.지역} ${r.경주}경주</h3>
 
-        <div class="top-area">
+        
 
-          <div class="main-picks">
+        <h4>출전마 정보</h4>
+
+<div style="overflow-x:auto;">
+
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+<th>성별</th>
+<th>나이</th>
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
+<th>기수</th>
+<th>조교사</th>
+<th>마주</th>
+<th>조교횟수</th>
+<th>출전주기</th>
+
+</tr>
+
+${detailData.map(h=>`
+
+<tr>
+
+<td>${h.번호}</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showHorseInfo(
+'${h.마명}'
+)
+"
+>
+
+🐎 ${h.마명}
+
+</a>
+
+</td>
+
+<td>${h.성별 || "-"}</td>
+
+<td>${h.나이 || "-"}</td>
+
+<td>${h.레이팅 || "-"}</td>
+
+<td>${h.부담중량 || "-"}</td>
+
+<td>${h.증감 || "-"}</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showJockeyInfo(
+'${h.기수}'
+)
+"
+>
+
+🏇 ${h.기수 || "-"}
+
+</a>
+
+</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showTrainerInfo(
+'${h.조교사}'
+)
+"
+>
+
+👨‍🏫 ${h.조교사 || "-"}
+
+</a>
+
+</td>
+
+<td>${h.마주명 || "-"}</td>
+
+<td>${h.조교횟수 || "-"}</td>
+
+<td>${h.출전주기 || "-"}</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+</div>
+
+<hr>
+
+<h3>기본분석</h3>
+
+<div class="analysis-box">
+
+기본분석 결과 영역
+
+</div>
+
+<hr>
+
+<h3>혈통분석</h3>
+
+<div class="locked-box">
+
+🔒 혈통분석
+
+<button
+onclick="unlockPedigree(
+'${r.지역}',
+'${r.경주}'
+)">
+200P로 열기
+</button>
+
+</div>
+
+<hr>
+
+<h3>전개분석</h3>
+
+<div class="locked-box">
+
+🔒 전개분석
+
+<button
+onclick="unlockPace(
+'${r.지역}',
+'${r.경주}'
+)">
+200P로 열기
+</button>
+
+</div>
+
+<hr>
+
+<h3>종합분석</h3>
+
+<div class="locked-box">
+
+    🔒 종합분석
+
+    <br><br>
+
+    <button
+    class="btn"
+    onclick="
+    unlockFinal(
+    '${r.지역}',
+    '${r.경주}'
+    )
+    ">
+    300P로 열기
+    </button>
+
+</div>
+
+<div
+id="final-analysis-${r.지역}-${r.경주}"
+style="display:none;"
+>
+
+    <div class="top-area">
+
+        <div class="main-picks">
+
             <div class="pick">
-              <div class="icon">★</div>
-              <div class="name">1순위</div>
-              <div class="num">${star}</div>
+                <div class="icon">★</div>
+                <div class="name">1순위</div>
+                <div class="num">${star}</div>
             </div>
 
             <div class="pick">
-              <div class="icon">■</div>
-              <div class="name">2순위</div>
-              <div class="num">${square}</div>
+                <div class="icon">■</div>
+                <div class="name">2순위</div>
+                <div class="num">${square}</div>
             </div>
 
             <div class="pick">
-              <div class="icon">□</div>
-              <div class="name">3순위</div>
-              <div class="num">${empty}</div>
+                <div class="icon">□</div>
+                <div class="name">3순위</div>
+                <div class="num">${empty}</div>
             </div>
 
             <div class="pick">
-              <div class="icon">▲</div>
-              <div class="name">4순위</div>
-              <div class="num">${up}</div>
+                <div class="icon">▲</div>
+                <div class="name">4순위</div>
+                <div class="num">${up}</div>
             </div>
 
             <div class="pick">
-              <div class="icon">△</div>
-              <div class="name">5순위</div>
-              <div class="num">${triangle}</div>
+                <div class="icon">△</div>
+                <div class="name">5순위</div>
+                <div class="num">${triangle}</div>
             </div>
-          </div>
-
-          <div class="darkhorse">
-            <div class="title">복병마(W)</div>
-            <div class="name">추천</div>
-            <div class="num">${r.darkhorse || "-"}</div>
-          </div>
 
         </div>
 
-        <table>
-          <tr>
+        <div class="darkhorse">
+
+            <div class="title">
+            복병마(W)
+            </div>
+
+            <div class="name">
+            추천
+            </div>
+
+            <div class="num">
+            ${r.darkhorse || "-"}
+            </div>
+
+        </div>
+
+    </div>
+
+    <table>
+
+        <tr>
             <th>승식</th>
             <th>추천마번</th>
             <th>확률</th>
             <th></th>
-          </tr>
+        </tr>
 
-          <tr>
+        <tr>
             <td>단식</td>
             <td>${r.single || "-"}</td>
             <td>30%</td>
             <td><span class="btn">더보기</span></td>
-          </tr>
+        </tr>
 
-          <tr>
+        <tr>
             <td>복식</td>
             <td>${r.double || "-"}</td>
             <td>70%</td>
             <td><span class="btn">더보기</span></td>
-          </tr>
+        </tr>
 
-          <tr>
+        <tr>
             <td>쌍식</td>
             <td>${r.triple || "-"}</td>
             <td>11%</td>
             <td><span class="btn">더보기</span></td>
-          </tr>
+        </tr>
 
-          <tr>
+        <tr>
             <td>삼쌍식</td>
             <td>${r.triple || "-"}</td>
             <td>15%</td>
             <td><span class="btn">더보기</span></td>
-          </tr>
+        </tr>
 
-        </table>
+    </table>
 
-      </div>
-    `;
-  });
+</div>
+
+`;
+
+  }
+
 }
 
-const params = new URLSearchParams(location.search);
-const region = params.get("region");
+const params =
+new URLSearchParams(
+location.search
+);
 
-loadAI(region);
+const region =
+params.get("region");
+
+const raceNo =
+params.get("raceNo");
+
+console.log(
+"지역:",
+region,
+"경주:",
+raceNo
+);
+
+loadAI(
+    region,
+    raceNo
+);
+
+async function unlockPedigree(
+region,
+raceNo
+){
+
+    if(
+        !confirm(
+            "200P 사용 후 혈통분석을 열겠습니까?"
+        )
+    ){
+        return;
+    }
+
+    alert(
+        "여기서 포인트 차감 + 혈통분석 표시"
+    );
+
+}
+
+async function unlockPace(
+region,
+raceNo
+){
+
+    if(
+        !confirm(
+            "200P 사용 후 전개분석을 열겠습니까?"
+        )
+    ){
+        return;
+    }
+
+    alert(
+        "여기서 포인트 차감 + 전개분석 표시"
+    );
+
+}
+
+async function unlockFinal(
+    region,
+    raceNo
+){
+
+    if(
+        !confirm(
+            "300P 사용 후 종합분석을 열겠습니까?"
+        )
+    ){
+        return;
+    }
+
+    const token =
+    localStorage.getItem(
+        "token"
+    );
+
+    const res =
+    await fetch(
+        "/use-final-analysis",
+        {
+            method:"POST",
+            headers:{
+                "Authorization":
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!res.ok){
+
+        alert(
+            data.detail ||
+            "포인트 부족"
+        );
+
+        return;
+    }
+
+    alert(
+        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    );
+
+    const target =
+    document.getElementById(
+        `final-analysis-${region}-${raceNo}`
+    );
+
+    if(target){
+        target.style.display =
+        "block";
+    }
+
+}
+
+async function showHorseInfo(horseName){
+
+const res = await fetch(
+`/horse/${encodeURIComponent(horseName)}`
+);
+
+const data = await res.json();
+
+let html=`
+
+<div class="card">
+
+<h2>
+🏇 ${data.마명 || horseName}
+</h2>
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+"
+>
+
+<tr>
+<th>성별</th>
+<td>${data.성별 || "-"}</td>
+</tr>
+
+<tr>
+<th>나이</th>
+<td>${data.나이 || "-"}</td>
+</tr>
+
+<tr>
+<th>조교사</th>
+<td>${data.조교사 || "-"}</td>
+</tr>
+
+<tr>
+<th>마주</th>
+<td>${data.마주 || "-"}</td>
+</tr>
+
+<tr>
+<th>부마</th>
+<td>${data.부마 || "-"}</td>
+</tr>
+
+<tr>
+<th>모마</th>
+<td>${data.모마 || "-"}</td>
+</tr>
+
+<tr>
+<th>통산전적</th>
+<td>${data.통산전적 || "-"}</td>
+</tr>
+
+<tr>
+<th>승률</th>
+<td>${data.승률 || "-"}</td>
+</tr>
+
+<tr>
+<th>수득상금</th>
+<td>${data.수득상금 || "-"}</td>
+</tr>
+
+<tr>
+<th>생년월일</th>
+<td>${data.생년월일 || "-"}</td>
+</tr>
+
+<tr>
+<th>산지</th>
+<td>${data.산지 || "-"}</td>
+</tr>
+
+</table>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 경주마 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+function closeHorseModal(){
+
+document.getElementById(
+"horse-modal"
+).style.display="none";
+
+}
+
+async function showJockeyInfo(jockeyName){
+
+const res = await fetch(
+`/jockey/${encodeURIComponent(jockeyName)}`
+);
+
+const j = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#dcfce7;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🏇
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${j.기수명 || jockeyName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${j.지역명 || "-"} ·
+데뷔 ${j.데뷔일자 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>기승가능중량</b>
+<div>${j.기승가능중량 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산전적</b>
+<div>${j.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${j.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${j.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${j.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${j.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${j.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${j.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 기수 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerInfo(
+trainerName
+){
+
+const res = await fetch(
+`/trainer/${encodeURIComponent(
+trainerName
+)}`
+);
+
+const t = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+margin-bottom:25px;
+flex-wrap:wrap;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#fee2e2;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🐎
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${t.조교사명 || trainerName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${t.지역명 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+">
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+min-width:520px;
+">
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','info')
+"
+>
+📋 인적사항
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','horse')
+"
+>
+🐎 위탁관리말
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','year')
+"
+>
+📈 연도별성적
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','recent')
+"
+>
+🕒 최근1개월
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="trainer-tab-content">
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>통산전적</b>
+<div>${t.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${t.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${t.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${t.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년전적</b>
+<div>${t.최근1년 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${t.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${t.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${t.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🐎 조교사 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerTab(
+trainerName,
+tab
+){
+
+let url="";
+
+if(tab==="info"){
+showTrainerInfo(trainerName);
+return;
+}
+
+if(tab==="horse"){
+url=`/trainer-horse-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="year"){
+url=`/trainer-year-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="recent"){
+url=`/trainer-recent-name/${encodeURIComponent(trainerName)}`;
+}
+
+const res=await fetch(url);
+
+const data=await res.json();
+
+let html=`
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+">
+
+<style>
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+white-space:nowrap;
+}
+
+th{
+background:#f5f7ff;
+}
+
+.info-pill{
+
+display:inline-block;
+padding:5px 10px;
+border-radius:20px;
+background:#eef2ff;
+color:#1e40af;
+font-weight:600;
+cursor:pointer;
+text-decoration:none;
+
+}
+
+.info-pill:hover{
+
+background:#c7d2fe;
+
+}
+
+
+</style>
+`;
+
+
+// =====================
+// 위탁관리말
+// =====================
+
+if(tab==="horse"){
+
+html+=`
+<tr>
+<th>마명</th>
+<th>마주명</th>
+<th>조번</th>
+<th>등급</th>
+<th>레이팅</th>
+<th>산지</th>
+<th>성별</th>
+<th>연령</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.마명||"-"}</td>
+<td>${r.마주명||"-"}</td>
+<td>${r.조번||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.레이팅||"-"}</td>
+<td>${r.산지||"-"}</td>
+<td>${r.성별||"-"}</td>
+<td>${r.연령||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 연도별성적
+// =====================
+
+if(tab==="year"){
+
+html+=`
+<tr>
+<th>연도</th>
+<th>출전</th>
+<th>1위</th>
+<th>2위</th>
+<th>3위</th>
+<th>승률</th>
+<th>복승률</th>
+<th>연승률</th>
+<th>순위상금</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.연도||"-"}</td>
+<td>${r.출전||"-"}</td>
+<td>${r.일위||"-"}</td>
+<td>${r.이위||"-"}</td>
+<td>${r.삼위||"-"}</td>
+<td>${r.승률||"-"}</td>
+<td>${r.복승률||"-"}</td>
+<td>${r.연승률||"-"}</td>
+<td>${r.순위상금||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 최근1개월
+// =====================
+
+if(tab==="recent"){
+
+html+=`
+<tr>
+<th>날짜</th>
+<th>마번</th>
+<th>마명</th>
+<th>기수명</th>
+<th>등급</th>
+<th>순위</th>
+<th>중량</th>
+<th>거리</th>
+<th>기록</th>
+<th>도착차</th>
+<th>마체중</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.경주일자||"-"}</td>
+<td>${r.마번||"-"}</td>
+<td>${r.마명||"-"}</td>
+<td>${r.기수명||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.순위||"-"}</td>
+<td>${r.중량||"-"}</td>
+<td>${r.거리||"-"}</td>
+<td>${r.기록||"-"}</td>
+<td>${r.도착차||"-"}</td>
+<td>${r.마체중||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+html+="</table>";
+
+document.getElementById(
+"trainer-tab-content"
+).innerHTML=html;
+
+}
 </script>
+<div
+id="horse-modal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+"
+>
 
+<div
+style="
+background:white;
+width:90%;
+max-width:1000px;
+max-height:90vh;
+overflow:auto;
+padding:20px;
+border-radius:10px;
+position:relative;
+"
+>
+
+<button
+onclick="closeHorseModal()"
+style="
+position:absolute;
+right:15px;
+top:15px;
+font-size:20px;
+"
+>
+✖
+</button>
+
+<h2>정보</h2>
+
+<div id="horse-body"></div>
+
+</div>
+
+</div>
 </body>
 </html>
