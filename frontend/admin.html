@@ -420,7 +420,7 @@ tr:nth-child(even) {
 
     <div class="login-card">
 
-        <h2>관리자 로그인</h2>
+        <h2>관리자 로그인TEST 계정 admin//1111</h2>
 
         <input
             id="admin-email"
@@ -604,36 +604,45 @@ function showPage(page) {
     }, 0);
   }
 
-  if (page === 'analysis') {
-    document.getElementById("content").innerHTML = `
-      <div class="card">
-        <h2>분석 관리</h2>
+  if(page==="analysis"){
 
-        <table>
-          <thead>
-            <tr>
-              <th>지역</th>
-              <th>경주번호</th>
-              <th>날짜</th>
-              <th>★</th>
-              <th>■</th>
-              <th>□</th>
-              <th>▲</th>
-              <th>△</th>
-              <th>복병마</th>
-              <th>단식</th>
-              <th>복식</th>
-              <th>쌍식</th>
-              <th>저장</th>
-            </tr>
-          </thead>
-          <tbody id="analysis-table"></tbody>
-        </table>
-      </div>
-    `;
+document.getElementById("content").innerHTML=`
 
-    setTimeout(loadAnalysisTable, 0);
-  }
+<div class="card">
+
+<h2>🧠 분석 관리</h2>
+
+<div class="race-tabs">
+
+<button onclick="showAnalysisTab('basic')">
+📊 기본분석
+</button>
+
+<button onclick="showAnalysisTab('blood')">
+🧬 혈통분석
+</button>
+
+<button onclick="showAnalysisTab('pace')">
+🏇 전개분석
+</button>
+
+<button onclick="showAnalysisTab('final')">
+🏆 종합분석
+</button>
+
+</div>
+
+<div id="analysis-tab-content"></div>
+
+</div>
+
+`;
+
+setTimeout(()=>{
+showAnalysisTab("basic");
+},0);
+
+}
 
   if (page === 'users') {
     document.getElementById("content").innerHTML = `
@@ -988,6 +997,133 @@ if(tab==="jockey-info"){
 
 if(tab==="trainer-info"){
     loadTrainer();
+}
+
+}
+
+// =========================
+// 분석메뉴
+// =========================
+function showAnalysisTab(tab){
+
+let html="";
+
+if(tab==="basic"){
+
+html=`
+
+<h3>📊 기본분석</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>지역</th>
+<th>경주</th>
+<th>날짜</th>
+
+<th>기본분석</th>
+
+<th>저장</th>
+</tr>
+
+</thead>
+
+<tbody id="basic-analysis-table">
+</tbody>
+
+</table>
+
+`;
+
+setTimeout(
+loadBasicAnalysisTable,
+0
+);
+
+}
+
+if(tab==="blood"){
+
+html=`
+
+<h3>🧬 혈통분석</h3>
+
+<div id="blood-analysis-list">
+준비중
+</div>
+
+`;
+
+}
+
+if(tab==="pace"){
+
+html=`
+
+<h3>🏇 전개분석</h3>
+
+<div id="pace-analysis-list">
+준비중
+</div>
+
+`;
+
+}
+
+if(tab==="final"){
+
+html=`
+
+<h3>🏆 종합분석</h3>
+
+<table>
+
+<thead>
+<tr>
+
+<th>지역</th>
+<th>경주번호</th>
+<th>날짜</th>
+
+<th>★</th>
+<th>■</th>
+<th>□</th>
+<th>▲</th>
+<th>△</th>
+
+<th>복병마</th>
+
+<th>단식</th>
+<th>복식</th>
+<th>쌍식</th>
+
+<th>저장</th>
+
+</tr>
+</thead>
+
+<tbody id="analysis-table">
+</tbody>
+
+</table>
+
+`;
+
+setTimeout(
+loadAnalysisTable,
+0
+);
+
+}
+
+document.getElementById(
+"analysis-tab-content"
+).innerHTML=html;
+
+if(tab==="basic"){
+    loadBasicAnalysisTable();
 }
 
 }
@@ -3406,6 +3542,304 @@ document.getElementById(
 
 }
   
+async function loadBasicAnalysisTable(){
+
+const res =
+await fetch("/race-detail");
+
+const races =
+await res.json();
+
+const table =
+document.getElementById(
+"basic-analysis-table"
+);
+
+table.innerHTML="";
+
+const uniqueRaces = [];
+
+races.forEach(r=>{
+
+const key=
+`${r.지역}_${r.경주}_${r.경주일자}`;
+
+if(
+!uniqueRaces.find(
+x=>x.key===key
+)
+){
+
+uniqueRaces.push({
+key,
+...r
+});
+
+}
+
+});
+
+uniqueRaces.forEach(r=>{
+
+const horses = races.filter(x =>
+
+x.지역 === r.지역 &&
+
+x.경주 === r.경주 &&
+
+x.경주일자 === r.경주일자
+
+);
+
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${r.지역}</td>
+
+<td>${r.경주}</td>
+
+<td>${r.경주일자}</td>
+
+<td>
+
+<button
+onclick="
+loadBasicCompare(
+'${r.지역}',
+${r.경주},
+'${r.경주일자}'
+)
+">
+비교표 보기
+</button>
+
+<div
+id="compare-${r.지역}-${r.경주}"
+style="
+margin-top:10px;
+"
+></div>
+
+</td>
+
+
+
+<td>
+
+<button
+onclick="
+saveBasicAnalysis(
+'${r.지역}',
+${r.경주},
+'${r.경주일자}'
+)
+">
+
+저장
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function loadBasicCompare(
+region,
+raceNo,
+raceDate
+){
+
+const res = await fetch(
+`/basic-analysis-data/${region}/${raceNo}/${raceDate}`
+);
+
+const data = await res.json();
+
+let html = `
+<table border="1"
+style="
+width:100%;
+font-size:12px;
+border-collapse:collapse;
+">
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+<th>성별</th>
+<th>나이</th>
+<th>통산전적</th>
+<th>승률</th>
+<th>수득상금</th>
+<th>기수승률</th>
+<th>조교사승률</th>
+<th>코멘트</th>
+<th>점수</th>
+
+</tr>
+`;
+
+data.forEach(h=>{
+let score = h.점수 || 0;
+let comment = h.코멘트 || "";
+
+// 기수승률
+if(parseFloat(h.기수승률) >= 20){
+
+score += 20;
+comment += "기수 전력 우수. ";
+
+}else if(parseFloat(h.기수승률) >= 10){
+
+score += 10;
+
+}
+
+// 조교사승률
+if(parseFloat(h.조교사승률) >= 15){
+
+score += 15;
+comment += "조교사 전력 우수. ";
+
+}
+
+// 수득상금
+const prize = parseInt(
+String(h.수득상금)
+.replace(/,/g,"")
+.replace(/원/g,"")
+);
+
+if(prize >= 5000000){
+
+score += 20;
+comment += "상금 획득 우수. ";
+
+}
+
+// 승률
+if(
+String(h.승률).includes("20")
+){
+
+score += 15;
+comment += "승률 우수. ";
+
+}
+
+html += `
+<tr>
+
+<td>${h.번호}</td>
+<td>${h.마명}</td>
+
+<td>${h.성별}</td>
+<td>${h.나이}</td>
+
+<td>${h.통산전적}</td>
+<td>${h.승률}</td>
+
+<td>${h.수득상금}</td>
+
+<td>${h.기수승률}</td>
+<td>${h.조교사승률}</td>
+<td>
+
+<textarea
+id="comment-${region}-${raceNo}-${h.번호}"
+>${comment}</textarea>
+
+</td>
+
+<td>
+
+<input
+id="score-${region}-${raceNo}-${h.번호}"
+value="${score}"
+/>
+
+</td>
+
+</tr>
+`;
+
+});
+
+html += `</table>`;
+
+document.getElementById(
+`compare-${region}-${raceNo}`
+).innerHTML = html;
+
+}
+
+async function saveBasicAnalysis(
+region,
+raceNo,
+raceDate
+){
+
+const rows = document.querySelectorAll(
+`[id^="comment-${region}-${raceNo}-"]`
+);
+
+for(const row of rows){
+
+const horseNo =
+row.id.split("-").pop();
+
+const comment =
+row.value;
+
+const score =
+document.getElementById(
+`score-${region}-${raceNo}-${horseNo}`
+).value;
+
+const res = await fetch(
+"/save-basic-analysis",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+지역:region,
+경주:raceNo,
+경주일자:raceDate,
+
+번호:Number(horseNo),
+
+마명:"",
+코멘트:comment,
+점수:Number(score)
+
+})
+}
+);
+
+console.log(
+horseNo,
+res.status
+);
+
+}
+
+alert("전체 저장 완료");
+
+}
+
 </script>
   <div id="user-modal" style="
 display:none;

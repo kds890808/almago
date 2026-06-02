@@ -244,6 +244,105 @@ filtered
 
     const detailData =
     await detailRes.json();
+    const basicRes = await fetch(
+    `/basic-analysis-data/${r.지역}/${r.경주}/${r.경주일자}`
+    );
+
+    const basicData =
+    await basicRes.json();
+    console.log(
+    "basicData =",
+    basicData
+    );
+    let basicTable = "";
+let basicComment = "";
+
+basicData.forEach(h=>{
+
+let scoreClass = "";
+let rankText = "";
+
+if(h.점수 >= 100){
+
+    scoreClass = "score-top";
+    rankText = "🥇 유력";
+
+}else if(h.점수 >= 70){
+
+    scoreClass = "score-good";
+    rankText = "🥈 주력";
+
+}else if(h.점수 >= 50){
+
+    scoreClass = "score-mid";
+    rankText = "🥉 관심";
+
+}else{
+
+    scoreClass = "score-low";
+    rankText = "관망";
+
+}
+
+basicTable += `
+
+
+
+<tr>
+
+<td>${h.번호}</td>
+<td>${h.마명}</td>
+
+<td>${h.성별}</td>
+<td>${h.나이}</td>
+
+<td>${h.통산전적}</td>
+
+<td>${h.승률}</td>
+
+<td>${h.기수승률}</td>
+
+<td>${h.조교사승률}</td>
+
+<td class="${scoreClass}">
+
+${h.점수}
+
+<br>
+
+<span class="rank-badge">
+${rankText}
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+basicComment += `
+
+<div class="analysis-comment-card">
+
+<h4>
+🐎 ${h.번호}번 ${h.마명}
+</h4>
+
+<div class="score-badge">
+${h.점수}점
+</div>
+
+<div class="comment-body">
+
+${h.코멘트 || "-"}
+
+</div>
+
+</div>
+
+`;
+
+});
     console.log(
     "조회",
     r.지역,
@@ -376,7 +475,43 @@ showTrainerInfo(
 
 <div class="analysis-box">
 
-기본분석 결과 영역
+<h4>
+📊 비교 테이블
+</h4>
+
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+
+<th>성별</th>
+<th>나이</th>
+
+<th>통산전적</th>
+
+<th>승률</th>
+
+<th>기수승률</th>
+
+<th>조교사승률</th>
+
+<th>점수</th>
+
+</tr>
+
+${basicTable}
+
+</table>
+
+<br>
+
+<h4>
+📝 AI 코멘트
+</h4>
+
+${basicComment}
 
 </div>
 
@@ -1152,7 +1287,173 @@ background:#c7d2fe;
 
 }
 
+.analysis-card{
 
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+    border-left:
+    5px solid #2563eb;
+
+}
+
+.analysis-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:10px;
+
+}
+
+.analysis-horse{
+
+    font-size:20px;
+    font-weight:bold;
+
+}
+
+.analysis-score{
+
+    background:#2563eb;
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+    font-weight:bold;
+
+}
+
+.analysis-comment{
+
+    line-height:1.7;
+    color:#333;
+
+}
+
+.analysis-comment-card{
+
+background:white;
+
+padding:15px;
+
+margin-bottom:15px;
+
+border-radius:10px;
+
+box-shadow:
+0 1px 4px rgba(0,0,0,.1);
+
+}
+
+.analysis-comment-card h4{
+
+margin:0 0 10px 0;
+
+color:#1e3a8a;
+
+}
+
+.score-badge{
+
+display:inline-block;
+
+background:#2563eb;
+
+color:white;
+
+padding:5px 12px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+margin-bottom:10px;
+
+}
+
+.comment-body{
+
+line-height:1.7;
+
+white-space:pre-line;
+
+}
+
+.score-top{
+background:#fef3c7;
+font-weight:bold;
+color:#92400e;
+}
+
+.score-good{
+background:#dbeafe;
+font-weight:bold;
+color:#1d4ed8;
+}
+
+.score-mid{
+background:#dcfce7;
+color:#166534;
+}
+
+.score-low{
+background:#f3f4f6;
+color:#6b7280;
+}
+
+.rank-badge{
+
+padding:4px 10px;
+
+border-radius:20px;
+
+font-size:12px;
+
+font-weight:bold;
+
+display:inline-block;
+
+}
+
+.score-top{
+background:#fef3c7;
+font-weight:bold;
+color:#92400e;
+}
+
+.score-good{
+background:#dbeafe;
+font-weight:bold;
+color:#1d4ed8;
+}
+
+.score-mid{
+background:#dcfce7;
+color:#166534;
+}
+
+.score-low{
+background:#f3f4f6;
+color:#6b7280;
+}
+
+.rank-badge{
+
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+display:inline-block;
+
+}
 </style>
 `;
 

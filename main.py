@@ -313,6 +313,31 @@ class Trainer(Base):
     최근1년복승률=Column(String)
     최근1년연승률=Column(String)
 
+class BasicAnalysis(Base):
+
+    __tablename__ = "basic_analysis"
+
+    id = Column(Integer, primary_key=True)
+
+    지역 = Column(String)
+    경주 = Column(Integer)
+    경주일자 = Column(String)
+
+    번호 = Column(Integer)
+    마명 = Column(String)
+
+    기본점수 = Column(Integer)
+    기본코멘트 = Column(String)
+
+    혈통점수 = Column(Integer)
+    혈통코멘트 = Column(String)
+
+    전개점수 = Column(Integer)
+    전개코멘트 = Column(String)
+
+    종합점수 = Column(Integer)
+    종합코멘트 = Column(String)
+
 Base.metadata.create_all(bind=engine)
 
 with engine.connect() as conn:
@@ -546,6 +571,8 @@ with engine.connect() as conn:
 
 #with engine.connect() as conn:
 
+
+
     # =========================
     # trainer
     # =========================
@@ -614,8 +641,215 @@ SECRET_KEY = "mysecret"
 ALGORITHM = "HS256"
 security = HTTPBearer()
 
+# =========================
+# 기본분석점수
+# =========================
 
-    
+class BasicAnalysisSave(
+    BaseModel
+
+):
+    지역:str
+    경주:int
+    경주일자:str
+
+    번호:int
+    마명:str
+
+    코멘트:str
+    점수:int
+
+def calc_basic_score(
+    horse,
+    jockey,
+    trainer
+):
+
+    score = 0
+
+    # =====================
+    # 기수 승률
+    # =====================
+
+    try:
+        jockey_rate = float(
+            str(
+                jockey.최근1년승률
+            ).replace("%", "")
+        )
+    except:
+        jockey_rate = 0
+
+    # =====================
+    # 조교사 승률
+    # =====================
+
+    try:
+        trainer_rate = float(
+            str(
+                trainer.최근1년승률
+            ).replace("%", "")
+        )
+    except:
+        trainer_rate = 0
+
+    score += jockey_rate * 1.5
+    score += trainer_rate * 1.2
+
+    # =====================
+    # 수득상금
+    # =====================
+
+    try:
+        prize = int(
+            str(
+                horse.수득상금
+            )
+            .replace(",", "")
+            .replace("원", "")
+        )
+
+    except:
+        prize = 0
+
+    if prize >= 5000000:
+        score += 20
+
+    elif prize >= 2000000:
+        score += 15
+
+    elif prize >= 500000:
+        score += 10
+
+    # =====================
+    # 통산전적
+    # =====================
+
+    try:
+
+        race_count = int(
+            str(
+                horse.통산전적
+            ).split("전")[0]
+        )
+
+    except:
+
+        race_count = 0
+
+    score += min(
+        race_count,
+        20
+    )
+
+    score = round(score)
+
+    # =====================
+    # 플래그
+    # =====================
+
+    flags = []
+
+    if jockey_rate >= 20:
+
+        flags.append(
+            "🔥 기수 강세"
+        )
+
+    if trainer_rate >= 15:
+
+        flags.append(
+            "🎯 조교사 강세"
+        )
+
+    if prize >= 5000000:
+
+        flags.append(
+            "💰 상금 우위"
+        )
+
+    if race_count >= 10:
+
+        flags.append(
+            "🐎 경험 우위"
+        )
+
+    if race_count <= 1:
+
+        flags.append(
+            "⚠️ 검증 필요"
+        )
+
+    # =====================
+    # DH 등급
+    # =====================
+
+    if score >= 80:
+
+        dh = "A+ 강력추천"
+
+    elif score >= 60:
+
+        dh = "A 입상유력"
+
+    elif score >= 40:
+
+        dh = "B+ 복병주의"
+
+    else:
+
+        dh = "C 관망"
+
+    # =====================
+    # 코멘트 생성
+    # =====================
+
+    comment = dh + "\n\n"
+
+    if flags:
+
+        comment += (
+            "\n".join(flags)
+            + "\n\n"
+        )
+
+    if score >= 80:
+
+        comment += (
+            "이번 경주에서는 가장 눈에 띄는 전력으로 평가됩니다.\n"
+            "기수와 조교사 전력이 모두 안정적인 모습을 보이고 있습니다.\n"
+            "기본 능력과 경험에서도 경쟁마 대비 우위를 가지고 있습니다.\n"
+            "큰 이변이 없다면 우승권 경쟁이 충분히 가능해 보입니다."
+        )
+
+    elif score >= 60:
+
+        comment += (
+            "전체적인 전력은 상위권 수준으로 평가됩니다.\n"
+            "기본 능력과 최근 흐름도 비교적 안정적입니다.\n"
+            "전개가 무난하게 풀린다면 입상권 경쟁이 가능합니다.\n"
+            "이번 경주에서는 관심마로 볼 만합니다."
+        )
+
+    elif score >= 40:
+
+        comment += (
+            "객관적인 전력은 중위권 수준으로 평가됩니다.\n"
+            "일부 강점은 있으나 불안요소도 함께 존재합니다.\n"
+            "경주 흐름에 따라 충분히 변수가 될 수 있습니다.\n"
+            "복병으로는 관심을 가져볼 만합니다."
+        )
+
+    else:
+
+        comment += (
+            "현재 전력만 놓고 보면 쉽지 않은 경주가 예상됩니다.\n"
+            "기수와 조교사 전력에서도 뚜렷한 강점은 보이지 않습니다.\n"
+            "최근 성적과 경험 면에서도 보완이 필요한 모습입니다.\n"
+            "다만 경마 특성상 이변 가능성은 항상 존재합니다."
+        )
+
+    return score, comment
 # =========================
 # DB 연결
 # =========================
@@ -3317,3 +3551,283 @@ def use_final_analysis(
         "msg":"차감 완료",
         "remain_point":member.point
     }
+
+@app.get("/basic-analysis-data/{region}/{race_no}/{race_date}")
+def get_basic_analysis_data(
+    region:str,
+    race_no:int,
+    race_date:str,
+    db:Session=Depends(get_db)
+):
+
+    race_horses = db.query(
+         RaceDetail
+    ).filter(
+         RaceDetail.지역 == region,
+         RaceDetail.경주 == race_no
+    ).all()
+
+    date_clean = ''.join(
+      c for c in str(race_date)
+      if c.isdigit()
+    )[:8]
+
+    race_horses = [
+
+    r for r in race_horses
+
+    if ''.join(
+        c for c in str(r.경주일자)
+        if c.isdigit()
+    )[:8] == date_clean
+
+]
+
+    result=[]
+
+    for r in race_horses:
+
+        horse = db.query(Horse).filter(
+            Horse.마명 == r.마명
+        ).first()
+
+        jockey = db.query(Jockey).filter(
+            Jockey.기수명 == r.기수
+        ).first()
+
+        trainer = db.query(Trainer).filter(
+            Trainer.조교사명 == r.조교사
+        ).first()
+
+        try:
+            horse_no = int(r.번호)
+        except:
+            horse_no = 0
+
+        saved = db.query(
+            BasicAnalysis
+        ).filter(
+
+            BasicAnalysis.지역 == region,
+            BasicAnalysis.경주 == race_no,
+            BasicAnalysis.번호 == horse_no
+
+        ).first()
+
+        
+        score, comment = calc_basic_score(
+            horse,
+            jockey,
+            trainer
+        )
+
+        result.append({
+
+            "번호": r.번호,
+            "마명": r.마명,
+
+            "성별":
+            horse.성별 if horse else "-",
+
+            "나이":
+            horse.나이 if horse else "-",
+
+            "통산전적":
+            horse.통산전적 if horse else "-",
+
+            "승률":
+            horse.승률 if horse else "-",
+
+            "수득상금":
+            horse.수득상금 if horse else "-",
+
+            "기수":
+            r.기수,
+
+            "기수승률":
+            jockey.최근1년승률
+            if jockey else "-",
+
+            "조교사":
+            r.조교사,
+
+            "조교사승률":
+            trainer.최근1년승률
+            if trainer else "-",
+
+            "코멘트":
+            saved.기본코멘트
+            if saved and saved.기본코멘트
+            else comment,
+
+            "점수":
+            saved.기본점수
+            if saved and saved.기본점수
+            else score
+
+        })
+
+    return result
+
+
+@app.post("/save-basic-analysis")
+def save_basic_analysis(
+    item: BasicAnalysisSave,
+    db: Session = Depends(get_db)
+):
+
+    row = db.query(
+        BasicAnalysis
+    ).filter(
+
+        BasicAnalysis.지역 == item.지역,
+        BasicAnalysis.경주 == item.경주,
+        BasicAnalysis.경주일자 == item.경주일자,
+        BasicAnalysis.번호 == item.번호
+
+    ).first()
+
+    if row:
+
+        row.기본코멘트 = item.코멘트
+        row.기본점수 = item.점수
+
+    else:
+
+        row = BasicAnalysis(
+
+            지역=item.지역,
+            경주=item.경주,
+            경주일자=item.경주일자,
+
+            번호=item.번호,
+            마명=item.마명,
+
+            기본코멘트=item.코멘트,
+            기본점수=item.점수
+
+        )
+
+        db.add(row)
+
+    db.commit()
+
+    return {
+        "msg": "저장완료"
+    }
+
+@app.get(
+"/user-basic-analysis/{region}/{race_no}/{race_date}"
+)
+def get_user_basic_analysis(
+
+    region:str,
+    race_no:int,
+    race_date:str,
+
+    db:Session=Depends(get_db)
+
+):
+
+    rows = db.query(
+        BasicAnalysis
+    ).filter(
+
+        BasicAnalysis.지역 == region,
+        BasicAnalysis.경주 == race_no,
+        BasicAnalysis.경주일자 == race_date
+
+    ).order_by(
+
+        BasicAnalysis.기본점수.desc()
+
+    ).all()
+
+    result = []
+
+    for row in rows:
+
+        race = db.query(
+            RaceDetail
+        ).filter(
+
+            RaceDetail.지역 == row.지역,
+            RaceDetail.경주 == row.경주,
+            RaceDetail.번호 == row.번호
+
+        ).first()
+
+        horse = db.query(
+            Horse
+        ).filter(
+            Horse.마명 == row.마명
+        ).first()
+
+        jockey = None
+        trainer = None
+
+        if race:
+
+            jockey = db.query(
+                Jockey
+            ).filter(
+                Jockey.기수명 == race.기수
+            ).first()
+
+            trainer = db.query(
+                Trainer
+            ).filter(
+                Trainer.조교사명 == race.조교사
+            ).first()
+
+        result.append({
+
+            "번호": row.번호,
+            "마명": row.마명,
+
+            "성별":
+            horse.성별 if horse else "-",
+
+            "나이":
+            horse.나이 if horse else "-",
+
+            "통산전적":
+            horse.통산전적 if horse else "-",
+
+            "승률":
+            horse.승률 if horse else "-",
+
+            "수득상금":
+            horse.수득상금 if horse else "-",
+
+            "기수":
+            race.기수 if race else "-",
+
+            "조교사":
+            race.조교사 if race else "-",
+
+            "기수승률":
+            jockey.최근1년승률
+            if jockey else "-",
+
+            "조교사승률":
+            trainer.최근1년승률
+            if trainer else "-",
+
+            "코멘트":
+            row.기본코멘트,
+
+            "점수":
+            row.기본점수
+
+        })
+
+    return result
+
+@app.get("/basic-analysis-all")
+def get_basic_analysis_all(
+    db:Session=Depends(get_db)
+):
+    return db.query(
+        BasicAnalysis
+    ).all()
