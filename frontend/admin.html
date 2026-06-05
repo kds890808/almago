@@ -4469,7 +4469,7 @@ value="${score}"
 html += "</table>";
 
 document.getElementById(
-`blood-${region}-${raceNo}`
+`blood-${region}-${raceNo}-${raceDate}`
 ).innerHTML = html;
 
 }
@@ -4607,7 +4607,7 @@ value="${score}"
 html += `</table>`;
 
 document.getElementById(
-`compare-${region}-${raceNo}`
+`compare-${region}-${raceNo}-${raceDate}`
 ).innerHTML = html;
 
 }
@@ -4804,7 +4804,7 @@ raceDate
 
 const div =
 document.getElementById(
-`compare-${region}-${raceNo}`
+`compare-${region}-${raceNo}-${raceDate}`
 );
 
 // 이미 열려있으면 접기
@@ -4834,7 +4834,7 @@ raceDate
 
 const div =
 document.getElementById(
-`blood-${region}-${raceNo}`
+`blood-${region}-${raceNo}-${raceDate}`
 );
 
 // 이미 열려있으면 접기
