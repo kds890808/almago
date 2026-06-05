@@ -4297,7 +4297,7 @@ def get_user_basic_analysis(
 
             RaceDetail.지역 == row.지역,
             RaceDetail.경주 == row.경주,
-            RaceDetail.번호 == row.번호
+            RaceDetail.번호 == horse_no
 
         ).first()
 
