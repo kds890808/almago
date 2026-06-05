@@ -244,8 +244,18 @@ filtered
 
     const detailData =
     await detailRes.json();
+
+    const raceDate =
+    String(r.경주일자)
+    .replace(/\//g,"");
+
+    console.log(
+    "기본분석 URL",
+    `/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
+    );
+
     const basicRes = await fetch(
-    `/basic-analysis-data/${r.지역}/${r.경주}/${r.경주일자}`
+    `/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
     );
 
     const basicData =
@@ -258,6 +268,11 @@ filtered
 let basicComment = "";
 
 basicData.forEach(h=>{
+
+console.log(
+    "개별데이터",
+    h
+);
 
 let scoreClass = "";
 let rankText = "";
@@ -519,6 +534,26 @@ ${basicComment}
 
 <h3>혈통분석</h3>
 
+${
+r.지역 === "제주"
+
+?
+
+`
+
+<div class="locked-box">
+
+🧬 제주경마는
+원본 혈통 데이터가 제공되지 않아
+혈통분석을 지원하지 않습니다.
+
+</div>
+
+`
+
+:
+
+`
 <div class="locked-box">
 
 🔒 혈통분석
@@ -532,6 +567,8 @@ onclick="unlockPedigree(
 </button>
 
 </div>
+`
+  }
 
 <hr>
 

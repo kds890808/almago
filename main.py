@@ -338,6 +338,118 @@ class BasicAnalysis(Base):
     종합점수 = Column(Integer)
     종합코멘트 = Column(String)
 
+class BloodAnalysis(Base):
+
+    __tablename__ = "blood_analysis"
+
+    id = Column(Integer, primary_key=True)
+
+    지역 = Column(String)
+    경주 = Column(Integer)
+    경주일자 = Column(String)
+
+    번호 = Column(Integer)
+    마명 = Column(String)
+
+    도시지프로필 = Column(String)
+
+    DI = Column(String)
+    CD = Column(String)
+
+    근친 = Column(String)
+
+    AWD = Column(String)
+    부AWD = Column(String)
+    모AWD = Column(String)
+    모부AWD = Column(String)
+
+    경주마특성 = Column(String)
+
+    코멘트 = Column(String)
+
+    점수 = Column(Integer)
+
+# =========================
+# 혈통테이블
+# =========================
+class Blood(Base):
+
+    __tablename__="blood"
+
+    id=Column(Integer, primary_key=True, index=True)
+
+    출전날짜=Column(String)
+
+    지역=Column(String)
+    meet=Column(String)
+
+    경주번호=Column(String)
+    거리=Column(String)
+
+    표번호=Column(String)
+    원본URL=Column(String)
+
+    번호=Column(String)
+
+    부마=Column(String)
+    모마=Column(String)
+    외조부마=Column(String)
+
+    도시지프로필=Column(String)
+
+    DI=Column(String)
+    CD=Column(String)
+
+    근친=Column(String)
+
+    AWD=Column(String)
+    부AWD=Column(String)
+    모AWD=Column(String)
+    모부AWD=Column(String)
+
+    마명=Column(String)
+
+    연령=Column(String)
+    레이팅=Column(String)
+
+    최근순위=Column(String)
+    도착차=Column(String)
+
+    경주성적=Column(String)
+
+    기수=Column(String)
+    기수복승률=Column(String)
+
+    부담중량=Column(String)
+
+    최고기록=Column(String)
+    평균기록=Column(String)
+
+    평균S1F=Column(String)
+    평균G3F=Column(String)
+    평균G1F=Column(String)
+
+    최고G3F=Column(String)
+
+    통산펄롱=Column(String)
+    통산부담=Column(String)
+
+    평균경주전개=Column(String)
+
+    전적=Column(String)
+    현군성적=Column(String)
+
+    상금비율=Column(String)
+
+    훈련량수영훈련=Column(String)
+    평균훈련량=Column(String)
+
+    수입전경주성적=Column(String)
+
+    경매가수입가=Column(String)
+
+    조교사=Column(String)
+
 Base.metadata.create_all(bind=engine)
 
 with engine.connect() as conn:
@@ -1819,10 +1931,18 @@ def get_race_detail_data(
     db:Session=Depends(get_db)
 ):
 
+    if region == "부산":
+        region = "부산경남"
+
     query = db.query(
         RaceDetail
     ).filter(
         RaceDetail.경주 == race_no
+    )
+
+    print(
+       "조회지역=",
+        region
     )
 
     # 지역 필터
@@ -2034,7 +2154,10 @@ def get_raceanalysis_table(
     db: Session = Depends(get_db),
     current=Depends(get_current_user)
 ):
-    if current["role"] == "member":
+    if current["role"] not in [
+      "admin",
+      "superadmin"
+    ]:
         member = db.query(Member).filter(Member.email == current["email"]).first()
 
         if not member or not member.is_premium:
@@ -2815,6 +2938,268 @@ async def upload_trainer(
     }
 
 
+# =========================
+# 혈통업로드
+# =========================
+# =========================
+# 혈통업로드
+# =========================
+@app.post("/upload-blood")
+async def upload_blood(
+    file: UploadFile = File(...)
+):
+
+    df = pd.read_excel(file.file)
+
+    df.columns = (
+        df.columns
+        .astype(str)
+        .str.strip()
+        .str.replace(" ", "", regex=False)
+    )
+
+    print("혈통 컬럼명:", df.columns.tolist())
+    print("혈통 첫행:", df.iloc[0].to_dict())
+
+    db = SessionLocal()
+
+    db.query(Blood).delete()
+
+    for _, row in df.iterrows():
+
+        item = Blood(
+
+            출전날짜=clean(row.get("출전날짜", "")),
+
+            지역=clean(row.get("지역", "")),
+            meet=clean(row.get("meet", "")),
+
+            경주번호=clean(row.get("경주번호", "")),
+            거리=clean(row.get("거리", "")),
+
+            표번호=clean(row.get("표번호", "")),
+            원본URL=clean(row.get("원본URL", "")),
+
+            번호=clean(row.get("번호", "")),
+
+            부마=clean(row.get("부마", "")),
+            모마=clean(row.get("모마", "")),
+            외조부마=clean(row.get("외조부마", "")),
+
+            도시지프로필=clean(
+                row.get("도시지프로필", "")
+            ),
+
+            DI=clean(row.get("DI", "")),
+            CD=clean(row.get("CD", "")),
+
+            근친=clean(row.get("근친", "")),
+
+            AWD=clean(row.get("AWD", "")),
+            부AWD=clean(row.get("부AWD", "")),
+            모AWD=clean(row.get("모AWD", "")),
+            모부AWD=clean(row.get("모부AWD", "")),
+
+            마명=clean(row.get("마명", "")),
+
+            연령=clean(row.get("연령", "")),
+            레이팅=clean(row.get("레이팅", "")),
+
+            최근순위=clean(
+                row.get("최근순위(6개월)", "")
+            ),
+
+            도착차=clean(
+                row.get("최근1위와의도착차(6개월)", "")
+            ),
+
+            경주성적=clean(
+                row.get("경주성적", "")
+            ),
+
+            기수=clean(
+                row.get("기수", "")
+            ),
+
+            기수복승률=clean(
+                row.get("기수복승률", "")
+            ),
+
+            부담중량=clean(
+                row.get("부담중량", "")
+            ),
+
+            최고기록=clean(
+                row.get("최고기록", "")
+            ),
+
+            평균기록=clean(
+                row.get("평균기록", "")
+            ),
+
+            평균S1F=clean(
+                row.get("평균S1F", "")
+            ),
+
+            평균G3F=clean(
+                row.get("평균G3F", "")
+            ),
+
+            평균G1F=clean(
+                row.get("평균G1F", "")
+            ),
+
+            최고G3F=clean(
+                row.get("최고G3F", "")
+            ),
+
+            통산펄롱=clean(
+                row.get("통산펄롱", "")
+            ),
+
+            통산부담=clean(
+                row.get("통산부담", "")
+            ),
+
+            평균경주전개=clean(
+                row.get("평균경주전개", "")
+            ),
+
+            전적=clean(
+                row.get("상대전적", "")
+            ),
+
+            현군성적=clean(
+                row.get("현군성적", "")
+            ),
+
+            상금비율=clean(
+                row.get("상금비율", "")
+            ),
+
+            훈련량수영훈련=clean(
+                row.get("훈련량수영훈련", "")
+            ),
+
+            평균훈련량=clean(
+                row.get("평균훈련량", "")
+            ),
+
+            수입전경주성적=clean(
+                row.get("수입전경주성적", "")
+            ),
+
+            경매가수입가=clean(
+                row.get("경매가수입가", "")
+            ),
+
+            조교사=clean(
+                row.get("조교사", "")
+            )
+
+        )
+
+        db.add(item)
+
+    db.commit()
+    db.close()
+
+    return {
+        "message": "혈통정보 업로드 완료"
+    }
+
+# =========================
+# 혈통
+# =========================
+@app.get("/blood")
+def get_blood():
+
+    db = SessionLocal()
+
+    data = db.query(
+        Blood
+    ).all()
+
+    db.close()
+
+    return [
+
+{
+    "id": b.id,
+
+    "출전날짜": b.출전날짜,
+    "지역": b.지역,
+    "meet": b.meet,
+
+    "경주번호": b.경주번호,
+    "거리": b.거리,
+
+    "표번호": b.표번호,
+    "원본URL": b.원본URL,
+
+    "번호": b.번호,
+
+    "부마": b.부마,
+    "모마": b.모마,
+    "외조부마": b.외조부마,
+
+    "도시지프로필": b.도시지프로필,
+
+    "DI": b.DI,
+    "CD": b.CD,
+    "근친": b.근친,
+
+    "AWD": b.AWD,
+    "부AWD": b.부AWD,
+    "모AWD": b.모AWD,
+    "모부AWD": b.모부AWD,
+
+    "마명": b.마명,
+
+    "연령": b.연령,
+    "레이팅": b.레이팅,
+
+    "최근순위": b.최근순위,
+    "도착차": b.도착차,
+
+    "경주성적": b.경주성적,
+
+    "기수": b.기수,
+    "기수복승률": b.기수복승률,
+
+    "부담중량": b.부담중량,
+
+    "최고기록": b.최고기록,
+    "평균기록": b.평균기록,
+
+    "평균S1F": b.평균S1F,
+    "평균G3F": b.평균G3F,
+    "평균G1F": b.평균G1F,
+
+    "최고G3F": b.최고G3F,
+
+    "통산펄롱": b.통산펄롱,
+    "통산부담": b.통산부담,
+
+    "평균경주전개": b.평균경주전개,
+
+    "전적": b.전적,
+    "현군성적": b.현군성적,
+
+    "상금비율": b.상금비율,
+
+    "훈련량수영훈련": b.훈련량수영훈련,
+    "평균훈련량": b.평균훈련량,
+
+    "수입전경주성적": b.수입전경주성적,
+
+    "경매가수입가": b.경매가수입가,
+
+    "조교사": b.조교사
+    }
+
+    for b in data
+    ]
 
 # =========================
 # 조교사 추가탭 조회
@@ -3229,15 +3614,9 @@ def analysis_view(
     current=Depends(get_current_user)
 ):
 
-    # 회원 확인
-    member = db.query(Member).filter(
-        Member.email == current["email"]
-    ).first()
-
-    if not member:
-        raise HTTPException(404, "회원 없음")
-
+    # =====================
     # 분석 찾기
+    # =====================
     analysis = db.query(models.Analysis).filter(
         models.Analysis.id == analysis_id
     ).first()
@@ -3245,57 +3624,24 @@ def analysis_view(
     if not analysis:
         raise HTTPException(404, "분석 없음")
 
-    # 필요 포인트
-    need_point = 100
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
 
-    # 포인트 부족
-    if member.point < need_point:
-        raise HTTPException(400, "포인트 부족")
+        return {
+            "title": analysis.title,
+            "content": analysis.content,
+            "remain_point": 999999
+        }
 
-    # 포인트 차감
-    member.point -= need_point
-    history = PointHistory(
-
-    email=member.email,
-
-    type="use",
-
-    amount=-need_point,
-
-    remain_point=member.point,
-
-    description="AI 추천 이용",
-
-    created_at=str(datetime.now())
-
-)
-
-    db.add(history)
-    
-
-    db.commit()
-
-    return {
-        "title":analysis.title,
-        "content":analysis.content,
-        "remain_point":member.point
-    }
-
-# =========================
-# AI 사용 포인트 차감
-# =========================
-@app.post("/use-ai")
-def use_ai(
-    db: Session = Depends(get_db),
-    current = Depends(get_current_user)
-):
-    print("CURRENT =", current)
-
+    # =====================
+    # 일반 회원
+    # =====================
     member = db.query(Member).filter(
         Member.email == current["email"]
     ).first()
-    print("CURRENT =", current)
-    
+
     if not member:
         raise HTTPException(404, "회원 없음")
 
@@ -3305,21 +3651,71 @@ def use_ai(
         raise HTTPException(400, "포인트 부족")
 
     member.point -= need_point
+
+    history = PointHistory(
+        email=member.email,
+        type="use",
+        amount=-need_point,
+        remain_point=member.point,
+        description="AI 추천 이용",
+        created_at=str(datetime.now())
+    )
+
+    db.add(history)
+    db.commit()
+
+    return {
+        "title": analysis.title,
+        "content": analysis.content,
+        "remain_point": member.point
+    }
+@app.post("/use-ai")
+def use_ai(
+    db: Session = Depends(get_db),
+    current = Depends(get_current_user)
+):
+
+    print("CURRENT =", current)
+
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
+
+        return {
+            "msg": "슈퍼관리자",
+            "remain_point": 999999
+        }
+
+    member = db.query(Member).filter(
+        Member.email == current["email"]
+    ).first()
+
+    if not member:
+        raise HTTPException(404, "회원 없음")
+
+    need_point = 100
+
+    if member.point < need_point:
+        raise HTTPException(400, "포인트 부족")
+
+    member.point -= need_point
+
     history = PointHistory(
 
-    email=member.email,
+        email=member.email,
 
-    type="use",
+        type="use",
 
-    amount=-need_point,
+        amount=-need_point,
 
-    remain_point=member.point,
+        remain_point=member.point,
 
-    description="AI 추천 이용",
+        description="AI 추천 이용",
 
-    created_at=str(datetime.now())
+        created_at=str(datetime.now())
 
-)
+    )
 
     db.add(history)
 
@@ -3329,7 +3725,6 @@ def use_ai(
         "msg":"차감 완료",
         "remain_point":member.point
     }
-
 # =========================
 # 포인트 로그 조회
 # =========================
@@ -3374,6 +3769,19 @@ def get_my_info(
     current=Depends(get_current_user)
 ):
 
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
+
+        return {
+            "email": current["email"],
+            "name": "SuperAdmin",
+            "point": 999999,
+            "is_premium": True,
+            "role": "superadmin"
+        }
+
     member = db.query(Member).filter(
         Member.email == current["email"]
     ).first()
@@ -3386,7 +3794,8 @@ def get_my_info(
         "email": member.email,
         "name": member.name,
         "point": member.point,
-        "is_premium": member.is_premium
+        "is_premium": member.is_premium,
+        "role": current["role"]
 
     }
 @app.get("/my-profile/{email}")
@@ -3519,6 +3928,16 @@ def use_final_analysis(
     db: Session = Depends(get_db),
     current = Depends(get_current_user)
 ):
+
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
+
+        return {
+            "msg": "슈퍼관리자",
+            "remain_point": 999999
+        }
 
     member = db.query(Member).filter(
         Member.email == current["email"]
@@ -3676,6 +4095,14 @@ def save_basic_analysis(
     db: Session = Depends(get_db)
 ):
 
+    print(
+        "저장:",
+        item.지역,
+        item.경주,
+        item.경주일자,
+        item.번호
+    )
+
     row = db.query(
         BasicAnalysis
     ).filter(
@@ -3689,6 +4116,13 @@ def save_basic_analysis(
 
     if row:
 
+        print(
+            "저장 마명:",
+            item.마명
+        )
+
+        row.마명 = item.마명
+        
         row.기본코멘트 = item.코멘트
         row.기본점수 = item.점수
 
@@ -3729,19 +4163,129 @@ def get_user_basic_analysis(
 
 ):
 
+    print("원본지역=", region)
+
+    if region == "부산":
+        region = "부산경남"
+
+    print("변환후지역=", region)
+
     rows = db.query(
         BasicAnalysis
     ).filter(
 
         BasicAnalysis.지역 == region,
-        BasicAnalysis.경주 == race_no,
-        BasicAnalysis.경주일자 == race_date
+        BasicAnalysis.경주 == race_no
 
     ).order_by(
 
         BasicAnalysis.기본점수.desc()
 
     ).all()
+
+    print(
+        "지역+경주 매칭:",
+        len(rows)
+    )
+
+    for r in rows[:10]:
+
+        print(
+            "후보:",
+            r.지역,
+            r.경주,
+            r.경주일자,
+            r.번호,
+            r.마명
+        )
+
+    # 여기 추가
+    print("===== BasicAnalysis 전체 확인 =====")
+
+    all_rows = db.query(
+      BasicAnalysis
+    ).all()
+
+    for r in all_rows[:30]:
+
+       print(
+            "DB:",
+           r.지역,
+            r.경주,
+           r.경주일자
+     )
+
+    for r in rows:
+
+        print(
+            "후보:",
+            r.지역,
+            r.경주,
+            r.경주일자
+        )
+
+    date_clean = ''.join(
+        c for c in str(race_date)
+        if c.isdigit()
+    )[:8]
+
+    print(
+        "요청 race_date =",
+        repr(race_date)
+    )
+
+    print(
+        "date_clean =",
+        repr(date_clean)
+    )
+
+    print(
+        "요청 race_date =",
+        repr(race_date)
+    )
+
+    print(
+        "date_clean =",
+        repr(date_clean)
+    )
+
+    for r in rows:
+
+        db_clean = ''.join(
+            c for c in str(r.경주일자)
+            if c.isdigit()
+        )[:8]
+
+        print(
+            "날짜비교:",
+            repr(date_clean),
+            repr(db_clean)
+        )
+
+    rows = [
+
+        r for r in rows
+
+        if ''.join(
+            c for c in str(r.경주일자)
+            if c.isdigit()
+        )[:8] == date_clean
+
+    ]
+
+    print(
+        "날짜필터후:",
+        len(rows)
+    )
+
+    for r in rows:
+
+        print(
+            "통과:",
+            r.지역,
+            r.경주,
+            r.경주일자
+        )
 
     result = []
 
@@ -3757,11 +4301,34 @@ def get_user_basic_analysis(
 
         ).first()
 
+        # =====================
+        # 마명 보정
+        # =====================
+        horse_name = row.마명
+
+        if (not horse_name) and race:
+            horse_name = race.마명
+
         horse = db.query(
-            Horse
+        Horse
         ).filter(
-            Horse.마명 == row.마명
+            Horse.마명 == horse_name
         ).first()
+
+        print(
+    "row.번호 =",
+    row.번호
+        )
+
+        print(
+    "row.마명 =",
+    row.마명
+        )
+
+        print(
+    "horse =",
+    horse
+        )
 
         jockey = None
         trainer = None
@@ -3782,8 +4349,8 @@ def get_user_basic_analysis(
 
         result.append({
 
-            "번호": row.번호,
-            "마명": row.마명,
+                "번호": row.번호,
+                "마명": horse_name,
 
             "성별":
             horse.성별 if horse else "-",
@@ -3831,3 +4398,78 @@ def get_basic_analysis_all(
     return db.query(
         BasicAnalysis
     ).all()
+
+@app.get(
+    "/blood-analysis-data/{region}/{race_no}/{race_date}"
+)
+def get_blood_analysis_data(
+
+    region:str,
+    race_no:int,
+    race_date:str,
+
+    db:Session=Depends(get_db)
+
+):
+
+    rows = db.query(
+        Blood
+    ).filter(
+
+        Blood.지역 == region,
+        Blood.경주번호 == str(race_no)
+
+    ).all()
+
+    date_clean = ''.join(
+        c for c in str(race_date)
+        if c.isdigit()
+    )[:8]
+
+    result = []
+
+    for b in rows:
+
+        blood_date = ''.join(
+            c for c in str(b.출전날짜)
+            if c.isdigit()
+        )[:8]
+
+        if blood_date != date_clean:
+            continue
+
+        result.append({
+
+            "번호": b.번호,
+            "마명": b.마명,
+
+            "도시지프로필": b.도시지프로필,
+
+            "DI": b.DI,
+            "CD": b.CD,
+
+            "근친": b.근친,
+
+            "AWD": b.AWD,
+            "부AWD": b.부AWD,
+            "모AWD": b.모AWD,
+            "모부AWD": b.모부AWD,
+
+            "경주마특성": "",
+            "코멘트": "",
+            "점수": 0
+
+        })
+
+    return result
+
+@app.get(
+    "/blood-analysis-data/{region}/{race_no}/{race_date}"
+)
+def get_blood_analysis_data(
+    region:str,
+    race_no:int,
+    race_date:str,
+    db:Session=Depends(get_db)
+):
+    return []

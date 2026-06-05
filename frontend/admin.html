@@ -140,15 +140,14 @@ th{
 
 td{
 
-    padding:10px;
+padding:10px;
 
-    text-align:center;
+text-align:center;
 
-    border-bottom:1px solid #ddd;
+border-bottom:1px solid #ddd;
 
-    word-break:break-word; /* 긴 내용 줄바꿈 */
+white-space:nowrap;
 
-    overflow-wrap:break-word;
 }
 
 tr:nth-child(even) {
@@ -410,7 +409,13 @@ tr:nth-child(even) {
     overflow:hidden;
     box-sizing:border-box;
 }
-  
+
+.blood-table{
+    width:max-content !important;
+    min-width:5000px !important;
+    border-collapse:collapse;
+    table-layout:auto;
+}
 </style>
 </head>
 
@@ -700,6 +705,10 @@ document.getElementById("content").innerHTML = `
 🧑‍🏫 조교사정보
 </button>
 
+<button onclick="showRaceTab('blood-info')">
+🧬 혈통정보
+</button>
+
 </div>
 
 <div id="race-tab-content"></div>
@@ -784,7 +793,7 @@ loadDesignMenus();
 // =========================
 // 경주 탭
 // =========================
-function showRaceTab(tab){
+async function showRaceTab(tab){
 
 let html="";
 
@@ -876,6 +885,41 @@ style="margin-top:20px;">
 
 업로드 후 표시
 
+</div>
+
+`;
+
+}
+
+if(tab==="blood-info"){
+
+html=`
+
+<h3>🧬 혈통정보</h3>
+
+<input
+type="file"
+id="bloodFile">
+
+<button
+onclick="uploadBloodInfo()">
+
+혈통정보 업로드
+
+</button>
+
+<select
+id="blood-race-select"
+onchange="loadBloodInfo()">
+
+<option>
+경주 선택
+</option>
+
+</select>
+
+<div id="blood-info-list">
+업로드 후 표시
 </div>
 
 `;
@@ -999,6 +1043,14 @@ if(tab==="trainer-info"){
     loadTrainer();
 }
 
+if(tab==="blood-info"){
+
+    await loadBloodRaceList();
+
+    loadBloodInfo();
+
+}
+
 }
 
 // =========================
@@ -1025,7 +1077,13 @@ html=`
 
 <th>기본분석</th>
 
-<th>저장</th>
+<th>
+저장
+<br>
+<button onclick="saveAllBasicAnalysis()">
+전체저장
+</button>
+</th>
 </tr>
 
 </thead>
@@ -1050,12 +1108,37 @@ html=`
 
 <h3>🧬 혈통분석</h3>
 
-<div id="blood-analysis-list">
-준비중
-</div>
+<table>
+
+<thead>
+<tr>
+
+<th>지역</th>
+<th>경주</th>
+<th>날짜</th>
+
+<th>혈통분석</th>
+
+<th>저장</th>
+
+</tr>
+</thead>
+
+<tbody id="blood-analysis-table">
+</tbody>
+
+</table>
 
 `;
 
+}
+
+document.getElementById(
+"analysis-tab-content"
+).innerHTML=html;
+
+if(tab==="blood"){
+    loadBloodAnalysisTable();
 }
 
 if(tab==="pace"){
@@ -1797,6 +1880,288 @@ document.getElementById(
 ).innerHTML=html;
 
 }
+// =========================
+// 혈통정보 경주리스트
+// =========================
+async function loadBloodRaceList(){
+
+const res =
+await fetch("/blood");
+
+const data =
+await res.json();
+
+const select =
+document.getElementById(
+"blood-race-select"
+);
+
+select.innerHTML =
+'<option value="">경주 선택</option>';
+
+const races =
+[
+...new Set(
+data.map(
+b =>
+`${b.출전날짜}|${b.지역}|${b.경주번호}`
+)
+)
+];
+
+races.forEach(r=>{
+
+const option =
+document.createElement(
+"option"
+);
+
+option.value = r;
+
+const parts =
+r.split("|");
+
+option.textContent =
+`${parts[1]} ${parts[2]}경주`;
+
+select.appendChild(
+option
+);
+
+});
+
+}
+
+// =========================
+// 혈통정보
+// =========================
+async function loadBloodInfo(){
+
+const res =
+await fetch("/blood");
+
+const data =
+await res.json();
+const selected =
+document.getElementById(
+"blood-race-select"
+)?.value;
+
+let filtered = data;
+
+if(selected){
+
+filtered =
+data.filter(
+b =>
+`${b.출전날짜}|${b.지역}|${b.경주번호}`
+=== selected
+);
+
+}
+
+let html = `
+
+<div style="
+overflow-x:auto;
+overflow-y:auto;
+width:100%;
+max-height:650px;
+border:1px solid #ddd;
+">
+
+<table class="blood-table">
+
+<thead>
+
+<tr>
+
+<th>출전날짜</th>
+<th>지역</th>
+<th>meet</th>
+<th>경주번호</th>
+<th>거리</th>
+<th>표번호</th>
+<th>번호</th>
+<th>부마</th>
+<th>모마</th>
+<th>외조부마</th>
+<th>도시지프로필</th>
+<th>DI</th>
+<th>CD</th>
+<th>근친</th>
+<th>AWD</th>
+<th>부AWD</th>
+<th>모AWD</th>
+<th>모부AWD</th>
+<th>마명</th>
+<th>연령</th>
+<th>레이팅</th>
+<th>최근순위</th>
+<th>도착차</th>
+<th>경주성적</th>
+<th>기수</th>
+<th>기수복승률</th>
+<th>부담중량</th>
+<th>최고기록</th>
+<th>평균기록</th>
+<th>평균S1F</th>
+<th>평균G3F</th>
+<th>평균G1F</th>
+<th>최고G3F</th>
+<th>통산펄롱</th>
+<th>통산부담</th>
+<th>평균경주전개</th>
+<th>상대전적</th>
+<th>현군성적</th>
+<th>상금비율</th>
+<th>훈련량수영훈련</th>
+<th>평균훈련량</th>
+<th>수입전경주성적</th>
+<th>경매가수입가</th>
+<th>조교사</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+filtered.forEach(b=>{
+
+html += `
+
+<tr>
+
+<tr>
+
+<td>${b.출전날짜 || "-"}</td>
+<td>${b.지역 || "-"}</td>
+<td>${b.meet || "-"}</td>
+
+<td>${b.경주번호 || "-"}</td>
+<td>${b.거리 || "-"}</td>
+<td>${b.표번호 || "-"}</td>
+<td>${b.번호 || "-"}</td>
+
+<td>${b.부마 || "-"}</td>
+<td>${b.모마 || "-"}</td>
+<td>${b.외조부마 || "-"}</td>
+<td>${b.도시지프로필 || "-"}</td>
+
+<td>${b.DI || "-"}</td>
+<td>${b.CD || "-"}</td>
+<td>${b.근친 || "-"}</td>
+
+<td>${b.AWD || "-"}</td>
+<td>${b.부AWD || "-"}</td>
+<td>${b.모AWD || "-"}</td>
+<td>${b.모부AWD || "-"}</td>
+
+<td>${b.마명 || "-"}</td>
+<td>${b.연령 || "-"}</td>
+<td>${b.레이팅 || "-"}</td>
+
+<td>${b.최근순위 || "-"}</td>
+<td>${b.도착차 || "-"}</td>
+
+<td>${b.경주성적 || "-"}</td>
+<td>${b.기수 || "-"}</td>
+<td>${b.기수복승률 || "-"}</td>
+<td>${b.부담중량 || "-"}</td>
+
+<td>${b.최고기록 || "-"}</td>
+<td>${b.평균기록 || "-"}</td>
+<td>${b.평균S1F || "-"}</td>
+<td>${b.평균G3F || "-"}</td>
+<td>${b.평균G1F || "-"}</td>
+<td>${b.최고G3F || "-"}</td>
+
+<td>${b.통산펄롱 || "-"}</td>
+<td>${b.통산부담 || "-"}</td>
+
+<td>${b.평균경주전개 || "-"}</td>
+<td>${b.전적 || "-"}</td>
+<td>${b.현군성적 || "-"}</td>
+<td>${b.상금비율 || "-"}</td>
+
+<td>${b.훈련량수영훈련 || "-"}</td>
+<td>${b.평균훈련량 || "-"}</td>
+
+<td>${b.수입전경주성적 || "-"}</td>
+<td>${b.경매가수입가 || "-"}</td>
+
+<td>${b.조교사 || "-"}</td>
+
+</tr>
+
+</tr>
+
+`;
+
+});
+
+html += `
+</tbody>
+</table>
+</div>
+`;
+
+const container =
+document.getElementById(
+"blood-info-list"
+);
+
+
+container.innerHTML =
+html;
+
+}
+
+async function uploadBloodInfo(){
+
+const file =
+document.getElementById(
+"bloodFile"
+).files[0];
+
+if(!file){
+
+alert("파일 선택해줘");
+return;
+
+}
+
+const formData =
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const res =
+await fetch(
+"/upload-blood",
+{
+method:"POST",
+body:formData
+}
+);
+
+const data =
+await res.json();
+
+alert(
+data.message
+);
+
+await loadBloodRaceList();
+loadBloodInfo();
+
+}
   
 // =========================
 // 회원상세 닫기
@@ -2405,6 +2770,7 @@ async function createDesignMenu(
             "Authorization":"Bearer " + token
         },
 
+
         body:JSON.stringify({
 
             name:name,
@@ -2950,6 +3316,97 @@ console.log(data);
 let html="";
 
 data.forEach(h=>{
+
+let style = "";
+
+const di = parseFloat(h.DI || 0);
+
+if(di >= 4){
+
+    style = "선행형";
+
+}else if(di >= 2){
+
+    style = "선입형";
+
+}else if(di >= 1){
+
+    style = "추입형";
+
+}else{
+
+    style = "지구력형";
+
+}
+
+let distance = "";
+
+let awd =
+parseInt(h.AWD);
+
+if(isNaN(awd)){
+
+const sire =
+parseInt(h.부AWD || 0);
+
+const dam =
+parseInt(h.모AWD || 0);
+
+if(sire && dam){
+
+awd = Math.round(
+(sire + dam) / 2
+);
+
+}else{
+
+awd =
+sire || dam || 0;
+
+}
+
+}
+
+if(awd >= 1800){
+
+    distance = "장거리";
+
+}else if(awd >= 1400){
+
+    distance = "중거리";
+
+}else{
+
+    distance = "단거리";
+
+}
+
+let score = 50;
+
+// DI 점수
+if(di >= 2 && di <= 4){
+
+    score += 20;
+
+}
+
+// 근친
+const kin =
+parseFloat(h.근친 || 0);
+
+if(kin < 5){
+
+    score += 20;
+
+}else if(kin < 10){
+
+    score += 10;
+
+}else{
+
+    score -= 10;
+
+}
 
 const safe = v =>
     (!v || v === "nan" || v === "NaN") ? "-" : v;
@@ -3606,7 +4063,7 @@ table.innerHTML+=`
 
 <button
 onclick="
-loadBasicCompare(
+toggleBasicCompare(
 '${r.지역}',
 ${r.경주},
 '${r.경주일자}'
@@ -3616,7 +4073,7 @@ ${r.경주},
 </button>
 
 <div
-id="compare-${r.지역}-${r.경주}"
+id="compare-${r.지역}-${r.경주}-${r.경주일자}"
 style="
 margin-top:10px;
 "
@@ -3629,15 +4086,20 @@ margin-top:10px;
 <td>
 
 <button
+class="basic-save-btn"
+data-region="${r.지역}"
+data-race="${r.경주}"
+data-date="${r.경주일자}"
 onclick="
 saveBasicAnalysis(
 '${r.지역}',
 ${r.경주},
 '${r.경주일자}'
 )
-">
-
+"
+>
 저장
+</button>
 
 </button>
 
@@ -3651,6 +4113,371 @@ ${r.경주},
 
 }
 
+async function loadBloodAnalysisTable(){
+
+const token =
+localStorage.getItem("token");
+
+const res =
+await fetch(
+"/analysis-table",
+{
+headers:{
+Authorization:
+"Bearer "+token
+}
+}
+);
+
+const data=
+await res.json();
+
+const table=
+document.getElementById(
+"blood-analysis-table"
+);
+
+table.innerHTML="";
+
+data.forEach(row=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${row.지역}</td>
+<td>${row.경주}</td>
+<td>${row.경주일자}</td>
+
+<td>
+
+<button onclick="
+toggleBloodAnalysis(
+'${row.지역}',
+'${row.경주}',
+'${row.경주일자}'
+)
+">
+비교표 보기
+</button>
+
+<div
+id="blood-${row.지역}-${row.경주}-${row.경주일자}"
+style="margin-top:10px;"
+></div>
+
+</td>
+
+<td>
+
+<button>
+저장
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+async function showBloodAnalysis(
+region,
+raceNo,
+raceDate
+){
+
+const date =
+String(raceDate)
+.replace(/\//g,"");
+
+const res = await fetch(
+`/blood-analysis-data/${region}/${raceNo}/${date}`
+);
+
+const data = await res.json();
+
+let html = `
+<table border="1"
+style="
+width:100%;
+margin-top:10px;
+border-collapse:collapse;
+font-size:12px;
+">
+
+<tr>
+<th>번호</th>
+<th>마명</th>
+<th>도시지</th>
+<th>DI</th>
+<th>CD</th>
+<th>근친</th>
+<th>AWD</th>
+<th>부AWD</th>
+<th>모AWD</th>
+<th>모부AWD</th>
+<th>주행습성</th>
+<th>거리적합</th>
+<th>코멘트</th>
+<th>점수</th>
+</tr>
+`;
+
+data.forEach(h=>{
+
+const dosageRaw =
+String(h.도시지프로필 || "")
+.replace(/\s/g,"");
+
+const dosage =
+dosageRaw
+.split("")
+.join(" ");
+
+const d1 = Number(dosageRaw[0] || 0);
+const d2 = Number(dosageRaw[1] || 0);
+const d3 = Number(dosageRaw[2] || 0);
+const d4 = Number(dosageRaw[3] || 0);
+const d5 = Number(dosageRaw[4] || 0);
+
+const speedPower =
+d1 + d2;
+
+const staminaPower =
+d4 + d5;
+
+const di =
+parseFloat(h.DI || 0);
+
+const cd =
+parseFloat(h.CD || 0);
+
+const kin =
+parseFloat(h.근친 || 0);
+
+let awd =
+parseInt(h.AWD);
+
+if(isNaN(awd)){
+
+const sire =
+parseInt(h.부AWD || 0);
+
+const dam =
+parseInt(h.모AWD || 0);
+
+const damSire =
+parseInt(h.모부AWD || 0);
+
+const values =
+[sire, dam, damSire].filter(v=>v > 0);
+
+if(values.length > 0){
+
+awd =
+Math.round(
+values.reduce((a,b)=>a+b,0) / values.length
+);
+
+}else{
+
+awd = 0;
+
+}
+
+}
+
+// 주행습성
+let style = "";
+
+if(di >= 4){
+style = "선행형";
+}else if(di >= 2){
+style = "선입형";
+}else if(di >= 1){
+style = "추입형";
+}else{
+style = "지구력형";
+}
+
+// 거리적합
+let distance = "";
+
+if(awd > 0){
+
+if(awd >= 1800){
+distance = "장거리";
+}else if(awd >= 1400){
+distance = "중거리";
+}else{
+distance = "단거리";
+}
+
+}else{
+
+if(di >= 4 || cd >= 0.9 || speedPower > staminaPower + 3){
+distance = "단거리";
+}else if(di >= 2 && di < 4){
+distance = "중거리";
+}else{
+distance = "장거리";
+}
+
+}
+
+let comment = "";
+//코멘트
+if(di >= 4){
+
+comment += "초반 스피드가 뛰어난 혈통으로 보입니다. ";
+
+}else if(di >= 2){
+
+comment += "선입 전개에 어울리는 균형 잡힌 혈통입니다. ";
+
+}else if(di >= 1){
+
+comment += "후반 추입력에 기대를 걸 수 있는 혈통입니다. ";
+
+}else{
+
+comment += "지구력이 강한 장거리 지향 혈통입니다. ";
+
+}
+
+if(cd >= 0.8){
+
+comment += "짧은 거리에서 장점을 보일 가능성이 높습니다. ";
+
+}else if(cd >= 0.3){
+
+comment += "중거리에서 안정적인 능력 발휘가 기대됩니다. ";
+
+}else{
+
+comment += "거리가 늘어날수록 강점을 보일 수 있다. ";
+
+}
+
+if(kin <= 2){
+
+comment += "혈통 구성(끈친)도 무난한 편이라 부담이 적습니다. ";
+
+}else{
+
+comment += "혈통 집중도(근친)가 다소 높아 체크가 필요하다. ";
+
+}
+
+// 혈통점수 100점
+
+let score = 0;
+
+// DI 30점
+if(di >= 2 && di <= 4){
+score += 30;
+}else if(di >= 1.5 && di < 2){
+score += 25;
+}else if(di > 4 && di <= 6){
+score += 20;
+}else{
+score += 10;
+}
+
+// CD 20점
+if(cd >= 0.3 && cd <= 0.9){
+score += 20;
+}else if(cd >= 0 && cd < 0.3){
+score += 15;
+}else{
+score += 10;
+}
+
+// 근친 10점
+if(kin <= 2){
+score += 10;
+}else if(kin <= 5){
+score += 8;
+}else{
+score += 5;
+}
+
+// 도시지 20점
+const diff =
+Math.abs(speedPower - staminaPower);
+
+if(diff <= 3){
+score += 20;
+}else if(diff <= 6){
+score += 15;
+}else{
+score += 10;
+}
+
+// AWD 20점
+if(awd >= 1400 && awd <= 1800){
+score += 20;
+}else if(awd >= 1200){
+score += 15;
+}else{
+score += 10;
+}
+
+score =
+Math.min(100, Math.round(score));
+
+html += `
+<tr>
+<td>${h.번호 || "-"}</td>
+<td>${h.마명 || "-"}</td>
+<td>${dosage || "-"}</td>
+<td>${h.DI || "-"}</td>
+<td>${h.CD || "-"}</td>
+<td>${h.근친 || "-"}</td>
+<td>${h.AWD || "-"}</td>
+<td>${h.부AWD || "-"}</td>
+<td>${h.모AWD || "-"}</td>
+<td>${h.모부AWD || "-"}</td>
+<td>${style}</td>
+<td>${distance}</td>
+<td>
+
+<textarea
+id="blood-comment-${region}-${raceNo}-${h.번호}"
+>${comment}</textarea>
+
+</td>
+
+<td>
+
+<input
+id="blood-score-${region}-${raceNo}-${h.번호}"
+value="${score}"
+/>
+
+</td>
+</tr>
+`;
+
+});
+
+html += "</table>";
+
+document.getElementById(
+`blood-${region}-${raceNo}`
+).innerHTML = html;
+
+}
+
+
+// =========================
+// 기본분석 비교표
+// =========================
 async function loadBasicCompare(
 region,
 raceNo,
@@ -3739,7 +4566,11 @@ html += `
 <tr>
 
 <td>${h.번호}</td>
-<td>${h.마명}</td>
+<td
+id="horse-${region}-${raceNo}-${h.번호}"
+>
+${h.마명}
+</td>
 
 <td>${h.성별}</td>
 <td>${h.나이}</td>
@@ -3781,20 +4612,73 @@ document.getElementById(
 
 }
 
+// =========================
+// 기본분석 저장
+// =========================
 async function saveBasicAnalysis(
 region,
 raceNo,
-raceDate
+raceDate,
+silent=false
 ){
+
+console.log(
+"save 시작",
+region,
+raceNo,
+raceDate
+);
+
+console.log(
+"region=",
+JSON.stringify(region)
+);
+
+console.log(
+"selector=",
+`[id^="comment-${region}-${raceNo}-"]`
+);
 
 const rows = document.querySelectorAll(
 `[id^="comment-${region}-${raceNo}-"]`
+);
+
+console.log("저장대상 rows:", rows.length);
+
+console.log(
+"직접확인:",
+document.querySelectorAll(
+'[id^="comment-부산경남-1-"]'
+).length
 );
 
 for(const row of rows){
 
 const horseNo =
 row.id.split("-").pop();
+
+const horseEl =
+document.getElementById(
+`horse-${region}-${raceNo}-${horseNo}`
+);
+
+console.log(
+"horseEl =",
+horseEl
+);
+
+console.log(
+"horseEl text =",
+horseEl?.innerText
+);
+
+const horseName =
+horseEl?.innerText || "";
+
+console.log(
+"horseName =",
+horseName
+);
 
 const comment =
 row.value;
@@ -3803,6 +4687,15 @@ const score =
 document.getElementById(
 `score-${region}-${raceNo}-${horseNo}`
 ).value;
+
+console.log(
+"말번호:",
+horseNo,
+"점수:",
+score,
+"코멘트:",
+comment
+);
 
 const res = await fetch(
 "/save-basic-analysis",
@@ -3821,12 +4714,17 @@ body:JSON.stringify({
 
 번호:Number(horseNo),
 
-마명:"",
+마명:horseName,
 코멘트:comment,
 점수:Number(score)
 
 })
 }
+);
+
+console.log(
+"응답",
+res.status
 );
 
 console.log(
@@ -3836,10 +4734,127 @@ res.status
 
 }
 
-alert("전체 저장 완료");
+if(!silent){
+    alert("저장 완료");
+}
 
 }
 
+
+async function saveAllBasicAnalysis(){
+
+    const buttons =
+    document.querySelectorAll(
+        ".basic-save-btn"
+    );
+
+    if(buttons.length === 0){
+        alert("저장할 경주가 없습니다");
+        return;
+    }
+
+    if(
+        !confirm(
+            `${buttons.length}개 경주를 전체 저장할까?`
+        )
+    ){
+        return;
+    }
+
+    for(const btn of buttons){
+
+        const region =
+        btn.dataset.region;
+
+        const raceNo =
+        Number(btn.dataset.race);
+
+        const raceDate =
+        btn.dataset.date;
+
+        console.log(
+            "전체저장:",
+            region,
+            raceNo,
+            raceDate
+        );
+
+        await loadBasicCompare(
+            region,
+            raceNo,
+            raceDate
+        );
+
+        await saveBasicAnalysis(
+            region,
+            raceNo,
+            raceDate,
+            true
+        );
+    }
+
+    alert("전체 저장 완료");
+}
+
+async function toggleBasicCompare(
+region,
+raceNo,
+raceDate
+){
+
+const div =
+document.getElementById(
+`compare-${region}-${raceNo}`
+);
+
+// 이미 열려있으면 접기
+if(
+div.innerHTML.trim() !== ""
+){
+
+    div.innerHTML = "";
+    return;
+
+}
+
+// 비어있으면 열기
+await loadBasicCompare(
+    region,
+    raceNo,
+    raceDate
+);
+
+}
+
+async function toggleBloodAnalysis(
+region,
+raceNo,
+raceDate
+){
+
+const div =
+document.getElementById(
+`blood-${region}-${raceNo}`
+);
+
+// 이미 열려있으면 접기
+if(
+div.innerHTML.trim() !== ""
+){
+
+    div.innerHTML = "";
+    return;
+
+}
+
+// 닫혀있으면 열기
+await showBloodAnalysis(
+    region,
+    raceNo,
+    raceDate
+);
+
+}
 </script>
   <div id="user-modal" style="
 display:none;
