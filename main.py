@@ -4328,7 +4328,7 @@ def get_user_basic_analysis(
 
             RaceDetail.지역 == row.지역,
             RaceDetail.경주 == row.경주,
-            RaceDetail.번호 == row.번호
+            RaceDetail.번호 == str(row.번호)
 
         ).first()
 
@@ -4689,3 +4689,4 @@ def save_blood_analysis(
     return {
         "msg":"저장 완료"
     }
+    return []
