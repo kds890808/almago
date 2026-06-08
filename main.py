@@ -364,6 +364,7 @@ class BloodAnalysis(Base):
     모부AWD = Column(String)
 
     경주마특성 = Column(String)
+    거리적합 = Column(String)
 
     코멘트 = Column(String)
 
@@ -962,6 +963,36 @@ def calc_basic_score(
         )
 
     return score, comment
+
+# =========================
+# 혈통분석
+# =========================
+class BloodAnalysisSave(BaseModel):
+
+    지역:str
+    경주:int
+    경주일자:str
+
+    번호:int
+    마명:str
+
+    도시지프로필:str=""
+
+    DI:str=""
+    CD:str=""
+    근친:str=""
+
+    AWD:str=""
+    부AWD:str=""
+    모AWD:str=""
+    모부AWD:str=""
+
+    거리적합:str=""
+    경주마특성:str=""
+
+    코멘트:str=""
+    점수:int=0
+
 # =========================
 # DB 연결
 # =========================
@@ -4412,6 +4443,9 @@ def get_blood_analysis_data(
 
 ):
 
+    if region == "부산":
+        region = "부산경남"
+
     rows = db.query(
         Blood
     ).filter(
@@ -4464,12 +4498,194 @@ def get_blood_analysis_data(
     return result
 
 @app.get(
-    "/blood-analysis-data/{region}/{race_no}/{race_date}"
+"/user-blood-analysis/{region}/{race_no}/{race_date}"
 )
-def get_blood_analysis_data(
+def get_user_blood_analysis(
+
     region:str,
     race_no:int,
     race_date:str,
+
     db:Session=Depends(get_db)
+
 ):
-    return []
+
+    print("원본지역=", region)
+
+    # if region == "부산":
+    #     region = "부산경남"
+
+    print("변환후지역=", region)
+
+    print("===== BloodAnalysis 전체 =====")
+
+    all_rows = db.query(
+        BloodAnalysis
+    ).all()
+
+    for r in all_rows[:30]:
+
+        print(
+            "DB:",
+            r.지역,
+            r.경주,
+            r.경주일자,
+            r.번호,
+            r.마명
+        )
+
+    rows = db.query(
+        BloodAnalysis
+    ).filter(
+
+        BloodAnalysis.지역 == region,
+        BloodAnalysis.경주 == race_no
+
+    ).all()
+
+    print("지역+경주 매칭=", len(rows))
+
+    for r in rows[:20]:
+
+        print(
+            "후보:",
+            r.지역,
+            r.경주,
+            r.경주일자,
+            r.번호,
+            r.마명
+        )
+
+    date_clean = ''.join(
+        c for c in str(race_date)
+        if c.isdigit()
+    )[:8]
+
+    print("요청날짜=", date_clean)
+
+    for r in rows:
+
+        db_date = ''.join(
+            c for c in str(r.경주일자)
+            if c.isdigit()
+        )[:8]
+
+        print(
+            "날짜비교:",
+            date_clean,
+            db_date
+        )
+
+    rows = [
+
+        r for r in rows
+
+        if ''.join(
+            c for c in str(r.경주일자)
+            if c.isdigit()
+        )[:8] == date_clean
+
+    ]
+
+    print("날짜필터후=", len(rows))
+
+    result = []
+
+    for r in rows:
+
+        result.append({
+
+            "번호": r.번호,
+            "마명": r.마명,
+
+            "도시지프로필": r.도시지프로필,
+
+            "DI": r.DI,
+            "CD": r.CD,
+            "근친": r.근친,
+
+            "AWD": r.AWD,
+            "부AWD": r.부AWD,
+            "모AWD": r.모AWD,
+            "모부AWD": r.모부AWD,
+
+            "거리적합": r.거리적합,
+            "경주마특성": r.경주마특성,
+
+            "코멘트": r.코멘트,
+            "점수": r.점수
+
+        })
+
+    return result
+
+    
+@app.post("/save-blood-analysis")
+def save_blood_analysis(
+    item: BloodAnalysisSave,
+    db: Session = Depends(get_db)
+):
+
+    print(
+        "저장값:",
+        item.번호,
+        item.경주마특성,
+        item.거리적합
+    )
+
+    row = db.query(
+        BloodAnalysis
+    ).filter(
+
+        BloodAnalysis.지역 == item.지역,
+        BloodAnalysis.경주 == item.경주,
+        BloodAnalysis.경주일자 == item.경주일자,
+        BloodAnalysis.번호 == item.번호
+
+    ).first()
+
+    if row:
+
+        row.코멘트 = item.코멘트
+        row.점수 = item.점수
+
+        row.경주마특성 = item.경주마특성
+        row.거리적합 = item.거리적합
+
+    else:
+
+        row = BloodAnalysis(
+
+            지역=item.지역,
+            경주=item.경주,
+            경주일자=item.경주일자,
+
+            번호=item.번호,
+            마명=item.마명,
+
+            도시지프로필=item.도시지프로필,
+
+            DI=item.DI,
+            CD=item.CD,
+            근친=item.근친,
+
+            AWD=item.AWD,
+            부AWD=item.부AWD,
+            모AWD=item.모AWD,
+            모부AWD=item.모부AWD,
+
+            거리적합=item.거리적합,
+            경주마특성=item.경주마특성,
+
+            코멘트=item.코멘트,
+            점수=item.점수
+
+        )
+
+        db.add(row)
+
+    db.commit()
+
+    return {
+        "msg":"저장 완료"
+    }

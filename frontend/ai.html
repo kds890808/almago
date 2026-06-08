@@ -245,125 +245,189 @@ filtered
     const detailData =
     await detailRes.json();
 
-    const raceDate =
-    String(r.경주일자)
-    .replace(/\//g,"");
-
-    console.log(
-    "기본분석 URL",
-    `/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
-    );
-
-    const basicRes = await fetch(
-    `/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
-    );
-
-    const basicData =
-    await basicRes.json();
-    console.log(
-    "basicData =",
-    basicData
-    );
-    let basicTable = "";
-let basicComment = "";
-
-basicData.forEach(h=>{
 
 console.log(
-    "개별데이터",
-    h
+"선택AI",
+r
 );
 
-let scoreClass = "";
-let rankText = "";
+const raceDate =
+String(r.경주일자)
+.replace(/\//g,"");
 
-if(h.점수 >= 100){
+console.log(
+"raceDate",
+raceDate
+);
 
-    scoreClass = "score-top";
-    rankText = "🥇 유력";
+console.log(
+"기본분석 URL",
+`/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
+);
 
-}else if(h.점수 >= 70){
+const basicRes = await fetch(
+`/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
+);
 
-    scoreClass = "score-good";
-    rankText = "🥈 주력";
+const basicData =
+await basicRes.json();
 
-}else if(h.점수 >= 50){
+console.log(
+"basicData =",
+basicData
+);
 
-    scoreClass = "score-mid";
-    rankText = "🥉 관심";
 
-}else{
+// =======================
+// 혈통분석 추가
+// =======================
+let bloodData = [];
 
-    scoreClass = "score-low";
-    rankText = "관망";
+if(r.지역 !== "제주"){
+
+    const bloodRes = await fetch(
+    `/user-blood-analysis/${r.지역}/${r.경주}/${raceDate}`
+    );
+
+    bloodData =
+    await bloodRes.json();
 
 }
 
-basicTable += `
+console.log(
+"bloodData =",
+bloodData
+);
+
+let basicTable = "";
+let basicComment = "";
+let bloodComment = "";
+let bloodTable = "";
 
 
+// =======================
+// 기본분석
+// =======================
 
-<tr>
+basicData.forEach(h=>{
 
-<td>${h.번호}</td>
-<td>${h.마명}</td>
+    console.log(
+        "개별데이터",
+        h
+    );
 
-<td>${h.성별}</td>
-<td>${h.나이}</td>
+    let scoreClass = "";
+    let rankText = "";
 
-<td>${h.통산전적}</td>
+    if(h.점수 >= 100){
 
-<td>${h.승률}</td>
+        scoreClass = "score-top";
+        rankText = "🥇 유력";
 
-<td>${h.기수승률}</td>
+    }else if(h.점수 >= 70){
 
-<td>${h.조교사승률}</td>
+        scoreClass = "score-good";
+        rankText = "🥈 주력";
 
-<td class="${scoreClass}">
+    }else if(h.점수 >= 50){
 
-${h.점수}
+        scoreClass = "score-mid";
+        rankText = "🥉 관심";
 
-<br>
+    }else{
 
-<span class="rank-badge">
-${rankText}
-</span>
+        scoreClass = "score-low";
+        rankText = "관망";
 
-</td>
+    }
 
-</tr>
+    basicTable += `
+    <tr>
+    <td>${h.번호}</td>
+    <td>${h.마명}</td>
+    <td>${h.성별}</td>
+    <td>${h.나이}</td>
+    <td>${h.통산전적}</td>
+    <td>${h.승률}</td>
+    <td>${h.기수승률}</td>
+    <td>${h.조교사승률}</td>
+    <td class="${scoreClass}">
+    ${h.점수}
+    </td>
+    </tr>
+    `;
 
-`;
-
-basicComment += `
-
-<div class="analysis-comment-card">
-
-<h4>
-🐎 ${h.번호}번 ${h.마명}
-</h4>
-
-<div class="score-badge">
-${h.점수}점
-</div>
-
-<div class="comment-body">
-
-${h.코멘트 || "-"}
-
-</div>
-
-</div>
-
-`;
+    basicComment += `
+    <div class="analysis-comment-card">
+    <h4>🐎 ${h.번호}번 ${h.마명}</h4>
+    <div class="score-badge">${h.점수}점</div>
+    <div class="comment-body">
+    ${h.코멘트 || "-"}
+    </div>
+    </div>
+    `;
 
 });
-    console.log(
-    "조회",
-    r.지역,
-    r.경주,
-    r.경주일자
-    );
+
+
+// =======================
+// 혈통분석
+// =======================
+
+bloodData.forEach(h=>{
+
+    bloodTable += `
+    <tr>
+        <td>${h.번호}</td>
+        <td>${h.마명}</td>
+
+        <td>${h.도시지프로필 || "-"}</td>
+
+        <td>${h.DI}</td>
+        <td>${h.CD}</td>
+        <td>${h.근친}</td>
+
+        <td>${h.AWD || "-"}</td>
+        <td>${h.부AWD || "-"}</td>
+        <td>${h.모AWD || "-"}</td>
+        <td>${h.모부AWD || "-"}</td>
+
+        <td>${h.경주마특성 || "-"}</td>
+        <td>${h.거리적합 || "-"}</td>
+
+        <td>${h.점수}</td>
+    </tr>
+    `;
+
+    bloodComment += `
+    <div class="analysis-comment-card">
+
+    <h4>
+    🧬 ${h.번호}번 ${h.마명}
+    </h4>
+
+    <div class="score-badge">
+    ${h.점수}점
+    </div>
+
+    <div class="comment-body">
+    ${h.코멘트 || "-"}
+    </div>
+
+    </div>
+    `;
+});
+
+console.log("bloodTable=", bloodTable);
+
+alert(bloodTable);
+
+console.log(
+"조회",
+r.지역,
+r.경주,
+r.경주일자
+);
 
 console.log(detailData);
 
@@ -554,17 +618,46 @@ r.지역 === "제주"
 :
 
 `
-<div class="locked-box">
+<div class="analysis-box">
 
-🔒 혈통분석
+<h4>🧬 혈통분석 비교표</h4>
 
-<button
-onclick="unlockPedigree(
-'${r.지역}',
-'${r.경주}'
-)">
-200P로 열기
-</button>
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+
+<th>도시지</th>
+
+<th>DI</th>
+<th>CD</th>
+<th>근친</th>
+
+<th>AWD</th>
+<th>부AWD</th>
+<th>모AWD</th>
+<th>모부AWD</th>
+
+<th>주행습성</th>
+<th>거리적합</th>
+
+<th>점수</th>
+
+</tr>
+
+${bloodTable}
+
+</table>
+
+<h4>
+📝 혈통분석 코멘트
+</h4>
+
+${bloodComment}
+
+</div>
 
 </div>
 `

@@ -1119,7 +1119,17 @@ html=`
 
 <th>혈통분석</th>
 
-<th>저장</th>
+<th>
+저장
+<br>
+
+<button
+onclick="saveAllBloodAnalysis()"
+>
+전체저장
+</button>
+
+</th>
 
 </tr>
 </thead>
@@ -2364,6 +2374,7 @@ async function saveCell(td, value, rowIndex, colIndex) {
     headers: {
       "Content-Type": "application/json"
     },
+
     body: JSON.stringify({
       [field]: value
     })
@@ -4170,8 +4181,25 @@ style="margin-top:10px;"
 
 <td>
 
-<button>
+<button
+
+class="blood-save-btn"
+
+data-region="${row.지역}"
+data-race="${row.경주}"
+data-date="${row.경주일자}"
+
+onclick="
+saveBloodAnalysis(
+'${row.지역}',
+'${row.경주}',
+'${row.경주일자}'
+)
+"
+>
+
 저장
+
 </button>
 
 </td>
@@ -4366,7 +4394,7 @@ comment += "거리가 늘어날수록 강점을 보일 수 있다. ";
 
 if(kin <= 2){
 
-comment += "혈통 구성(끈친)도 무난한 편이라 부담이 적습니다. ";
+comment += "혈통 구성(근친)도 무난한 편이라 부담이 적습니다. ";
 
 }else{
 
@@ -4430,7 +4458,8 @@ score += 10;
 
 score =
 Math.min(100, Math.round(score));
-
+h.경주마특성 = style;
+h.거리적합 = distance;
 html += `
 <tr>
 <td>${h.번호 || "-"}</td>
@@ -4796,6 +4825,75 @@ async function saveAllBasicAnalysis(){
     alert("전체 저장 완료");
 }
 
+async function saveAllBloodAnalysis(){
+
+    const buttons =
+    document.querySelectorAll(
+        ".blood-save-btn"
+    );
+
+    if(buttons.length === 0){
+
+        alert("저장할 혈통분석이 없습니다");
+        return;
+
+    }
+
+    if(
+        !confirm(
+            `${buttons.length}개 경주 혈통분석을 전체 저장할까?`
+        )
+    ){
+        return;
+    }
+
+    for(const btn of buttons){
+
+        const region =
+        btn.dataset.region;
+
+        const raceNo =
+        Number(btn.dataset.race);
+
+        const raceDate =
+        btn.dataset.date;
+
+        // 제주 제외
+        if(region === "제주"){
+
+            console.log(
+                "제주 혈통분석 제외"
+            );
+
+            continue;
+        }
+
+        console.log(
+            "혈통 전체저장:",
+            region,
+            raceNo,
+            raceDate
+        );
+
+        await showBloodAnalysis(
+            region,
+            raceNo,
+            raceDate
+        );
+
+        await saveBloodAnalysis(
+            region,
+            raceNo,
+            raceDate,
+            true
+        );
+
+    }
+
+    alert("혈통분석 전체 저장 완료");
+
+}
+
 async function toggleBasicCompare(
 region,
 raceNo,
@@ -4855,6 +4953,180 @@ await showBloodAnalysis(
 );
 
 }
+
+async function saveBloodAnalysis(
+region,
+raceNo,
+raceDate,
+silent=false
+){
+
+const date =
+String(raceDate)
+.replace(/\//g,"");
+
+const res =
+await fetch(
+`/blood-analysis-data/${region}/${raceNo}/${date}`
+);
+
+const data =
+await res.json();
+
+for(const h of data){
+
+const comment =
+document.getElementById(
+`blood-comment-${region}-${raceNo}-${h.번호}`
+)?.value || "";
+
+const score =
+parseInt(
+document.getElementById(
+`blood-score-${region}-${raceNo}-${h.번호}`
+)?.value || 0
+);
+
+console.log(
+"저장값",
+h.번호,
+comment,
+score
+);
+
+// ====================
+// 주행습성 계산
+// ====================
+let style = "";
+
+const di =
+parseFloat(h.DI || 0);
+
+if(di >= 4){
+
+    style = "선행형";
+
+}else if(di >= 2){
+
+    style = "선입형";
+
+}else if(di >= 1){
+
+    style = "추입형";
+
+}else{
+
+    style = "지구력형";
+
+}
+
+// ====================
+// 거리적합 계산
+// ====================
+let distance = "";
+
+let awd =
+parseInt(h.AWD);
+
+if(isNaN(awd)){
+
+    const sire =
+    parseInt(h.부AWD || 0);
+
+    const dam =
+    parseInt(h.모AWD || 0);
+
+    if(sire && dam){
+
+        awd =
+        Math.round(
+        (sire + dam) / 2
+        );
+
+    }else{
+
+        awd =
+        sire || dam || 0;
+
+    }
+
+}
+
+if(awd >= 1800){
+
+    distance = "장거리";
+
+}else if(awd >= 1400){
+
+    distance = "중거리";
+
+}else{
+
+    distance = "단거리";
+
+}
+
+
+console.log({
+번호:h.번호,
+특성:style,
+거리:distance,
+점수:score
+});
+
+const saveRes =
+await fetch(
+"/save-blood-analysis",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+지역:region,
+경주:Number(raceNo),
+경주일자:date,
+
+번호:Number(h.번호),
+마명:h.마명,
+
+도시지프로필:h.도시지프로필,
+
+DI:h.DI,
+CD:h.CD,
+근친:h.근친,
+
+AWD:h.AWD,
+부AWD:h.부AWD,
+모AWD:h.모AWD,
+모부AWD:h.모부AWD,
+
+경주마특성:style,
+거리적합:distance,
+
+코멘트:comment,
+점수:score
+
+})
+}
+);
+
+console.log(
+"상태코드:",
+saveRes.status
+);
+
+}
+
+if(!silent){
+  alert("혈통분석 저장 완료");
+
+}
+}
+
+
 </script>
   <div id="user-modal" style="
 display:none;
