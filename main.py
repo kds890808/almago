@@ -4690,3 +4690,32 @@ def save_blood_analysis(
         "msg":"저장 완료"
     }
     return []
+
+@app.get("/fix-blood-columns")
+def fix_blood_columns(
+    db: Session = Depends(get_db)
+):
+
+    try:
+
+        db.execute(text("""
+        ALTER TABLE blood_analysis
+        ADD COLUMN IF NOT EXISTS "거리적합" VARCHAR(100)
+        """))
+
+        db.execute(text("""
+        ALTER TABLE blood_analysis
+        ADD COLUMN IF NOT EXISTS "경주마특성" VARCHAR(100)
+        """))
+
+        db.commit()
+
+        return {
+            "msg":"컬럼 추가 완료"
+        }
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
