@@ -3756,6 +3756,64 @@ def use_ai(
         "msg":"차감 완료",
         "remain_point":member.point
     }
+
+@app.post("/use-blood-analysis")
+def use_blood_analysis(
+    db: Session = Depends(get_db),
+    current = Depends(get_current_user)
+):
+
+    print("CURRENT =", current)
+
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
+
+        return {
+            "msg": "슈퍼관리자",
+            "remain_point": 999999
+        }
+
+    member = db.query(Member).filter(
+        Member.email == current["email"]
+    ).first()
+
+    if not member:
+        raise HTTPException(404, "회원 없음")
+
+    need_point = 200
+
+    if member.point < need_point:
+        raise HTTPException(400, "포인트 부족")
+
+    member.point -= need_point
+
+    history = PointHistory(
+
+        email=member.email,
+
+        type="use",
+
+        amount=-need_point,
+
+        remain_point=member.point,
+
+        description="혈통분석 이용",
+
+        created_at=str(datetime.now())
+
+    )
+
+    db.add(history)
+
+    db.commit()
+
+    return {
+        "msg":"차감 완료",
+        "remain_point":member.point
+    }
+
 # =========================
 # 포인트 로그 조회
 # =========================

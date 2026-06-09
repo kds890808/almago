@@ -618,7 +618,26 @@ r.지역 === "제주"
 :
 
 `
-<div class="analysis-box">
+<div class="locked-box">
+
+🔒 혈통분석
+
+<button
+onclick="
+unlockPedigree(
+'${r.지역}',
+'${r.경주}'
+)
+">
+200P로 열기
+</button>
+
+</div>
+
+<div
+id="pedigree-${r.지역}-${r.경주}"
+style="display:none;"
+>
 
 <h4>🧬 혈통분석 비교표</h4>
 
@@ -846,9 +865,43 @@ raceNo
         return;
     }
 
-    alert(
-        "여기서 포인트 차감 + 혈통분석 표시"
+    const token =
+    localStorage.getItem(
+        "token"
     );
+
+    const res =
+    await fetch(
+        "/use-blood-analysis",
+        {
+            method:"POST",
+            headers:{
+                "Authorization":
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!res.ok){
+
+        alert(
+            data.detail ||
+            "포인트 부족"
+        );
+
+        return;
+    }
+
+    alert(
+        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    );
+
+    document.getElementById(
+        `pedigree-${region}-${raceNo}`
+    ).style.display = "block";
 
 }
 
