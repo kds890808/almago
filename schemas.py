@@ -60,3 +60,22 @@ class MenuOut(BaseModel):
     class Config:
         orm_mode = True
 
+# =========================
+# 경주전개분석
+# =========================
+class PaceAnalysisSave(BaseModel):
+
+    지역:str
+    경주:int
+    경주일자:str
+
+    번호:int
+    마명:str
+
+    주행유형:str
+    최근흐름:str
+    전개패턴:str
+    코스적합:str
+
+    코멘트:str
+    점수:int

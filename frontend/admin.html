@@ -1157,13 +1157,38 @@ html=`
 
 <h3>🏇 전개분석</h3>
 
-<div id="pace-analysis-list">
-준비중
-</div>
+<table>
+
+<thead>
+<tr>
+
+<th>지역</th>
+<th>경주</th>
+<th>날짜</th>
+
+<th>전개분석</th>
+
+<th>
+저장
+<br>
+<button onclick="saveAllPaceAnalysis()">
+전체저장
+</button>
+</th>
+
+</tr>
+</thead>
+
+<tbody id="pace-analysis-table">
+</tbody>
+
+</table>
 
 `;
 
 }
+
+
 
 if(tab==="final"){
 
@@ -1217,6 +1242,10 @@ document.getElementById(
 
 if(tab==="basic"){
     loadBasicAnalysisTable();
+}
+
+if(tab==="pace"){
+    loadPaceAnalysisTable();
 }
 
 }
@@ -4023,6 +4052,10 @@ document.getElementById(
 "basic-analysis-table"
 );
 
+if(!table){
+    return;
+}
+
 table.innerHTML="";
 
 const uniqueRaces = [];
@@ -5126,6 +5159,509 @@ if(!silent){
 }
 }
 
+async function loadPaceAnalysisTable(){
+
+const res =
+await fetch("/race-detail");
+
+const races =
+await res.json();
+
+const table =
+document.getElementById(
+"pace-analysis-table"
+);
+
+if(!table) return;
+
+table.innerHTML="";
+
+const uniqueRaces=[];
+
+races.forEach(r=>{
+
+const key=
+`${r.지역}_${r.경주}_${r.경주일자}`;
+
+if(
+!uniqueRaces.find(
+x=>x.key===key
+)
+){
+
+uniqueRaces.push({
+key,
+...r
+});
+
+}
+
+});
+
+uniqueRaces.forEach(r=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${r.지역}</td>
+
+<td>${r.경주}</td>
+
+<td>${r.경주일자}</td>
+
+<td>
+
+<button
+onclick="
+togglePaceCompare(
+'${r.지역}',
+${r.경주},
+'${r.경주일자}'
+)
+"
+>
+비교표 보기
+</button>
+
+<div
+id="pace-${r.지역}-${r.경주}-${r.경주일자}"
+style="
+margin-top:10px;
+"
+></div>
+
+</td>
+
+<td>
+
+<button
+onclick="
+savePaceAnalysis(
+'${r.지역}',
+${r.경주},
+'${r.경주일자}'
+)
+"
+>
+저장
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+function getTypeColor(type){
+
+if(type==="도주형")
+return "#ff4444";
+
+if(type==="선행형")
+return "#ff8800";
+
+if(type==="선입형")
+return "#3377ff";
+
+if(type==="추입형")
+return "#9933ff";
+
+return "#999";
+
+}
+function getFlowColor(flow){
+
+if(flow==="상승세")
+return "#00aa00";
+
+if(flow==="보통")
+return "#888";
+
+if(flow==="하락세")
+return "#dd2222";
+
+return "#999";
+
+}
+function getCourseColor(course){
+
+if(course==="매우유리")
+return "#00aa00";
+
+if(course==="유리")
+return "#3377ff";
+
+if(course==="보통")
+return "#888";
+
+if(course==="불리")
+return "#dd2222";
+
+return "#999";
+
+}
+
+async function showPaceAnalysis(
+region,
+raceNo,
+raceDate
+){
+
+console.log(
+"전개분석 요청",
+region,
+raceNo,
+raceDate
+);
+
+const res =
+await fetch(
+`/pace-analysis-data/${region}/${raceNo}/${raceDate}`
+);
+
+const data =
+await res.json();
+
+console.log(
+"전개분석 결과",
+data
+);
+
+const area =
+document.getElementById(
+`pace-${region}-${raceNo}-${raceDate}`
+);
+
+area.innerHTML=`
+
+<h3>
+🏇 ${region}
+${raceNo}경주
+전개분석
+</h3>
+
+<table
+id="pace-table-${region}-${raceNo}-${raceDate}"
+>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+
+<th>주행유형</th>
+<th>최근흐름</th>
+<th>전개패턴</th>
+<th>코스적합</th>
+<th>평균경주전개</th>
+<th>최근순위</th>
+<th>도착차</th>
+<th>평균S1F</th>
+<th>평균G3F</th>
+<th>평균G1F</th>
+<th>최고G3F</th>
+<th>평균훈련량</th>
+<th>수영훈련</th>
+<th>코멘트</th>
+<th>점수</th>
+
+</tr>
+
+${data.map(row=>`
+
+<tr>
+
+<td>${row.번호}</td>
+<td>${row.마명}</td>
+
+<td>
+
+<select
+id="pace-type-${row.번호}"
+>
+
+<option ${row.주행유형==="선행"?"selected":""}>
+선행
+</option>
+
+<option ${row.주행유형==="선입"?"selected":""}>
+선입
+</option>
+
+<option ${row.주행유형==="추입"?"selected":""}>
+추입
+</option>
+
+<option ${row.주행유형==="보통"?"selected":""}>
+보통
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select
+id="pace-flow-${row.번호}"
+>
+
+<option ${row.최근흐름==="상승세"?"selected":""}>
+상승세
+</option>
+
+<option ${row.최근흐름==="보통"?"selected":""}>
+보통
+</option>
+
+<option ${row.최근흐름==="부진"?"selected":""}>
+부진
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select
+id="pace-pattern-${row.번호}"
+>
+
+<option ${row.전개패턴==="선행형"?"selected":""}>
+선행형
+</option>
+
+<option ${row.전개패턴==="선입형"?"selected":""}>
+선입형
+</option>
+
+<option ${row.전개패턴==="추입형"?"selected":""}>
+추입형
+</option>
+
+<option ${row.전개패턴==="보통형"?"selected":""}>
+보통형
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select
+id="pace-course-${row.번호}"
+>
+
+<option ${row.코스적합==="우수"?"selected":""}>
+우수
+</option>
+
+<option ${row.코스적합==="양호"?"selected":""}>
+양호
+</option>
+
+<option ${row.코스적합==="보통"?"selected":""}>
+보통
+</option>
+
+<option ${row.코스적합==="불리"?"selected":""}>
+불리
+</option>
+
+</select>
+
+</td>
+
+<td>${row.평균경주전개 || "-"}</td>
+
+<td>${row.최근순위 || "-"}</td>
+<td>${row.도착차 || "-"}</td>
+
+<td>${row.평균S1F || "-"}</td>
+<td>${row.평균G3F || "-"}</td>
+<td>${row.평균G1F || "-"}</td>
+
+<td>${row.최고G3F || "-"}</td>
+
+<td>${row.평균훈련량 || "-"}</td>
+<td>${row.수영훈련 || "-"}</td>
+
+<td>
+
+<input
+id="pace-comment-${row.번호}"
+value="${row.코멘트 || ''}"
+style="width:220px;"
+>
+
+</td>
+
+<td>
+
+<input
+type="number"
+id="pace-score-${row.번호}"
+value="${row.점수 || 0}"
+style="width:70px;"
+>
+
+</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+<br><br>
+
+`;
+
+}
+
+async function savePaceAnalysis(
+region,
+raceNo,
+raceDate
+){
+
+console.log(
+"전개분석 저장 시작",
+region,
+raceNo,
+raceDate
+);
+
+const rows =
+document.querySelectorAll(
+`#pace-table-${region}-${raceNo}-${raceDate} tr`
+);
+
+console.log(
+"저장 rows:",
+rows.length
+);
+
+for(let i=1;i<rows.length;i++){
+console.log(
+"번호:",
+rows[i].children[0]?.innerText
+);
+
+const no =
+rows[i].children[0].innerText;
+
+const horse =
+rows[i].children[1].innerText;
+
+const body = {
+
+지역: region,
+경주: raceNo,
+경주일자: raceDate,
+
+번호: no,
+마명: horse,
+
+주행유형:
+document.getElementById(
+`pace-type-${no}`
+).value,
+
+최근흐름:
+document.getElementById(
+`pace-flow-${no}`
+).value,
+
+전개패턴:
+document.getElementById(
+`pace-pattern-${no}`
+).value,
+
+코스적합:
+document.getElementById(
+`pace-course-${no}`
+).value,
+
+코멘트:
+document.getElementById(
+`pace-comment-${no}`
+).value,
+
+점수:
+Number(
+document.getElementById(
+`pace-score-${no}`
+).value
+)
+
+};
+
+const res =
+await fetch(
+"/save-pace-analysis",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify(body)
+}
+);
+
+console.log(
+"상태코드:",
+res.status
+);
+
+console.log(
+"보낸값:",
+body
+);
+
+const text =
+await res.text();
+
+console.log(
+"응답:",
+text
+);
+
+}
+
+alert(
+"전개분석 저장 완료"
+);
+
+}
+
+async function togglePaceCompare(
+region,
+raceNo,
+raceDate
+){
+
+console.log(
+"전개비교표",
+region,
+raceNo,
+raceDate
+);
+
+await showPaceAnalysis(
+region,
+raceNo,
+raceDate
+);
+
+}
 
 </script>
   <div id="user-modal" style="

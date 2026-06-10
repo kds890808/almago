@@ -10,7 +10,8 @@ from models import (
     Admin,
     SuperAdmin,
     Menu,
-    PointHistory
+    PointHistory,
+    PaceAnalysis
 )
 from schemas import MenuCreate
 from passlib.context import CryptContext
@@ -369,6 +370,7 @@ class BloodAnalysis(Base):
     코멘트 = Column(String)
 
     점수 = Column(Integer)
+
 
 # =========================
 # 혈통테이블
@@ -4749,6 +4751,77 @@ def save_blood_analysis(
     }
     return []
 
+@app.post("/save-blood-analysis")
+def save_blood_analysis(
+    item: BloodAnalysisSave,
+    db: Session = Depends(get_db)
+):
+
+    print(
+        "저장값:",
+        item.번호,
+        item.경주마특성,
+        item.거리적합
+    )
+
+    row = db.query(
+        BloodAnalysis
+    ).filter(
+
+        BloodAnalysis.지역 == item.지역,
+        BloodAnalysis.경주 == item.경주,
+        BloodAnalysis.경주일자 == item.경주일자,
+        BloodAnalysis.번호 == item.번호
+
+    ).first()
+
+    if row:
+
+        row.코멘트 = item.코멘트
+        row.점수 = item.점수
+
+        row.경주마특성 = item.경주마특성
+        row.거리적합 = item.거리적합
+
+    else:
+
+        row = BloodAnalysis(
+
+            지역=item.지역,
+            경주=item.경주,
+            경주일자=item.경주일자,
+
+            번호=item.번호,
+            마명=item.마명,
+
+            도시지프로필=item.도시지프로필,
+
+            DI=item.DI,
+            CD=item.CD,
+            근친=item.근친,
+
+            AWD=item.AWD,
+            부AWD=item.부AWD,
+            모AWD=item.모AWD,
+            모부AWD=item.모부AWD,
+
+            거리적합=item.거리적합,
+            경주마특성=item.경주마특성,
+
+            코멘트=item.코멘트,
+            점수=item.점수
+
+        )
+
+        db.add(row)
+
+    db.commit()
+
+    return {
+        "msg":"저장 완료"
+    }
+    return []
+
 @app.get("/fix-blood-columns")
 def fix_blood_columns(
     db: Session = Depends(get_db)
@@ -4777,3 +4850,365 @@ def fix_blood_columns(
         return {
             "error": str(e)
         }
+
+# =========================
+# 전개분석 자동계산
+# =========================
+def make_pace_analysis(row):
+
+    score = 0
+
+    # =====================
+    # 주행유형
+    # =====================
+
+    running = "보통"
+
+    if row.평균경주전개:
+
+        try:
+
+            nums = [
+                int(x)
+                for x in str(
+                    row.평균경주전개
+                ).split("-")
+                if x.strip().isdigit()
+            ]
+
+            if nums:
+
+                avg_pos = (
+                    sum(nums) / len(nums)
+                )
+
+                if avg_pos <= 3:
+
+                    running = "선행"
+                    score += 20
+
+                elif avg_pos <= 6:
+
+                    running = "선입"
+                    score += 15
+
+                else:
+
+                    running = "추입"
+                    score += 10
+
+        except:
+            pass
+
+    # =====================
+    # 최근흐름
+    # =====================
+
+    trend = "보통"
+
+    if row.최근순위:
+
+        try:
+
+            nums = [
+                int(x)
+                for x in str(
+                    row.최근순위
+                ).replace("-", " ")
+                 .replace(",", " ")
+                 .split()
+                if x.isdigit()
+            ]
+
+            if nums:
+
+                avg_rank = (
+                    sum(nums) / len(nums)
+                )
+
+                if avg_rank <= 3:
+
+                    trend = "상승세"
+                    score += 30
+
+                elif avg_rank <= 7:
+
+                    trend = "보통"
+                    score += 20
+
+                else:
+
+                    trend = "부진"
+                    score += 10
+
+        except:
+            pass
+
+    # =====================
+    # 코스적합
+    # =====================
+
+    course = "보통"
+
+    try:
+
+        g3f = float(
+            row.평균G3F
+        )
+
+        if g3f <= 38:
+
+            course = "우수"
+            score += 30
+
+        elif g3f <= 39:
+
+            course = "양호"
+            score += 20
+
+        else:
+
+            course = "보통"
+            score += 10
+
+    except:
+        pass
+
+    # =====================
+    # 전개패턴
+    # =====================
+
+    pattern = f"{running}형"
+
+    comment = (
+        f"{trend}, "
+        f"{running} 전개 예상"
+    )
+
+    return {
+
+        "주행유형": running,
+        "최근흐름": trend,
+        "전개패턴": pattern,
+        "코스적합": course,
+        "코멘트": comment,
+        "점수": score
+
+    }
+    
+@app.get(
+"/pace-analysis-data/{region}/{race_no}/{race_date}"
+)
+def get_pace_analysis_data(
+
+    region:str,
+    race_no:int,
+    race_date:str,
+
+    db:Session=Depends(get_db)
+
+):
+
+    # 부산 → 부산경남 변환
+    if region == "부산":
+        region = "부산경남"
+
+    rows = db.query(
+        Blood
+    ).filter(
+
+        Blood.지역 == region,
+        Blood.경주번호 == str(race_no)
+
+    ).all()
+
+    print(
+        "조회건수:",
+        len(rows)
+    )
+
+    date_clean = ''.join(
+        c for c in str(race_date)
+        if c.isdigit()
+    )[:8]
+
+    rows = [
+
+        r for r in rows
+
+        if ''.join(
+            c for c in str(r.출전날짜)
+            if c.isdigit()
+        )[:8] == date_clean
+
+    ]
+
+    print(
+        "날짜필터후:",
+        len(rows)
+    )
+
+    result=[]
+
+    for r in rows:
+
+        # 자동분석
+        analysis = make_pace_analysis(r)
+
+        # 저장값 조회
+        saved_rows = db.query(
+            PaceAnalysis
+        ).filter(
+
+            PaceAnalysis.지역 == region,
+            PaceAnalysis.경주 == race_no,
+            PaceAnalysis.번호 == int(r.번호)
+
+        ).all()
+
+        saved_rows = [
+
+            x for x in saved_rows
+
+            if ''.join(
+                c for c in str(x.경주일자)
+                if c.isdigit()
+            )[:8] == date_clean
+
+        ]
+
+        saved = (
+            saved_rows[0]
+            if saved_rows
+            else None
+        )
+
+        print(
+            "저장조회:",
+            r.번호,
+            saved
+        )
+
+        result.append({
+
+            "번호": r.번호,
+            "마명": r.마명,
+
+            "주행유형":
+            saved.주행유형
+            if saved
+            else analysis["주행유형"],
+
+            "최근흐름":
+            saved.최근흐름
+            if saved
+            else analysis["최근흐름"],
+
+            "전개패턴":
+            saved.전개패턴
+            if saved
+            else analysis["전개패턴"],
+
+            "코스적합":
+            saved.코스적합
+            if saved
+            else analysis["코스적합"],
+
+            "평균경주전개":
+            r.평균경주전개,
+
+            "최근순위":
+            r.최근순위,
+
+            "도착차":
+            r.도착차,
+
+            "평균S1F":
+            r.평균S1F,
+
+            "평균G3F":
+            r.평균G3F,
+
+            "평균G1F":
+            r.평균G1F,
+
+            "최고G3F":
+            r.최고G3F,
+
+            "평균훈련량":
+            r.평균훈련량,
+
+            "수영훈련":
+            r.훈련량수영훈련,
+
+            "코멘트":
+            saved.코멘트
+            if saved
+            else analysis["코멘트"],
+
+            "점수":
+            saved.점수
+            if saved
+            else analysis["점수"]
+
+        })
+
+    return result
+
+@app.post("/save-pace-analysis")
+def save_pace_analysis(
+    item: schemas.PaceAnalysisSave,
+    db: Session = Depends(get_db)
+):
+
+    row = db.query(
+        PaceAnalysis
+    ).filter(
+
+        PaceAnalysis.지역 == item.지역,
+        PaceAnalysis.경주 == item.경주,
+        PaceAnalysis.경주일자 == item.경주일자,
+        PaceAnalysis.번호 == item.번호
+
+    ).first()
+
+    if row:
+
+        row.주행유형 = item.주행유형
+        row.최근흐름 = item.최근흐름
+
+        row.전개패턴 = item.전개패턴
+        row.코스적합 = item.코스적합
+
+        row.코멘트 = item.코멘트
+        row.점수 = item.점수
+
+    else:
+
+        row = PaceAnalysis(
+
+            지역=item.지역,
+            경주=item.경주,
+            경주일자=item.경주일자,
+
+            번호=item.번호,
+            마명=item.마명,
+
+            주행유형=item.주행유형,
+            최근흐름=item.최근흐름,
+
+            전개패턴=item.전개패턴,
+            코스적합=item.코스적합,
+
+            코멘트=item.코멘트,
+            점수=item.점수
+
+        )
+
+        db.add(row)
+
+    db.commit()
+
+    return {
+        "msg":"전개분석 저장 완료"
+    }

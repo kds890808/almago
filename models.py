@@ -97,3 +97,27 @@ class PointHistory(Base):
     description = Column(String)
 
     created_at = Column(String)
+
+
+# =========================
+# 경주전개분석
+# =========================
+class PaceAnalysis(Base):
+    __tablename__ = "pace_analysis"
+
+    id = Column(Integer, primary_key=True)
+
+    지역 = Column(String)
+    경주 = Column(Integer)
+    경주일자 = Column(String)
+
+    번호 = Column(Integer)
+    마명 = Column(String)
+
+    주행유형 = Column(String)
+    최근흐름 = Column(String)
+    전개패턴 = Column(String)
+    코스적합 = Column(String)
+
+    코멘트 = Column(String)
+    점수 = Column(Integer)
