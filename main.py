@@ -25,6 +25,9 @@ import os
 from sqlalchemy import text
 import subprocess
 from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
+
+
 class FindAccountRequest(BaseModel):
     name: str
     birth: str
@@ -3816,6 +3819,63 @@ def use_blood_analysis(
         "remain_point":member.point
     }
 
+@app.post("/use-pace-analysis")
+def use_pace_analysis(
+    db: Session = Depends(get_db),
+    current = Depends(get_current_user)
+):
+
+    print("CURRENT =", current)
+
+    # =====================
+    # 슈퍼관리자
+    # =====================
+    if current["role"] == "superadmin":
+
+        return {
+            "msg": "슈퍼관리자",
+            "remain_point": 999999
+        }
+
+    member = db.query(Member).filter(
+        Member.email == current["email"]
+    ).first()
+
+    if not member:
+        raise HTTPException(404, "회원 없음")
+
+    need_point = 200
+
+    if member.point < need_point:
+        raise HTTPException(400, "포인트 부족")
+
+    member.point -= need_point
+
+    history = PointHistory(
+
+        email=member.email,
+
+        type="use",
+
+        amount=-need_point,
+
+        remain_point=member.point,
+
+        description="전개분석 이용",
+
+        created_at=str(datetime.now())
+
+    )
+
+    db.add(history)
+
+    db.commit()
+
+    return {
+        "msg":"차감 완료",
+        "remain_point":member.point
+    }
+
 # =========================
 # 포인트 로그 조회
 # =========================
@@ -4364,6 +4424,71 @@ def get_user_basic_analysis(
 
     ]
 
+    race_horses = db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.지역 == region,
+        RaceDetail.경주 == race_no
+    ).all()
+
+    print(
+        "race_horses before date filter=",
+        len(race_horses)
+    )
+
+    for r in race_horses[:10]:
+
+        print(
+            "race:",
+            r.지역,
+            r.경주,
+            r.번호,
+            r.마명,
+            r.경주일자
+        )
+
+
+    race_horses = [
+
+        r for r in race_horses
+
+        if ''.join(
+            c for c in str(r.경주일자)
+            if c.isdigit()
+        )[:8] == date_clean
+
+    ]
+
+    print(
+        "race_horses=",
+        len(race_horses)
+    )
+
+    for r in race_horses[:20]:
+
+        print(
+            "race horse:",
+            r.번호,
+            r.마명,
+            r.경주일자
+        )
+
+    valid_numbers = {
+
+        str(r.번호)
+
+        for r in race_horses
+
+    }
+
+    rows = [
+
+        r for r in rows
+
+        if str(r.번호) in valid_numbers
+
+    ]
+
     print(
         "날짜필터후:",
         len(rows)
@@ -4388,7 +4513,8 @@ def get_user_basic_analysis(
 
             RaceDetail.지역 == row.지역,
             RaceDetail.경주 == row.경주,
-            RaceDetail.번호 == str(row.번호)
+            RaceDetail.번호 == str(row.번호),
+            RaceDetail.경주일자 == row.경주일자
 
         ).first()
 
@@ -4397,7 +4523,7 @@ def get_user_basic_analysis(
         # =====================
         horse_name = row.마명
 
-        if (not horse_name) and race:
+        if race:
             horse_name = race.마명
 
         horse = db.query(
@@ -4440,8 +4566,8 @@ def get_user_basic_analysis(
 
         result.append({
 
-                "번호": row.번호,
-                "마명": horse_name,
+            "번호": row.번호,
+            "마명": horse_name,
 
             "성별":
             horse.성별 if horse else "-",
@@ -4561,102 +4687,95 @@ def get_blood_analysis_data(
 "/user-blood-analysis/{region}/{race_no}/{race_date}"
 )
 def get_user_blood_analysis(
-
     region:str,
     race_no:int,
     race_date:str,
-
     db:Session=Depends(get_db)
-
 ):
 
-    print("원본지역=", region)
+    def clean_date(v):
+        return ''.join(
+            c for c in str(v)
+            if c.isdigit()
+        )[:8]
 
-    # if region == "부산":
-    #     region = "부산경남"
+    def clean_name(v):
+        name = str(v).strip()
+        parts = name.split()
 
-    print("변환후지역=", region)
+        if parts and parts[0].isdigit():
+            return " ".join(parts[1:])
 
-    print("===== BloodAnalysis 전체 =====")
+        return name
 
-    all_rows = db.query(
-        BloodAnalysis
+    date_clean = clean_date(race_date)
+
+    region_candidates = [region]
+
+    if region == "부산":
+        region_candidates.append("부산경남")
+
+    if region == "부산경남":
+        region_candidates.append("부산")
+
+    print("조회 region candidates =", region_candidates)
+    print("요청날짜 =", date_clean)
+
+    # 현재 출전마 기준
+    race_horses = db.query(
+        RaceDetail
+    ).filter(
+        RaceDetail.지역.in_(region_candidates),
+        RaceDetail.경주 == race_no
     ).all()
 
-    for r in all_rows[:30]:
+    race_horses = [
+        r for r in race_horses
+        if clean_date(r.경주일자) == date_clean
+    ]
 
-        print(
-            "DB:",
-            r.지역,
-            r.경주,
-            r.경주일자,
-            r.번호,
-            r.마명
+    valid_pairs = {
+        (
+            str(r.번호),
+            clean_name(r.마명)
         )
+        for r in race_horses
+    }
+
+    print("현재 출전마 =", valid_pairs)
 
     rows = db.query(
         BloodAnalysis
     ).filter(
-
-        BloodAnalysis.지역 == region,
+        BloodAnalysis.지역.in_(region_candidates),
         BloodAnalysis.경주 == race_no
-
     ).all()
 
-    print("지역+경주 매칭=", len(rows))
-
-    for r in rows[:20]:
-
-        print(
-            "후보:",
-            r.지역,
-            r.경주,
-            r.경주일자,
-            r.번호,
-            r.마명
-        )
-
-    date_clean = ''.join(
-        c for c in str(race_date)
-        if c.isdigit()
-    )[:8]
-
-    print("요청날짜=", date_clean)
-
-    for r in rows:
-
-        db_date = ''.join(
-            c for c in str(r.경주일자)
-            if c.isdigit()
-        )[:8]
-
-        print(
-            "날짜비교:",
-            date_clean,
-            db_date
-        )
-
     rows = [
-
         r for r in rows
-
-        if ''.join(
-            c for c in str(r.경주일자)
-            if c.isdigit()
-        )[:8] == date_clean
-
+        if clean_date(r.경주일자) == date_clean
     ]
 
-    print("날짜필터후=", len(rows))
+    rows = [
+        r for r in rows
+        if (
+            str(r.번호),
+            clean_name(r.마명)
+        ) in valid_pairs
+    ]
+
+    print("최종 rows =", len(rows))
 
     result = []
 
     for r in rows:
 
+        horse_name = clean_name(r.마명)
+
         result.append({
 
             "번호": r.번호,
-            "마명": r.마명,
+            "마명": horse_name,
 
             "도시지프로필": r.도시지프로필,
 
@@ -4678,78 +4797,6 @@ def get_user_blood_analysis(
         })
 
     return result
-
-    
-@app.post("/save-blood-analysis")
-def save_blood_analysis(
-    item: BloodAnalysisSave,
-    db: Session = Depends(get_db)
-):
-
-    print(
-        "저장값:",
-        item.번호,
-        item.경주마특성,
-        item.거리적합
-    )
-
-    row = db.query(
-        BloodAnalysis
-    ).filter(
-
-        BloodAnalysis.지역 == item.지역,
-        BloodAnalysis.경주 == item.경주,
-        BloodAnalysis.경주일자 == item.경주일자,
-        BloodAnalysis.번호 == item.번호
-
-    ).first()
-
-    if row:
-
-        row.코멘트 = item.코멘트
-        row.점수 = item.점수
-
-        row.경주마특성 = item.경주마특성
-        row.거리적합 = item.거리적합
-
-    else:
-
-        row = BloodAnalysis(
-
-            지역=item.지역,
-            경주=item.경주,
-            경주일자=item.경주일자,
-
-            번호=item.번호,
-            마명=item.마명,
-
-            도시지프로필=item.도시지프로필,
-
-            DI=item.DI,
-            CD=item.CD,
-            근친=item.근친,
-
-            AWD=item.AWD,
-            부AWD=item.부AWD,
-            모AWD=item.모AWD,
-            모부AWD=item.모부AWD,
-
-            거리적합=item.거리적합,
-            경주마특성=item.경주마특성,
-
-            코멘트=item.코멘트,
-            점수=item.점수
-
-        )
-
-        db.add(row)
-
-    db.commit()
-
-    return {
-        "msg":"저장 완료"
-    }
-    return []
 
 @app.post("/save-blood-analysis")
 def save_blood_analysis(
@@ -5009,15 +5056,39 @@ def get_pace_analysis_data(
 
 ):
 
-    # 부산 → 부산경남 변환
+    print(
+        "원본 region =",
+        region
+    )
+
     if region == "부산":
-        region = "부산경남"
+        blood_region = "부산경남"
+    else:
+        blood_region = region
+
+    print(
+        "blood_region =",
+        blood_region
+    )
+
+    all_blood = db.query(
+        Blood
+    ).all()
+
+    for b in all_blood[:20]:
+
+        print(
+            "Blood DB:",
+            repr(b.지역),
+            repr(b.경주번호),
+            repr(b.출전날짜)
+        )
 
     rows = db.query(
         Blood
     ).filter(
 
-        Blood.지역 == region,
+        Blood.지역 == blood_region,
         Blood.경주번호 == str(race_no)
 
     ).all()
@@ -5052,10 +5123,8 @@ def get_pace_analysis_data(
 
     for r in rows:
 
-        # 자동분석
         analysis = make_pace_analysis(r)
 
-        # 저장값 조회
         saved_rows = db.query(
             PaceAnalysis
         ).filter(
@@ -5083,16 +5152,12 @@ def get_pace_analysis_data(
             else None
         )
 
-        print(
-            "저장조회:",
-            r.번호,
-            saved
-        )
-
         result.append({
 
             "번호": r.번호,
             "마명": r.마명,
+
+            "거리": r.거리,
 
             "주행유형":
             saved.주행유형
@@ -5114,32 +5179,17 @@ def get_pace_analysis_data(
             if saved
             else analysis["코스적합"],
 
-            "평균경주전개":
-            r.평균경주전개,
+            "평균경주전개": r.평균경주전개,
+            "최근순위": r.최근순위,
+            "도착차": r.도착차,
 
-            "최근순위":
-            r.최근순위,
+            "평균S1F": r.평균S1F,
+            "평균G3F": r.평균G3F,
+            "평균G1F": r.평균G1F,
+            "최고G3F": r.최고G3F,
 
-            "도착차":
-            r.도착차,
-
-            "평균S1F":
-            r.평균S1F,
-
-            "평균G3F":
-            r.평균G3F,
-
-            "평균G1F":
-            r.평균G1F,
-
-            "최고G3F":
-            r.최고G3F,
-
-            "평균훈련량":
-            r.평균훈련량,
-
-            "수영훈련":
-            r.훈련량수영훈련,
+            "평균훈련량": r.평균훈련량,
+            "수영훈련": r.훈련량수영훈련,
 
             "코멘트":
             saved.코멘트
@@ -5212,3 +5262,10 @@ def save_pace_analysis(
     return {
         "msg":"전개분석 저장 완료"
     }
+
+
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+    name="static"
+)

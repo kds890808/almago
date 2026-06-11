@@ -452,6 +452,204 @@ margin-bottom:12px;
 color:#2d7cff;
 
 }
+
+.track-board{
+
+background:#f8fbff;
+
+padding:25px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.track-start,
+.track-goal{
+
+font-size:32px;
+
+font-weight:bold;
+
+text-align:center;
+
+color:#d00000;
+
+}
+
+.track-line{
+
+height:4px;
+
+background:#d00000;
+
+margin:15px 0;
+
+}
+
+.track-group{
+
+padding:15px;
+
+margin-bottom:12px;
+
+border-radius:12px;
+
+text-align:center;
+
+}
+
+.track-group.lead{
+background:#ffe5e5;
+}
+
+.track-group.middle{
+background:#fff3d8;
+}
+
+.track-group.normal{
+background:#f2f2f2;
+}
+
+.track-group.chase{
+background:#e6f0ff;
+}
+
+.track-horse{
+
+display:inline-block;
+
+margin:5px;
+
+padding:10px 14px;
+
+border-radius:25px;
+
+background:white;
+
+font-weight:bold;
+
+font-size:16px;
+
+box-shadow:
+0 1px 4px rgba(0,0,0,.1);
+
+}
+
+.track-area{
+
+position:relative;
+
+height:350px;
+
+background:#f8fbff;
+
+border-radius:15px;
+
+overflow:hidden;
+
+}
+
+.track-row{
+
+text-align:center;
+
+margin-top:20px;
+
+}
+
+.track-horse{
+
+display:inline-flex;
+
+justify-content:center;
+align-items:center;
+
+width:42px;
+height:42px;
+
+margin:6px;
+
+border-radius:50%;
+
+background:white;
+
+font-weight:bold;
+
+font-size:16px;
+
+box-shadow:
+0 2px 6px rgba(0,0,0,.15);
+
+}
+
+.gate-row{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+}
+
+.gate-bar{
+width:3px;
+height:24px;
+background:#555;
+display:inline-block;
+}
+
+.track-rank-row{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+gap:20px;
+
+}
+
+.race-track-wrap{
+
+position:relative;
+
+width:100%;
+max-width:1000px;
+
+margin:auto;
+
+}
+
+.race-track-img{
+
+width:100%;
+
+display:block;
+
+}
+
+.track-point{
+
+position:absolute;
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+
+background:#4da3df;
+color:white;
+
+font-weight:bold;
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+border:2px solid #246aa0;
+
+}
 </style>
 
 </head>
@@ -627,6 +825,10 @@ if(r.지역 !== "제주"){
     bloodData =
     await bloodRes.json();
 
+    alert(
+    "AIHTML VERSION 999"
+    );
+
 }
 
 console.log(
@@ -634,11 +836,24 @@ console.log(
 bloodData
 );
 
+console.log(
+"bloodData length =",
+bloodData.length
+);
+
+console.log(
+"bloodData length =",
+bloodData.length
+);
+
 let basicTable = "";
 let basicComment = "";
 let bloodComment = "";
 let bloodTable = "";
-
+console.log(
+"bloodData length before first forEach =",
+bloodData.length
+);
 
 // =======================
 // 기본분석
@@ -708,7 +923,10 @@ basicData.forEach(h=>{
 // =======================
 // 혈통분석
 // =======================
-
+console.log(
+"bloodData before table =",
+bloodData
+);
 bloodData.forEach(h=>{
 
     bloodTable += `
@@ -753,9 +971,19 @@ bloodData.forEach(h=>{
     `;
 });
 
-console.log("bloodTable=", bloodTable);
+console.log(
+"bloodTable length=",
+bloodTable.length
+);
 
-alert(bloodTable);
+console.log(
+bloodTable
+);
+
+alert(
+"bloodTable 길이 = " +
+bloodTable.length
+);
 
 console.log(
 "조회",
@@ -1247,11 +1475,54 @@ raceNo
     ).style.display = "block";
 
 }
+
 async function unlockPace(
 region,
 raceNo,
 raceDate
 ){
+
+    if(
+        !confirm(
+            "200P 사용 후 전개분석을 열겠습니까?"
+        )
+    ){
+        return;
+    }
+
+    const token =
+    localStorage.getItem(
+        "token"
+    );
+
+    const res =
+    await fetch(
+        "/use-pace-analysis",
+        {
+            method:"POST",
+            headers:{
+                "Authorization":
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!res.ok){
+
+        alert(
+            data.detail ||
+            "포인트 부족"
+        );
+
+        return;
+    }
+
+    alert(
+        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    );
 
     const area =
     document.getElementById(
@@ -1290,21 +1561,10 @@ raceDate
 
 <h3>② 경주로 시각화</h3>
 
-<div
-style="
-height:300px;
-border:1px dashed #999;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:18px;
-color:#888;
-"
->
+<br>
 
-🏇 경주로 시각화
-(준비중)
-
+<div id="race-svg">
+분석중...
 </div>
 
 </div>
@@ -2068,6 +2328,61 @@ font-weight:bold;
 display:inline-block;
 
 }
+
+.pace-map{
+
+background:white;
+
+padding:20px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.pace-lane{
+
+padding:15px;
+
+margin-bottom:10px;
+
+border-radius:10px;
+
+}
+
+.pace-lead{
+background:#ffe5e5;
+}
+
+.pace-middle{
+background:#fff3d8;
+}
+
+.pace-normal{
+background:#f2f2f2;
+}
+
+.pace-chase{
+background:#e6f0ff;
+}
+
+.horse-chip{
+
+display:inline-block;
+
+margin:5px;
+
+padding:8px 12px;
+
+border-radius:20px;
+
+background:white;
+
+font-weight:bold;
+
+}
 </style>
 `;
 
@@ -2216,20 +2531,26 @@ raceNo,
 raceDate
 ){
 
-    const res =
-    await fetch(
-        `/pace-analysis-data/${region}/${raceNo}/${raceDate}`
-    );
+const res =
+await fetch(
+`/pace-analysis-data/${region}/${raceNo}/${raceDate}`
+);
 
-    const data =
-    await res.json();
+const data =
+await res.json();
 
-    console.log(
-        "전개분석",
-        data
-    );
+console.log(
+"전개 데이터",
+data
+);
 
-    // ① 요약
+console.log(
+"첫번째 말",
+data[0]
+);
+    // =====================
+    // 주행유형 카운트
+    // =====================
 
     let lead = 0;
     let middle = 0;
@@ -2256,6 +2577,47 @@ raceDate
 
     });
 
+    // =====================
+    // 말 표시 함수
+    // =====================
+
+    function horseChip(h){
+
+    let icon="";
+
+    if(h.주행유형==="선행")
+    icon="🥇";
+
+    else if(h.주행유형==="선입")
+    icon="🥈";
+
+    else if(h.주행유형==="추입")
+    icon="🔥";
+
+    return `
+
+    <span class="track-horse">
+
+    ${icon}
+    ${h.번호}
+
+    </span>
+
+    `;
+
+    }
+
+    // =====================
+    // 출발 게이트 순서
+    // =====================
+
+    const gateOrder =
+    [...data]
+    .sort(
+    (a,b)=>
+    Number(b.번호) -
+    Number(a.번호)
+    );
 
     // ====================
     // AI 전개요약 생성
@@ -2368,6 +2730,281 @@ raceDate
 
     `;
 
+    const leadHorses =
+    data.filter(
+    r=>r.주행유형==="선행"
+    );
+
+    const middleHorses =
+    data.filter(
+    r=>r.주행유형==="선입"
+    );
+
+    const chaseHorses =
+    data.filter(
+    r=>r.주행유형==="추입"
+    );
+
+    const normalHorses =
+    data.filter(
+    r=>
+
+    r.주행유형!=="선행" &&
+    r.주행유형!=="선입" &&
+    r.주행유형!=="추입"
+
+    );
+
+
+    const middleAll =
+    getMiddleAll(data);
+
+    const svgPoints =
+    middleAll.map((h,i)=>{
+
+    const x =
+    650 - (i*40);
+
+    const y =
+    150 + (i*20);
+
+    return `
+
+    <circle
+    cx="${x}"
+    cy="${y}"
+    r="18"
+    fill="#4da3df"
+    />
+
+    <text
+    x="${x}"
+    y="${y+5}"
+    font-size="14"
+    text-anchor="middle"
+    fill="white"
+    >
+    ${h.번호}
+    </text>
+
+    `;
+
+    }).join("");
+
+    const lateAll =
+    getLateAll(data);
+
+    /*
+    document.getElementById(
+    "pace-map"
+    ).innerHTML = `
+
+    <div class="track-board">
+
+    <div class="track-start">
+    START
+    </div>
+
+    <div class="track-line"></div>
+
+    <div class="track-area">
+
+    <div class="track-row">
+    ${leadHorses.map(h=>horseChip(h)).join("")}
+    </div>
+
+    <div class="track-row">
+    ${middleHorses.map(h=>horseChip(h)).join("")}
+    </div>
+
+    <div class="track-row">
+    ${normalHorses.map(h=>horseChip(h)).join("")}
+    </div>
+
+    <div class="track-row">
+    ${chaseHorses.map(h=>horseChip(h)).join("")}
+    </div>
+
+    </div>
+
+    <div class="track-line"></div>
+
+    <div class="track-goal">
+    GOAL
+    </div>
+
+    </div>
+
+    `;
+    */
+    
+    const cornerPos = [
+
+    {left:60, top:18},
+
+    {left:57, top:26},
+    {left:63, top:26},
+
+    {left:54, top:34},
+    {left:60, top:34},
+    {left:66, top:34},
+
+    {left:51, top:42},
+    {left:57, top:42},
+    {left:63, top:42},
+    {left:69, top:42},
+    {left:75, top:42}
+
+    ];
+
+    const finishPos = [
+
+    {left:82, top:70}, // 1위
+
+    {left:76, top:70},
+    {left:70, top:70},
+
+    {left:84, top:82},
+    {left:78, top:82},
+    {left:72, top:82},
+
+    {left:88, top:94},
+    {left:82, top:94},
+    {left:76, top:94},
+    {left:70, top:94},
+
+    {left:64, top:94}
+
+    ];
+
+    const finish1 =
+    lateAll.slice(0,1);
+
+    const finish2 =
+    lateAll.slice(1,3);
+
+    const finish3 =
+    lateAll.slice(3,6);
+
+    const finish4 =
+    lateAll.slice(6);
+
+    /*
+    document.getElementById(
+    "finish-map"
+    ).innerHTML = `
+
+    <div class="race-track-wrap">
+
+    <img
+    src="/static/seoul-track.png"
+    class="race-track-img"
+    >
+
+    ${lateAll.map((h,i)=>`
+
+    <div
+    class="track-point"
+    style="
+    left:${finishPos[i]?.left || 50}%;
+    top:${finishPos[i]?.top || 50}%;
+    "
+    >
+
+    ${h.번호}
+
+    </div>
+
+    `).join("")}
+
+    `;
+    */
+
+    /*
+    document.getElementById(
+    "corner-map"
+    ).innerHTML = `
+
+    <div class="race-track-wrap">
+
+    <img
+    src="/static/seoul-track.png"
+    class="race-track-img"
+    >
+
+    ${middleAll.map((h,i)=>`
+
+    <div
+    class="track-point"
+    style="
+    left:${cornerPos[i]?.left || 50}%;
+    top:${cornerPos[i]?.top || 50}%;
+    "
+    >
+
+    ${h.번호}
+
+    </div>
+
+    `).join("")}
+
+    </div>
+
+    `;
+    */
+
+    console.log(
+    "전개 데이터",
+    data
+    );
+
+    if(!data || data.length === 0){
+
+        document.getElementById(
+        "pace-summary"
+        ).innerHTML =
+        "전개 데이터가 없습니다.";
+
+        return;
+    }
+
+    console.log(
+    "전개 데이터",
+    data
+    );
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        console.log(
+            "전개 데이터 없음"
+        );
+
+        document.getElementById(
+            "pace-summary"
+        ).innerHTML =
+        "전개 데이터가 없습니다.";
+
+        return;
+    }
+
+document.getElementById(
+"race-svg"
+).innerHTML = `
+
+<div class="coming-soon-box">
+
+🚧 경주로 시각화 기능 개발중....................ㅠㅠ
+
+<br><br>
+
+차기 버전 예정.........ㅠㅠ
+
+</div>
+
+`;
     // ③ 랭킹
 
     const rank =
@@ -2854,6 +3491,85 @@ return reason;
 
 }
 
+function horseRankChip(h,i){
+
+let medal="";
+
+if(i===0) medal="🥇";
+else if(i===1) medal="🥈";
+else if(i===2) medal="🥉";
+
+return `
+
+<span
+class="track-horse"
+>
+
+${medal}
+${h.번호}
+
+</span>
+
+`;
+
+}
+
+function getMiddleAll(data){
+
+return [...data]
+.map(r=>{
+
+let score = Number(r.점수 || 0);
+
+const flow =
+String(r.평균경주전개 || "");
+
+if(flow.includes("1")) score += 20;
+if(flow.includes("2")) score += 15;
+if(flow.includes("3")) score += 10;
+
+if(r.주행유형==="선행")
+score += 40;
+
+else if(r.주행유형==="선입")
+score += 25;
+
+else if(r.주행유형==="추입")
+score -= 20;
+
+return {
+...r,
+simScore:score
+};
+
+})
+.sort((a,b)=>b.simScore-a.simScore);
+
+}
+
+function getLateAll(data){
+
+return [...data]
+.map(r=>{
+
+let score = Number(r.점수 || 0);
+
+score += 50 - Number(r.평균G3F || 50);
+score += 50 - Number(r.최고G3F || 50);
+score += 20 - Number(r.평균G1F || 20);
+
+if(r.주행유형==="추입") score += 15;
+if(r.주행유형==="선입") score += 8;
+
+return {
+...r,
+simScore:score
+};
+
+})
+.sort((a,b)=>b.simScore-a.simScore);
+
+}
 
 function getEarlyTop3(data){
 
@@ -2900,10 +3616,10 @@ r.평균경주전개 || ""
 );
 
 if(flow.includes("1"))
-score += 20;
+score += 30;
 
 if(flow.includes("2"))
-score += 15;
+score += 20;
 
 if(flow.includes("3"))
 score += 10;
@@ -2965,6 +3681,8 @@ b.simScore-a.simScore
 .slice(0,3);
 
 }
+
+
 </script>
 
 <div
