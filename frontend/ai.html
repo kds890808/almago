@@ -5,10 +5,139 @@
 <title>AI 분석</title>
 
 <style>
+.user-name,
+.user-point{
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.user-name:hover{
+
+    color:#2563eb;
+
+}
+
+.user-point:hover{
+
+    transform:scale(1.05);
+
+}
+
+.user-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:14px 18px;
+
+    margin-bottom:20px;
+
+    border-radius:18px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.user-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.user-name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#111827;
+
+}
+
+.user-point{
+
+    background:#eef2ff;
+
+    color:#1d4ed8;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+.logout-top-btn{
+
+    background:#0f172a;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.user-left{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
+.logout-top-btn{
+
+    background:#111827;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+body{
+
+    padding-bottom:90px;
+
+}
+    
 body {
   font-family: Arial;
   background: #f4f6f8;
   padding: 20px;
+  padding-bottom:100px;
 }
 
 /* 상단 추천 */
@@ -103,7 +232,7 @@ th {
 .locked-box{
 
     background:#eee;
-    padding:20px;
+    padding:12px;
     text-align:center;
     border-radius:10px;
 
@@ -650,17 +779,611 @@ align-items:center;
 border:2px solid #246aa0;
 
 }
+
+.legend-mini{
+
+position:absolute;
+
+top:15px;
+right:15px;
+
+background:
+rgba(255,255,255,.97);
+
+padding:10px 12px;
+
+border-radius:12px;
+
+font-size:11px;
+
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+
+border:
+1px solid #e5e7eb;
+
+z-index:100;
+
+}
+
+.legend-mini table{
+
+border-collapse:separate;
+
+border-spacing:4px;
+
+}
+
+.legend-mini th,
+.legend-mini td{
+
+padding:4px 8px;
+
+white-space:nowrap;
+
+border:none;
+
+}
+
+.legend-mini th{
+
+background:#dbeafe;
+
+color:#1d4ed8;
+
+font-weight:700;
+
+padding:5px 8px;
+
+}
+
+.track-btn{
+
+padding:8px 14px;
+
+border:none;
+
+border-radius:8px;
+
+font-size:14px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:#f1f5f9;
+
+color:#334155;
+
+box-shadow:
+0 1px 3px rgba(0,0,0,.1);
+
+transition:.2s;
+
+}
+
+.analysis-title{
+
+font-size:22px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.analysis-desc{
+
+font-size:14px;
+
+color:#64748b;
+
+margin-bottom:15px;
+
+line-height:1.5;
+
+}
+
+.unlock-btn{
+
+background:#ec4899;
+
+color:white;
+
+border:none;
+
+padding:12px 24px;
+
+border-radius:999px;
+
+font-weight:bold;
+
+font-size:15px;
+
+cursor:pointer;
+
+}
+
+.unlock-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.pedigree-box{
+
+background:
+linear-gradient(
+135deg,
+#fdf2f8,
+#ffe4e6
+);
+
+border:
+2px solid #f9a8d4;
+
+}
+
+.pedigree-btn{
+
+background:#ec4899;
+
+}
+
+.pace-box{
+
+background:
+linear-gradient(
+135deg,
+#eff6ff,
+#dbeafe
+);
+
+border:
+2px solid #93c5fd;
+
+}
+
+.pace-btn{
+
+background:#2563eb;
+
+}
+
+.track-btn:hover{
+
+transform:translateY(-2px);
+
+background:#e2e8f0;
+
+}
+
+.track-btn:active{
+
+transform:translateY(0);
+
+}
+
+.point-info{
+
+margin-top:10px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#92400e;
+
+}
+
+.total-box{
+
+background:
+linear-gradient(
+135deg,
+#fefce8,
+#fde68a
+);
+
+border:
+2px solid #facc15;
+
+}
+
+.total-btn{
+
+background:
+linear-gradient(
+135deg,
+#f59e0b,
+#d97706
+);
+
+color:white;
+
+border:none;
+
+padding:12px 24px;
+
+border-radius:999px;
+
+font-weight:700;
+
+font-size:15px;
+
+cursor:pointer;
+
+box-shadow:
+0 4px 12px rgba(245,158,11,.3);
+
+}
+
+.total-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 6px 16px rgba(245,158,11,.45);
+
+}
+
+.analysis-tabs{
+display:flex;
+gap:10px;
+margin:15px 0 20px 0;
+flex-wrap:wrap;
+}
+
+.analysis-section{
+display:none;
+}
+
+.analysis-section.active{
+display:block;
+}
+
+.info-pill{
+
+display:inline-flex;
+
+align-items:center;
+justify-content:center;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+background:#f1f5f9;
+
+color:#0f172a;
+
+font-weight:700;
+
+font-size:13px;
+
+text-decoration:none;
+
+border:1px solid #cbd5e1;
+
+cursor:pointer;
+
+transition:.2s;
+
+white-space:nowrap;
+
+/* 삭제 */
+min-width:90px;
+
+}
+
+.info-pill:hover{
+
+background:#dbeafe;
+
+border-color:#60a5fa;
+
+}
+
+
+th,
+td{
+
+white-space:nowrap;
+
+}
+
+.analysis-tabs{
+
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+
+    display:flex;
+
+    background:white;
+
+    border-top:1px solid #e5e7eb;
+
+    z-index:999;
+
+}
+
+.analysis-tabs{
+
+position:fixed;
+
+bottom:0;
+left:0;
+right:0;
+
+height:75px;
+
+background:white;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid #e5e7eb;
+
+box-shadow:
+0 -4px 12px rgba(0,0,0,.08);
+
+z-index:9999;
+
+}
+
+.tab-icon{
+
+    font-size:26px;
+
+    margin-bottom:4px;
+
+}
+
+.tab-text{
+
+    font-size:12px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+.analysis-tabs{
+
+    position:fixed;
+
+    bottom:0;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:100%;
+    max-width:500px;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:16px 0;
+
+    border-top:1px solid #e5e5e5;
+
+    z-index:999;
+
+}
+
+.analysis-tab-btn{
+
+    flex:1;
+
+    text-align:center;
+
+    color:#5b6070;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.tab-icon{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+.table-wrap{
+
+    width:100%;
+    max-width:100%;
+
+    overflow-x:scroll;
+    overflow-y:hidden;
+
+    scrollbar-gutter:stable;
+
+    display:block;
+
+}
+
+.table-wrap table{
+
+    width:max-content;
+    min-width:1200px;
+
+}
+
+.home-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eef2ff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.home-btn:hover{
+
+    background:#dbeafe;
+
+    transform:translateY(-2px);
+
+}
+
 </style>
 
 </head>
 
 <body>
 
+<div class="user-bar">
+
+<div class="user-left">
+
+    <div
+    class="home-btn"
+    onclick="goHome()"
+    >
+    🏠
+    </div>
+
+    <div
+    id="user-name"
+    class="user-name"
+    onclick="goMyPage()"
+    >
+    👤 admin님
+    </div>
+
+    <div
+    id="user-point"
+    class="user-point"
+    onclick="goPointLog()"
+    >
+    💰 999999P
+    </div>
+
+</div>
+
+
+    <button
+    class="logout-top-btn"
+    onclick="logout()"
+    >
+    로그아웃
+    </button>
+
+</div>
+
 <h2>AI 분석 결과</h2>
 
 <div id="analysis-area"></div>
 
+<script src="/static/track-data.js"></script>
+
 <script>
+
+let currentTrack = null;
+let currentData = null;
+let originalData = null;
+
+function sleep(ms){
+
+return new Promise(
+resolve =>
+setTimeout(resolve, ms)
+);
+
+}
+
+function showAnalysisTab(tab){
+
+document
+.querySelectorAll(".analysis-section")
+.forEach(el=>{
+el.classList.remove("active");
+});
+
+document
+.querySelectorAll(".analysis-tab-btn")
+.forEach(el=>{
+el.classList.remove("active");
+});
+
+document
+.getElementById(`tab-${tab}`)
+.classList.add("active");
+
+document
+.getElementById(`btn-${tab}`)
+.classList.add("active");
+
+}
+
+async function loadUserInfo(){
+
+    const token =
+    localStorage.getItem(
+        "token"
+    );
+
+    if(!token){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/my-info",
+        {
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const user =
+    await res.json();
+
+    document.getElementById(
+    "user-name"
+    ).innerHTML =
+    `👤 ${user.name}님`;
+
+    document.getElementById(
+    "user-point"
+    ).innerHTML =
+    `💰 ${user.point}P`;
+
+}
+
 async function loadAI(
     region,
     raceNo
@@ -1003,7 +1726,7 @@ console.log(detailData);
 
         <h4>출전마 정보</h4>
 
-<div style="overflow-x:auto;">
+<div class="table-wrap">
 
 <table>
 
@@ -1111,7 +1834,47 @@ showTrainerInfo(
 
 </div>
 
-<hr>
+<div class="analysis-tabs">
+
+<div
+id="btn-basic"
+class="analysis-tab-btn active"
+onclick="showAnalysisTab('basic')"
+>
+<div class="tab-icon">📊</div>
+<div class="tab-text">기본분석</div>
+</div>
+
+<div
+id="btn-blood"
+class="analysis-tab-btn"
+onclick="showAnalysisTab('blood')"
+>
+<div class="tab-icon">🧬</div>
+<div class="tab-text">혈통분석</div>
+</div>
+
+<div
+id="btn-pace"
+class="analysis-tab-btn"
+onclick="showAnalysisTab('pace')"
+>
+<div class="tab-icon">🏇</div>
+<div class="tab-text">전개분석</div>
+</div>
+
+<div
+id="btn-final"
+class="analysis-tab-btn"
+onclick="showAnalysisTab('final')"
+>
+<div class="tab-icon">🎯</div>
+<div class="tab-text">종합분석</div>
+</div>
+
+</div>
+
+<div id="tab-basic" class="analysis-section active">
 
 <h3>기본분석</h3>
 
@@ -1120,6 +1883,8 @@ showTrainerInfo(
 <h4>
 📊 비교 테이블
 </h4>
+
+<div class="table-wrap">
 
 <table>
 
@@ -1147,6 +1912,8 @@ ${basicTable}
 
 </table>
 
+</div>
+
 <br>
 
 <h4>
@@ -1157,9 +1924,12 @@ ${basicComment}
 
 </div>
 
-<hr>
+</div>
 
-<h3>혈통분석</h3>
+<div
+id="tab-blood"
+class="analysis-section"
+>
 
 ${
 r.지역 === "제주"
@@ -1169,6 +1939,7 @@ r.지역 === "제주"
 `
 
 <div class="locked-box">
+
 
 🧬 제주경마는
 원본 혈통 데이터가 제공되지 않아
@@ -1181,18 +1952,37 @@ r.지역 === "제주"
 :
 
 `
-<div class="locked-box">
+<div class="locked-box pedigree-box">
 
-🔒 혈통분석
+<div class="analysis-title">
+🧬 혈통분석
+</div>
+
+<div class="analysis-desc">
+
+📌 최적 거리 적성 분석<br>
+📌 DI · CD · 근친계수 평가<br>
+📌 선행형 · 추입형 혈통 분석<br>
+📌 성장형 · 조숙형 잠재력 확인<br>
+📌 혈통 기반 숨은 능력 진단<br>
+<hr>
+🏇 이 말은 어느 거리가 가장 유리한가?<br>
+🧬 혈통이 알려주는 숨은 적성은?<br>
+📈 성장 가능성과 잠재력 평가하면?<br>
+⚡ 스피드형 · 스태미나형 분석하면?<br>
+🎯 거리별 경쟁력 진단하면?
+
+</div>
 
 <button
+class="unlock-btn pedigree-btn"
 onclick="
 unlockPedigree(
 '${r.지역}',
 '${r.경주}'
 )
 ">
-200P로 열기
+🧬 200P로 혈통분석열기
 </button>
 
 </div>
@@ -1203,6 +1993,8 @@ style="display:none;"
 >
 
 <h4>🧬 혈통분석 비교표</h4>
+
+<div class="table-wrap">
 
 <table>
 
@@ -1233,34 +2025,61 @@ ${bloodTable}
 
 </table>
 
+</div>
+
 <h4>
 📝 혈통분석 코멘트
 </h4>
 
 ${bloodComment}
 
-</div>
 
 </div>
 `
   }
 
+</div>
+
+
+<div
+id="tab-pace"
+class="analysis-section"
+>
+
+<div class="locked-box pace-box">
+
+<div class="analysis-title">
+🏇 전개분석
+</div>
+
+<div class="analysis-desc">
+
+📌 예상 선행마 분석<br>
+📌 전개 유리마 TOP3 선정<br>
+📌 레이스 흐름 시뮬레이션<br>
+📌 추입 성공 가능성 분석<br>
+📌 숨은 복병마 탐색<br>
+
 <hr>
 
-<h3>전개분석</h3>
+🚀 누가 선행을 잡을 것인가?<br>
+📈 전개 흐름 예측 시뮬레이션은?<br>
+🔥 전개 최대 수혜마 분석은?<br>
+⚠️ 전개 불리마 사전 경고!<br>
+🎯 복병 출현 가능성 탐색!
 
-<div class="locked-box">
-
-🔒 전개분석
+</div>
 
 <button
-onclick="unlockPace(
+class="unlock-btn pace-btn"
+onclick="
+unlockPace(
 '${r.지역}',
 '${r.경주}',
 '${raceDate}'
-)"
->
-200P로 열기
+)
+">
+🏇 200P로 전개분석열기
 </button>
 
 </div>
@@ -1271,26 +2090,46 @@ style="display:none;"
 >
 </div>
 
+</div>
+
+<div
+id="tab-final"
+class="analysis-section"
+>
+
+<div class="locked-box total-box">
+
+<div class="analysis-title">
+🏆 종합분석
+</div>
+
+<div class="analysis-desc">
+
+📌 AI 최종 추천마 선정<br>
+📌 복병마 및 고배당 후보 탐색<br>
+📌 복승 · 복연승 추천조합 제공<br>
+📌 승식별 베팅 전략 제안<br>
+📌 AI 최종 결론 및 승부포인트<br>
 <hr>
+🥇 최종 추천마 TOP3는?<br>
+💎 숨은 복병마 발굴!<br>
+🎯 복승 · 복연승 추천조합은?<br>
+📊 AI 종합점수 기반 분석결과는?<br>
+🏆 최종 승부포인트 제공!
 
-<h3>종합분석</h3>
 
-<div class="locked-box">
+</div>
 
-    🔒 종합분석
-
-    <br><br>
-
-    <button
-    class="btn"
-    onclick="
-    unlockFinal(
-    '${r.지역}',
-    '${r.경주}'
-    )
-    ">
-    300P로 열기
-    </button>
+<button
+class="unlock-btn total-btn"
+onclick="
+unlockFinal(
+'${r.지역}',
+'${r.경주}'
+)
+">
+👑 300P로 종합분석열기
+</button>
 
 </div>
 
@@ -1394,6 +2233,8 @@ style="display:none;"
 
 </div>
 
+</div>
+
 `;
 
   }
@@ -1418,10 +2259,12 @@ region,
 raceNo
 );
 
+loadUserInfo();
+
 loadAI(
     region,
     raceNo
-);
+);;
 
 async function unlockPedigree(
 region,
@@ -1563,7 +2406,12 @@ raceDate
 
 <br>
 
-<div id="race-svg">
+<div
+id="race-svg"
+style="
+position:relative;
+"
+>
 분석중...
 </div>
 
@@ -2131,6 +2979,37 @@ font-size:13px;
 ">
 
 <style>
+.info-pill{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+background:#f1f5f9;
+
+color:#0f172a;
+
+font-weight:700;
+
+text-decoration:none;
+
+border:1px solid #cbd5e1;
+
+transition:.2s;
+
+}
+
+.info-pill:hover{
+
+background:#dbeafe;
+
+border-color:#60a5fa;
+
+}
+
+    
 th,td{
 border:1px solid #ddd;
 padding:8px;
@@ -2383,6 +3262,20 @@ background:white;
 font-weight:bold;
 
 }
+
+.locked-box{
+
+    min-height:180px;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+}
 </style>
 `;
 
@@ -2531,6 +3424,7 @@ raceNo,
 raceDate
 ){
 
+
 const res =
 await fetch(
 `/pace-analysis-data/${region}/${raceNo}/${raceDate}`
@@ -2538,6 +3432,11 @@ await fetch(
 
 const data =
 await res.json();
+
+console.log(
+"TRACK_DATA=",
+TRACK_DATA
+);
 
 console.log(
 "전개 데이터",
@@ -2759,33 +3658,223 @@ data[0]
     const middleAll =
     getMiddleAll(data);
 
-    const svgPoints =
-    middleAll.map((h,i)=>{
+    const distance =
+    parseInt(
+    data[0].거리
+    );
 
+    const key =
+    `${region}-${distance}`;
+
+    const track =
+    TRACK_DATA[key];
+    if(!track){
+    currentTrack = track;
+    originalData = data;
+
+    [...data];
+
+    currentData =
+    [...data].sort(
+    (a,b)=>
+    Number(a.번호) -
+    Number(b.번호)
+    );    
+
+    console.log(
+    "좌표 데이터 없음:",
+    key
+    );
+
+    return;
+    }
+
+    let currentPoint =
+    track.start;
+
+    currentTrack = track;
+
+    originalData =
+    [...data];
+
+    currentData =
+    [...data].sort(
+    (a,b)=>
+    Number(a.번호) -
+    Number(b.번호)
+    );
+
+    const startOrder =
+    [...data].sort(
+    (a,b)=>
+    Number(a.번호) -
+    Number(b.번호)
+    );
+
+    const horseCount =
+    startOrder.length;
+
+    const lanePositions = [];
+
+    for(
+
+    let i=0;
+    i<horseCount;
+    i++
+
+    ){
+
+    const ratio =
+
+    (horseCount===1)
+
+    ? 0
+
+    : i/(horseCount-1);
+
+    const safeMargin = 0.12;
+
+    const adjustedRatio =
+
+    safeMargin +
+
+    (
+    ratio *
+    (1 - safeMargin*2)
+    );
     const x =
-    650 - (i*40);
+    track.start.innerX +
+    (
+    track.start.outerX -
+    track.start.innerX
+    )
+    *
+    adjustedRatio;
 
     const y =
-    150 + (i*20);
+    track.start.innerY +
+    (
+    track.start.outerY -
+    track.start.innerY
+    )
+    *
+    adjustedRatio;
+
+    lanePositions.push({
+    x,
+    y
+    });
+
+    }
+
+    console.log(
+    "KEY=",
+    key
+    );
+
+    console.log(
+    "TRACK=",
+    track
+    );
+
+    console.log(
+    "lanePositions=",
+    lanePositions
+    );
+
+
+
+    const svgPoints =
+    startOrder.map((h,i)=>{
+
+    const pos =
+    lanePositions[i];
+
+    const x = pos.x;
+    const y = pos.y;
+
+    let icon = "🐴";
+
+    let badge = "";
+
+    if(i===0){
+
+    badge = "🥇";
+
+    }
+    else if(i===1){
+
+    badge = "🥈";
+
+    }
+    else if(i===2){
+
+    badge = "🥉";
+
+    }
+    else if(i===4){
+
+    badge = "🔥";
+
+    }
+
+    if(h.주행유형==="선행"){
+    icon="🔴🏇";
+    }
+    else if(h.주행유형==="선입"){
+    icon="🟡🐎";
+    }
+    else if(h.주행유형==="중위"){
+    icon="🟢🐴";
+    }
+    else if(h.주행유형==="추입"){
+    icon="🔵🦄";
+    }
+    else{
+    icon="⚪🐴";
+    }
+
+    icon =
+    badge + icon;
 
     return `
 
-    <circle
-    cx="${x}"
-    cy="${y}"
-    r="18"
-    fill="#4da3df"
-    />
+    <g
+    id="horse-${h.번호}"
+    transform="translate(${x},${y})"
+    style="
+    transition:
+    transform 3.5s cubic-bezier(
+    0.18,
+    0.95,
+    0.28,
+    1
+    );
+    "
+    >
 
     <text
-    x="${x}"
-    y="${y+5}"
-    font-size="14"
+    x="0"
+    y="0"
+    font-size="18"
+    text-anchor="end"
+    dominant-baseline="middle"
+    >
+    ${icon}
+    </text>
+
+    <text
+    x="8"
+    y="4"
+    font-size="11"
+    font-weight="bold"
     text-anchor="middle"
-    fill="white"
+    fill="black"
     >
     ${h.번호}
     </text>
+
+    </g>
 
     `;
 
@@ -2990,21 +4079,372 @@ data[0]
         return;
     }
 
-document.getElementById(
-"race-svg"
-).innerHTML = `
 
-<div class="coming-soon-box">
+    if(region === "부산"){
 
-🚧 경주로 시각화 기능 개발중....................ㅠㅠ
+        startPos = {
 
-<br><br>
+            1000:{x:120,y:90},
 
-차기 버전 예정.........ㅠㅠ
+            1200:{x:360,y:120},
+            1300:{x:460,y:120},
+            1400:{x:560,y:120},
 
-</div>
+            1500:{x:650,y:120},
+            1600:{x:730,y:120},
 
-`;
+            1800:{x:250,y:380},
+            1900:{x:350,y:380},
+            2000:{x:450,y:380},
+
+            2200:{x:600,y:420}
+
+        };
+
+    }
+
+    else{
+
+        startPos = {
+
+            1000:{x:120,y:250},
+            1200:{x:180,y:250},
+            1300:{x:230,y:250},
+            1400:{x:280,y:250},
+
+            1600:{x:380,y:250},
+            1800:{x:500,y:250},
+            2000:{x:600,y:250}
+
+        };
+
+    }
+
+    const start =
+    startPos[distance] ||
+    {x:120,y:250};
+
+
+    const startPoints =
+    data.map((h,i)=>`
+
+    <circle
+    cx="${start.x}"
+    cy="${start.y + (i*28)}"
+    r="7"
+    fill="#4da3df"
+    />
+
+    <text
+    x="${start.x}"
+    y="${start.y + (i*28) + 5}"
+    font-size="7"
+    text-anchor="middle"
+    fill="white"
+    >
+    ${h.번호}
+    </text>
+
+    `).join("");    
+
+    const startTextX =
+    (
+    currentTrack.start.innerX +
+    currentTrack.start.outerX
+    ) / 2;
+
+    const startTextY =
+    currentTrack.start.outerY - 20;
+    
+    document.getElementById(
+    "race-svg"
+    ).innerHTML = `
+
+    <div style="margin-bottom:10px;">
+
+    <button
+    class="track-btn"
+    onclick="moveStep('start')"
+    >
+    🏁 출발
+    </button>
+
+    <button
+    class="track-btn"
+    onclick="moveStep('step1')"
+    >
+    ① 진행1
+    </button>
+
+    <button
+    class="track-btn"
+    onclick="moveStep('step2')"
+    >
+    ② 진행2
+    </button>
+
+    <button
+    class="track-btn"
+    onclick="moveStep('step3')"
+    >
+    ③ 진행3
+    </button>
+
+    <button
+    class="track-btn"
+    onclick="moveStep('step4')"
+    >
+    🏆 진행4
+    </button>
+
+    <button
+    class="track-btn"
+    onclick="playRace()"
+    >
+    ▶ 자동재생
+    </button>
+
+    </div>    
+
+    <svg
+    width="100%"
+    height="900"
+    viewBox="0 0 1000 1100"
+    >
+
+    <!-- 경주로 -->
+
+    <!-- 외곽 트랙 -->
+
+    <rect
+    x="80"
+    y="40"
+    width="900"
+    height="900"
+    rx="250"
+    fill="#d8c9a3"
+    />
+
+    <!-- 내곽 잔디 -->
+
+    <rect
+    x="220"
+    y="200"
+    width="620"
+    height="500"
+    rx="120"
+    fill="#b9e28c"
+    />
+
+    <!-- 트랙 경계 -->
+
+    <rect
+    x="150"
+    y="100"
+    width="760"
+    height="760"
+    rx="180"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="4"
+    />
+
+    <!-- 결승선 -->
+
+    <line
+    x1="686"
+    y1="705"
+    x2="686"
+    y2="934"
+    stroke="red"
+    stroke-width="5"
+    />
+
+    <!-- START -->
+
+    <text
+    x="${startTextX}"
+    y="${startTextY}"
+    font-size="28"
+    font-weight="bold"
+    fill="red"
+    text-anchor="middle"
+    >
+    START
+    </text>
+
+
+    <!-- 중간글자 -->    
+    <text
+    x="532"
+    y="410"
+    font-size="40"
+    font-weight="bold"
+    fill="#666"
+    text-anchor="middle"
+    >
+    🏇 ${region} ${raceNo}경주
+    </text>
+
+    <text
+    x="532"
+    y="470"
+    font-size="50"
+    font-weight="900"
+    fill="white"
+    stroke="#2563eb"
+    stroke-width="2"
+    paint-order="stroke"
+    text-anchor="middle"
+    >
+    ${distance}m
+    </text>
+
+    <!-- GOAL -->
+
+    <text
+    x="634"
+    y="693"
+    font-size="28"
+    font-weight="bold"
+    fill="red"
+    >
+    GOAL
+    </text>
+
+    <!-- 코너 표시 -->
+
+    <text
+    x="251"
+    y="237"
+    font-size="34"
+    font-weight="900"
+    fill="white"
+    stroke="#2563eb"
+    stroke-width="3"
+    paint-order="stroke"
+    text-anchor="middle"
+    >
+    1C
+    </text>
+
+    <text
+    x="251"
+    y="680"
+    font-size="34"
+    font-weight="900"
+    fill="white"
+    stroke="#2563eb"
+    stroke-width="3"
+    paint-order="stroke"
+    text-anchor="middle"
+    >
+    2C
+    </text>
+
+    <text
+    x="806"
+    y="680"
+    font-size="34"
+    font-weight="900"
+    fill="white"
+    stroke="#2563eb"
+    stroke-width="3"
+    paint-order="stroke"
+    text-anchor="middle"
+    >
+    3C
+    </text>
+
+    <text
+    x="806"
+    y="237"
+    font-size="34"
+    font-weight="900"
+    fill="white"
+    stroke="#2563eb"
+    stroke-width="3"
+    paint-order="stroke"
+    text-anchor="middle"
+    >
+    4C
+    </text>
+
+    <g id="horse-layer">
+    ${svgPoints}
+    </g>
+
+    </svg>
+
+    <div class="legend-mini">
+
+    <table>
+
+    <tr>
+    <th>주행유형</th>
+    <th>순위표시</th>
+    <th>경주로</th>
+    </tr>
+
+    <tr>
+    <td>🔴 선행</td>
+    <td>🥇 예상1위</td>
+    <td>START</td>
+    </tr>
+
+    <tr>
+    <td>🟡 선입</td>
+    <td>🥈 예상2위</td>
+    <td>GOAL</td>
+    </tr>
+
+    <tr>
+    <td>🟢 중위</td>
+    <td>🥉 예상3위</td>
+    <td>1C~4C</td>
+    </tr>
+
+    <tr>
+    <td>🔵 추입</td>
+    <td>🔥 복병마</td>
+    <td>-</td>
+    </tr>
+
+    </table>
+
+    </div>
+
+    `;
+
+    const svg =
+    document.querySelector(
+    "#race-svg svg"
+    );
+
+    svg.addEventListener(
+    "click",
+    (e)=>{
+
+        const pt =
+        svg.createSVGPoint();
+
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+
+        const p =
+        pt.matrixTransform(
+            svg.getScreenCTM().inverse()
+        );
+
+        console.log(
+            "SVG X=",
+            Math.round(p.x),
+            "SVG Y=",
+            Math.round(p.y)
+        );
+
+    });
+
     // ③ 랭킹
 
     const rank =
@@ -3682,7 +5122,589 @@ b.simScore-a.simScore
 
 }
 
+function getLanePositions(
+point,
+horses,
+step
+){
 
+const positions=[];
+
+for(
+
+let i=0;
+i<horses.length;
+i++
+
+){
+
+const h =
+horses[i];
+
+const ratio =
+
+horses.length===1
+
+? 0.5
+
+: i/(horses.length-1);
+
+const seed =
+i + 1;
+
+let zigzagX = 0;
+let zigzagY = 0;
+
+if(step==="step1"){
+
+zigzagX =
+Math.sin(seed * 1.7) * 3;
+
+zigzagY =
+Math.cos(seed * 1.3) * 2;
+
+}
+else if(step==="step2"){
+
+zigzagX =
+Math.sin(seed * 1.7) * 8;
+
+zigzagY =
+Math.cos(seed * 1.3) * 5;
+
+}
+else if(step==="step3"){
+
+zigzagX =
+Math.sin(seed * 1.7) * 15;
+
+zigzagY =
+Math.cos(seed * 1.3) * 10;
+
+}
+else if(step==="step4"){
+
+zigzagX =
+Math.sin(seed * 1.7) * 30;
+
+zigzagY =
+Math.cos(seed * 1.3) * 20;
+
+}
+
+let spreadX = 0;
+let spreadY = 0;
+
+if(step==="step1"){
+
+spreadX =
+Math.sin(i * 2.1) * 2;
+
+spreadY =
+(i - (horses.length-1)/2)
+* 1;
+
+}
+else if(step==="step2"){
+
+spreadX =
+Math.sin(i * 2.1) * 3;
+
+spreadY =
+(i - (horses.length-1)/2)
+* 1.5;
+
+}
+else if(step==="step3"){
+
+spreadX =
+Math.sin(i * 2.1) * 18;
+
+spreadY =
+(i - (horses.length-1)/2)
+* 8;
+
+}
+else if(step==="step4"){
+
+spreadX =
+(horses.length - i)
+* 15;
+
+spreadY =
+Math.sin(i * 1.5)
+* 20;
+
+}
+
+let styleX = 0;
+let styleY = 0;
+
+if(step !== "start"){
+
+if(h.주행유형==="선행"){
+
+if(step==="step1"){
+styleX = 12;
+}
+else if(step==="step2"){
+styleX = 4;
+}
+else if(step==="step3"){
+styleX = 2;
+}
+else{
+styleX = 8;
+}
+
+}
+
+else if(h.주행유형==="선입"){
+
+if(step==="step1"){
+styleX = 6;
+}
+else if(step==="step2"){
+styleX = 6;
+}
+else if(step==="step3"){
+styleX = 5;
+}
+else{
+styleX = 4;
+}
+
+}
+
+if(step==="step4"){
+
+if(h.주행유형==="선행"){
+styleX += 120;
+}
+
+else if(h.주행유형==="선입"){
+styleX += 60;
+}
+
+else if(h.주행유형==="중위"){
+styleX += 20;
+}
+
+else if(h.주행유형==="추입"){
+styleX -= 30;
+}
+
+}
+
+}
+
+const minX =
+Math.min(
+point.innerX,
+point.outerX
+);
+
+const maxX =
+Math.max(
+point.innerX,
+point.outerX
+);
+
+let x =
+point.innerX +
+(
+point.outerX -
+point.innerX
+)
+*
+ratio
++
+zigzagX
++
+spreadX
++
+styleX;
+
+let y =
+point.innerY +
+(
+point.outerY -
+point.innerY
+)
+*
+ratio
++
+zigzagY
++
+spreadY
++
+styleY;
+
+if(step !== "step4"){
+
+x = Math.max(
+minX + 10,
+Math.min(
+maxX - 10,
+x
+)
+);
+
+}
+
+positions.push({
+
+x,
+y
+
+});
+
+}
+
+return positions;
+
+}
+
+
+function moveStep(step){
+
+console.log(
+"step=",
+step
+);
+
+console.log(
+"originalData=",
+originalData
+);
+
+console.log(
+"currentTrack=",
+currentTrack
+);
+
+if(!originalData){
+
+console.log(
+"originalData 없음"
+);
+
+return;
+}
+
+if(step==="start"){
+
+currentData =
+[...originalData].sort(
+(a,b)=>
+Number(a.번호) -
+Number(b.번호)
+);
+
+}
+else if(
+
+step==="mid2" ||
+step==="step4"
+
+){
+
+currentData =
+getLateAll(
+originalData
+);
+
+}
+else{
+
+currentData =
+getMiddleAll(
+originalData
+);
+
+}
+
+const point =
+currentTrack[step];
+
+if(!point){
+return;
+}
+
+const lanePositions =
+getLanePositions(
+point,
+currentData,
+step
+);
+
+currentData.forEach(
+
+(h,i)=>{
+
+const pos =
+lanePositions[i];
+
+const horse =
+document.getElementById(
+`horse-${h.번호}`
+);
+
+if(horse){
+
+horse.setAttribute(
+"transform",
+`translate(${pos.x},${pos.y})`
+);
+
+}
+
+});
+
+}
+
+
+
+async function playRace(){
+
+moveStep("start");
+
+await sleep(1000);
+
+// ====================
+// START → STEP1
+// ====================
+
+currentData =
+getMiddleAll(originalData);
+
+await animateBetween(
+currentTrack.start,
+currentTrack.step1,
+30,
+"step1"
+);
+
+moveStep("step1");
+
+// ====================
+// STEP1 → MID1
+// ====================
+
+await animateBetween(
+currentTrack.step1,
+currentTrack.mid1,
+60,
+"step1"
+);
+
+
+moveStep("mid1");
+
+// ====================
+// MID1 → STEP2
+// ====================
+
+await animateBetween(
+currentTrack.mid1,
+currentTrack.step2,
+60,
+"step2"
+);
+
+moveStep("step2");
+
+// ====================
+// STEP2 → STEP3
+// ====================
+
+currentData =
+getMiddleAll(originalData);
+
+await animateBetween(
+currentTrack.step2,
+currentTrack.step3,
+60,
+"step3"
+);
+
+moveStep("step3");
+
+// ====================
+// STEP3 → MID2
+// ====================
+
+currentData =
+getLateAll(originalData);
+
+await animateBetween(
+currentTrack.step3,
+currentTrack.mid2,
+60,
+"step3"
+);
+
+moveStep("mid2");
+
+// ====================
+// MID2 → STEP4
+// ====================
+
+await animateBetween(
+currentTrack.mid2,
+currentTrack.step4,
+60,
+"step4"
+);
+
+moveStep("step4");
+
+}
+
+async function animateBetween(
+fromPoint,
+toPoint,
+frames,
+step
+){
+
+for(
+let f=1;
+f<=frames;
+f++
+){
+
+const t =
+f / frames;
+
+const point = {
+
+innerX:
+fromPoint.innerX +
+(
+toPoint.innerX -
+fromPoint.innerX
+)
+* t,
+
+innerY:
+fromPoint.innerY +
+(
+toPoint.innerY -
+fromPoint.innerY
+)
+* t,
+
+outerX:
+fromPoint.outerX +
+(
+toPoint.outerX -
+fromPoint.outerX
+)
+* t,
+
+outerY:
+fromPoint.outerY +
+(
+toPoint.outerY -
+fromPoint.outerY
+)
+* t
+
+};
+
+const lanePositions =
+getLanePositions(
+point,
+currentData,
+step
+);
+
+console.log(
+"lanePositions",
+step,
+lanePositions
+);
+
+currentData.forEach((h,i)=>{
+
+const horse =
+document.getElementById(
+`horse-${h.번호}`
+);
+
+if(horse){
+
+horse.setAttribute(
+"transform",
+`translate(
+${lanePositions[i].x},
+${lanePositions[i].y}
+)`
+);
+
+}
+
+});
+
+await sleep(16);
+
+}
+
+}
+
+function goMyPage(){
+
+    location.href =
+    "mypage.html";
+
+}
+
+function goPointLog(){
+
+    location.href =
+    "point-log.html";
+
+}
+
+function logout(){
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    location.href =
+    "login.html";
+
+}
+
+function goMyPage(){
+
+    location.href =
+    "my.html";
+
+}
+
+function goPointLog(){
+
+    location.href =
+    "point.html";
+
+}
+
+function logout(){
+
+    localStorage.clear();
+
+    location.href = "/";
+
+}
+
+function goHome(){
+
+    location.href = "/";
+
+}
 </script>
 
 <div
