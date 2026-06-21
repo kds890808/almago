@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>AI 적중률</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+"Pretendard",
+sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#020617,
+#0f172a
+);
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+.hero{
+
+padding:60px 20px;
+
+text-align:center;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:10px 18px;
+
+border-radius:999px;
+
+background:
+rgba(
+34,
+197,
+94,
+0.15
+);
+
+border:
+1px solid
+rgba(
+34,
+197,
+94,
+0.4
+);
+
+color:#4ade80;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.hero h1{
+
+font-size:42px;
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.hero p{
+
+opacity:.8;
+
+}
+
+.big-rate{
+
+font-size:80px;
+
+font-weight:900;
+
+margin-top:25px;
+
+color:#22c55e;
+
+text-shadow:
+0 0 25px
+rgba(
+34,
+197,
+94,
+0.6
+);
+
+}
+
+.section{
+
+padding:20px;
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+.card{
+
+background:
+rgba(
+255,
+255,
+255,
+0.05
+);
+
+backdrop-filter:
+blur(15px);
+
+border:
+1px solid
+rgba(
+255,
+255,
+255,
+0.1
+);
+
+border-radius:25px;
+
+padding:25px;
+
+margin-bottom:20px;
+
+}
+
+.card-title{
+
+font-size:22px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+2,
+1fr
+);
+
+gap:15px;
+
+}
+
+.stat-box{
+
+background:
+rgba(
+255,
+255,
+255,
+0.05
+);
+
+padding:20px;
+
+border-radius:18px;
+
+text-align:center;
+
+}
+
+.stat-number{
+
+font-size:32px;
+
+font-weight:900;
+
+color:#60a5fa;
+
+}
+
+.stat-label{
+
+margin-top:8px;
+
+opacity:.8;
+
+font-size:14px;
+
+}
+
+.gauge-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+2,
+1fr
+);
+
+gap:25px;
+
+}
+
+.gauge-card{
+
+text-align:center;
+
+}
+
+.gauge{
+
+position:relative;
+
+width:180px;
+height:180px;
+
+margin:auto;
+
+}
+
+.gauge svg{
+
+position:absolute;
+
+left:0;
+top:0;
+
+}
+
+.gauge-value{
+
+position:absolute;
+
+left:50%;
+top:50%;
+
+transform:
+translate(-50%,-50%);
+
+font-size:30px;
+
+font-weight:900;
+
+}
+
+.gauge-label{
+
+margin-top:15px;
+
+font-weight:700;
+
+}
+
+.timeline{
+
+margin-top:10px;
+
+}
+
+.timeline-item{
+
+display:flex;
+
+align-items:center;
+
+margin:15px 0;
+
+}
+
+.dot{
+
+width:12px;
+height:12px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+margin-right:15px;
+
+box-shadow:
+0 0 15px
+#22c55e;
+
+}
+
+.reason{
+
+line-height:1.9;
+
+font-size:15px;
+
+}
+
+.fade{
+
+opacity:0;
+
+transform:
+translateY(
+40px
+);
+
+transition:
+all .8s;
+
+}
+
+.fade.show{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
+
+.footer{
+
+padding:40px;
+
+text-align:center;
+
+opacity:.6;
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:34px;
+}
+
+.big-rate{
+font-size:60px;
+}
+
+.gauge-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero fade">
+
+<div class="badge">
+실제 경주 결과 검증 기반
+</div>
+
+<h1>
+🎯 AI 적중률
+</h1>
+
+<p>
+AI알마고 누적 검증 데이터
+</p>
+
+<div
+class="big-rate"
+id="mainRate"
+>
+0%
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="card fade">
+
+<div class="card-title">
+📊 누적 분석 현황
+</div>
+
+<div class="stats">
+
+<div class="stat-box">
+<div
+class="stat-number count"
+data-target="10000"
+>
+0
+</div>
+<div class="stat-label">
+분석 경주
+</div>
+</div>
+
+<div class="stat-box">
+<div
+class="stat-number count"
+data-target="50000"
+>
+0
+</div>
+<div class="stat-label">
+분석 마필
+</div>
+</div>
+
+<div class="stat-box">
+<div
+class="stat-number count"
+data-target="365"
+>
+0
+</div>
+<div class="stat-label">
+연중 데이터 수집
+</div>
+</div>
+
+<div class="stat-box">
+<div
+class="stat-number count"
+data-target="100"
+>
+0
+</div>
+<div class="stat-label">
+AI 자동 분석
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="card fade">
+
+<div class="card-title">
+🏇 분석별 신뢰도
+</div>
+
+<div class="gauge-grid">
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<svg
+width="180"
+height="180"
+>
+
+<circle
+cx="90"
+cy="90"
+r="70"
+stroke="#1e293b"
+stroke-width="14"
+fill="none"
+/>
+
+<circle
+class="progress"
+data-percent="72"
+cx="90"
+cy="90"
+r="70"
+stroke="#3b82f6"
+stroke-width="14"
+fill="none"
+stroke-linecap="round"
+transform="rotate(-90 90 90)"
+/>
+
+</svg>
+
+<div
+class="gauge-value"
+>
+72%
+</div>
+
+</div>
+
+<div class="gauge-label">
+기본분석
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<svg
+width="180"
+height="180"
+>
+
+<circle
+cx="90"
+cy="90"
+r="70"
+stroke="#1e293b"
+stroke-width="14"
+fill="none"
+/>
+
+<circle
+class="progress"
+data-percent="81"
+cx="90"
+cy="90"
+r="70"
+stroke="#8b5cf6"
+stroke-width="14"
+fill="none"
+stroke-linecap="round"
+transform="rotate(-90 90 90)"
+/>
+
+</svg>
+
+<div class="gauge-value">
+81%
+</div>
+
+</div>
+
+<div class="gauge-label">
+혈통분석
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<svg
+width="180"
+height="180"
+>
+
+<circle
+cx="90"
+cy="90"
+r="70"
+stroke="#1e293b"
+stroke-width="14"
+fill="none"
+/>
+
+<circle
+class="progress"
+data-percent="78"
+cx="90"
+cy="90"
+r="70"
+stroke="#f59e0b"
+stroke-width="14"
+fill="none"
+stroke-linecap="round"
+transform="rotate(-90 90 90)"
+/>
+
+</svg>
+
+<div class="gauge-value">
+78%
+</div>
+
+</div>
+
+<div class="gauge-label">
+전개분석
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<svg
+width="180"
+height="180"
+>
+
+<circle
+cx="90"
+cy="90"
+r="70"
+stroke="#1e293b"
+stroke-width="14"
+fill="none"
+/>
+
+<circle
+class="progress"
+data-percent="92"
+cx="90"
+cy="90"
+r="70"
+stroke="#22c55e"
+stroke-width="14"
+fill="none"
+stroke-linecap="round"
+transform="rotate(-90 90 90)"
+/>
+
+</svg>
+
+<div class="gauge-value">
+92%
+</div>
+
+</div>
+
+<div class="gauge-label">
+종합분석
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card fade">
+
+<div class="card-title">
+🚀 AI알마고 발전 과정
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<div class="dot"></div>
+데이터 자동 수집 시스템 구축
+</div>
+
+<div class="timeline-item">
+<div class="dot"></div>
+혈통 분석 엔진 개발
+</div>
+
+<div class="timeline-item">
+<div class="dot"></div>
+전개 분석 알고리즘 개발
+</div>
+
+<div class="timeline-item">
+<div class="dot"></div>
+종합 점수 모델 완성
+</div>
+
+<div class="timeline-item">
+<div class="dot"></div>
+실전 적중률 검증 및 개선
+</div>
+
+</div>
+
+</div>
+
+<div class="card fade">
+
+<div class="card-title">
+💎 AI알마고가 특별한 이유
+</div>
+
+<div class="reason">
+
+✅ 단순 인기순 추천이 아닙니다
+
+<br><br>
+
+✅ 혈통 · 전개 · 거리 · 최근전적 통합분석
+
+<br><br>
+
+✅ 수만 건 데이터를 기반으로 추천
+
+<br><br>
+
+✅ 사람이 보기 어려운 패턴 탐색
+
+<br><br>
+
+✅ 지속적인 검증 및 알고리즘 개선
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+AI ALMAGO © 2026
+
+</div>
+
+<script>
+
+const target=18.2;
+
+let current=0;
+
+const rate=
+document.getElementById(
+"mainRate"
+);
+
+const timer=
+setInterval(()=>{
+
+current+=0.2;
+
+if(current>=target){
+
+current=target;
+
+clearInterval(timer);
+
+}
+
+rate.innerHTML=
+current.toFixed(1)+"%";
+
+},20);
+
+document
+.querySelectorAll(
+".count"
+)
+.forEach(el=>{
+
+const target=
+parseInt(
+el.dataset.target
+);
+
+let num=0;
+
+const speed=
+target/80;
+
+const count=
+setInterval(()=>{
+
+num+=speed;
+
+if(num>=target){
+
+num=target;
+
+clearInterval(count);
+
+}
+
+el.innerHTML=
+Math.floor(num)
+.toLocaleString();
+
+},20);
+
+});
+
+document
+.querySelectorAll(
+".progress"
+)
+.forEach(circle=>{
+
+const radius=70;
+
+const circumference=
+2*Math.PI*radius;
+
+circle.style.strokeDasharray=
+circumference;
+
+circle.style.strokeDashoffset=
+circumference;
+
+const percent=
+circle.dataset.percent;
+
+setTimeout(()=>{
+
+const offset=
+circumference-
+(percent/100)
+*circumference;
+
+circle.style.transition=
+"2s";
+
+circle.style.strokeDashoffset=
+offset;
+
+},500);
+
+});
+
+const observer=
+new IntersectionObserver(
+entries=>{
+
+entries.forEach(entry=>{
+
+if(
+entry.isIntersecting
+){
+
+entry.target.classList.add(
+"show"
+);
+
+}
+
+});
+
+}
+);
+
+document
+.querySelectorAll(
+".fade"
+)
+.forEach(el=>{
+
+observer.observe(el);
+
+});
+
+</script>
+
+</body>
+
+</html>

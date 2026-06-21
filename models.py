@@ -15,6 +15,8 @@ class Member(Base):
     birth = Column(String)
     phone = Column(String)
 
+    created_at = Column(String)
+
     is_premium = Column(Boolean, default=False)
 
     point = Column(Integer, default=0)

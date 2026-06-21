@@ -52,11 +52,11 @@ body { margin:0; font-family:Arial; background:#f4f6f8; }
 }
 
 /* 카드 */
-.card {
+.card{
   background:white;
-  padding:20px;
+  padding:15px;
   border-radius:10px;
-  margin-bottom:20px;
+  margin-bottom:15px;
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
@@ -140,7 +140,7 @@ th{
 
 td{
 
-padding:10px;
+padding:4px;
 
 text-align:center;
 
@@ -211,18 +211,31 @@ tr:nth-child(even) {
   color: white;
 }
 
-  .admin-table input{
+.admin-table input{
+
     width:100%;
-    padding:6px;
+
+    height:30px !important;
+
+    margin:0 !important;
+
+    padding:4px 8px;
+
     border:1px solid #ddd;
     border-radius:6px;
+
     font-size:13px;
 }
 
 .admin-table button{
-    padding:6px 10px;
+
+    height:34px;
+
+    padding:4px 10px;
+
     border:none;
     border-radius:6px;
+
     cursor:pointer;
 }
 
@@ -416,6 +429,32 @@ tr:nth-child(even) {
     border-collapse:collapse;
     table-layout:auto;
 }
+
+.admin-table input{
+
+    height:30px !important;
+
+    padding:0 8px !important;
+
+    margin:0 !important;
+
+    font-size:13px;
+}
+
+.admin-table td{
+
+    padding:4px 6px !important;
+}
+
+.admin-table input[type="checkbox"]{
+
+    width:18px !important;
+    height:18px !important;
+
+    margin:0 auto !important;
+
+    transform:scale(0.9);
+}
 </style>
 </head>
 
@@ -457,8 +496,11 @@ tr:nth-child(even) {
     <button onclick="showPage('analysis')">🧠 분석 관리</button>
     <button onclick="showPage('users')">👤 회원 관리</button>
     <button onclick="showPage('race')">🏇 경주정보</button>
+    <button onclick="showPage('fee')">💰 이용상품관리</button>
+    <button onclick="showPage('charge')">💳 충전관리</button>
     <button onclick="showPage('design')">🎨 디자인관리</button>
     <hr>
+    <button onclick="showPage('password')">🔐 관리비밀번호변경</button>
     <button onclick="logout()">🚪 로그아웃</button>
   </div>
 
@@ -468,12 +510,221 @@ tr:nth-child(even) {
 </div>
 
 <script>
-let raceData = [];
 
 // =========================
 // 페이지 전환
 // =========================
+let raceData = [];
 function showPage(page) {
+  // =========================
+  // 관리자비밀번호변경
+  // =========================
+  if(page==="password"){
+
+  document.getElementById(
+  "content"
+  ).innerHTML = `
+
+  <div class="card">
+
+  <h2>
+  🔐 관리자 비밀번호 변경
+  </h2>
+
+  <input
+  type="password"
+  id="current-password"
+  placeholder="현재 비밀번호"
+  >
+
+  <input
+  type="password"
+  id="new-password"
+  placeholder="새 비밀번호"
+  >
+
+  <input
+  type="password"
+  id="confirm-password"
+  placeholder="새 비밀번호 확인"
+  >
+
+  <button
+  class="main"
+  onclick="changeAdminPassword()"
+  >
+
+  비밀번호 변경
+
+  </button>
+
+  </div>
+
+  `;
+
+  }
+  // =========================
+  // 이용요금관리
+  // =========================
+  if(page==="fee"){
+
+  document.getElementById("content").innerHTML=`
+
+  <div class="card">
+
+  <h2>💰 이용요금관리</h2>
+
+  <table>
+
+  <thead>
+
+  <tr>
+  <th>항목</th>
+  <th>금액</th>
+  <th>저장</th>
+  </tr>
+
+  </thead>
+
+  <tbody id="fee-table">
+
+  </tbody>
+
+  </table>
+
+  </div>
+
+  `;
+
+  loadFeeSettings();
+
+  }
+  // =========================
+  // 충전
+  // =========================
+  if(page==="charge"){
+
+  document.getElementById(
+  "content"
+  ).innerHTML = `
+
+  <div class="card">
+
+  <h2>🏦 입금계좌 관리</h2>
+
+  <table class="admin-table">
+
+  <tr>
+
+  <th>은행명</th>
+  <th>계좌번호</th>
+  <th>예금주</th>
+  <th>관리</th>
+
+  </tr>
+
+  <tr>
+
+  <td>
+  <input
+  id="bank_name"
+  value="농협은행"
+  >
+  </td>
+
+  <td>
+  <input
+  id="account_number"
+  value="123-456-789012"
+  >
+  </td>
+
+  <td>
+  <input
+  id="account_holder"
+  value="알마고"
+  >
+  </td>
+
+  <td>
+
+  <button
+  class="btn btn-admin"
+  onclick="saveChargeAccount()"
+  >
+  저장
+  </button>
+
+  </td>
+
+  </tr>
+
+  </table>
+
+  </div>
+
+  <div class="card">
+
+  <h2>📦 충전금액관리</h2>
+
+  <table class="admin-table">
+
+  <thead>
+
+  <tr>
+
+  <th>상품명</th>
+  <th>포인트</th>
+  <th>금액</th>
+  <th>사용</th>
+  <th>저장</th>
+
+  </tr>
+
+  </thead>
+
+  <tbody id="charge-setting-list">
+
+  </tbody>
+
+  </table>
+
+  </div>
+
+  <div class="card">
+
+  <h2>💳 충전신청 내역</h2>
+
+  <table>
+
+  <thead>
+  <tr>
+  <th>신청일</th>
+  <th>회원</th>
+  <th>입금자</th>
+  <th>상품</th>
+  <th>포인트</th>
+  <th>금액</th>
+  <th>상태</th>
+  <th>관리</th>
+  </tr>
+  </thead>
+
+  <tbody id="charge-table">
+  </tbody>
+
+  </table>
+
+  </div>  
+
+  `;
+
+  loadChargeRequests();
+  loadChargeSettings();
+  loadChargeAccount();
+
+  }
+
   if (page === 'dashboard') {
     document.getElementById("content").innerHTML = `
 
@@ -524,17 +775,17 @@ function showPage(page) {
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">일권결제</div>
+      <div class="stat-title">일권결제(준비중)</div>
       <div class="stat-value" id="day-payment-count">0</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">주권결제</div>
+      <div class="stat-title">주권결제(준비중)</div>
       <div class="stat-value" id="week-payment-count">0</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">월권결제</div>
+      <div class="stat-title">월권결제(준비중)</div>
       <div class="stat-value" id="month-payment-count">0</div>
     </div>
 
@@ -559,17 +810,17 @@ function showPage(page) {
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">일권매출</div>
+      <div class="stat-title">일권매출(준비중)</div>
       <div class="stat-value" id="day-sales">0원</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">주권매출</div>
+      <div class="stat-title">주권매출(준비중)</div>
       <div class="stat-value" id="week-sales">0원</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">월권매출</div>
+      <div class="stat-title">월권매출(준비중)</div>
       <div class="stat-value" id="month-sales">0원</div>
     </div>
 
@@ -606,6 +857,7 @@ function showPage(page) {
     setTimeout(() => {
     loadAdmins();
     loadUsers();
+    loadDashboardStats();
     }, 0);
   }
 
@@ -1432,6 +1684,81 @@ async function deleteSidebarMenu(id) {
     const data = await res.json();
     alert(data.detail);
   }
+}
+// =========================
+// 이용요금관리
+// =========================
+async function loadFeeSettings(){
+
+    const res =
+    await fetch(
+        "/fee-settings"
+    );
+
+    const data =
+    await res.json();
+
+    const tbody =
+    document.getElementById(
+        "fee-table"
+    );
+
+    tbody.innerHTML = "";
+
+    data.forEach(r=>{
+
+        let name = r.item;
+
+        if(r.item==="basic"){
+            name = "기본분석";
+        }
+
+        if(r.item==="blood"){
+            name = "혈통분석";
+        }
+
+        if(r.item==="pace"){
+            name = "전개분석";
+        }
+
+        if(r.item==="total"){
+            name = "종합분석";
+        }
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>${name}</td>
+
+            <td>
+
+                <input
+                id="fee-${r.item}"
+                value="${r.point}"
+                >
+
+            </td>
+
+            <td>
+
+                <button
+                class="btn btn-admin"
+                onclick="saveFee('${r.item}')"
+                >
+
+                저장
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
 }
 
 // =========================
@@ -5660,6 +5987,604 @@ region,
 raceNo,
 raceDate
 );
+
+}
+
+async function saveFee(item){
+
+    const point =
+    document.getElementById(
+        `fee-${item}`
+    ).value;
+
+    const password =
+    prompt(
+        "비밀번호를 입력하세요."
+    );
+
+    if(!password){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/save-fee-setting",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+
+                item:item,
+
+                point:Number(point),
+
+                password:password
+
+            })
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(res.ok){
+
+        alert(
+            "저장 완료"
+        );
+
+    }else{
+
+        alert(
+            data.detail ||
+            "저장 실패"
+        );
+
+    }
+
+}
+
+
+async function loadChargeRequests(){
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+const res =
+await fetch(
+"/charge-requests",
+{
+headers:{
+Authorization:
+"Bearer " + token
+}
+}
+);
+
+const data =
+await res.json();
+
+const table =
+document.getElementById(
+"charge-table"
+);
+
+table.innerHTML="";
+
+data.forEach(r=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${r.created_at}</td>
+
+<td>${r.email}</td>
+
+<td>${r.depositor_name}</td>
+
+<td>${r.product_name}</td>
+
+<td>${r.point}P</td>
+
+<td>${r.amount.toLocaleString()}원</td>
+
+<td>${r.status}</td>
+
+<td>
+
+${
+r.status==="대기"
+
+?
+
+`
+
+<button
+class="btn btn-premium"
+onclick="
+approveCharge(
+${r.id}
+)
+">
+
+승인
+
+</button>
+
+`
+
+:
+
+"완료"
+
+}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function approveCharge(id){
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+if(
+!confirm(
+"충전 승인할까요?"
+)
+){
+return;
+}
+
+const res =
+await fetch(
+
+`/charge-request/${id}/approve`,
+
+{
+method:"PUT",
+
+headers:{
+Authorization:
+"Bearer " + token
+}
+}
+
+);
+
+const data =
+await res.json();
+
+alert(
+data.msg ||
+"처리 완료"
+);
+
+loadChargeRequests();
+
+}
+
+async function loadChargeSettings(){
+
+const res =
+await fetch("/charge-settings");
+
+const data =
+await res.json();
+
+const area =
+document.getElementById(
+"charge-setting-list"
+);
+
+area.innerHTML="";
+
+data.forEach(item=>{
+
+area.innerHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>
+<input
+id="point-${item.id}"
+value="${item.point}">
+</td>
+
+<td>
+<input
+id="price-${item.id}"
+value="${item.price}">
+</td>
+
+<td>
+
+<input
+type="checkbox"
+
+id="active-${item.id}"
+
+${item.is_active ? "checked" : ""}
+
+>
+
+</td>
+
+<td>
+
+<button
+class="btn btn-admin"
+onclick="
+saveChargeSetting(
+${item.id}
+)
+">
+
+저장
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function saveChargeAccount(){
+
+const password =
+prompt(
+"비밀번호를 입력하세요"
+);
+
+if(!password){
+return;
+}
+
+const res = await fetch(
+"/charge-account",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+bank_name:
+document.getElementById(
+"bank_name"
+).value,
+
+account_number:
+document.getElementById(
+"account_number"
+).value,
+
+account_holder:
+document.getElementById(
+"account_holder"
+).value,
+
+password:password
+
+})
+}
+);
+
+const data =
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.detail ||
+"저장 실패"
+);
+
+return;
+}
+
+alert(
+"계좌정보 저장 완료"
+);
+
+}
+
+async function loadChargeSettings(){
+
+const res =
+await fetch(
+"/charge-settings"
+);
+
+const data =
+await res.json();
+
+const area =
+document.getElementById(
+"charge-setting-list"
+);
+
+area.innerHTML="";
+
+data.forEach(item=>{
+
+area.innerHTML += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>
+<input
+id="point-${item.id}"
+value="${item.point}">
+</td>
+
+<td>
+<input
+id="price-${item.id}"
+value="${item.price}">
+</td>
+
+<td>
+<input
+type="checkbox"
+id="active-${item.id}"
+${item.is_active ? "checked" : ""}
+>
+</td>
+
+<td>
+
+<button
+onclick="
+saveChargeSetting(
+${item.id}
+)
+">
+
+저장
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function loadChargeAccount(){
+
+const res =
+await fetch(
+"/charge-account"
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"bank_name"
+).value =
+data.bank_name || "";
+
+document.getElementById(
+"account_number"
+).value =
+data.account_number || "";
+
+document.getElementById(
+"account_holder"
+).value =
+data.account_holder || "";
+
+}
+
+async function saveChargeSetting(id){
+
+const password =
+prompt(
+"관리 비밀번호를 입력하세요"
+);
+
+if(!password){
+return;
+}
+
+const point =
+document.getElementById(
+`point-${id}`
+).value;
+
+const price =
+document.getElementById(
+`price-${id}`
+).value;
+
+const active =
+document.getElementById(
+`active-${id}`
+).checked
+? 1
+: 0;
+
+const res =
+await fetch(
+"/charge-setting",
+{
+method:"PUT",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify({
+
+id:id,
+
+point:Number(point),
+
+price:Number(price),
+
+is_active:active,
+
+password:password
+
+})
+}
+);
+
+const data =
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.detail ||
+"저장 실패"
+);
+
+return;
+}
+
+alert(
+"저장 완료"
+);
+
+}
+
+async function changeAdminPassword(){
+
+const currentPassword =
+document.getElementById(
+"current-password"
+).value;
+
+const newPassword =
+document.getElementById(
+"new-password"
+).value;
+
+const confirmPassword =
+document.getElementById(
+"confirm-password"
+).value;
+
+const res =
+await fetch(
+"/change-admin-password",
+{
+method:"PUT",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+current_password:
+currentPassword,
+
+new_password:
+newPassword,
+
+confirm_password:
+confirmPassword
+
+})
+}
+);
+
+const data =
+await res.json();
+
+alert(
+data.msg ||
+data.detail
+);
+
+}
+
+async function loadDashboardStats(){
+
+    const res =
+    await fetch(
+        "/admin/dashboard-stats"
+    );
+
+    const data =
+    await res.json();
+
+    document.getElementById(
+        "payment-count"
+    ).innerText =
+    data.payment_count;
+
+    document.getElementById(
+        "race-payment-count"
+    ).innerText =
+    data.race_payment_count;
+
+    document.getElementById(
+        "day-payment-count"
+    ).innerText =
+    data.day_payment_count;
+
+    document.getElementById(
+        "week-payment-count"
+    ).innerText =
+    data.week_payment_count;
+
+    document.getElementById(
+        "month-payment-count"
+    ).innerText =
+    data.month_payment_count;
+
+    document.getElementById(
+        "sales-total"
+    ).innerText =
+    Number(
+        data.sales_total
+    ).toLocaleString() + "원";
+
+    document.getElementById(
+        "race-sales"
+    ).innerText =
+    Number(
+        data.race_sales
+    ).toLocaleString() + "원";
+
+    document.getElementById(
+        "today-join-count"
+    ).innerText =
+    data.today_join;    
 
 }
 

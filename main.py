@@ -26,6 +26,7 @@ from sqlalchemy import text
 import subprocess
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import func
 
 
 class FindAccountRequest(BaseModel):
@@ -317,6 +318,52 @@ class Trainer(Base):
     최근1년복승률=Column(String)
     최근1년연승률=Column(String)
 
+class FeeUpdate(BaseModel):
+
+    item:str
+    point:int
+    password:str
+
+
+# =========================
+# 충전신청 요청
+# =========================
+class ChargeRequestCreate(BaseModel):
+
+    depositor_name:str
+
+    product_name:str
+
+    point:int
+
+    amount:int
+
+# =========================
+# 충전계좌변경
+# =========================   
+class ChargeAccountUpdate(BaseModel):
+
+    bank_name:str
+    account_number:str
+    account_holder:str
+
+    password:str 
+
+# =========================
+# 이용요금관리
+# ========================= 
+class ChargeSettingUpdate(BaseModel):
+
+    id:int
+
+    point:int
+
+    price:int
+
+    is_active:int
+
+    password:str
+
 class BasicAnalysis(Base):
 
     __tablename__ = "basic_analysis"
@@ -456,11 +503,249 @@ class Blood(Base):
 
     조교사=Column(String)
 
+# =========================
+# 이용요금 설정 테이블
+# =========================
+class FeeSetting(Base):
+
+    __tablename__ = "fee_settings"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    item = Column(
+        String,
+        unique=True
+    )
+
+    point = Column(
+        Integer,
+        default=0
+    )
+# =========================
+# 충전상품 설정
+# =========================
+class ChargeSetting(Base):
+
+    __tablename__ = "charge_settings"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    name = Column(String)
+
+    point = Column(Integer)
+
+    price = Column(Integer)
+
+    sort_order = Column(
+        Integer,
+        default=0
+    )
+
+    is_active = Column(
+        Integer,
+        default=1
+    )
+
+# =========================
+# 입금계좌 설정
+# =========================
+class ChargeAccount(Base):
+
+    __tablename__ = "charge_account"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    bank_name = Column(String)
+
+    account_number = Column(String)
+
+    account_holder = Column(String)
+
+    notice = Column(String)
+
+# =========================
+# 충전신청
+# =========================
+class ChargeRequest(Base):
+
+    __tablename__ = "charge_requests"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    email = Column(String)
+
+    depositor_name = Column(String)
+
+    product_name = Column(String)
+
+    point = Column(Integer)
+
+    amount = Column(Integer)
+
+    status = Column(
+        String,
+        default="대기"
+    )
+
+    created_at = Column(String)
+
+    processed_at = Column(String)
+
+# =========================
+# 관리자 비밀번호변경
+# =========================
+class PasswordChange(BaseModel):
+
+    current_password:str
+
+    new_password:str
+
+    confirm_password:str
+
+# =========================
+# 이용요금 변경 비밀번호
+# =========================
+class FeePassword(Base):
+
+    __tablename__ = "fee_password"
+
+    id = Column(
+        Integer,
+        primary_key=True
+    )
+
+    password = Column(
+        String
+    )
+
 Base.metadata.create_all(bind=engine)
 
-with engine.connect() as conn:
 
-    pass
+with engine.begin() as conn:
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO fee_settings
+    (item, point)
+    VALUES
+    ('basic',100)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO fee_settings
+    (item, point)
+    VALUES
+    ('blood',200)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO fee_settings
+    (item, point)
+    VALUES
+    ('pace',200)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO fee_settings
+    (item, point)
+    VALUES
+    ('total',300)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO fee_password
+    (id,password)
+    VALUES
+    (1,'admin')
+    """))
+
+with engine.begin() as conn:
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO charge_settings
+    (id,name,point,price,sort_order,is_active)
+    VALUES
+    (1,'Starter',1000,5000,1,1)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO charge_settings
+    (id,name,point,price,sort_order,is_active)
+    VALUES
+    (2,'Premium',3000,12000,2,1)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO charge_settings
+    (id,name,point,price,sort_order,is_active)
+    VALUES
+    (3,'VIP',5000,18000,3,1)
+    """))
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO charge_settings
+    (id,name,point,price,sort_order,is_active)
+    VALUES
+    (4,'MASTER',10000,30000,4,1)
+    """))
+
+with engine.begin() as conn:
+
+    conn.execute(text("""
+    INSERT OR IGNORE INTO charge_account
+    (
+        id,
+        bank_name,
+        account_number,
+        account_holder,
+        notice
+    )
+    VALUES
+    (
+        1,
+        '농협은행',
+        '123-456-789012',
+        '알마고',
+        '입금 후 반드시 충전 신청 버튼을 눌러주세요.'
+    )
+    """))
+
+try:
+
+    with engine.connect() as conn:
+
+        conn.execute(text("""
+        ALTER TABLE members
+        ADD COLUMN created_at VARCHAR
+        """))
+
+        conn.commit()
+
+        print(
+            "created_at 컬럼 생성 완료"
+        )
+
+except Exception as e:
+
+    print(
+        "created_at 컬럼 이미 존재:",
+        e
+    )
     
     # race_detail 컬럼 추가
     #conn.execute(text("""
@@ -1067,6 +1352,11 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
         name=user.name,
         birth=user.birth,
         phone=user.phone,
+
+        created_at=datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        ),
+
         is_premium=False,
         point=0
     )
@@ -2355,7 +2645,37 @@ def root():
 @app.get("/ai.html")
 def ai_page():
     return FileResponse("frontend/ai.html")
+
+@app.get("/about.html")
+def about_page():
+    return FileResponse(
+        "frontend/about.html"
+    )
+
+@app.get("/guide.html")
+def guide_page():
+    return FileResponse(
+        "frontend/guide.html"
+    )
+
+@app.get("/analysis.html")
+def analysis_page():
+    return FileResponse(
+        "frontend/analysis.html"
+    )
+
+@app.get("/help.html")
+def help_page():
+    return FileResponse(
+        "frontend/help.html"
+    )
  
+@app.get("/charge.html")
+def charge_page():
+    return FileResponse(
+        "frontend/charge.html"
+    )
+
 @app.put("/menus/{menu_id}")
 def update_menu(
     menu_id:int,
@@ -3681,7 +4001,17 @@ def analysis_view(
     if not member:
         raise HTTPException(404, "회원 없음")
 
-    need_point = 100
+    fee = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == "basic"
+    ).first()
+
+    need_point = (
+        fee.point
+        if fee
+        else 100
+    )
 
     if member.point < need_point:
         raise HTTPException(400, "포인트 부족")
@@ -3703,8 +4033,10 @@ def analysis_view(
     return {
         "title": analysis.title,
         "content": analysis.content,
+        "use_point": need_point,
         "remain_point": member.point
     }
+
 @app.post("/use-ai")
 def use_ai(
     db: Session = Depends(get_db),
@@ -3730,7 +4062,17 @@ def use_ai(
     if not member:
         raise HTTPException(404, "회원 없음")
 
-    need_point = 100
+    fee = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == "basic"
+    ).first()
+
+    need_point = (
+        fee.point
+        if fee
+        else 100
+    )
 
     if member.point < need_point:
         raise HTTPException(400, "포인트 부족")
@@ -3759,7 +4101,8 @@ def use_ai(
 
     return {
         "msg":"차감 완료",
-        "remain_point":member.point
+        "use_point": need_point,
+        "remain_point": member.point
     }
 
 @app.post("/use-blood-analysis")
@@ -3787,7 +4130,17 @@ def use_blood_analysis(
     if not member:
         raise HTTPException(404, "회원 없음")
 
-    need_point = 200
+    fee = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == "blood"
+    ).first()
+
+    need_point = (
+        fee.point
+        if fee
+        else 200
+    )
 
     if member.point < need_point:
         raise HTTPException(400, "포인트 부족")
@@ -3816,7 +4169,8 @@ def use_blood_analysis(
 
     return {
         "msg":"차감 완료",
-        "remain_point":member.point
+        "use_point": need_point,
+        "remain_point": member.point
     }
 
 @app.post("/use-pace-analysis")
@@ -3844,7 +4198,17 @@ def use_pace_analysis(
     if not member:
         raise HTTPException(404, "회원 없음")
 
-    need_point = 200
+    fee = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == "pace"
+    ).first()
+
+    need_point = (
+        fee.point
+        if fee
+        else 200
+    )
 
     if member.point < need_point:
         raise HTTPException(400, "포인트 부족")
@@ -3873,7 +4237,8 @@ def use_pace_analysis(
 
     return {
         "msg":"차감 완료",
-        "remain_point":member.point
+        "use_point": need_point,
+        "remain_point": member.point
     }
 
 # =========================
@@ -4097,7 +4462,17 @@ def use_final_analysis(
     if not member:
         raise HTTPException(404, "회원 없음")
 
-    need_point = 300
+    fee = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == "total"
+    ).first()
+
+    need_point = (
+        fee.point
+        if fee
+        else 300
+    )
 
     if member.point < need_point:
         raise HTTPException(400, "포인트 부족")
@@ -4119,7 +4494,8 @@ def use_final_analysis(
 
     return {
         "msg":"차감 완료",
-        "remain_point":member.point
+        "use_point": need_point,
+        "remain_point": member.point
     }
 
 @app.get("/basic-analysis-data/{region}/{race_no}/{race_date}")
@@ -5269,3 +5645,530 @@ app.mount(
     StaticFiles(directory="static"),
     name="static"
 )
+
+@app.get("/fee-settings")
+def get_fee_settings(
+    db: Session = Depends(get_db)
+):
+
+    rows = db.query(
+        FeeSetting
+    ).all()
+
+    return [
+        {
+            "item": r.item,
+            "point": r.point
+        }
+        for r in rows
+    ]
+
+@app.post("/save-fee-setting")
+def save_fee_setting(
+
+    data: FeeUpdate,
+
+    db: Session = Depends(get_db)
+
+):
+
+    pw = db.query(
+        FeePassword
+    ).filter(
+        FeePassword.id == 1
+    ).first()
+
+    if not pw:
+
+        raise HTTPException(
+            500,
+            "비밀번호 없음"
+        )
+
+    if pw.password != data.password:
+
+        raise HTTPException(
+            400,
+            "비밀번호 불일치"
+        )
+
+    row = db.query(
+        FeeSetting
+    ).filter(
+        FeeSetting.item == data.item
+    ).first()
+
+    if not row:
+
+        raise HTTPException(
+            404,
+            "항목 없음"
+        )
+
+    row.point = data.point
+
+    db.commit()
+
+    return {
+        "msg":"저장 완료"
+    }
+
+@app.get("/charge-settings")
+def get_charge_settings(
+    db: Session = Depends(get_db)
+):
+
+    rows = db.query(
+        ChargeSetting
+    ).filter(
+        ChargeSetting.is_active == 1
+    ).order_by(
+        ChargeSetting.sort_order.asc()
+    ).all()
+
+    return rows
+
+@app.put("/charge-setting")
+def update_charge_setting(
+
+    item:ChargeSettingUpdate,
+
+    db:Session=Depends(get_db)
+
+):
+
+    pw = db.query(
+        FeePassword
+    ).filter(
+        FeePassword.id == 1
+    ).first()
+
+    if not pw:
+
+        raise HTTPException(
+            500,
+            "비밀번호 없음"
+        )
+
+    if pw.password != item.password:
+
+        raise HTTPException(
+            400,
+            "비밀번호 불일치"
+        )
+
+    row = db.query(
+        ChargeSetting
+    ).filter(
+        ChargeSetting.id == item.id
+    ).first()
+
+    if not row:
+
+        raise HTTPException(
+            404,
+            "상품 없음"
+        )
+
+    row.point = item.point
+    row.price = item.price
+    row.is_active = item.is_active
+
+    db.commit()
+
+    return {
+        "msg":"저장 완료"
+    }
+
+@app.get("/charge-account")
+def get_charge_account(
+    db: Session = Depends(get_db)
+):
+
+    row = db.query(
+        ChargeAccount
+    ).first()
+
+    if not row:
+
+        return {
+            "bank_name":"",
+            "account_number":"",
+            "account_holder":"",
+            "notice":""
+        }
+
+    return {
+
+        "bank_name":
+        row.bank_name,
+
+        "account_number":
+        row.account_number,
+
+        "account_holder":
+        row.account_holder,
+
+        "notice":
+        row.notice
+
+    }
+
+@app.get("/my-point")
+def get_my_point(
+
+    current=Depends(
+        get_current_user
+    ),
+
+    db:Session=Depends(get_db)
+
+):
+
+    member = db.query(
+        Member
+    ).filter(
+
+        Member.email ==
+        current["email"]
+
+    ).first()
+
+    if not member:
+
+        return {
+            "point":0
+        }
+
+    return {
+        "point":
+        member.point
+    }
+
+@app.post("/charge-request")
+def create_charge_request(
+
+    item:ChargeRequestCreate,
+
+    current=Depends(
+        get_current_user
+    ),
+
+    db:Session=Depends(get_db)
+
+):
+
+    req = ChargeRequest(
+
+        email=current["email"],
+
+        depositor_name=
+        item.depositor_name,
+
+        product_name=
+        item.product_name,
+
+        point=item.point,
+
+        amount=item.amount,
+
+        status="대기",
+
+        created_at=
+        datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+    )
+
+    db.add(req)
+    db.commit()
+
+    return {
+        "msg":"충전신청 완료"
+    }
+
+@app.get("/charge-requests")
+def get_charge_requests(
+
+    db: Session = Depends(get_db),
+
+    current=Depends(
+        get_current_user
+    )
+
+):
+
+    if current["role"] not in [
+        "admin",
+        "superadmin"
+    ]:
+
+        raise HTTPException(
+            403,
+            "관리자만 가능"
+        )
+
+    rows = db.query(
+        ChargeRequest
+    ).order_by(
+        ChargeRequest.id.desc()
+    ).all()
+
+    return rows
+
+@app.put(
+"/charge-request/{request_id}/approve"
+)
+def approve_charge_request(
+
+    request_id:int,
+
+    db:Session=Depends(get_db),
+
+    current=Depends(
+        get_current_user
+    )
+
+):
+
+    if current["role"] not in [
+        "admin",
+        "superadmin"
+    ]:
+
+        raise HTTPException(
+            403,
+            "관리자만 가능"
+        )
+
+    req = db.query(
+        ChargeRequest
+    ).filter(
+
+        ChargeRequest.id ==
+        request_id
+
+    ).first()
+
+    if not req:
+
+        raise HTTPException(
+            404,
+            "신청 없음"
+        )
+
+    if req.status == "완료":
+
+        raise HTTPException(
+            400,
+            "이미 처리됨"
+        )
+
+    member = db.query(
+        Member
+    ).filter(
+
+        Member.email ==
+        req.email
+
+    ).first()
+
+    if not member:
+
+        raise HTTPException(
+            404,
+            "회원 없음"
+        )
+
+    member.point += req.point
+
+    req.status = "완료"
+
+    req.processed_at = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    db.commit()
+
+    return {
+        "msg":"충전 완료"
+    }
+
+@app.put("/charge-account")
+def update_charge_account(
+
+    item:ChargeAccountUpdate,
+
+    db:Session=Depends(get_db)
+
+):
+
+    pw = db.query(
+        FeePassword
+    ).filter(
+        FeePassword.id == 1
+    ).first()
+
+    if not pw:
+        raise HTTPException(
+            500,
+            "비밀번호 없음"
+        )
+
+    if pw.password != item.password:
+        raise HTTPException(
+            400,
+            "비밀번호 불일치"
+        )
+
+    row = db.query(
+        ChargeAccount
+    ).first()
+
+    if not row:
+
+        row = ChargeAccount()
+
+        db.add(row)
+
+    row.bank_name = item.bank_name
+    row.account_number = item.account_number
+    row.account_holder = item.account_holder
+
+    db.commit()
+
+    return {
+        "msg":"저장 완료"
+    }
+
+@app.put(
+"/change-admin-password"
+)
+def change_admin_password(
+
+    item:PasswordChange,
+
+    db:Session=Depends(get_db)
+
+):
+
+    pw = db.query(
+        FeePassword
+    ).filter(
+        FeePassword.id == 1
+    ).first()
+
+    if not pw:
+
+        raise HTTPException(
+            500,
+            "비밀번호 없음"
+        )
+
+    if pw.password != item.current_password:
+
+        raise HTTPException(
+            400,
+            "현재 비밀번호 오류"
+        )
+
+    if item.new_password != item.confirm_password:
+
+        raise HTTPException(
+            400,
+            "새 비밀번호 확인 불일치"
+        )
+
+    pw.password = item.new_password
+
+    db.commit()
+
+    return {
+        "msg":"비밀번호 변경 완료"
+    }
+
+@app.get("/admin/dashboard-stats")
+def get_dashboard_stats(
+
+    db: Session = Depends(get_db)
+
+):
+
+    approved = db.query(
+        ChargeRequest
+    ).filter(
+        ChargeRequest.status == "완료"
+    )
+
+    payment_count = approved.count()
+
+    total_sales = db.query(
+
+        func.coalesce(
+            func.sum(
+                ChargeRequest.amount
+            ),
+            0
+        )
+
+    ).filter(
+
+        ChargeRequest.status == "완료"
+
+    ).scalar()
+
+    today = datetime.now().strftime(
+        "%Y-%m-%d"
+    )
+
+    today_join = db.query(
+        Member
+    ).filter(
+        Member.created_at.like(
+            f"{today}%"
+        )
+    ).count()
+
+    print("오늘=", today)
+
+    members = db.query(
+        Member
+    ).all()
+
+    for m in members:
+
+        print(
+            "회원:",
+            m.id,
+            m.email,
+            m.created_at
+        )
+
+    print(
+        "금일가입=",
+        today_join
+    )
+
+
+    return {
+
+        "payment_count": payment_count,
+
+        "race_payment_count": payment_count,
+
+        "day_payment_count": 0,
+        "week_payment_count": 0,
+        "month_payment_count": 0,
+
+        "sales_total": total_sales,
+
+        "race_sales": total_sales,
+
+        "day_sales": 0,
+        "week_sales": 0,
+        "month_sales": 0,
+
+        "today_join": today_join
+
+    }
