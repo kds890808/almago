@@ -14,7 +14,7 @@ body{
 }
 
 .container{
-    max-width:500px;
+    max-width:600px;
     margin:auto;
 }
 
@@ -76,7 +76,7 @@ body{
 
 .history-amount{
 
-    font-size:22px;
+    font-size:18px;
 
     font-weight:bold;
 
@@ -136,21 +136,21 @@ body{
 
     color:white;
 
-    padding:10px;
+    padding:8px;
 
-    font-size:14px;
+    font-size:13px;
 
 }
 
 #history-table td{
 
-    padding:10px;
+    padding:8px;
 
     text-align:center;
 
     border-bottom:1px solid #eee;
 
-    font-size:14px;
+    font-size:13px;
 
 }
 
@@ -327,7 +327,7 @@ window.onload = async function(){
 
         &nbsp;&nbsp;
 
-        💰 ${user.point}P
+        💰 ${Number(user.point || 0).toLocaleString()}P
 
     </div>
 
@@ -345,7 +345,9 @@ window.onload = async function(){
 document.getElementById(
     "point"
 ).innerText =
-user.point + "P";
+Number(
+    user.point || 0
+).toLocaleString() + "P";
 
 
 const historyRes =
@@ -388,7 +390,9 @@ myHistory.forEach((h,index)=>{
         ${h.amount > 0
             ? "+"
             : ""}
-        ${h.amount}
+        ${Number(
+            h.amount
+        ).toLocaleString()}
 
         </td>
 
@@ -401,7 +405,9 @@ myHistory.forEach((h,index)=>{
         </td>
 
         <td>
-        ${h.remain_point}P
+        ${Number(
+            h.remain_point || 0
+        ).toLocaleString()}P
         </td>
 
     </tr>

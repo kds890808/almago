@@ -176,7 +176,7 @@ input:focus{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:18px;
+    font-size:16px;
     font-weight:700;
 }
 
@@ -184,10 +184,10 @@ input:focus{
     width:100%;
     height:55px;
     border:none;
-    border-radius:14px;
+    border-radius:18px;
     background:#111827;
     color:white;
-    font-size:18px;
+    font-size:16px;
     font-weight:700;
     margin-top:15px;
     cursor:pointer;
@@ -199,8 +199,8 @@ input:focus{
     color:white;
     padding:10px 16px;
     border-radius:10px;
-    font-size:14px;
-    font-weight:700;
+    font-size:12px;
+    font-weight:650;
     cursor:pointer;
 }
 
@@ -763,6 +763,129 @@ box-shadow:
     background:#dbe7ff;
 
 }
+
+.ai-price{
+
+    margin-top:8px;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    color:#d97706;
+
+}
+
+.modal-overlay{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+#user-name{
+
+    white-space:nowrap;
+    min-width:90px;
+
+}
+
+
 </style>
 </head>
 
@@ -859,10 +982,11 @@ box-shadow:
     <div class="ticket-sub">
 
     AI 분석 제공
+
     </div>
 
-    <button id="busan-ai-btn">
-      AI 추천보기
+    <button id="preview-ai-btn1">
+    AI 추천보기
     </button>
 
   </div>
@@ -1072,18 +1196,27 @@ login();
 
       </div>
 
-      <div id="seoul-time2"
-      class="ticket-time">
+        <div id="seoul-time2"
+        class="ticket-time">
 
-      --:--
+        --:--
 
-      </div>
+        </div>
 
-      <div class="ticket-sub">
+        <div class="ticket-sub">
 
-      AI 분석 제공
+        AI 분석 제공
 
-      </div>
+        </div>
+
+        <div
+        id="main-ai-price1"
+        class="ai-price"
+        >
+
+        💰 기본분석 100P
+
+        </div>
 
         <button id="main-ai-btn1">
         AI 추천보기
@@ -1118,15 +1251,24 @@ login();
 
       </div>
 
-      <div class="ticket-sub">
+        <div class="ticket-sub">
 
-      AI 분석 제공
+        AI 분석 제공
 
-      </div>
+        </div>
 
-      <button id="main-ai-btn2">
-      AI 추천보기
-      </button>
+        <div
+        id="main-ai-price2"
+        class="ai-price"
+        >
+
+        💰 기본분석 100P
+
+        </div>        
+
+        <button id="main-ai-btn2">
+        AI 추천보기
+        </button>
 
       </div>
 
@@ -1161,22 +1303,34 @@ login();
 <!-- 하단 메뉴 -->
 <div class="bottom-menu">
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='about.html'"
+    >
         <div>🏇</div>
         AI알마고란?
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='guide.html'"
+    >
         <div>📄</div>
         초보자가이드
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='analysis.html'"
+    >
         <div>🎯</div>
         AI적중률
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='help.html'"
+    >
         <div>🎫</div>
         마권예매
     </div>
@@ -1358,7 +1512,26 @@ style="cursor:pointer;"
 
           💰 0P
 
-</span>
+        </span>
+
+        <span
+        onclick="location.href='charge.html'"
+        style="
+        background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+        );
+        color:white;
+        padding:6px 10px;
+        font-size:13px;
+        border-radius:999px;
+        font-weight:800;
+        cursor:pointer;
+        ">
+        💳 포인트충전
+        </span>
+
 
       </div>
 
@@ -1451,9 +1624,24 @@ let raceTargets = {
     card2:null
 };
 
+let basicFee = 100;
+
 // 경주 데이터
 async function loadRaceForHome() {
 
+    const feeRes =
+    await fetch(
+    "/fee-settings"
+    );
+
+    const feeData =
+    await feeRes.json();
+
+    basicFee =
+    feeData.find(
+    x=>x.item==="basic"
+    )?.point || 100;
+    
     const res = await fetch("/race");
     const data = await res.json();
 
@@ -1605,6 +1793,30 @@ if(btnMain2 && raceTargets.card2){
     };
 
 }
+
+    const price1 =
+    document.getElementById(
+    "main-ai-price1"
+    );
+
+    if(price1){
+
+    price1.innerText =
+    `💰 기본분석 ${basicFee}P`;
+
+    }
+
+    const price2 =
+    document.getElementById(
+    "main-ai-price2"
+    );
+
+    if(price2){
+
+    price2.innerText =
+    `💰 기본분석 ${basicFee}P`;
+
+    }
 
 }
 // 경주목록
@@ -2205,6 +2417,61 @@ function showFindAccount() {
     document.getElementById("find-area").style.display = "block";
 }
 
+let modalResolve = null;
+
+function showModal(
+title,
+message,
+icon="📌",
+showCancel=true
+){
+
+    document.querySelector(
+    ".modal-cancel"
+    ).style.display =
+
+    showCancel
+    ? "block"
+    : "none";
+
+    return new Promise(resolve=>{
+
+        modalResolve = resolve;
+
+        document.getElementById(
+        "custom-modal-title"
+        ).innerHTML = title;
+
+        document.getElementById(
+        "custom-modal-message"
+        ).innerHTML = message;
+
+        document.getElementById(
+        "custom-modal-icon"
+        ).innerHTML = icon;
+
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
+
+    });
+
+}
+
+function closeModal(result){
+
+    document.getElementById(
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+
+        modalResolve(result);
+
+    }
+
+}
+
 // AI 페이지 이동
 async function goAI(
     region,
@@ -2216,6 +2483,22 @@ console.log(
 region,
 raceNo
 );
+
+    const ok =
+    await showModal(
+
+        "기본분석",
+
+        `확인 버튼을 누르면
+        ${basicFee}P가 차감됩니다.`,
+
+        "📊"
+
+    );
+
+    if(!ok){
+        return;
+    }
 
     const token =
     localStorage.getItem("token");
@@ -2253,8 +2536,45 @@ raceNo
     }
 
     // 성공
-    alert(
-        `100P 차감 완료\n남은 포인트: ${data.remain_point}P`
+    await showModal(
+
+    "기본분석",
+
+    `${data.use_point}P 차감 완료<br><br>
+    <div style="
+    margin:15px 0 20px 0;
+
+    padding:14px;
+
+    background:linear-gradient(
+    135deg,
+    #eff6ff,
+    #dbeafe
+    );
+
+    border-radius:14px;
+
+    font-weight:800;
+    font-size:17px;
+
+    color:#1e40af;
+
+    border-left:6px solid #2563eb;
+    ">
+
+    📊 AI가 경주마 · 기수 · 조교사
+    전적을 기반으로 종합 분석합니다.
+
+    </div>
+
+    </div>
+    <br><br>
+    남은 포인트 : ${data.remain_point}P`,
+
+    "📊",
+
+    false
+
     );
 
     location.href =
@@ -2502,7 +2822,7 @@ raceNo
 );
 
 const url =
-`/race-detail/${region}/${raceNo}?date=${date}`;
+`/race-detail-data/${raceNo}?date=${date}&region=${region}`;
 
 console.log(
 "호출URL:",
@@ -2548,6 +2868,20 @@ background:#f5f7ff;
 position:sticky;
 top:0;
 }
+
+.menu-item{
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.menu-item:active{
+
+transform:scale(.95);
+
+}
 </style>
 
 <tr>
@@ -2582,9 +2916,10 @@ html += `
 <tr>
 
 <td>${row["지역"] || ""}</td>
-<td>${row["날짜"] || ""}</td>
-<td>${row["경주번호"] || ""}</td>
+<td>${row["경주일자"] || ""}</td>
+<td>${row["경주"] || ""}</td>
 <td>${row["번호"] || ""}</td>
+
 <td>
 
 <a
@@ -2607,12 +2942,14 @@ ${row["마명"] || ""}
 </a>
 
 </td>
-<td>${row["마중"] || ""}</td>
+
+<td>${row["체중"] || ""}</td>
 <td>${row["성별"] || ""}</td>
-<td>${row["연령"] || ""}</td>
+<td>${row["나이"] || ""}</td>
 <td>${row["레이팅"] || ""}</td>
-<td>${row["중량"] || ""}</td>
+<td>${row["부담중량"] || ""}</td>
 <td>${row["증감"] || ""}</td>
+
 <td>
 
 <a
@@ -2620,7 +2957,7 @@ href="#"
 onclick="
 event.preventDefault();
 showJockeyInfo(
-'${row["기수명"]}'
+'${row["기수"]}'
 )
 "
 style="
@@ -2630,11 +2967,12 @@ text-decoration:none;
 "
 >
 
-${row["기수명"] || ""}
+${row["기수"] || ""}
 
 </a>
 
 </td>
+
 <td>
 
 <a
@@ -2642,7 +2980,7 @@ href="#"
 onclick="
 event.preventDefault();
 showTrainerInfo(
-'${row["조교사명"]}'
+'${row["조교사"]}'
 )
 "
 style="
@@ -2652,16 +2990,16 @@ text-decoration:none;
 "
 >
 
-${row["조교사명"] || ""}
+${row["조교사"] || ""}
 
 </a>
 
 </td>
 
-<td>${row["마주명"] || ""}</td>
+<td>${row["마주"] || ""}</td>
 <td>${row["조교횟수"] || ""}</td>
 <td>${row["출전주기"] || ""}</td>
-<td>${row["장구현황"] || ""}</td>
+<td>${row["장구"] || ""}</td>
 <td>${row["특이사항"] || ""}</td>
 
 </tr>
@@ -2669,6 +3007,7 @@ ${row["조교사명"] || ""}
 `;
 
 });
+
 
 html += `
 </table>
@@ -3363,9 +3702,9 @@ if(!user) return;
 document.getElementById(
 "user-point"
 ).innerText =
-`💰 ${user.point || 0}P`;
+`💰 ${Number(user.point || 0).toLocaleString()}P`;
 
-}    
+}
 
 function goHitRate(){
     location.href="hitrate.html";
@@ -3385,6 +3724,52 @@ function goDividend(){
 
 </script>
 
+<div id="custom-modal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <div
+        id="custom-modal-icon"
+        class="modal-icon"
+        >
+        📌
+        </div>
+
+        <div
+        id="custom-modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="custom-modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
     
 </body>
 </html>

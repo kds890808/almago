@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>AI알마고란?</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+'Pretendard',
+sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#020617,
+#0f172a,
+#111827
+);
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+.hero{
+
+height:100vh;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+.logo{
+
+font-size:90px;
+
+margin-bottom:20px;
+
+animation:
+float 3s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+0%{
+transform:
+translateY(0px);
+}
+
+50%{
+transform:
+translateY(-15px);
+}
+
+100%{
+transform:
+translateY(0px);
+}
+
+}
+
+.badge{
+
+padding:10px 20px;
+
+border-radius:999px;
+
+background:
+rgba(
+59,
+130,
+246,
+0.15
+);
+
+border:
+1px solid
+rgba(
+59,
+130,
+246,
+0.5
+);
+
+color:#60a5fa;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.hero h1{
+
+font-size:55px;
+
+font-weight:900;
+
+line-height:1.2;
+
+margin-bottom:20px;
+
+}
+
+.gradient{
+
+background:
+linear-gradient(
+90deg,
+#60a5fa,
+#22c55e
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+opacity:.8;
+
+max-width:700px;
+
+line-height:1.8;
+
+}
+
+.scroll{
+
+position:absolute;
+
+bottom:40px;
+
+font-size:14px;
+
+opacity:.6;
+
+animation:
+bounce 1.5s infinite;
+
+}
+
+@keyframes bounce{
+
+0%,100%{
+transform:
+translateY(0);
+}
+
+50%{
+transform:
+translateY(10px);
+}
+
+}
+
+.section{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:80px 20px;
+
+}
+
+.section-title{
+
+font-size:36px;
+
+font-weight:900;
+
+text-align:center;
+
+margin-bottom:50px;
+
+}
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(
+280px,
+1fr
+)
+);
+
+gap:20px;
+
+}
+
+.card{
+
+background:
+rgba(
+255,
+255,
+255,
+0.05
+);
+
+backdrop-filter:
+blur(15px);
+
+border:
+1px solid
+rgba(
+255,
+255,
+255,
+0.08
+);
+
+padding:30px;
+
+border-radius:25px;
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:
+translateY(-10px);
+
+border-color:
+#3b82f6;
+
+}
+
+.icon{
+
+font-size:50px;
+
+margin-bottom:20px;
+
+}
+
+.card h3{
+
+font-size:24px;
+
+margin-bottom:15px;
+
+}
+
+.card p{
+
+line-height:1.8;
+
+opacity:.8;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+4,
+1fr
+);
+
+gap:20px;
+
+margin-top:50px;
+
+}
+
+.stat{
+
+background:
+rgba(
+255,
+255,
+255,
+0.05
+);
+
+padding:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+}
+
+.number{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#22c55e;
+
+margin-bottom:10px;
+
+}
+
+.feature{
+
+display:flex;
+
+align-items:center;
+
+margin:20px 0;
+
+font-size:18px;
+
+}
+
+.check{
+
+width:40px;
+height:40px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+margin-right:15px;
+
+font-weight:bold;
+
+}
+
+.cta{
+
+text-align:center;
+
+padding:100px 20px;
+
+}
+
+.cta h2{
+
+font-size:42px;
+
+margin-bottom:20px;
+
+}
+
+.cta-btn{
+
+display:inline-block;
+
+padding:18px 40px;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#2563eb
+);
+
+color:white;
+
+text-decoration:none;
+
+font-weight:800;
+
+font-size:18px;
+
+box-shadow:
+0 0 25px
+rgba(
+59,
+130,
+246,
+0.4
+);
+
+}
+
+.footer{
+
+padding:40px;
+
+text-align:center;
+
+opacity:.5;
+
+}
+
+.fade{
+
+opacity:0;
+
+transform:
+translateY(50px);
+
+transition:
+all 1s;
+
+}
+
+.fade.show{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:38px;
+}
+
+.stats{
+grid-template-columns:
+1fr 1fr;
+}
+
+.section-title{
+font-size:28px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<div class="logo">
+🏇
+</div>
+
+<div class="badge">
+AI HORSE ANALYSIS PLATFORM
+</div>
+
+<h1>
+
+<span class="gradient">
+데이터가
+직감을 이긴다
+</span>
+
+</h1>
+
+<p>
+
+AI알마고는
+
+혈통 · 전개 · 거리적성 · 최근전적
+
+수만 건의 데이터를 분석하여
+
+가장 가능성 높은 경주마를 추천합니다.
+
+</p>
+
+<div class="scroll">
+▼ Scroll
+</div>
+
+</div>
+
+<div class="section fade">
+
+<div class="section-title">
+왜 AI알마고인가?
+</div>
+
+<div class="cards">
+
+<div class="card">
+
+<div class="icon">
+🧬
+</div>
+
+<h3>
+혈통분석
+</h3>
+
+<p>
+
+DI · CD · 근친계수 분석
+
+거리 적성 평가
+
+혈통 강점 분석
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+⚡
+</div>
+
+<h3>
+전개분석
+</h3>
+
+<p>
+
+선행 · 선입 · 추입
+
+경주 흐름 예측
+
+위치 변화 분석
+
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+👑
+</div>
+
+<h3>
+종합분석
+</h3>
+
+<p>
+
+125점 스코어링
+
+AI 최종 추천
+
+우승 가능성 평가
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section fade">
+
+<div class="section-title">
+
+누적 데이터
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="number count"
+data-target="10000">
+0
+</div>
+
+분석 경주
+
+</div>
+
+<div class="stat">
+
+<div class="number count"
+data-target="50000">
+0
+</div>
+
+분석 마필
+
+</div>
+
+<div class="stat">
+
+<div class="number count"
+data-target="365">
+0
+</div>
+
+연중 분석
+
+</div>
+
+<div class="stat">
+
+<div class="number count"
+data-target="100">
+0
+</div>
+
+AI 자동화
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section fade">
+
+<div class="section-title">
+
+AI알마고의 차별점
+
+</div>
+
+<div class="feature">
+
+<div class="check">
+✓
+</div>
+
+단순 인기순 추천이 아닙니다
+
+</div>
+
+<div class="feature">
+
+<div class="check">
+✓
+</div>
+
+혈통 + 전개 + 거리 + 최근전적 통합분석
+
+</div>
+
+<div class="feature">
+
+<div class="check">
+✓
+</div>
+
+수만 건 데이터를 기반으로 추천
+
+</div>
+
+<div class="feature">
+
+<div class="check">
+✓
+</div>
+
+실제 결과를 통해 지속 검증
+
+</div>
+
+</div>
+
+<div class="cta fade">
+
+<h2>
+
+AI는 예측합니다.
+
+선택은 당신의 몫입니다.
+
+</h2>
+
+<a
+href="/"
+class="cta-btn"
+>
+
+AI알마고 시작하기
+
+</a>
+
+</div>
+
+<div class="footer">
+
+AI ALMAGO © 2026
+
+</div>
+
+<script>
+
+const observer =
+new IntersectionObserver(
+entries=>{
+
+entries.forEach(
+entry=>{
+
+if(
+entry.isIntersecting
+){
+
+entry.target
+.classList
+.add("show");
+
+}
+
+});
+
+}
+);
+
+document
+.querySelectorAll(".fade")
+.forEach(el=>{
+
+observer.observe(el);
+
+});
+
+document
+.querySelectorAll(".count")
+.forEach(el=>{
+
+const target=
+parseInt(
+el.dataset.target
+);
+
+let current=0;
+
+const speed=
+target/100;
+
+const timer=
+setInterval(()=>{
+
+current+=speed;
+
+if(
+current>=target
+){
+
+current=target;
+
+clearInterval(timer);
+
+}
+
+el.innerHTML=
+Math.floor(current)
+.toLocaleString();
+
+},20);
+
+});
+
+</script>
+
+</body>
+
+</html>

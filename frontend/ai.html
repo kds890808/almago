@@ -1257,6 +1257,141 @@ z-index:9999;
 
 }
 
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(0,0,0,.55);
+
+    backdrop-filter:
+    blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.charge-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.charge-btn:hover{
+
+    transform:translateY(-2px);
+
+}
 </style>
 
 </head>
@@ -1288,6 +1423,13 @@ z-index:9999;
     onclick="goPointLog()"
     >
     💰 999999P
+    </div>
+
+    <div
+    class="charge-btn"
+    onclick="goCharge()"
+    >
+    💳
     </div>
 
 </div>
@@ -1388,6 +1530,35 @@ async function loadAI(
     region,
     raceNo
 ) {
+
+    const feeRes =
+    await fetch(
+    "/fee-settings"
+    );
+
+    const feeData =
+    await feeRes.json();
+
+    basicFee =
+    feeData.find(
+    x=>x.item==="basic"
+    )?.point || 100;
+
+    bloodFee =
+    feeData.find(
+    x=>x.item==="blood"
+    )?.point || 1000;
+
+    paceFee =
+    feeData.find(
+    x=>x.item==="pace"
+    )?.point || 1000;
+
+    finalFee =
+    feeData.find(
+    x=>x.item==="total"
+    )?.point || 1500;
+
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -1548,10 +1719,6 @@ if(r.지역 !== "제주"){
     bloodData =
     await bloodRes.json();
 
-    alert(
-    "AIHTML VERSION 999"
-    );
-
 }
 
 console.log(
@@ -1703,10 +1870,6 @@ console.log(
 bloodTable
 );
 
-alert(
-"bloodTable 길이 = " +
-bloodTable.length
-);
 
 console.log(
 "조회",
@@ -1982,7 +2145,7 @@ unlockPedigree(
 '${r.경주}'
 )
 ">
-🧬 200P로 혈통분석열기
+🧬 ${bloodFee}P로 혈통분석열기
 </button>
 
 </div>
@@ -2079,7 +2242,7 @@ unlockPace(
 '${raceDate}'
 )
 ">
-🏇 200P로 전개분석열기
+🏇 ${paceFee}P로 전개분석열기
 </button>
 
 </div>
@@ -2125,10 +2288,11 @@ class="unlock-btn total-btn"
 onclick="
 unlockFinal(
 '${r.지역}',
-'${r.경주}'
+'${r.경주}',
+'${raceDate}'
 )
 ">
-👑 300P로 종합분석열기
+👑 ${finalFee}P로 종합분석열기
 </button>
 
 </div>
@@ -2266,16 +2430,72 @@ loadAI(
     raceNo
 );;
 
+let modalResolve = null;
+
+function showModal(
+title,
+message,
+icon="📌"
+){
+
+    return new Promise(resolve=>{
+
+        modalResolve = resolve;
+
+        document.getElementById(
+        "modal-title"
+        ).innerHTML = title;
+
+        document.getElementById(
+        "modal-message"
+        ).innerHTML = message;
+
+        document.getElementById(
+        "modal-icon"
+        ).innerHTML = icon;
+
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
+
+    });
+
+}
+
+function closeModal(result){
+
+    document.getElementById(
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+
+        modalResolve(result);
+
+    }
+
+}
+
 async function unlockPedigree(
 region,
 raceNo
 ){
 
-    if(
-        !confirm(
-            "200P 사용 후 혈통분석을 열겠습니까?"
-        )
-    ){
+    const ok =
+    await showModal(
+
+        "혈통분석",
+
+        `확인 버튼을 누르면
+        ${bloodFee}P가 차감됩니다.`,
+
+        "🧬",
+
+        true
+
+    );
+
+    if(!ok){
         return;
     }
 
@@ -2301,16 +2521,62 @@ raceNo
 
     if(!res.ok){
 
-        alert(
+        await showModal(
+
+            "혈통분석",
+
             data.detail ||
-            "포인트 부족"
+            "포인트 부족",
+
+            "❌",
+
+            false
+
         );
 
         return;
     }
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    await showModal(
+
+        "혈통분석",
+
+        `${data.use_point}P 차감 완료<br><br>
+
+        <div style="
+
+        margin:15px 0 20px 0;
+
+        padding:14px;
+
+        background:linear-gradient(
+        135deg,
+        #fdf2f8,
+        #fce7f3
+        );
+
+        border-radius:14px;
+
+        font-weight:800;
+        font-size:17px;
+
+        color:#be185d;
+
+        border-left:6px solid #ec4899;
+
+        ">
+
+        🧬 AI가 경주마의 유전적 혈통을 기반으로 분석합니다.
+
+        </div>
+
+        남은 포인트 :
+        ${data.remain_point}P`,
+
+        "🧬",
+
+        false
+
     );
 
     document.getElementById(
@@ -2325,11 +2591,21 @@ raceNo,
 raceDate
 ){
 
-    if(
-        !confirm(
-            "200P 사용 후 전개분석을 열겠습니까?"
-        )
-    ){
+    const ok =
+    await showModal(
+
+        "전개분석",
+
+        `확인 버튼을 누르면
+        ${paceFee}P가 차감됩니다.`,
+
+        "🏇",
+
+        true
+
+    );
+
+    if(!ok){
         return;
     }
 
@@ -2355,17 +2631,63 @@ raceDate
 
     if(!res.ok){
 
-        alert(
+        await showModal(
+
+            "전개분석",
+
             data.detail ||
-            "포인트 부족"
+            "포인트 부족",
+
+            "❌",
+
+            false
+
         );
 
         return;
     }
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
-    );
+        await showModal(
+
+            "전개분석",
+
+            `${data.use_point}P 차감 완료
+
+            <div style="
+
+            margin:15px 0 20px 0;
+
+            padding:14px;
+
+            background:linear-gradient(
+            135deg,
+            #eff6ff,
+            #dbeafe
+            );
+
+            border-radius:14px;
+
+            font-weight:800;
+            font-size:17px;
+
+            color:#1e40af;
+
+            border-left:6px solid #2563eb;
+
+            ">
+
+            🏇 AI가 각 경주마의 주행습성을 바탕으로 이번 경주의 경주전개를 예상합니다. 
+
+            </div>
+
+            남은 포인트 :
+            ${data.remain_point}P`,
+
+            "🏇",
+
+            false
+
+        );
 
     const area =
     document.getElementById(
@@ -2374,8 +2696,16 @@ raceDate
 
     if(!area){
 
-        alert(
-            "전개분석 영역을 찾을 수 없음"
+        await showModal(
+
+            "전개분석",
+
+            "전개분석 영역을 찾을 수 없습니다.",
+
+            "❌",
+
+            false
+
         );
 
         return;
@@ -2465,14 +2795,25 @@ position:relative;
 
 async function unlockFinal(
     region,
-    raceNo
+    raceNo,
+    raceDate
 ){
 
-    if(
-        !confirm(
-            "300P 사용 후 종합분석을 열겠습니까?"
-        )
-    ){
+    const ok =
+    await showModal(
+
+        "종합분석",
+
+        `확인 버튼을 누르면
+        ${finalFee}P가 차감됩니다.`,
+
+        "🏆",
+
+        true
+
+    );
+
+    if(!ok){
         return;
     }
 
@@ -2498,29 +2839,68 @@ async function unlockFinal(
 
     if(!res.ok){
 
-        alert(
-            data.detail ||
-            "포인트 부족"
-        );
+    await showModal(
+
+        "종합분석",
+
+        data.detail ||
+        "포인트 부족",
+
+        "❌",
+
+        false
+
+    );
 
         return;
     }
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    await showModal(
+
+        "종합분석",
+
+        `${data.use_point}P 차감 완료
+
+        <div style="
+
+        margin:15px 0 20px 0;
+
+        padding:14px;
+
+        background:linear-gradient(
+        135deg,
+        #fff7ed,
+        #ffedd5
+        );
+
+        border-radius:14px;
+
+        font-weight:800;
+        font-size:17px;
+
+        color:#c2410c;
+
+        border-left:6px solid #f97316;
+
+        ">
+
+        🏆 AI가 기본분석 · 혈통분석 ·
+        전개분석을 통합 분석합니다.
+
+        </div>
+
+        남은 포인트 :
+        ${data.remain_point}P`,
+
+        "🏆",
+
+        false
+
     );
 
-    const target =
-    document.getElementById(
-        `final-analysis-${region}-${raceNo}`
-    );
-
-    if(target){
-        target.style.display =
-        "block";
+    window.location.href =
+    `/final-loading.html?region=${region}&raceNo=${raceNo}&raceDate=${raceDate}`;
     }
-
-}
 
 async function showHorseInfo(horseName){
 
@@ -3276,6 +3656,27 @@ font-weight:bold;
     text-align:center;
 
 }
+
+.analysis-comment{
+
+    margin:25px 0;
+
+    padding:18px;
+
+    background:#dbeafe;
+
+    border-left:6px solid #2563eb;
+
+    border-radius:16px;
+
+    color:#1e40af;
+
+    font-weight:700;
+
+    line-height:1.8;
+
+}
+
 </style>
 `;
 
@@ -5705,6 +6106,13 @@ function goHome(){
     location.href = "/";
 
 }
+
+function goCharge(){
+
+    location.href =
+    "charge.html";
+
+}
 </script>
 
 <div
@@ -5753,6 +6161,53 @@ font-size:20px;
 <div id="horse-body"></div>
 
 </div>
+
+</div>
+
+<div id="custom-modal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <div
+        id="modal-icon"
+        class="modal-icon"
+        >
+        🧬
+        </div>
+
+        <div
+        id="modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 </body>

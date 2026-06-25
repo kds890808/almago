@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>AI BIG DATA 분석중</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+Pretendard,
+sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#f8fafc,
+#eef2ff
+);
+
+color:#1e293b;
+
+}
+
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+}
+
+.header{
+
+text-align:center;
+
+margin-bottom:30px;
+
+}
+
+.title{
+
+font-size:42px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.sub{
+
+opacity:.7;
+
+font-size:18px;
+
+}
+
+.progress-wrap{
+
+height:18px;
+
+background:#e2e8f0;
+
+border-radius:999px;
+
+overflow:hidden;
+
+margin-top:25px;
+
+}
+
+.progress-bar{
+
+height:100%;
+
+width:0%;
+
+background:
+linear-gradient(
+90deg,
+#3b82f6,
+#22c55e
+);
+
+transition:.3s;
+
+}
+
+.progress-text{
+
+text-align:center;
+
+margin-top:10px;
+
+font-weight:700;
+
+}
+
+.step-list{
+
+margin-top:30px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+}
+
+.step{
+
+background:white;
+
+box-shadow:
+0 2px 10px
+rgba(0,0,0,.05);
+
+padding:16px;
+
+border-radius:14px;
+
+border-left:6px solid #cbd5e1;
+
+transition:.3s;
+
+}
+
+.step.current{
+
+border-left-color:#f59e0b;
+
+box-shadow:
+0 0 20px
+rgba(
+245,
+158,
+11,
+0.3
+);
+
+}
+
+.status{
+
+font-size:13px;
+
+margin-top:6px;
+
+opacity:.8;
+
+}
+
+.complete{
+
+margin-top:30px;
+
+text-align:center;
+
+padding:25px;
+
+background:
+rgba(
+34,
+197,
+94,
+0.15
+);
+
+border-radius:18px;
+
+opacity:0;
+
+transform:
+translateY(40px);
+
+transition:
+all .8s ease;
+
+visibility:hidden;
+
+}
+
+.complete.show{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+visibility:visible;
+
+}
+
+.complete h2{
+
+margin-bottom:10px;
+
+}
+
+.report-btn{
+
+margin-top:15px;
+
+padding:14px 24px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+font-weight:800;
+
+cursor:pointer;
+
+background:#22c55e;
+
+color:white;
+
+}
+
+.live-box{
+
+background:white;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+padding:20px;
+
+border-radius:16px;
+
+margin-top:20px;
+
+margin-bottom:25px;
+
+border:1px solid
+rgba(255,255,255,.08);
+
+}
+
+.live-title{
+
+font-weight:800;
+
+margin-bottom:10px;
+
+color:#60a5fa;
+
+}
+
+#liveText{
+
+font-size:18px;
+
+font-weight:700;
+
+}
+
+.log-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:16px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+height:100%;
+
+}
+
+.log-title{
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+#logArea{
+
+max-height:220px;
+
+overflow-y:auto;
+
+font-size:14px;
+
+line-height:1.8;
+
+}
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:15px;
+
+margin-top:25px;
+
+}
+
+.dash-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:16px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+}
+
+.dash-title{
+
+font-size:14px;
+
+opacity:.7;
+
+margin-bottom:10px;
+
+}
+
+.dash-value{
+
+font-size:28px;
+
+font-weight:900;
+
+}
+
+@media(max-width:768px){
+
+.dashboard{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+.middle-grid{
+
+display:grid;
+
+grid-template-columns:
+2fr 1fr;
+
+gap:20px;
+
+margin-top:20px;
+
+align-items:stretch;
+
+}
+
+.summary-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+height:100%;
+
+}
+
+.summary-title{
+
+font-size:20px;
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+.summary-item{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:12px 0;
+
+border-bottom:
+1px solid #eee;
+
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="title">
+🏆 AI 종합분석 생성중
+</div>
+
+<div
+class="sub"
+id="raceInfo"
+>
+분석 준비중...
+</div>
+
+<div class="dashboard">
+
+<div class="dash-card">
+
+<div class="dash-title">
+🎯 AI 신뢰도
+</div>
+
+<div
+id="aiTrust"
+class="dash-value"
+>
+0%
+</div>
+
+</div>
+
+<div class="dash-card">
+
+<div class="dash-title">
+🏇 분석중인 말
+</div>
+
+<div
+id="currentHorse"
+class="dash-value"
+>
+-
+</div>
+
+</div>
+
+<div class="dash-card">
+
+<div class="dash-title">
+📊 처리속도
+</div>
+
+<div
+id="speedValue"
+class="dash-value"
+>
+0/s
+</div>
+
+</div>
+
+</div>
+
+<div class="progress-wrap">
+
+<div
+id="progressBar"
+class="progress-bar"
+>
+</div>
+
+</div>
+
+<div
+id="progressText"
+class="progress-text"
+>
+0 / 42 완료
+</div>
+
+</div>
+
+<div class="live-box">
+
+<div class="live-title">
+🤖 AI 실시간 분석
+</div>
+
+<div id="liveText">
+출전마 데이터 로딩중...
+</div>
+
+</div>
+
+<div class="middle-grid">
+
+    <div class="log-box">
+
+        <div class="log-title">
+        🧪 분석 로그
+        </div>
+
+        <div id="logArea"></div>
+
+    </div>
+
+    <div class="summary-box">
+
+        <div class="summary-title">
+        📊 분석 요약
+        </div>
+
+        <div class="summary-item">
+        분석 항목
+        <b id="summaryStep">0개</b>
+        </div>
+
+        <div class="summary-item">
+        수집 데이터
+        <b id="summaryData">0건</b>
+        </div>
+
+        <div class="summary-item">
+        분석 대상마
+        <b id="summaryHorse">0두</b>
+        </div>
+
+        <div class="summary-item">
+        AI 신뢰도
+        <b id="summaryTrust">0%</b>
+        </div>
+
+        <div class="summary-item">
+        예상 처리시간
+        <b id="summaryTime">0초</b>
+        </div>
+
+    </div>
+
+</div>
+
+<div
+id="stepList"
+class="step-list"
+>
+</div>
+
+<div
+id="completeBox"
+class="complete"
+>
+
+<h2>
+🎉 AI 종합분석 완료
+</h2>
+
+<p>
+최종 추천마 및 전략을 생성했습니다.
+</p>
+
+<button
+class="report-btn"
+onclick="goReport()"
+
+>
+
+🏆 종합분석 결과 보기 </button>
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const region =
+params.get("region");
+
+const raceNo =
+params.get("raceNo");
+
+const raceDate =
+params.get("raceDate");
+
+document.getElementById(
+"raceInfo"
+).innerHTML =
+`${region} ${raceNo}경주 · ${raceDate}`;
+
+const steps = [
+
+"출전마 데이터 로딩",
+"최근 성적 분석",
+"최근 1년 성적 분석",
+"거리 적성 분석",
+"경주등급 분석",
+"부담중량 분석",
+"체중 분석",
+"체중변화 분석",
+"출전주기 분석",
+"컨디션 분석",
+
+"기수 능력 분석",
+"기수 궁합 분석",
+"조교사 능력 분석",
+"조교량 분석",
+"조교 패턴 분석",
+"혈통 데이터 로딩",
+"부마 분석",
+"모마 분석",
+"형제마 분석",
+"혈통 적성 분석",
+
+"DI 분석",
+"CD 분석",
+"COI 분석",
+"AWD 분석",
+"RI 분석",
+"CPI 분석",
+"SPR 분석",
+"전개 예측 분석",
+"초반 전개 분석",
+"중반 전개 분석",
+
+"종반 전개 분석",
+"상대전적 분석",
+"동거리 분석",
+"동등급 분석",
+"속도지수 분석",
+"AI 점수 계산",
+"위험도 분석",
+"복병마 탐색",
+"추천승식 생성",
+"베팅전략 생성",
+
+"최종 추천마 선정",
+"리포트 생성"
+
+];
+
+const stepList =
+document.getElementById(
+"stepList"
+);
+
+const logArea =
+document.getElementById(
+"logArea"
+);
+
+const horseNames = [
+
+"① 골든파워",
+"② 원더드래곤",
+"③ 블랙머스크",
+"④ 퀸즈킹",
+"⑤ 스피드스타",
+
+"⑥ 챔프로드",
+"⑦ 글로벌킹",
+"⑧ 천하제일",
+"⑨ 레전드파워",
+"⑩ 슈퍼선더"
+
+];
+
+let current = 0;
+
+function render(){
+
+stepList.innerHTML = "";
+
+const start =
+Math.max(
+0,
+current - 3
+);
+
+const end =
+Math.min(
+steps.length,
+current + 5
+);
+
+steps
+.slice(start,end)
+.forEach((step,index)=>{
+
+const i =
+start + index;
+
+let cls = "";
+let icon = "⚪";
+let msg = "대기중";
+
+if(i < current){
+
+cls = "done";
+icon = "🟢";
+msg = "분석완료";
+
+}
+
+else if(i === current){
+
+cls = "current";
+icon = "🟡";
+msg = "분석중";
+
+}
+
+stepList.innerHTML += `
+
+<div class="step ${cls}">
+
+<div>
+${icon}
+${step}
+</div>
+
+<div class="status">
+${msg}
+</div>
+
+</div>
+
+`;
+
+});
+
+const percent =
+(current / steps.length)
+* 100;
+
+document.getElementById(
+"progressBar"
+).style.width =
+percent + "%";
+
+document.getElementById(
+"progressText"
+).innerHTML =
+`${current} / ${steps.length} 완료`;
+
+const trust =
+Math.min(
+95,
+50 + current
+);
+
+document.getElementById(
+"summaryStep"
+).innerHTML =
+current + "개";
+
+document.getElementById(
+"summaryData"
+).innerHTML =
+(
+Math.floor(
+(current / steps.length)
+* 3821
+)
+).toLocaleString()
++ "건";
+
+document.getElementById(
+"summaryHorse"
+).innerHTML =
+Math.min(
+11,
+Math.floor(
+(current / steps.length)
+* 11
+)
+) + "두";
+
+document.getElementById(
+"summaryTrust"
+).innerHTML =
+trust + "%";
+
+document.getElementById(
+"summaryTime"
+).innerHTML =
+(
+(
+current /
+steps.length
+)
+* 6.4
+).toFixed(1)
++ "초";
+
+document.getElementById(
+"aiTrust"
+).innerHTML =
+trust + "%";
+
+const horse =
+horseNames[
+current %
+horseNames.length
+];
+
+document.getElementById(
+"currentHorse"
+).innerHTML =
+horse;
+
+document.getElementById(
+"speedValue"
+).innerHTML =
+(120 + current*3)
++ "/s";
+
+document.getElementById(
+"liveText"
+).innerHTML =
+
+current < steps.length
+
+?
+
+`${steps[current]} 진행중...`
+
+:
+
+"최종 리포트 생성 완료";
+
+}
+
+
+render();
+
+const timer =
+setInterval(()=>{
+
+current++;
+if(current > 0){
+
+const horse =
+
+horseNames[
+current %
+horseNames.length
+];
+
+const logs =
+logArea.querySelectorAll("div");
+
+if(logs.length >= 15){
+
+    logs[0].remove();
+
+}
+
+logArea.innerHTML += `
+
+<div>
+${horse}
+-
+${steps[current-1]}
+완료
+</div>
+
+`;
+
+logArea.scrollTop =
+logArea.scrollHeight;
+
+}
+
+
+    if(
+    current >=
+    steps.length
+    ){
+
+    current =
+    steps.length;
+
+    render();
+
+    clearInterval(
+    timer
+    );
+
+    document.querySelector(
+    ".title"
+    ).innerHTML =
+    "🎉 AI 종합분석 완료";
+
+    document.querySelector(
+    ".title"
+    ).style.color =
+    "#22c55e";
+
+    document.querySelector(
+    ".progress-wrap"
+    ).style.boxShadow =
+    "0 0 30px rgba(34,197,94,.5)";    
+
+    document.getElementById(
+    "stepList"
+    ).style.display =
+    "none";    
+
+    document.querySelector(
+    ".live-title"
+    ).innerHTML =
+    "🎉 분석 완료";
+
+    document.getElementById(
+    "liveText"
+    ).innerHTML =
+    "최종 추천마 및 베팅전략 생성 완료";
+
+    setTimeout(()=>{
+
+    document
+    .getElementById(
+    "completeBox"
+    )
+    .classList.add(
+    "show"
+    );
+
+    },500);
+
+    return;
+
+    }
+
+render();
+
+},150);
+
+function goReport(){
+
+location.href =
+
+`final-report.html
+?region=${region}
+&raceNo=${raceNo}
+&raceDate=${raceDate}`;
+
+}
+
+</script>
+
+</body>
+</html>

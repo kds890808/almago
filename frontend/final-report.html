@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>AI 종합분석 결과</title>
+
+<style>
+
+body{
+
+font-family:Pretendard,sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#f8fafc,
+#eef2ff
+);
+
+padding:20px;
+
+color:#1e293b;
+
+}
+
+.container{
+
+max-width:1000px;
+
+margin:auto;
+
+}
+
+.hero{
+
+background:white;
+
+padding:30px;
+
+border-radius:24px;
+
+box-shadow:
+0 8px 30px
+rgba(0,0,0,.08);
+
+margin-bottom:20px;
+
+text-align:center;
+
+}
+
+.hero h1{
+
+font-size:42px;
+
+margin-bottom:10px;
+
+}
+
+.hero p{
+
+opacity:.7;
+
+}
+
+.top3{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.card{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+text-align:center;
+
+}
+
+.rank{
+
+font-size:42px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.score{
+
+font-size:24px;
+
+font-weight:800;
+
+color:#2563eb;
+
+}
+
+.table-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+margin-bottom:20px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+th,
+td{
+
+padding:12px;
+
+border-bottom:
+1px solid #eee;
+
+text-align:center;
+
+}
+
+.comment{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 4px 20px
+rgba(0,0,0,.08);
+
+line-height:1.8;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="hero">
+
+<h1>
+🏆 AI 종합분석 결과
+</h1>
+
+<p id="raceInfo">
+로딩중...
+</p>
+
+</div>
+
+<div class="top3">
+
+<div class="card">
+
+<div class="rank">
+🥇
+</div>
+
+<h3>
+③ 블랙머스크
+</h3>
+
+<div class="score">
+96점
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="rank">
+🥈
+</div>
+
+<h3>
+⑦ 글로벌킹
+</h3>
+
+<div class="score">
+94점
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="rank">
+🥉
+</div>
+
+<h3>
+① 골든파워
+</h3>
+
+<div class="score">
+92점
+</div>
+
+</div>
+
+</div>
+
+<div class="table-box">
+
+<h2>
+📊 종합 점수표
+</h2>
+
+<br>
+
+<table>
+
+<tr>
+<th>순위</th>
+<th>번호</th>
+<th>마명</th>
+<th>점수</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>3</td>
+<td>블랙머스크</td>
+<td>96</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>7</td>
+<td>글로벌킹</td>
+<td>94</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>1</td>
+<td>골든파워</td>
+<td>92</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="comment">
+
+<h2>
+🤖 AI 종합 코멘트
+</h2>
+
+<br>
+
+이번 경주는
+③ 블랙머스크가
+가장 높은 평가를 받았습니다.
+
+최근 흐름,
+거리 적성,
+전개 예측,
+혈통 적성 모두 우수하게
+평가되었습니다.
+
+</div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const region =
+params.get("region");
+
+const raceNo =
+params.get("raceNo");
+
+const raceDate =
+params.get("raceDate");
+
+document.getElementById(
+"raceInfo"
+).innerHTML =
+
+`${region}
+${raceNo}경주
+·
+${raceDate}`;
+
+</script>
+
+</body>
+
+</html>
