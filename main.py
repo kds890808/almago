@@ -739,18 +739,14 @@ class FeePassword(Base):
 
     __tablename__ = "fee_password"
 
-    id = Column(
-        Integer,
-        primary_key=True
-    )
+    id = Column(Integer, primary_key=True)
 
-    password = Column(
-        String
-    )
+    password = Column(String)
+
 
 Base.metadata.create_all(bind=engine)
 
-# =========================
+==
 # race_detail 마종 컬럼 추가
 # =========================
 try:
@@ -769,81 +765,85 @@ except Exception as e:
 with engine.begin() as conn:
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO fee_settings
+    INSERT INTO fee_settings
     (item, point)
     VALUES
     ('basic',100)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO fee_settings
+    INSERT INTO fee_settings
     (item, point)
     VALUES
     ('blood',200)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO fee_settings
+    INSERT INTO fee_settings
     (item, point)
     VALUES
     ('pace',200)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO fee_settings
+    INSERT INTO fee_settings
     (item, point)
     VALUES
     ('total',300)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO fee_password
+    INSERT INTO fee_password
     (id,password)
     VALUES
     (1,'admin')
+    ON CONFLICT DO NOTHING
     """))
+
 
 with engine.begin() as conn:
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO charge_settings
+    INSERT INTO charge_settings
     (id,name,point,price,sort_order,is_active)
     VALUES
     (1,'Starter',1000,5000,1,1)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO charge_settings
+    INSERT INTO charge_settings
     (id,name,point,price,sort_order,is_active)
     VALUES
     (2,'Premium',3000,12000,2,1)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO charge_settings
+    INSERT INTO charge_settings
     (id,name,point,price,sort_order,is_active)
     VALUES
     (3,'VIP',5000,18000,3,1)
+    ON CONFLICT DO NOTHING
     """))
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO charge_settings
+    INSERT INTO charge_settings
     (id,name,point,price,sort_order,is_active)
     VALUES
     (4,'MASTER',10000,30000,4,1)
+    ON CONFLICT DO NOTHING
     """))
 
-    conn.execute(text("""
-    INSERT OR IGNORE INTO telegram_settings
-    (id, chat_id, is_active)
-    VALUES
-    (1,'',1)
-    """))
 
 with engine.begin() as conn:
 
     conn.execute(text("""
-    INSERT OR IGNORE INTO charge_account
+    INSERT INTO charge_account
     (
         id,
         bank_name,
@@ -859,6 +859,7 @@ with engine.begin() as conn:
         '알마고',
         '입금 후 반드시 충전 신청 버튼을 눌러주세요.'
     )
+    ON CONFLICT DO NOTHING
     """))
 
 try:
