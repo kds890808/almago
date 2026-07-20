@@ -2313,6 +2313,60 @@ th,
 td{
     font-size:15px;
 }
+
+/* =========================
+   상단 메뉴 모바일 대응
+========================= */
+@media (max-width:768px){
+
+    .user-bar{
+        width:100%;
+        box-sizing:border-box;
+        padding:10px 8px;
+        gap:6px;
+    }
+
+    .user-left{
+        min-width:0;
+        gap:5px;
+        flex:1;
+    }
+
+    .home-btn{
+        width:36px;
+        height:36px;
+        font-size:19px;
+        flex-shrink:0;
+    }
+
+    .user-name{
+        font-size:13px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        min-width:0;
+    }
+
+    .user-point{
+        padding:7px 9px;
+        font-size:13px;
+        white-space:nowrap;
+        flex-shrink:0;
+    }
+
+    .charge-btn{
+        padding:7px 9px;
+        font-size:12px;
+        flex-shrink:0;
+    }
+
+    .logout-top-btn{
+        padding:8px 7px;
+        font-size:10px;
+        white-space:nowrap;
+        flex-shrink:0;
+    }
+}
 </style>
 
 </head>
@@ -4908,6 +4962,8 @@ font-weight:900;
 text-align:center;
 
 }
+
+
 
 </style>
 `;
