@@ -1802,6 +1802,7 @@ onclick="toggleAllRows(this)">
 <th>예정</th>
 
 <th>비고</th>
+<th>취소마</th>
 
 <th style="width:90px">
 관리
@@ -3170,7 +3171,8 @@ async function loadRace() {
     r.출전,
     r.경주명,
     r.출발시각,
-    r.비고
+    r.비고,
+    r.취소마 || 0
   ]);
 
   renderTable();
@@ -3314,26 +3316,66 @@ async function uploadRace() {
 }
 
 async function saveCell(td, value, rowIndex, colIndex) {
+
   const id = raceData[rowIndex][0];
 
-  const keys = ["id","지역","마명","순","경주일자","경주","등급","거리","편성","출전","경주명","출발시각","비고"];
-
+const keys = [
+  "id",
+  "지역",
+  "마명",
+  "순",
+  "경주일자",
+  "경주",
+  "등급",
+  "거리",
+  "편성",
+  "출전",
+  "경주명",
+  "출발시각",
+  null,       // 예정
+  "비고",
+  "취소마"
+];
   const field = keys[colIndex];
 
-  const token = localStorage.getItem("token");
-  await fetch(`/race/${id}`, {
+  // 취소마는 숫자로 변환
+  const saveValue =
+    field === "취소마"
+      ? (parseInt(value) || 0)
+      : value;
+
+  const res = await fetch(`/race/${id}`, {
     method: "PUT",
+
     headers: {
       "Content-Type": "application/json"
     },
 
     body: JSON.stringify({
-      [field]: value
+      [field]: saveValue
     })
   });
 
-  raceData[rowIndex][colIndex] = value;
-  td.innerText = value;
+  // 저장 실패 확인
+  if (!res.ok) {
+    const error = await res.text();
+
+    console.error("저장 실패:", error);
+    alert("저장에 실패했습니다.");
+
+    await loadRace();
+    return;
+  }
+
+  console.log(
+    "저장 성공:",
+    id,
+    field,
+    saveValue
+  );
+
+  raceData[rowIndex][colIndex] = saveValue;
+  td.innerText = saveValue;
 }
 
 async function deleteRow(index) {
@@ -3400,79 +3442,67 @@ return `🟡 ${days}일`;
 return `🟢 ${days}일`;
 }
   
-// =========================
-// 출전표렌더링
-// =========================
 function renderTable() {
 
-const table =
-document.getElementById(
-"race-table"
-);
+  const table = document.getElementById("race-table");
 
-if(!table){
-return;
-}
+  if (!table) {
+    return;
+  }
 
-table.innerHTML="";
+  table.innerHTML = "";
 
-raceData.forEach(
-(r,rowIndex)=>{
+  raceData.forEach((r, rowIndex) => {
 
-const cells = [
+    const cells = [
+      r[1],  // 지역
+      r[2],  // 마명
+      r[3],  // 순
+      r[4],  // 경주일자
+      r[5],  // 경주
+      r[6],  // 등급
+      r[7],  // 거리
+      r[8],  // 편성
+      r[9],  // 출전
+      r[10], // 경주명
+      r[11], // 출발시각
 
-r[1], // 지역
-r[2], // 마명
-r[3], // 순
-r[4], // 경주일자
-r[5], // 경주
-r[6], // 등급
-r[7], // 거리
-r[8], // 편성
-r[9], // 출전
-r[10], // 경주명
-r[11], // 출발시각
+      getCountdown(
+        r[4],
+        r[11]
+      ),     // 예정
 
-getCountdown(
-r[4],
-r[11]
-),
+      r[12], // 비고
+      r[13]  // 취소마
+    ];
 
-r[12] // 비고
+    table.innerHTML += `
+      <tr>
 
-];
+        <td>
+          <input
+            type="checkbox"
+            class="row-check"
+            value="${r[0]}">
+        </td>
 
-table.innerHTML += `
-<tr>
+        ${cells.map((cell, colIndex) => {
+          return `
+            <td ondblclick="editCell(this, ${rowIndex}, ${colIndex + 1})">
+              ${String(cell) === "NaN" ? "" : (cell ?? "")}
+            </td>
+          `;
+        }).join("")}
 
-<td>
-<input
-type="checkbox"
-class="row-check"
-value="${r[0]}">
-</td>
+        <td>
+          <button onclick="deleteRow(${rowIndex})">
+            🗑
+          </button>
+        </td>
 
-${cells.map((cell,colIndex)=>{
-
-return `
-<td ondblclick="editCell(this, ${rowIndex}, ${colIndex+1})">
-${String(cell)==="NaN" ? "" : (cell || "")}
-</td>
-`;
-
-}).join("")}
-
-<td>
-<button onclick="deleteRow(${rowIndex})">
-🗑
-</button>
-</td>
-
-</tr>
-`;
-
-});
-
+      </tr>
+    `;
+  });
 }
 
 function editCell(td, rowIndex, colIndex) {

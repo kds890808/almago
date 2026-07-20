@@ -73,6 +73,7 @@ class Race(Base):
     경주명 = Column(String)
     출발시각 = Column(String)
     비고 = Column(String)
+    취소마 = Column(Integer, default=0)
     
 # =========================
 # 분석 테이블
@@ -804,6 +805,20 @@ with engine.begin() as conn:
     ON CONFLICT DO NOTHING
     """))
 
+# =========================
+# race 취소마 컬럼 추가
+# =========================
+try:
+    with engine.begin() as conn:
+        conn.execute(text("""
+            ALTER TABLE race
+            ADD COLUMN "취소마" INTEGER DEFAULT 0
+        """))
+
+    print("✅ race 취소마 컬럼 추가 완료")
+
+except Exception as e:
+    print("ℹ️ race 취소마 컬럼 이미 존재:", e)
 
 with engine.begin() as conn:
 
@@ -2155,7 +2170,8 @@ def get_race():
             "출전":r.출전,
             "경주명":r.경주명,
             "출발시각":r.출발시각,
-            "비고":r.비고
+            "비고":r.비고,
+            "취소마": r.취소마 or 0
         }
 
         for r in data
@@ -2308,21 +2324,40 @@ def get_current_race():
     
 @app.put("/race/{race_id}")
 def update_race(race_id: int, data: dict = Body(...)):
+
     db = SessionLocal()
 
-    race = db.query(Race).filter(Race.id == race_id).first()
+    race = db.query(Race).filter(
+        Race.id == race_id
+    ).first()
 
     if not race:
         db.close()
         raise HTTPException(404, "경주 없음")
 
+    print("===== RACE 수정 =====")
+    print("ID:", race_id)
+    print("받은 데이터:", data)
+    print("수정 전 취소마:", race.취소마)
+
     for key, value in data.items():
+
+        if key == "취소마":
+            value = int(value or 0)
+
         setattr(race, key, value)
 
     db.commit()
+    db.refresh(race)
+
+    print("수정 후 취소마:", race.취소마)
+
     db.close()
 
-    return {"msg": "수정 완료"}
+    return {
+        "msg": "수정 완료",
+        "취소마": race.취소마
+    }
 
 
 @app.delete("/race/{race_id}")

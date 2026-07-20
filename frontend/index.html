@@ -1664,6 +1664,91 @@ box-shadow:
     }
 
 }
+
+/* =========================
+   오늘의 경마 한마디
+========================= */
+
+.racing-quote-box{
+    margin-top:20px;
+    padding:18px 20px;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    background:linear-gradient(
+        135deg,
+        #f8faff,
+        #eef4ff
+    );
+
+    border:1px solid #d7e3ff;
+    border-radius:18px;
+
+    box-shadow:0 4px 14px rgba(37,99,235,0.08);
+}
+
+.racing-quote-icon{
+    flex-shrink:0;
+
+    width:48px;
+    height:48px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#2563eb;
+    border-radius:50%;
+
+    font-size:25px;
+}
+
+.racing-quote-content{
+    min-width:0;
+    flex:1;
+}
+
+.racing-quote-label{
+    margin-bottom:5px;
+
+    color:#2563eb;
+
+    font-size:14px;
+    font-weight:800;
+}
+
+.racing-quote-text{
+    color:#1e293b;
+
+    font-size:18px;
+    font-weight:700;
+    line-height:1.5;
+
+    word-break:keep-all;
+
+    opacity:1;
+    transition:opacity .5s ease;
+}
+
+@media(max-width:500px){
+
+    .racing-quote-box{
+        padding:15px 14px;
+        gap:11px;
+    }
+
+    .racing-quote-icon{
+        width:42px;
+        height:42px;
+        font-size:22px;
+    }
+
+    .racing-quote-text{
+        font-size:16px;
+    }
+}
 </style>
 </head>
 
@@ -2090,6 +2175,22 @@ login();
       </div>
 
     </div>
+
+<!-- 경마 한마디 -->
+<div class="racing-quote-box">
+    <div class="racing-quote-icon">🏇</div>
+
+    <div class="racing-quote-content">
+        <div class="racing-quote-label">
+            오늘의 경마 한마디
+        </div>
+
+        <div id="racing-quote-text" class="racing-quote-text">
+            경주는 출발선에서 시작되지만 승부는 그전에 준비된다.
+        </div>
+    </div>
+</div>
+
 
 <div id="dynamic-menu-grid" class="dynamic-menu-grid">
 </div>
@@ -2547,7 +2648,10 @@ info:
 `${firstRace.등급} · ${formatDistance(firstRace.거리)}m`,
 
 horses:
-`${firstRace.출전}`
+parseInt(firstRace.출전) - (parseInt(firstRace.취소마) || 0),
+
+cancelHorses:
+parseInt(firstRace.취소마) || 0
 
 }
 : null;
@@ -2574,8 +2678,10 @@ info:
 `${secondRace.등급} · ${formatDistance(secondRace.거리)}m`,
 
 horses:
-`${secondRace.출전}`
+parseInt(secondRace.출전) - (parseInt(secondRace.취소마) || 0),
 
+cancelHorses:
+parseInt(secondRace.취소마) || 0
 }
 : null;
 
@@ -3230,7 +3336,8 @@ function renderCard(index, target){
 
     if(days[index]){
         days[index].innerHTML =
-        `🐎 ${target.horses}`;
+        `🐎 ${target.horses}두
+${target.cancelHorses > 0 ? `(취소 ${target.cancelHorses}두)` : ""}`;
     }
 
     if(subs[index]){
@@ -4527,6 +4634,244 @@ function goQuickPublicBroadcast(){
     location.href="quickmenu-publicbroadcast.html";
 
 }
+
+// =====================================================
+// 🏇 오늘의 경마 한마디 - 100개 랜덤 순환
+// =====================================================
+
+const racingQuotes = [
+
+    "경마는 기록의 스포츠이자 판단의 승부다.",
+    "강한 말이 항상 이기는 것은 아니지만, 이긴 말은 그날 가장 강했다.",
+    "경주는 출발선에서 시작되지만 승부는 그전에 준비된다.",
+    "기록은 거짓말하지 않지만, 기록만으로 모든 것을 말할 수는 없다.",
+    "경마에서 가장 어려운 것은 아는 것과 기다리는 것이다.",
+    "좋은 말은 달리고, 좋은 분석은 이유를 찾는다.",
+    "모든 경주에는 흐름이 있다.",
+    "경마의 답은 하나가 아니지만 결과는 하나다.",
+    "빠른 말보다 유리하게 달리는 말이 무섭다.",
+    "능력은 기본이고 전개가 승부를 완성한다.",
+
+    "경주에는 우연이 있지만 분석에는 근거가 있어야 한다.",
+    "오늘의 인기마가 내일의 강자는 아니다.",
+    "말의 능력은 숫자로 시작해 경주에서 증명된다.",
+    "한 번의 기록보다 반복되는 흐름을 보라.",
+    "경마는 속도의 경쟁이 아니라 타이밍의 경쟁이기도 하다.",
+    "출발이 경주를 결정하지는 않지만 흐름을 바꿀 수 있다.",
+    "최고의 말도 자신에게 맞지 않는 경주에서는 고전한다.",
+    "거리가 달라지면 강점도 달라진다.",
+    "같은 말도 조건이 달라지면 다른 말이 된다.",
+    "경주를 보지 말고 경주의 흐름을 보라.",
+
+    "숫자는 결과를 기록하고 분석은 가능성을 찾는다.",
+    "강한 선행마 하나가 경주 전체를 바꾼다.",
+    "편안한 선행은 최고의 무기가 될 수 있다.",
+    "추입마에게 필요한 것은 속도보다 기회다.",
+    "경주의 승부처는 결승선보다 먼저 찾아온다.",
+    "페이스를 읽으면 경주가 보인다.",
+    "느린 흐름은 선행마의 친구다.",
+    "빠른 흐름은 추입마에게 기회를 준다.",
+    "전개는 능력의 차이를 줄이기도 하고 벌리기도 한다.",
+    "좋은 위치는 때로 좋은 기록보다 중요하다.",
+
+    "경주마의 실력은 한 번의 승리보다 꾸준함에서 드러난다.",
+    "인기와 능력은 같지 않다.",
+    "예상은 확률이고 결과는 현실이다.",
+    "데이터는 미래를 보장하지 않지만 판단을 돕는다.",
+    "경마에서 확신보다 중요한 것은 근거다.",
+    "기록을 비교하기 전에 조건을 비교하라.",
+    "같은 1분도 같은 경주는 없다.",
+    "경주마다 유리한 말의 조건은 달라진다.",
+    "작은 변화가 큰 결과를 만든다.",
+    "부담중량의 차이는 결승선에서 드러날 수 있다.",
+
+    "기수의 판단은 몇 초 안에 경주를 바꾼다.",
+    "좋은 기수는 말의 힘을 아끼는 법을 안다.",
+    "말과 기수의 호흡도 하나의 능력이다.",
+    "경마는 말 혼자 달리는 스포츠가 아니다.",
+    "조교는 보이지 않는 경주의 시작이다.",
+    "준비된 말은 경주에서 이유를 보여준다.",
+    "컨디션은 기록표에 완전히 나타나지 않는다.",
+    "성장하는 말의 한계는 과거 기록만으로 알 수 없다.",
+    "신예마에게 과거는 짧지만 가능성은 길다.",
+    "노련한 말은 자신의 경주를 알고 있다.",
+
+    "혈통은 가능성을 말하고 경주는 현실을 증명한다.",
+    "혈통은 운명을 결정하지 않지만 힌트를 남긴다.",
+    "거리 적성은 숨겨진 능력을 깨우기도 한다.",
+    "좋은 혈통도 적성을 만나야 빛난다.",
+    "경주마에게 거리는 단순한 숫자가 아니다.",
+    "단거리는 순간의 힘을, 장거리는 지속의 힘을 요구한다.",
+    "적성에 맞는 거리는 말의 능력을 한 단계 끌어올린다.",
+    "처음 뛰는 거리는 새로운 가능성이기도 하다.",
+    "혈통을 보면 과거가 보이고 적성을 보면 미래가 보인다.",
+    "능력과 적성이 만날 때 최고의 경주가 나온다.",
+
+    "가장 빠른 말보다 가장 효율적으로 달린 말이 이긴다.",
+    "힘을 언제 쓰느냐가 얼마나 강하냐만큼 중요하다.",
+    "경주는 체력의 배분이다.",
+    "마지막 200미터는 남은 힘의 싸움이다.",
+    "결승선 앞에서는 작은 차이가 큰 결과가 된다.",
+    "초반의 여유가 막판의 힘이 된다.",
+    "무리한 선행은 마지막 직선에서 대가를 치른다.",
+    "기다릴 줄 아는 기수에게도 기회가 온다.",
+    "좋은 전개는 능력을 극대화한다.",
+    "불리한 전개에서도 버티는 말이 진짜 강자다.",
+
+    "한 경주의 결과보다 여러 경주의 흐름을 보라.",
+    "상승세에는 이유가 있고 하락세에도 신호가 있다.",
+    "최근 기록에는 현재의 상태가 숨어 있다.",
+    "과거의 최고 기록보다 지금의 흐름이 중요할 때가 있다.",
+    "꾸준함은 가장 과소평가되는 능력이다.",
+    "변화는 기록보다 먼저 시작된다.",
+    "좋은 분석은 정답을 맞히는 것이 아니라 가능성을 좁히는 것이다.",
+    "분석의 시작은 비교이고 완성은 판단이다.",
+    "데이터가 많다고 좋은 분석은 아니다.",
+    "중요한 것은 어떤 데이터를 어떻게 보느냐다.",
+
+    "숫자 하나보다 숫자 사이의 관계를 보라.",
+    "평균은 전체를 보여주지만 승부는 예외에서 나오기도 한다.",
+    "확률이 높다는 것은 반드시 일어난다는 뜻이 아니다.",
+    "예상 밖의 결과에도 대부분 이유는 존재한다.",
+    "결과를 알고 보면 모든 경주가 쉬워 보인다.",
+    "좋은 예측은 결과보다 과정에서 평가된다.",
+    "경마에서 가장 위험한 판단은 근거 없는 확신이다.",
+    "분석은 가능성을 높이는 과정이지 미래를 확정하는 일이 아니다.",
+    "냉정한 판단은 최고의 분석 도구다.",
+    "데이터는 참고하고 선택은 신중하게.",
+
+    "경마의 매력은 끝까지 결과를 알 수 없다는 데 있다.",
+    "한 경주가 끝나면 또 하나의 데이터가 시작된다.",
+    "오늘의 이변은 내일의 분석 자료가 된다.",
+    "경주에는 승자만 있지만 분석에는 배움이 남는다.",
+    "좋은 경주는 결과보다 과정이 기억에 남는다.",
+    "말은 달리고 기록은 남는다.",
+    "경마는 순간의 승부이지만 분석은 시간의 축적이다.",
+    "수많은 숫자 끝에는 한 번의 경주가 있다.",
+    "모든 데이터는 출발점일 뿐, 마지막 판단은 사람의 몫이다.",
+    "예측은 신중하게, 경마는 건전하게."
+
+];
+
+
+// =====================================================
+// 배열 섞기
+// =====================================================
+
+function shuffleRacingQuotes(){
+
+    const shuffled = [...racingQuotes];
+
+    for(let i = shuffled.length - 1; i > 0; i--){
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            shuffled[i],
+            shuffled[j]
+        ] = [
+            shuffled[j],
+            shuffled[i]
+        ];
+
+    }
+
+    return shuffled;
+}
+
+
+// =====================================================
+// 랜덤 순서 생성
+// =====================================================
+
+let shuffledRacingQuotes =
+    shuffleRacingQuotes();
+
+let racingQuoteIndex = 0;
+
+
+// =====================================================
+// 문구 변경
+// =====================================================
+
+function changeRacingQuote(){
+
+    const quoteText =
+        document.getElementById(
+            "racing-quote-text"
+        );
+
+    if(!quoteText){
+        return;
+    }
+
+
+    // -------------------------
+    // 100개 모두 보여준 경우
+    // 다시 랜덤으로 섞기
+    // -------------------------
+
+    if(
+        racingQuoteIndex >=
+        shuffledRacingQuotes.length
+    ){
+
+        shuffledRacingQuotes =
+            shuffleRacingQuotes();
+
+        racingQuoteIndex = 0;
+
+    }
+
+
+    // 다음 문구
+    const nextQuote =
+        shuffledRacingQuotes[
+            racingQuoteIndex
+        ];
+
+
+    // -------------------------
+    // 페이드 아웃
+    // -------------------------
+
+    quoteText.style.opacity = "0";
+
+
+    // -------------------------
+    // 문구 변경 후 페이드 인
+    // -------------------------
+
+    setTimeout(() => {
+
+        quoteText.textContent =
+            nextQuote;
+
+        quoteText.style.opacity = "1";
+
+        racingQuoteIndex++;
+
+    }, 500);
+
+}
+
+
+// =====================================================
+// 페이지 시작
+// =====================================================
+
+// 첫 문구 랜덤 표시
+changeRacingQuote();
+
+
+// 7초마다 다음 문구
+setInterval(
+    changeRacingQuote,
+    5000
+);
 
 </script>
 
