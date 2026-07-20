@@ -1,0 +1,2595 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>금일 TOP10 | 알마고</title>
+
+<style>
+
+/* =========================
+   기본 설정
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+
+    color:#172033;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8fafc 0%,
+            #eef3f9 100%
+        );
+}
+
+button{
+    font-family:inherit;
+}
+
+/* =========================
+   전체 컨테이너
+========================= */
+
+.page-wrap{
+    width:100%;
+    max-width:980px;
+
+    margin:0 auto;
+    padding:28px 18px 50px;
+}
+
+/* =========================
+   상단 헤더
+========================= */
+
+.top-header{
+    position:relative;
+
+    padding:28px 28px 26px;
+
+    border-radius:24px;
+
+    color:#ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172554 0%,
+            #1d4ed8 56%,
+            #2563eb 100%
+        );
+
+    box-shadow:
+        0 18px 42px
+        rgba(30, 64, 175, 0.22);
+
+    overflow:hidden;
+}
+
+.top-header::before{
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    top:-150px;
+    right:-80px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,0.10);
+}
+
+.top-header::after{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    bottom:-105px;
+    left:80px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,0.08);
+}
+
+.header-content{
+    position:relative;
+    z-index:2;
+}
+
+.header-top-line{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:14px;
+}
+
+.page-title{
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:-1.2px;
+}
+
+.title-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:50px;
+    height:50px;
+
+    flex-shrink:0;
+
+    border-radius:16px;
+
+    font-size:27px;
+
+    background:
+        rgba(255,255,255,0.17);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.22);
+}
+
+.live-badge{
+    display:flex;
+    align-items:center;
+
+    gap:7px;
+
+    padding:9px 13px;
+
+    flex-shrink:0;
+
+    border-radius:999px;
+
+    font-size:13px;
+    font-weight:900;
+
+    background:
+        rgba(15,23,42,0.23);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.20);
+}
+
+.live-dot{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#4ade80;
+
+    box-shadow:
+        0 0 0 5px
+        rgba(74,222,128,0.17);
+}
+
+.page-description{
+    margin-top:13px;
+
+    font-size:15px;
+    font-weight:600;
+
+    line-height:1.7;
+
+    color:
+        rgba(255,255,255,0.86);
+}
+
+.data-date{
+    display:inline-flex;
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:16px;
+    padding:7px 11px;
+
+    border-radius:10px;
+
+    font-size:13px;
+    font-weight:800;
+
+    color:
+        rgba(255,255,255,0.92);
+
+    background:
+        rgba(15,23,42,0.20);
+}
+
+/* =========================
+   메인 카드
+========================= */
+
+.ranking-card{
+    margin-top:22px;
+
+    border-radius:24px;
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    box-shadow:
+        0 13px 35px
+        rgba(15,23,42,0.08);
+
+    overflow:hidden;
+}
+
+/* =========================
+   탭 메뉴
+========================= */
+
+.tab-area{
+    display:grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    padding:9px;
+
+    gap:8px;
+
+    background:#f8fafc;
+
+    border-bottom:
+        1px solid
+        #e2e8f0;
+}
+
+.tab-button{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:58px;
+
+    gap:7px;
+
+    border:0;
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:15px;
+    font-weight:900;
+
+    color:#64748b;
+
+    background:transparent;
+
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.tab-button:hover{
+    color:#1d4ed8;
+    background:#eff6ff;
+}
+
+.tab-button.active{
+    color:#ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8,
+            #2563eb
+        );
+
+    box-shadow:
+        0 8px 18px
+        rgba(37,99,235,0.24);
+}
+
+.tab-button:active{
+    transform:scale(0.98);
+}
+
+.tab-icon{
+    font-size:19px;
+}
+
+/* =========================
+   표 상단 안내
+========================= */
+
+.table-summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:19px 23px 15px;
+}
+
+.summary-left{
+    min-width:0;
+}
+
+.current-category{
+    font-size:19px;
+    font-weight:900;
+    letter-spacing:-0.4px;
+
+    color:#172033;
+}
+
+.current-description{
+    margin-top:5px;
+
+    font-size:13px;
+    font-weight:600;
+
+    color:#94a3b8;
+}
+
+.refresh-button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:6px;
+
+    min-width:86px;
+    height:39px;
+
+    padding:0 13px;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        #dbe3ef;
+
+    cursor:pointer;
+
+    color:#475569;
+
+    font-size:13px;
+    font-weight:900;
+
+    background:#ffffff;
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.refresh-button:hover{
+    color:#1d4ed8;
+    border-color:#93c5fd;
+    background:#eff6ff;
+}
+
+.refresh-button.loading .refresh-icon{
+    animation:
+        rotateIcon
+        0.8s linear infinite;
+}
+
+@keyframes rotateIcon{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* =========================
+   랭킹 헤더
+========================= */
+
+.ranking-header{
+    display:grid;
+
+    grid-template-columns:
+        74px
+        minmax(150px, 1fr)
+        125px
+        125px;
+
+    align-items:center;
+
+    min-height:46px;
+
+    padding:0 23px;
+
+    color:#64748b;
+
+    font-size:12px;
+    font-weight:900;
+
+    background:#f8fafc;
+
+    border-top:
+        1px solid
+        #eef2f7;
+
+    border-bottom:
+        1px solid
+        #e2e8f0;
+}
+
+.ranking-header > div:nth-child(3),
+.ranking-header > div:nth-child(4){
+    text-align:right;
+}
+
+/* =========================
+   랭킹 목록
+========================= */
+
+.ranking-list{
+    min-height:320px;
+}
+
+.ranking-row{
+    display:grid;
+
+    grid-template-columns:
+        74px
+        minmax(150px, 1fr)
+        125px
+        125px;
+
+    align-items:center;
+
+    min-height:76px;
+
+    padding:10px 23px;
+
+    border-bottom:
+        1px solid
+        #edf2f7;
+
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+.ranking-row:last-child{
+    border-bottom:0;
+}
+
+.ranking-row:hover{
+    position:relative;
+    z-index:2;
+
+    background:#f8fbff;
+}
+
+.rank-cell{
+    display:flex;
+    align-items:center;
+}
+
+.rank-badge{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:42px;
+    height:42px;
+
+    border-radius:14px;
+
+    font-size:17px;
+    font-weight:950;
+
+    color:#475569;
+
+    background:#f1f5f9;
+
+    border:
+        1px solid
+        #e2e8f0;
+}
+
+.rank-badge.rank-1{
+    color:#7c4a00;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff3b0,
+            #fbbf24
+        );
+
+    border-color:#f59e0b;
+
+    box-shadow:
+        0 7px 15px
+        rgba(245,158,11,0.20);
+}
+
+.rank-badge.rank-2{
+    color:#475569;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #cbd5e1
+        );
+
+    border-color:#94a3b8;
+}
+
+.rank-badge.rank-3{
+    color:#7c2d12;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fed7aa,
+            #fb923c
+        );
+
+    border-color:#f97316;
+}
+
+.name-cell{
+    min-width:0;
+    padding-right:12px;
+}
+
+.name-main{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+    font-size:17px;
+    font-weight:950;
+
+    color:#172033;
+}
+
+.name-sub{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:5px;
+
+    font-size:12px;
+    font-weight:700;
+
+    color:#94a3b8;
+}
+
+.region-tag{
+    display:inline-flex;
+    align-items:center;
+
+    min-height:22px;
+
+    padding:2px 7px;
+
+    border-radius:7px;
+
+    color:#1d4ed8;
+
+    background:#eff6ff;
+}
+
+.score-cell,
+.rate-cell{
+    text-align:right;
+}
+
+.score-value{
+    font-size:20px;
+    font-weight:950;
+
+    color:#1d4ed8;
+}
+
+.score-label{
+    margin-top:3px;
+
+    font-size:11px;
+    font-weight:800;
+
+    color:#94a3b8;
+}
+
+.rate-value{
+    font-size:17px;
+    font-weight:950;
+
+    color:#334155;
+}
+
+.rate-label{
+    margin-top:3px;
+
+    font-size:11px;
+    font-weight:800;
+
+    color:#94a3b8;
+}
+
+/* =========================
+   로딩 스켈레톤
+========================= */
+
+.skeleton-row{
+    display:grid;
+
+    grid-template-columns:
+        74px
+        minmax(150px, 1fr)
+        125px
+        125px;
+
+    align-items:center;
+
+    min-height:76px;
+
+    padding:10px 23px;
+
+    border-bottom:
+        1px solid
+        #edf2f7;
+}
+
+.skeleton{
+    position:relative;
+    overflow:hidden;
+
+    border-radius:8px;
+
+    background:#e8edf4;
+}
+
+.skeleton::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    transform:
+        translateX(-100%);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.72),
+            transparent
+        );
+
+    animation:
+        skeletonMove
+        1.2s infinite;
+}
+
+.skeleton-rank{
+    width:42px;
+    height:42px;
+
+    border-radius:14px;
+}
+
+.skeleton-name{
+    width:55%;
+    height:17px;
+}
+
+.skeleton-sub{
+    width:35%;
+    height:10px;
+
+    margin-top:9px;
+}
+
+.skeleton-number{
+    width:60px;
+    height:18px;
+
+    margin-left:auto;
+}
+
+@keyframes skeletonMove{
+
+    100%{
+        transform:
+            translateX(100%);
+    }
+}
+
+/* =========================
+   빈 데이터 / 오류
+========================= */
+
+.message-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    min-height:340px;
+
+    padding:35px 20px;
+
+    text-align:center;
+}
+
+.message-icon{
+    font-size:48px;
+}
+
+.message-title{
+    margin-top:13px;
+
+    font-size:19px;
+    font-weight:950;
+
+    color:#334155;
+}
+
+.message-text{
+    max-width:430px;
+
+    margin-top:8px;
+
+    font-size:13px;
+    font-weight:600;
+
+    line-height:1.7;
+
+    color:#94a3b8;
+}
+
+/* =========================
+   하단 안내
+========================= */
+
+.bottom-notice{
+    display:flex;
+    align-items:flex-start;
+
+    gap:9px;
+
+    margin-top:18px;
+    padding:15px 17px;
+
+    border-radius:15px;
+
+    font-size:12px;
+    font-weight:650;
+    line-height:1.7;
+
+    color:#64748b;
+
+    background:
+        rgba(255,255,255,0.72);
+
+    border:
+        1px solid
+        #e2e8f0;
+}
+
+/* =========================
+   태블릿
+========================= */
+
+@media(max-width:720px){
+
+    .page-wrap{
+        padding:
+            18px 12px 35px;
+    }
+
+    .top-header{
+        padding:
+            23px 20px;
+        border-radius:20px;
+    }
+
+    .page-title{
+        font-size:27px;
+    }
+
+    .title-icon{
+        width:45px;
+        height:45px;
+        font-size:24px;
+    }
+
+    .ranking-card{
+        border-radius:20px;
+    }
+
+    .ranking-header{
+        grid-template-columns:
+            58px
+            minmax(130px, 1fr)
+            95px
+            95px;
+
+        padding:0 15px;
+    }
+
+    .ranking-row,
+    .skeleton-row{
+        grid-template-columns:
+            58px
+            minmax(130px, 1fr)
+            95px
+            95px;
+
+        padding:
+            10px 15px;
+    }
+
+    .table-summary{
+        padding:
+            17px 16px 14px;
+    }
+
+}
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:540px){
+
+    .header-top-line{
+        align-items:flex-start;
+    }
+
+    .page-title{
+        gap:9px;
+        font-size:24px;
+    }
+
+    .title-icon{
+        width:41px;
+        height:41px;
+        border-radius:13px;
+        font-size:22px;
+    }
+
+    .live-badge{
+        padding:7px 9px;
+        font-size:11px;
+    }
+
+    .page-description{
+        font-size:13px;
+    }
+
+    .tab-area{
+        gap:5px;
+        padding:7px;
+    }
+
+    .tab-button{
+        min-height:51px;
+
+        padding:0 4px;
+
+        font-size:13px;
+    }
+
+    .tab-icon{
+        font-size:16px;
+    }
+
+    .table-summary{
+        align-items:flex-start;
+    }
+
+    .current-category{
+        font-size:17px;
+    }
+
+    .refresh-button{
+        min-width:42px;
+        width:42px;
+        padding:0;
+
+        font-size:0;
+    }
+
+    .refresh-button .refresh-icon{
+        font-size:17px;
+    }
+
+    .ranking-header{
+        display:none;
+    }
+
+    .ranking-row{
+        grid-template-columns:
+            50px
+            minmax(0, 1fr)
+            auto;
+
+        min-height:86px;
+
+        padding:
+            12px 14px;
+    }
+
+    .rank-badge{
+        width:39px;
+        height:39px;
+        border-radius:13px;
+        font-size:15px;
+    }
+
+    .name-main{
+        font-size:16px;
+    }
+
+    .score-cell{
+        padding-left:8px;
+    }
+
+    .score-value{
+        font-size:18px;
+    }
+
+    .rate-cell{
+        grid-column:
+            2 / 4;
+
+        display:flex;
+        align-items:center;
+        justify-content:flex-end;
+
+        gap:5px;
+
+        margin-top:-17px;
+
+        font-size:12px;
+    }
+
+    .rate-value{
+        font-size:12px;
+        color:#64748b;
+    }
+
+    .rate-label{
+        margin-top:0;
+        font-size:11px;
+    }
+
+    .skeleton-row{
+        grid-template-columns:
+            50px
+            minmax(0, 1fr)
+            65px;
+
+        min-height:86px;
+
+        padding:
+            12px 14px;
+    }
+
+    .skeleton-row > div:last-child{
+        display:none;
+    }
+
+}
+
+/* =========================
+   아주 작은 화면
+========================= */
+
+@media(max-width:370px){
+
+    .tab-button{
+        gap:3px;
+        font-size:12px;
+    }
+
+    .tab-icon{
+        font-size:15px;
+    }
+
+    .live-badge{
+        display:none;
+    }
+
+}
+
+/* =========================
+   하단 홈 버튼
+========================= */
+
+.bottom-home{
+
+    margin-top:20px;
+    margin-bottom:20px;
+
+}
+
+.home-button{
+
+    width:100%;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#27408f;
+
+    color:#ffffff;
+
+    font-size:18px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    box-shadow:
+        0 8px 20px
+        rgba(39,64,143,.18);
+
+}
+
+.home-button:hover{
+
+    background:#1f3579;
+
+}
+
+.home-button:active{
+
+    transform:scale(.98);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page-wrap">
+
+    <!-- =========================
+         상단 헤더
+    ========================== -->
+
+    <header class="top-header">
+
+        <div class="header-content">
+
+            <div class="header-top-line">
+
+                <h1 class="page-title">
+
+                    <span class="title-icon">
+                        🏆
+                    </span>
+
+                    <span>
+                        금일 TOP10
+                    </span>
+
+                </h1>
+
+                <div class="live-badge">
+
+                    <span class="live-dot"></span>
+
+                    LIVE
+
+                </div>
+
+            </div>
+
+            <p class="page-description">
+
+                이번 출전표에 등록된 경주마·기수·조교사 중
+                주요 승률을 기준으로 순위를 제공합니다.
+
+            </p>
+
+            <div
+                id="dataDate"
+                class="data-date"
+            >
+                📅 출전일 확인 중
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- =========================
+         TOP10 카드
+    ========================== -->
+
+    <main class="ranking-card">
+
+        <!-- 탭 -->
+
+        <nav class="tab-area">
+
+            <button
+                type="button"
+                class="tab-button active"
+                data-tab="horse"
+            >
+
+                <span class="tab-icon">
+                    🐎
+                </span>
+
+                경주마
+
+            </button>
+
+            <button
+                type="button"
+                class="tab-button"
+                data-tab="jockey"
+            >
+
+                <span class="tab-icon">
+                    🏇
+                </span>
+
+                기수
+
+            </button>
+
+            <button
+                type="button"
+                class="tab-button"
+                data-tab="trainer"
+            >
+
+                <span class="tab-icon">
+                    👨‍🏫
+                </span>
+
+                조교사
+
+            </button>
+
+        </nav>
+
+        <!-- 현재 탭 안내 -->
+
+        <section class="table-summary">
+
+            <div class="summary-left">
+
+                <div
+                    id="currentCategory"
+                    class="current-category"
+                >
+                    경주마 TOP10
+                </div>
+
+                <div
+                    id="currentDescription"
+                    class="current-description"
+                >
+                    출전 경주마 승률 기준
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                id="refreshButton"
+                class="refresh-button"
+            >
+
+                <span class="refresh-icon">
+                    ↻
+                </span>
+
+                새로고침
+
+            </button>
+
+        </section>
+
+        <!-- 표 제목 -->
+
+        <div
+            id="rankingHeader"
+            class="ranking-header"
+        >
+
+            <div>
+                순위
+            </div>
+
+            <div>
+                이름
+            </div>
+
+            <div id="scoreHeader">
+                평가점수
+            </div>
+
+            <div id="rateHeader">
+                승률
+            </div>
+
+        </div>
+
+        <!-- 목록 -->
+
+        <section
+            id="rankingList"
+            class="ranking-list"
+        ></section>
+
+    </main>
+
+<div class="bottom-notice">
+
+    <span>ℹ️</span>
+
+    <span>
+        TOP10은 현재 업로드된 출전표와 경주마·기수·조교사 데이터를
+        기준으로 자동 계산됩니다.
+        분석 참고용으로 활용해 주세요.
+    </span>
+
+</div>
+
+<!-- 홈으로 버튼 -->
+<div class="bottom-home">
+
+    <button
+        class="home-button"
+        onclick="location.href='/'"
+    >
+
+        ← 홈으로 돌아가기
+
+    </button>
+
+</div>
+
+</div> <!-- page-wrap -->
+
+
+    
+</div>
+
+<script>
+
+/* =========================
+   API 주소
+========================= */
+
+const API = {
+
+    raceDetail:
+        "/race-detail",
+
+    horse:
+        "/horse",
+
+    jockey:
+        "/jockey",
+
+    trainer:
+        "/trainer"
+
+};
+
+
+/* =========================
+   상태값
+========================= */
+
+let currentTab = "horse";
+
+let latestDate = "";
+
+let raceDetailData = [];
+
+let horseData = [];
+
+let jockeyData = [];
+
+let trainerData = [];
+
+let top10Data = {
+
+    horse: [],
+    jockey: [],
+    trainer: []
+
+};
+
+
+/* =========================
+   DOM
+========================= */
+
+const rankingList =
+document.getElementById(
+    "rankingList"
+);
+
+const dataDate =
+document.getElementById(
+    "dataDate"
+);
+
+const currentCategory =
+document.getElementById(
+    "currentCategory"
+);
+
+const currentDescription =
+document.getElementById(
+    "currentDescription"
+);
+
+const scoreHeader =
+document.getElementById(
+    "scoreHeader"
+);
+
+const rateHeader =
+document.getElementById(
+    "rateHeader"
+);
+
+const refreshButton =
+document.getElementById(
+    "refreshButton"
+);
+
+
+/* =========================
+   숫자 변환
+========================= */
+
+function toNumber(value){
+
+    if(
+        value === null
+        || value === undefined
+        || value === ""
+        || String(value).toLowerCase() === "nan"
+        || value === "-"
+    ){
+        return 0;
+    }
+
+    const cleaned =
+    String(value)
+    .replace(/,/g, "")
+    .replace(/%/g, "")
+    .replace(/원/g, "")
+    .replace(/[^\d.-]/g, "");
+
+    const number =
+    Number(cleaned);
+
+    return Number.isFinite(number)
+        ? number
+        : 0;
+
+}
+
+
+/* =========================
+   값 정리
+========================= */
+
+function cleanText(value){
+
+    if(
+        value === null
+        || value === undefined
+        || value === ""
+        || String(value).toLowerCase() === "nan"
+    ){
+        return "-";
+    }
+
+    return String(value).trim();
+
+}
+
+
+/* =========================
+   HTML 안전 처리
+========================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =========================
+   날짜 숫자화
+========================= */
+
+function normalizeDate(value){
+
+    return String(value ?? "")
+    .replace(/\D/g, "")
+    .slice(0, 8);
+
+}
+
+
+/* =========================
+   날짜 표시
+========================= */
+
+function formatDate(value){
+
+    const date =
+    normalizeDate(value);
+
+    if(date.length !== 8){
+        return cleanText(value);
+    }
+
+    return (
+        date.slice(0,4)
+        + "."
+        + date.slice(4,6)
+        + "."
+        + date.slice(6,8)
+    );
+
+}
+
+
+/* =========================
+   퍼센트 표시
+========================= */
+
+function formatPercent(value){
+
+    const number =
+    toNumber(value);
+
+    return (
+        number.toFixed(1)
+        .replace(".0", "")
+        + "%"
+    );
+
+}
+
+
+// =========================
+// 평가점수 계산
+// =========================
+function rateToScore(
+    rate,
+    record
+){
+
+    // 예)
+    // 30전 (5/8/6/4/0)
+
+    const match =
+    String(record || "")
+    .match(/^(\d+)/);
+
+    const totalRace =
+    match
+    ? Number(match[1])
+    : 1;
+
+    // 출전수가 많을수록 신뢰도 증가
+    const score =
+    rate * Math.sqrt(totalRace);
+
+    return Number(
+        score.toFixed(1)
+    );
+
+}
+
+
+/* =========================
+   최신 출전일 찾기
+========================= */
+
+function findLatestRaceDate(rows){
+
+    const dates =
+    rows
+    .map(row => normalizeDate(
+        row.경주일자
+    ))
+    .filter(date =>
+        date.length === 8
+    );
+
+    if(!dates.length){
+        return "";
+    }
+
+    return dates.sort(
+        (a,b) =>
+        b.localeCompare(a)
+    )[0];
+
+}
+
+
+/* =========================
+   최신 출전표만 필터
+========================= */
+
+function getLatestRaceRows(){
+
+    if(!latestDate){
+        return raceDetailData;
+    }
+
+    return raceDetailData.filter(row =>
+
+        normalizeDate(
+            row.경주일자
+        ) === latestDate
+
+    );
+
+}
+
+
+/* =========================
+   출전 이름 집합
+========================= */
+
+function getEntryNames(fieldName){
+
+    return new Set(
+
+        getLatestRaceRows()
+        .map(row =>
+            cleanText(
+                row[fieldName]
+            )
+        )
+        .filter(name =>
+            name !== "-"
+        )
+
+    );
+
+}
+
+
+/* =========================
+   경주마 TOP10 계산
+========================= */
+
+function buildHorseTop10(){
+
+    const entryNames =
+    getEntryNames(
+        "마명"
+    );
+
+    const regionMap =
+    new Map();
+
+    getLatestRaceRows()
+    .forEach(row => {
+
+        const horseName =
+        cleanText(
+            row.마명
+        );
+
+        if(
+            horseName !== "-"
+            && !regionMap.has(horseName)
+        ){
+            regionMap.set(
+                horseName,
+                cleanText(row.지역)
+            );
+        }
+
+    });
+
+    const result =
+    horseData
+
+    .filter(item =>
+
+        entryNames.has(
+            cleanText(
+                item.마명
+            )
+        )
+
+    )
+
+    .map(item => {
+
+        const text =
+        String(item.승률 || "");
+
+        const match =
+        text.match(
+        /단승\s*:\s*([\d.]+).*복승\s*:\s*([\d.]+).*연승\s*:\s*([\d.]+)/
+        );
+
+        const winRate =
+        match ? Number(match[1]) : 0;
+
+        const placeRate =
+        match ? Number(match[2]) : 0;
+
+        const showRate =
+        match ? Number(match[3]) : 0;
+
+        return {
+
+            name:
+                cleanText(
+                    item.마명
+                ),
+
+            region:
+                regionMap.get(
+                    cleanText(item.마명)
+                ) || "-",
+
+            winRate,
+
+            placeRate,
+
+            showRate,
+
+            rate: winRate,
+
+            score:
+                rateToScore(
+                    winRate,
+                    item.통산전적
+                ),
+
+            sub:
+                cleanText(
+                    item.통산전적
+                )
+
+        };
+
+    })
+
+    .sort((a,b) => {
+
+        if(b.rate !== a.rate){
+            return b.rate - a.rate;
+        }
+
+        return (
+            b.score - a.score
+        );
+
+    })
+
+    .slice(0,10);
+
+    top10Data.horse =
+    result;
+
+}
+
+
+/* =========================
+   기수 TOP10 계산
+========================= */
+
+function buildJockeyTop10(){
+
+    const entryNames =
+    getEntryNames(
+        "기수"
+    );
+
+    const regionMap =
+    new Map();
+
+    getLatestRaceRows()
+    .forEach(row => {
+
+        const name =
+        cleanText(
+            row.기수
+        );
+
+        if(
+            name !== "-"
+            && !regionMap.has(name)
+        ){
+            regionMap.set(
+                name,
+                cleanText(row.지역)
+            );
+        }
+
+    });
+
+    const result =
+    jockeyData
+
+    .filter(item =>
+
+        entryNames.has(
+            cleanText(
+                item.기수명
+            )
+        )
+
+    )
+
+    .map(item => {
+
+        const rate =
+        toNumber(
+            item.최근1년승률
+        );
+
+        return {
+
+            name:
+                cleanText(
+                    item.기수명
+                ),
+
+            region:
+                cleanText(
+                    item.지역명
+                ) !== "-"
+                ? cleanText(
+                    item.지역명
+                )
+                : (
+                    regionMap.get(
+                        cleanText(
+                            item.기수명
+                        )
+                    )
+                    || "-"
+                ),
+
+            rate: rate,
+
+            score:
+                rateToScore(rate),
+
+            sub:
+                cleanText(
+                    item.최근1년
+                ),
+
+            label:
+                "최근 1년 승률"
+
+        };
+
+    })
+
+    .sort((a,b) => {
+
+        if(b.rate !== a.rate){
+            return b.rate - a.rate;
+        }
+
+        return (
+            b.score - a.score
+        );
+
+    })
+
+    .slice(0,10);
+
+    top10Data.jockey =
+    result;
+
+}
+
+
+/* =========================
+   조교사 TOP10 계산
+========================= */
+
+function buildTrainerTop10(){
+
+    const entryNames =
+    getEntryNames(
+        "조교사"
+    );
+
+    const regionMap =
+    new Map();
+
+    getLatestRaceRows()
+    .forEach(row => {
+
+        const name =
+        cleanText(
+            row.조교사
+        );
+
+        if(
+            name !== "-"
+            && !regionMap.has(name)
+        ){
+            regionMap.set(
+                name,
+                cleanText(row.지역)
+            );
+        }
+
+    });
+
+    const result =
+    trainerData
+
+    .filter(item =>
+
+        entryNames.has(
+            cleanText(
+                item.조교사명
+            )
+        )
+
+    )
+
+    .map(item => {
+
+        const rate =
+        toNumber(
+            item.최근1년승률
+        );
+
+        return {
+
+            name:
+                cleanText(
+                    item.조교사명
+                ),
+
+            region:
+                cleanText(
+                    item.지역명
+                ) !== "-"
+                ? cleanText(
+                    item.지역명
+                )
+                : (
+                    regionMap.get(
+                        cleanText(
+                            item.조교사명
+                        )
+                    )
+                    || "-"
+                ),
+
+            rate: rate,
+
+            score:
+                rateToScore(rate),
+
+            sub:
+                cleanText(
+                    item.최근1년
+                ),
+
+            label:
+                "최근 1년 승률"
+
+        };
+
+    })
+
+    .sort((a,b) => {
+
+        if(b.rate !== a.rate){
+            return b.rate - a.rate;
+        }
+
+        return (
+            b.score - a.score
+        );
+
+    })
+
+    .slice(0,10);
+
+    top10Data.trainer =
+    result;
+
+}
+
+
+/* =========================
+   전체 순위 계산
+========================= */
+
+function buildAllTop10(){
+
+    buildHorseTop10();
+    buildJockeyTop10();
+    buildTrainerTop10();
+
+}
+
+
+/* =========================
+   순위 표시
+========================= */
+
+function getRankText(rank){
+
+    if(rank === 1){
+        return "🥇";
+    }
+
+    if(rank === 2){
+        return "🥈";
+    }
+
+    if(rank === 3){
+        return "🥉";
+    }
+
+    return rank;
+}
+
+
+/* =========================
+   스켈레톤 표시
+========================= */
+
+function renderLoading(){
+
+    let html = "";
+
+    for(let i=0; i<7; i++){
+
+        html += `
+
+        <div class="skeleton-row">
+
+            <div>
+
+                <div
+                    class="
+                        skeleton
+                        skeleton-rank
+                    "
+                ></div>
+
+            </div>
+
+            <div>
+
+                <div
+                    class="
+                        skeleton
+                        skeleton-name
+                    "
+                ></div>
+
+                <div
+                    class="
+                        skeleton
+                        skeleton-sub
+                    "
+                ></div>
+
+            </div>
+
+            <div>
+
+                <div
+                    class="
+                        skeleton
+                        skeleton-number
+                    "
+                ></div>
+
+            </div>
+
+            <div>
+
+                <div
+                    class="
+                        skeleton
+                        skeleton-number
+                    "
+                ></div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }
+
+    rankingList.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   메시지 표시
+========================= */
+
+function renderMessage(
+    icon,
+    title,
+    text
+){
+
+    rankingList.innerHTML = `
+
+        <div class="message-box">
+
+            <div class="message-icon">
+                ${icon}
+            </div>
+
+            <div class="message-title">
+                ${escapeHtml(title)}
+            </div>
+
+            <div class="message-text">
+                ${escapeHtml(text)}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   순위 목록 렌더링
+========================= */
+
+function renderRanking(){
+
+    const data =
+    top10Data[currentTab]
+    || [];
+
+    updateCategoryText();
+
+    if(!data.length){
+
+        renderMessage(
+            "📭",
+            "표시할 TOP10 데이터가 없습니다.",
+            "출전표와 경주마·기수·조교사 데이터가 정상적으로 업로드되어 있는지 확인해 주세요."
+        );
+
+        return;
+    }
+
+    rankingList.innerHTML =
+    data.map(
+        (item,index) => {
+
+            const rank =
+            index + 1;
+
+            return `
+
+            <article class="ranking-row">
+
+                <div class="rank-cell">
+
+                    <div
+                        class="
+                            rank-badge
+                            rank-${rank}
+                        "
+                    >
+                        ${getRankText(rank)}
+                    </div>
+
+                </div>
+
+                <div class="name-cell">
+
+                    <div class="name-main">
+                        ${escapeHtml(item.name)}
+                    </div>
+
+                    <div class="name-sub">
+
+                        <span class="region-tag">
+                            ${escapeHtml(item.region)}
+                        </span>
+
+                        <span>
+                            ${escapeHtml(item.sub)}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="score-cell">
+
+                    <div class="score-value">
+                        ${item.score.toFixed(1)}
+                    </div>
+
+                    <div class="score-label">
+                        평가점수
+                    </div>
+
+                </div>
+
+                <div class="rate-cell">
+
+                    ${
+                        currentTab==="horse"
+
+                        ?
+
+                        `
+
+                        <div class="rate-value">
+
+                            단 ${formatPercent(item.winRate)}
+
+                        </div>
+
+                        <div class="rate-label">
+
+                            복 ${formatPercent(item.placeRate)}
+
+                            │
+
+                            연 ${formatPercent(item.showRate)}
+
+                        </div>
+
+                        `
+
+                        :
+
+                        `
+
+                        <div class="rate-value">
+
+                            ${formatPercent(item.rate)}
+
+                        </div>
+
+                        <div class="rate-label">
+
+                            ${escapeHtml(item.label)}
+
+                        </div>
+
+                        `
+
+                    }
+
+                </div>
+
+            </article>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+/* =========================
+   탭 설명 변경
+========================= */
+
+function updateCategoryText(){
+
+    if(currentTab === "horse"){
+
+        currentCategory.textContent =
+        "경주마 TOP10";
+
+        currentDescription.textContent =
+        "이번 출전 경주마의 통산승률 기준";
+
+        scoreHeader.textContent =
+        "평가점수";
+
+        rateHeader.textContent =
+        "통산승률";
+
+        return;
+    }
+
+    if(currentTab === "jockey"){
+
+        currentCategory.textContent =
+        "기수 TOP10";
+
+        currentDescription.textContent =
+        "이번 출전 기수의 최근 1년 승률 기준";
+
+        scoreHeader.textContent =
+        "평가점수";
+
+        rateHeader.textContent =
+        "최근 1년 승률";
+
+        return;
+    }
+
+    currentCategory.textContent =
+    "조교사 TOP10";
+
+    currentDescription.textContent =
+    "이번 출전 조교사의 최근 1년 승률 기준";
+
+    scoreHeader.textContent =
+    "평가점수";
+
+    rateHeader.textContent =
+    "최근 1년 승률";
+
+}
+
+
+/* =========================
+   탭 클릭
+========================= */
+
+document
+.querySelectorAll(
+    ".tab-button"
+)
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(
+                ".tab-button"
+            )
+            .forEach(item => {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+            button.classList.add(
+                "active"
+            );
+
+            currentTab =
+            button.dataset.tab;
+
+            renderRanking();
+
+        }
+    );
+
+});
+
+
+/* =========================
+   JSON 요청
+========================= */
+
+async function fetchJson(url){
+
+    const response =
+    await fetch(
+        url,
+        {
+            method:"GET",
+
+            headers:{
+                "Accept":
+                    "application/json"
+            },
+
+            cache:
+                "no-store"
+        }
+    );
+
+    if(!response.ok){
+
+        throw new Error(
+            `${url} 요청 실패 (${response.status})`
+        );
+
+    }
+
+    const data =
+    await response.json();
+
+    return Array.isArray(data)
+        ? data
+        : [];
+
+}
+
+
+/* =========================
+   전체 데이터 불러오기
+========================= */
+
+async function loadTop10Data(){
+
+    renderLoading();
+
+    refreshButton.classList.add(
+        "loading"
+    );
+
+    refreshButton.disabled =
+    true;
+
+    try{
+
+        const results =
+        await Promise.allSettled([
+
+            fetchJson(
+                API.raceDetail
+            ),
+
+            fetchJson(
+                API.horse
+            ),
+
+            fetchJson(
+                API.jockey
+            ),
+
+            fetchJson(
+                API.trainer
+            )
+
+        ]);
+
+        const raceResult =
+        results[0];
+
+        const horseResult =
+        results[1];
+
+        const jockeyResult =
+        results[2];
+
+        const trainerResult =
+        results[3];
+
+        if(
+            raceResult.status
+            !== "fulfilled"
+        ){
+
+            throw new Error(
+                "출전표 데이터를 불러오지 못했습니다."
+            );
+
+        }
+
+        raceDetailData =
+        raceResult.value;
+
+        horseData =
+        horseResult.status
+        === "fulfilled"
+            ? horseResult.value
+            : [];
+
+        jockeyData =
+        jockeyResult.status
+        === "fulfilled"
+            ? jockeyResult.value
+            : [];
+
+        trainerData =
+        trainerResult.status
+        === "fulfilled"
+            ? trainerResult.value
+            : [];
+
+        latestDate =
+        findLatestRaceDate(
+            raceDetailData
+        );
+
+        if(latestDate){
+
+            dataDate.textContent =
+            "📅 출전일 "
+            + formatDate(latestDate);
+
+        }else{
+
+            dataDate.textContent =
+            "📅 출전일 정보 없음";
+
+        }
+
+        buildAllTop10();
+
+        renderRanking();
+
+        console.log(
+            "===== TOP10 DATA ====="
+        );
+
+        console.log(
+            "latestDate =",
+            latestDate
+        );
+
+        console.log(
+            "raceDetailData =",
+            raceDetailData
+        );
+
+        console.log(
+            "horseTop10 =",
+            top10Data.horse
+        );
+
+        console.log(
+            "jockeyTop10 =",
+            top10Data.jockey
+        );
+
+        console.log(
+            "trainerTop10 =",
+            top10Data.trainer
+        );
+
+    }catch(error){
+
+        console.error(
+            "TOP10 로드 오류:",
+            error
+        );
+
+        dataDate.textContent =
+        "⚠️ 데이터 조회 실패";
+
+        renderMessage(
+            "⚠️",
+            "TOP10을 불러오지 못했습니다.",
+            error.message
+            || "서버 연결 상태를 확인해 주세요."
+        );
+
+    }finally{
+
+        refreshButton.classList.remove(
+            "loading"
+        );
+
+        refreshButton.disabled =
+        false;
+
+    }
+
+}
+
+
+/* =========================
+   새로고침 버튼
+========================= */
+
+refreshButton.addEventListener(
+    "click",
+    loadTop10Data
+);
+
+
+/* =========================
+   최초 실행
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadTop10Data
+);
+
+</script>
+
+</body>
+
+</html>
+```

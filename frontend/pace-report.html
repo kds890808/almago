@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI 분석</title>
 
 <style>
@@ -47,16 +48,6 @@
 
 }
 
-.user-left{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-}
-
 .user-name{
 
     font-size:18px;
@@ -83,23 +74,7 @@
 
 }
 
-.logout-top-btn{
 
-    background:#0f172a;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 18px;
-
-    border-radius:12px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-}
 
 .user-left{
 
@@ -220,14 +195,6 @@ th {
   cursor: pointer;
 }
 
-.analysis-box{
-
-    background:#f8fafc;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
-
-}
 
 .locked-box{
 
@@ -646,27 +613,6 @@ background:#f2f2f2;
 background:#e6f0ff;
 }
 
-.track-horse{
-
-display:inline-block;
-
-margin:5px;
-
-padding:10px 14px;
-
-border-radius:25px;
-
-background:white;
-
-font-weight:bold;
-
-font-size:16px;
-
-box-shadow:
-0 1px 4px rgba(0,0,0,.1);
-
-}
-
 .track-area{
 
 position:relative;
@@ -910,26 +856,6 @@ transform:translateY(-2px);
 
 }
 
-.pedigree-box{
-
-background:
-linear-gradient(
-135deg,
-#fdf2f8,
-#ffe4e6
-);
-
-border:
-2px solid #f9a8d4;
-
-}
-
-.pedigree-btn{
-
-background:#ec4899;
-
-}
-
 .pace-box{
 
 background:
@@ -976,71 +902,6 @@ color:#92400e;
 
 }
 
-.total-box{
-
-background:
-linear-gradient(
-135deg,
-#fefce8,
-#fde68a
-);
-
-border:
-2px solid #facc15;
-
-}
-
-.total-btn{
-
-background:
-linear-gradient(
-135deg,
-#f59e0b,
-#d97706
-);
-
-color:white;
-
-border:none;
-
-padding:12px 24px;
-
-border-radius:999px;
-
-font-weight:700;
-
-font-size:15px;
-
-cursor:pointer;
-
-box-shadow:
-0 4px 12px rgba(245,158,11,.3);
-
-}
-
-.total-btn:hover{
-
-transform:translateY(-2px);
-
-box-shadow:
-0 6px 16px rgba(245,158,11,.45);
-
-}
-
-.analysis-tabs{
-display:flex;
-gap:10px;
-margin:15px 0 20px 0;
-flex-wrap:wrap;
-}
-
-.analysis-section{
-display:none;
-}
-
-.analysis-section.active{
-display:block;
-}
 
 .info-pill{
 
@@ -1089,120 +950,6 @@ th,
 td{
 
 white-space:nowrap;
-
-}
-
-.analysis-tabs{
-
-    position:fixed;
-
-    bottom:0;
-    left:0;
-
-    width:100%;
-
-    display:flex;
-
-    background:white;
-
-    border-top:1px solid #e5e7eb;
-
-    z-index:999;
-
-}
-
-.analysis-tabs{
-
-position:fixed;
-
-bottom:0;
-left:0;
-right:0;
-
-height:75px;
-
-background:white;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-border-top:1px solid #e5e7eb;
-
-box-shadow:
-0 -4px 12px rgba(0,0,0,.08);
-
-z-index:9999;
-
-}
-
-.tab-icon{
-
-    font-size:26px;
-
-    margin-bottom:4px;
-
-}
-
-.tab-text{
-
-    font-size:12px;
-
-    font-weight:700;
-
-    white-space:nowrap;
-
-}
-
-.analysis-tabs{
-
-    position:fixed;
-
-    bottom:0;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:100%;
-    max-width:500px;
-
-    background:white;
-
-    display:flex;
-
-    justify-content:space-around;
-
-    padding:16px 0;
-
-    border-top:1px solid #e5e5e5;
-
-    z-index:999;
-
-}
-
-.analysis-tab-btn{
-
-    flex:1;
-
-    text-align:center;
-
-    color:#5b6070;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-}
-
-.tab-icon{
-
-    font-size:28px;
-
-    margin-bottom:8px;
 
 }
 
@@ -1257,6 +1004,531 @@ z-index:9999;
 
 }
 
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(0,0,0,.55);
+
+    backdrop-filter:
+    blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.charge-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.charge-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+플로팅 네비게이션
+========================= */
+
+.floating-nav{
+
+position:fixed;
+
+right:20px;
+
+bottom:100px;
+
+z-index:99999;
+
+}
+
+.floating-menu{
+
+position:fixed;
+
+right:20px;
+
+bottom:25px;
+
+z-index:99999;
+
+}
+
+.floating-btn{
+
+width:60px;
+
+height:60px;
+
+border:none;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#3b82f6
+);
+
+color:white;
+
+font-size:30px;
+
+font-weight:900;
+
+cursor:pointer;
+
+box-shadow:
+0 12px 30px
+rgba(37,99,235,.35);
+
+transition:.25s;
+
+}
+
+.floating-btn:hover{
+
+transform:
+translateY(-4px)
+scale(1.05);
+
+}
+
+.floating-list{
+
+position:absolute;
+
+right:70px;
+
+bottom:0;
+
+display:none;
+
+background:white;
+
+border-radius:16px;
+
+padding:10px;
+
+min-width:220px;
+
+box-shadow:
+0 12px 30px
+rgba(0,0,0,.15);
+
+}
+
+.floating-list.show{
+
+display:block;
+
+}
+
+.floating-item{
+
+display:block;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:15px;
+
+transition:.2s;
+
+white-space:nowrap;
+
+}
+
+.floating-item:hover{
+
+background:#eff6ff;
+
+}
+
+/* =========================================
+   PACE REPORT 모바일 + 시니어 가독성 대응
+========================================= */
+
+@media (max-width:700px){
+
+    /* 전체 화면 */
+    body{
+        padding:12px !important;
+        padding-bottom:100px !important;
+        overflow-x:hidden;
+    }
+
+/* =========================
+   상단바 - basic-report와 동일
+========================= */
+
+.user-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 8px;
+    gap:6px;
+}
+
+.user-left{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    min-width:0;
+}
+
+.home-btn{
+    width:36px;
+    height:36px;
+    min-width:36px;
+    font-size:19px;
+    border-radius:10px;
+    flex-shrink:0;
+}
+
+.user-name{
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:80px;
+}
+
+.user-point{
+    font-size:14px;
+    padding:7px 10px;
+    white-space:nowrap;
+}
+
+.charge-btn{
+    padding:7px 9px;
+    font-size:14px;
+    flex-shrink:0;
+}
+
+.logout-top-btn{
+    padding:8px 10px;
+    font-size:13px;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+
+    /* =========================
+       전개 요약 카드
+    ========================= */
+
+    .summary-grid,
+    .pace-summary-grid{
+        grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+        gap:10px !important;
+    }
+
+    .summary-card,
+    .pace-summary-card{
+        min-width:0;
+        padding:15px 10px !important;
+    }
+
+
+    /* =========================
+       가로 FLEX 영역
+    ========================= */
+
+    .top-area,
+    .pace-top,
+    .pace-summary,
+    .race-summary{
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+
+    /* =========================
+       경주로 / 전개 시각화
+    ========================= */
+
+    .race-track,
+    .track-area,
+    .simulation-area,
+    .pace-track{
+        width:100% !important;
+        max-width:100% !important;
+        overflow-x:auto;
+    }
+
+
+    /* =========================
+       순위 및 분석 카드
+    ========================= */
+
+    .rank-grid,
+    .advantage-grid,
+    .pace-rank-grid{
+        grid-template-columns:
+        1fr !important;
+    }
+
+    .rank-card,
+    .advantage-card{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+
+    /* =========================
+       상세 분석표
+    ========================= */
+
+    .table-wrap{
+        width:100%;
+        max-width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .table-wrap table{
+        width:max-content;
+        min-width:900px;
+    }
+
+    th,
+    td{
+        white-space:nowrap;
+        font-size:15px;
+        padding:10px 12px;
+    }
+
+
+    /* =========================
+       AI 분석 글씨
+    ========================= */
+
+    .ai-comment,
+    .ai-comment-box,
+    .pace-comment,
+    .final-comment,
+    .opinion-box{
+        font-size:17px !important;
+        line-height:1.9 !important;
+    }
+
+
+    /* =========================
+       작은 설명 글씨 확대
+    ========================= */
+
+    .summary-desc,
+    .description,
+    .sub-text,
+    .pace-desc{
+        font-size:15px !important;
+        line-height:1.7;
+    }
+
+
+    /* =========================
+       하단 분석 메뉴
+    ========================= */
+
+    .analysis-tabs{
+        width:100%;
+        max-width:100%;
+        padding:10px 0;
+    }
+
+    .analysis-tab-btn{
+        min-width:0;
+        font-size:12px;
+    }
+
+    .tab-icon{
+        font-size:24px;
+        margin-bottom:5px;
+    }
+
+    .tab-text{
+        font-size:12px;
+    }
+}
+
+
+/* =========================================
+   아주 작은 스마트폰
+========================================= */
+
+@media (max-width:400px){
+
+    .user-name{
+        max-width:75px;
+        font-size:14px;
+    }
+
+    .user-point{
+        font-size:13px;
+        padding:6px 8px;
+    }
+
+    .logout-top-btn{
+        font-size:12px;
+        padding:7px 8px;
+    }
+
+    .summary-grid,
+    .pace-summary-grid{
+        grid-template-columns:1fr !important;
+    }
+}
+
+@media (max-width:700px){
+
+    /* 섹션 제목 */
+    .section-title{
+        font-size:20px !important;
+    }
+
+    /* 전개요약 4개 카드 */
+    .pace-card{
+        font-size:17px !important;
+    }
+
+    .pace-card strong{
+        font-size:18px !important;
+        line-height:1.5;
+    }
+
+    /* AI 전개 해석 */
+    .pace-analysis{
+        font-size:17px !important;
+        line-height:1.9 !important;
+    }
+
+    /* 일반 분석 본문 */
+    .analysis-box{
+        font-size:17px !important;
+        line-height:1.9 !important;
+    }
+}
 </style>
 
 </head>
@@ -1288,6 +1560,13 @@ z-index:9999;
     onclick="goPointLog()"
     >
     💰 999999P
+    </div>
+
+    <div
+    class="charge-btn"
+    onclick="goCharge()"
+    >
+    💳
     </div>
 
 </div>
@@ -1323,36 +1602,10 @@ setTimeout(resolve, ms)
 
 }
 
-function showAnalysisTab(tab){
-
-document
-.querySelectorAll(".analysis-section")
-.forEach(el=>{
-el.classList.remove("active");
-});
-
-document
-.querySelectorAll(".analysis-tab-btn")
-.forEach(el=>{
-el.classList.remove("active");
-});
-
-document
-.getElementById(`tab-${tab}`)
-.classList.add("active");
-
-document
-.getElementById(`btn-${tab}`)
-.classList.add("active");
-
-}
-
 async function loadUserInfo(){
 
     const token =
-    localStorage.getItem(
-        "token"
-    );
+    localStorage.getItem("token");
 
     if(!token){
         return;
@@ -1373,14 +1626,14 @@ async function loadUserInfo(){
     await res.json();
 
     document.getElementById(
-    "user-name"
+        "user-name"
     ).innerHTML =
     `👤 ${user.name}님`;
 
     document.getElementById(
-    "user-point"
+        "user-point"
     ).innerHTML =
-    `💰 ${user.point}P`;
+    `💰 ${Number(user.point).toLocaleString()}P`;
 
 }
 
@@ -1388,6 +1641,25 @@ async function loadAI(
     region,
     raceNo
 ) {
+
+    const feeRes =
+    await fetch(
+    "/fee-settings"
+    );
+
+    const feeData =
+    await feeRes.json();
+
+    paceFee =
+    feeData.find(
+    x=>x.item==="pace"
+    )?.point || 1000;
+
+    finalFee =
+    feeData.find(
+    x=>x.item==="total"
+    )?.point || 1500;
+
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -1516,720 +1788,82 @@ console.log(
 raceDate
 );
 
-console.log(
-"기본분석 URL",
-`/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
-);
+// =========================
+// 전개분석 화면 생성
+// =========================
 
-const basicRes = await fetch(
-`/user-basic-analysis/${r.지역}/${r.경주}/${raceDate}`
-);
+area.innerHTML = `
 
-const basicData =
-await basicRes.json();
-
-console.log(
-"basicData =",
-basicData
-);
-
-
-// =======================
-// 혈통분석 추가
-// =======================
-let bloodData = [];
-
-if(r.지역 !== "제주"){
-
-    const bloodRes = await fetch(
-    `/user-blood-analysis/${r.지역}/${r.경주}/${raceDate}`
-    );
-
-    bloodData =
-    await bloodRes.json();
-
-    alert(
-    "AIHTML VERSION 999"
-    );
-
-}
-
-console.log(
-"bloodData =",
-bloodData
-);
-
-console.log(
-"bloodData length =",
-bloodData.length
-);
-
-console.log(
-"bloodData length =",
-bloodData.length
-);
-
-let basicTable = "";
-let basicComment = "";
-let bloodComment = "";
-let bloodTable = "";
-console.log(
-"bloodData length before first forEach =",
-bloodData.length
-);
-
-// =======================
-// 기본분석
-// =======================
-
-basicData.forEach(h=>{
-
-    console.log(
-        "개별데이터",
-        h
-    );
-
-    let scoreClass = "";
-    let rankText = "";
-
-    if(h.점수 >= 100){
-
-        scoreClass = "score-top";
-        rankText = "🥇 유력";
-
-    }else if(h.점수 >= 70){
-
-        scoreClass = "score-good";
-        rankText = "🥈 주력";
-
-    }else if(h.점수 >= 50){
-
-        scoreClass = "score-mid";
-        rankText = "🥉 관심";
-
-    }else{
-
-        scoreClass = "score-low";
-        rankText = "관망";
-
-    }
-
-    basicTable += `
-    <tr>
-    <td>${h.번호}</td>
-    <td>${h.마명}</td>
-    <td>${h.성별}</td>
-    <td>${h.나이}</td>
-    <td>${h.통산전적}</td>
-    <td>${h.승률}</td>
-    <td>${h.기수승률}</td>
-    <td>${h.조교사승률}</td>
-    <td class="${scoreClass}">
-    ${h.점수}
-    </td>
-    </tr>
-    `;
-
-    basicComment += `
-    <div class="analysis-comment-card">
-    <h4>🐎 ${h.번호}번 ${h.마명}</h4>
-    <div class="score-badge">${h.점수}점</div>
-    <div class="comment-body">
-    ${h.코멘트 || "-"}
-    </div>
-    </div>
-    `;
-
-});
-
-
-// =======================
-// 혈통분석
-// =======================
-console.log(
-"bloodData before table =",
-bloodData
-);
-bloodData.forEach(h=>{
-
-    bloodTable += `
-    <tr>
-        <td>${h.번호}</td>
-        <td>${h.마명}</td>
-
-        <td>${h.도시지프로필 || "-"}</td>
-
-        <td>${h.DI}</td>
-        <td>${h.CD}</td>
-        <td>${h.근친}</td>
-
-        <td>${h.AWD || "-"}</td>
-        <td>${h.부AWD || "-"}</td>
-        <td>${h.모AWD || "-"}</td>
-        <td>${h.모부AWD || "-"}</td>
-
-        <td>${h.경주마특성 || "-"}</td>
-        <td>${h.거리적합 || "-"}</td>
-
-        <td>${h.점수}</td>
-    </tr>
-    `;
-
-    bloodComment += `
-    <div class="analysis-comment-card">
-
-    <h4>
-    🧬 ${h.번호}번 ${h.마명}
-    </h4>
-
-    <div class="score-badge">
-    ${h.점수}점
-    </div>
-
-    <div class="comment-body">
-    ${h.코멘트 || "-"}
-    </div>
-
-    </div>
-    `;
-});
-
-console.log(
-"bloodTable length=",
-bloodTable.length
-);
-
-console.log(
-bloodTable
-);
-
-alert(
-"bloodTable 길이 = " +
-bloodTable.length
-);
-
-console.log(
-"조회",
-r.지역,
-r.경주,
-r.경주일자
-);
-
-console.log(detailData);
-
-    area.innerHTML += `
-      <div style="background:white; padding:20px; margin-bottom:20px; border-radius:10px;">
-
-        <h3>${r.지역} ${r.경주}경주</h3>
-
-        
-
-        <h4>출전마 정보</h4>
-
-<div class="table-wrap">
-
-<table>
-
-<tr>
-
-<th>번호</th>
-<th>마명</th>
-<th>성별</th>
-<th>나이</th>
-<th>레이팅</th>
-<th>중량</th>
-<th>증감</th>
-<th>기수</th>
-<th>조교사</th>
-<th>마주</th>
-<th>조교횟수</th>
-<th>출전주기</th>
-
-</tr>
-
-${detailData.map(h=>`
-
-<tr>
-
-<td>${h.번호}</td>
-
-<td>
-
-<a
-class="info-pill"
-href="#"
-onclick="
-event.preventDefault();
-showHorseInfo(
-'${h.마명}'
-)
-"
->
-
-🐎 ${h.마명}
-
-</a>
-
-</td>
-
-<td>${h.성별 || "-"}</td>
-
-<td>${h.나이 || "-"}</td>
-
-<td>${h.레이팅 || "-"}</td>
-
-<td>${h.부담중량 || "-"}</td>
-
-<td>${h.증감 || "-"}</td>
-
-<td>
-
-<a
-class="info-pill"
-href="#"
-onclick="
-event.preventDefault();
-showJockeyInfo(
-'${h.기수}'
-)
-"
->
-
-🏇 ${h.기수 || "-"}
-
-</a>
-
-</td>
-
-<td>
-
-<a
-class="info-pill"
-href="#"
-onclick="
-event.preventDefault();
-showTrainerInfo(
-'${h.조교사}'
-)
-"
->
-
-👨‍🏫 ${h.조교사 || "-"}
-
-</a>
-
-</td>
-
-<td>${h.마주명 || "-"}</td>
-
-<td>${h.조교횟수 || "-"}</td>
-
-<td>${h.출전주기 || "-"}</td>
-
-</tr>
-
-`).join("")}
-
-</table>
-
-</div>
-
-<div class="analysis-tabs">
-
-<div
-id="btn-basic"
-class="analysis-tab-btn active"
-onclick="showAnalysisTab('basic')"
->
-<div class="tab-icon">📊</div>
-<div class="tab-text">기본분석</div>
-</div>
-
-<div
-id="btn-blood"
-class="analysis-tab-btn"
-onclick="showAnalysisTab('blood')"
->
-<div class="tab-icon">🧬</div>
-<div class="tab-text">혈통분석</div>
-</div>
-
-<div
-id="btn-pace"
-class="analysis-tab-btn"
-onclick="showAnalysisTab('pace')"
->
-<div class="tab-icon">🏇</div>
-<div class="tab-text">전개분석</div>
-</div>
-
-<div
-id="btn-final"
-class="analysis-tab-btn"
-onclick="showAnalysisTab('final')"
->
-<div class="tab-icon">🎯</div>
-<div class="tab-text">종합분석</div>
-</div>
-
-</div>
-
-<div id="tab-basic" class="analysis-section active">
-
-<h3>기본분석</h3>
+<h2>🏇 AI 전개분석</h2>
 
 <div class="analysis-box">
 
-<h4>
-📊 비교 테이블
-</h4>
+<h3>① AI 전개요약</h3>
+<div id="pace-summary-section">
 
-<div class="table-wrap">
-
-<table>
-
-<tr>
-
-<th>번호</th>
-<th>마명</th>
-
-<th>성별</th>
-<th>나이</th>
-
-<th>통산전적</th>
-
-<th>승률</th>
-
-<th>기수승률</th>
-
-<th>조교사승률</th>
-
-<th>점수</th>
-
-</tr>
-
-${basicTable}
-
-</table>
-
-</div>
-
-<br>
-
-<h4>
-📝 AI 코멘트
-</h4>
-
-${basicComment}
+<div id="pace-summary">
+    
+    분석중...</div>
 
 </div>
 
 </div>
-
-<div
-id="tab-blood"
-class="analysis-section"
->
-
-${
-r.지역 === "제주"
-
-?
-
-`
-
-<div class="locked-box">
-
-
-🧬 제주경마는
-원본 혈통 데이터가 제공되지 않아
-혈통분석을 지원하지 않습니다.
-
-</div>
-
-`
-
-:
-
-`
-<div class="locked-box pedigree-box">
-
-<div class="analysis-title">
-🧬 혈통분석
-</div>
-
-<div class="analysis-desc">
-
-📌 최적 거리 적성 분석<br>
-📌 DI · CD · 근친계수 평가<br>
-📌 선행형 · 추입형 혈통 분석<br>
-📌 성장형 · 조숙형 잠재력 확인<br>
-📌 혈통 기반 숨은 능력 진단<br>
-<hr>
-🏇 이 말은 어느 거리가 가장 유리한가?<br>
-🧬 혈통이 알려주는 숨은 적성은?<br>
-📈 성장 가능성과 잠재력 평가하면?<br>
-⚡ 스피드형 · 스태미나형 분석하면?<br>
-🎯 거리별 경쟁력 진단하면?
-
-</div>
-
-<button
-class="unlock-btn pedigree-btn"
-onclick="
-unlockPedigree(
-'${r.지역}',
-'${r.경주}'
-)
-">
-🧬 200P로 혈통분석열기
-</button>
-
-</div>
-
-<div
-id="pedigree-${r.지역}-${r.경주}"
-style="display:none;"
->
-
-<h4>🧬 혈통분석 비교표</h4>
-
-<div class="table-wrap">
-
-<table>
-
-<tr>
-
-<th>번호</th>
-<th>마명</th>
-
-<th>도시지</th>
-
-<th>DI</th>
-<th>CD</th>
-<th>근친</th>
-
-<th>AWD</th>
-<th>부AWD</th>
-<th>모AWD</th>
-<th>모부AWD</th>
-
-<th>주행습성</th>
-<th>거리적합</th>
-
-<th>점수</th>
-
-</tr>
-
-${bloodTable}
-
-</table>
-
-</div>
-
-<h4>
-📝 혈통분석 코멘트
-</h4>
-
-${bloodComment}
-
-
-</div>
-`
-  }
-
-</div>
-
-
-<div
-id="tab-pace"
-class="analysis-section"
->
-
-<div class="locked-box pace-box">
-
-<div class="analysis-title">
-🏇 전개분석
-</div>
-
-<div class="analysis-desc">
-
-📌 예상 선행마 분석<br>
-📌 전개 유리마 TOP3 선정<br>
-📌 레이스 흐름 시뮬레이션<br>
-📌 추입 성공 가능성 분석<br>
-📌 숨은 복병마 탐색<br>
 
 <hr>
 
-🚀 누가 선행을 잡을 것인가?<br>
-📈 전개 흐름 예측 시뮬레이션은?<br>
-🔥 전개 최대 수혜마 분석은?<br>
-⚠️ 전개 불리마 사전 경고!<br>
-🎯 복병 출현 가능성 탐색!
+<div class="analysis-box">
 
-</div>
+<h3>② 경주로 시각화</h3>
+<div id="race-svg-section">
 
-<button
-class="unlock-btn pace-btn"
-onclick="
-unlockPace(
-'${r.지역}',
-'${r.경주}',
-'${raceDate}'
-)
-">
-🏇 200P로 전개분석열기
-</button>
+<div id="race-svg">
+    
+    분석중...</div>
 
-</div>
-
-<div
-id="pace-analysis-${r.지역}-${r.경주}"
-style="display:none;"
->
 </div>
 
 </div>
 
-<div
-id="tab-final"
-class="analysis-section"
->
-
-<div class="locked-box total-box">
-
-<div class="analysis-title">
-🏆 종합분석
-</div>
-
-<div class="analysis-desc">
-
-📌 AI 최종 추천마 선정<br>
-📌 복병마 및 고배당 후보 탐색<br>
-📌 복승 · 복연승 추천조합 제공<br>
-📌 승식별 베팅 전략 제안<br>
-📌 AI 최종 결론 및 승부포인트<br>
 <hr>
-🥇 최종 추천마 TOP3는?<br>
-💎 숨은 복병마 발굴!<br>
-🎯 복승 · 복연승 추천조합은?<br>
-📊 AI 종합점수 기반 분석결과는?<br>
-🏆 최종 승부포인트 제공!
 
+<div class="analysis-box">
 
-</div>
+<h3>③ 전개 유불리 순위</h3>
+<div id="pace-ranking-section">
 
-<button
-class="unlock-btn total-btn"
-onclick="
-unlockFinal(
-'${r.지역}',
-'${r.경주}'
-)
-">
-👑 300P로 종합분석열기
-</button>
+<div id="pace-ranking">
+    
+    분석중...</div>
 
 </div>
 
-<div
-id="final-analysis-${r.지역}-${r.경주}"
-style="display:none;"
->
+</div>
 
-    <div class="top-area">
+<hr>
 
-        <div class="main-picks">
+<div class="analysis-box">
 
-            <div class="pick">
-                <div class="icon">★</div>
-                <div class="name">1순위</div>
-                <div class="num">${star}</div>
-            </div>
+<h3>④ 전개분석 상세표</h3>
+<div id="pace-detail-section">
 
-            <div class="pick">
-                <div class="icon">■</div>
-                <div class="name">2순위</div>
-                <div class="num">${square}</div>
-            </div>
+<div id="pace-detail">
+    
+    분석중...</div>
 
-            <div class="pick">
-                <div class="icon">□</div>
-                <div class="name">3순위</div>
-                <div class="num">${empty}</div>
-            </div>
+</div>
 
-            <div class="pick">
-                <div class="icon">▲</div>
-                <div class="name">4순위</div>
-                <div class="num">${up}</div>
-            </div>
+</div>
 
-            <div class="pick">
-                <div class="icon">△</div>
-                <div class="name">5순위</div>
-                <div class="num">${triangle}</div>
-            </div>
+<hr>
 
-        </div>
+<div class="analysis-box">
 
-        <div class="darkhorse">
+<h3>⑤ AI 최종 결론</h3>
+<div id="pace-final-section">
 
-            <div class="title">
-            복병마(W)
-            </div>
-
-            <div class="name">
-            추천
-            </div>
-
-            <div class="num">
-            ${r.darkhorse || "-"}
-            </div>
-
-        </div>
-
-    </div>
-
-    <table>
-
-        <tr>
-            <th>승식</th>
-            <th>추천마번</th>
-            <th>확률</th>
-            <th></th>
-        </tr>
-
-        <tr>
-            <td>단식</td>
-            <td>${r.single || "-"}</td>
-            <td>30%</td>
-            <td><span class="btn">더보기</span></td>
-        </tr>
-
-        <tr>
-            <td>복식</td>
-            <td>${r.double || "-"}</td>
-            <td>70%</td>
-            <td><span class="btn">더보기</span></td>
-        </tr>
-
-        <tr>
-            <td>쌍식</td>
-            <td>${r.triple || "-"}</td>
-            <td>11%</td>
-            <td><span class="btn">더보기</span></td>
-        </tr>
-
-        <tr>
-            <td>삼쌍식</td>
-            <td>${r.triple || "-"}</td>
-            <td>15%</td>
-            <td><span class="btn">더보기</span></td>
-        </tr>
-
-    </table>
+<div id="pace-final">
+    
+    분석중...</div>
 
 </div>
 
@@ -2237,9 +1871,17 @@ style="display:none;"
 
 `;
 
-  }
+await loadPaceAnalysis(
+    r.지역,
+    r.경주,
+    raceDate
+);
 
 }
+
+}
+
+
 
 const params =
 new URLSearchParams(
@@ -2266,56 +1908,49 @@ loadAI(
     raceNo
 );;
 
-async function unlockPedigree(
-region,
-raceNo
+let modalResolve = null;
+
+function showModal(
+title,
+message,
+icon="📌"
 ){
 
-    if(
-        !confirm(
-            "200P 사용 후 혈통분석을 열겠습니까?"
-        )
-    ){
-        return;
-    }
+    return new Promise(resolve=>{
 
-    const token =
-    localStorage.getItem(
-        "token"
-    );
+        modalResolve = resolve;
 
-    const res =
-    await fetch(
-        "/use-blood-analysis",
-        {
-            method:"POST",
-            headers:{
-                "Authorization":
-                `Bearer ${token}`
-            }
-        }
-    );
+        document.getElementById(
+        "modal-title"
+        ).innerHTML = title;
 
-    const data =
-    await res.json();
+        document.getElementById(
+        "modal-message"
+        ).innerHTML = message;
 
-    if(!res.ok){
+        document.getElementById(
+        "modal-icon"
+        ).innerHTML = icon;
 
-        alert(
-            data.detail ||
-            "포인트 부족"
-        );
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
 
-        return;
-    }
+    });
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
-    );
+}
+
+function closeModal(result){
 
     document.getElementById(
-        `pedigree-${region}-${raceNo}`
-    ).style.display = "block";
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+
+        modalResolve(result);
+
+    }
 
 }
 
@@ -2325,11 +1960,21 @@ raceNo,
 raceDate
 ){
 
-    if(
-        !confirm(
-            "200P 사용 후 전개분석을 열겠습니까?"
-        )
-    ){
+    const ok =
+    await showModal(
+
+        "전개분석",
+
+        `확인 버튼을 누르면
+        ${paceFee}P가 차감됩니다.`,
+
+        "🏇",
+
+        true
+
+    );
+
+    if(!ok){
         return;
     }
 
@@ -2355,17 +2000,63 @@ raceDate
 
     if(!res.ok){
 
-        alert(
+        await showModal(
+
+            "전개분석",
+
             data.detail ||
-            "포인트 부족"
+            "포인트 부족",
+
+            "❌",
+
+            false
+
         );
 
         return;
     }
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
-    );
+        await showModal(
+
+            "전개분석",
+
+            `${data.use_point}P 차감 완료
+
+            <div style="
+
+            margin:15px 0 20px 0;
+
+            padding:14px;
+
+            background:linear-gradient(
+            135deg,
+            #eff6ff,
+            #dbeafe
+            );
+
+            border-radius:14px;
+
+            font-weight:800;
+            font-size:17px;
+
+            color:#1e40af;
+
+            border-left:6px solid #2563eb;
+
+            ">
+
+            🏇 AI가 각 경주마의 주행습성을 바탕으로 이번 경주의 경주전개를 예상합니다. 
+
+            </div>
+
+            남은 포인트 :
+            ${data.remain_point}P`,
+
+            "🏇",
+
+            false
+
+        );
 
     const area =
     document.getElementById(
@@ -2374,8 +2065,16 @@ raceDate
 
     if(!area){
 
-        alert(
-            "전개분석 영역을 찾을 수 없음"
+        await showModal(
+
+            "전개분석",
+
+            "전개분석 영역을 찾을 수 없습니다.",
+
+            "❌",
+
+            false
+
         );
 
         return;
@@ -2390,7 +2089,7 @@ raceDate
 
 <div class="analysis-box">
 
-<h3>① AI 전개요약</h3>
+<h3>① AI 전개요약(후천적주행습성)</h3>
 
 <div id="pace-summary">
 분석중...
@@ -2465,14 +2164,25 @@ position:relative;
 
 async function unlockFinal(
     region,
-    raceNo
+    raceNo,
+    raceDate
 ){
 
-    if(
-        !confirm(
-            "300P 사용 후 종합분석을 열겠습니까?"
-        )
-    ){
+    const ok =
+    await showModal(
+
+        "종합분석",
+
+        `확인 버튼을 누르면
+        ${finalFee}P가 차감됩니다.`,
+
+        "🏆",
+
+        true
+
+    );
+
+    if(!ok){
         return;
     }
 
@@ -2498,29 +2208,68 @@ async function unlockFinal(
 
     if(!res.ok){
 
-        alert(
-            data.detail ||
-            "포인트 부족"
-        );
+    await showModal(
+
+        "종합분석",
+
+        data.detail ||
+        "포인트 부족",
+
+        "❌",
+
+        false
+
+    );
 
         return;
     }
 
-    alert(
-        `차감 완료\n잔여포인트 : ${data.remain_point}P`
+    await showModal(
+
+        "종합분석",
+
+        `${data.use_point}P 차감 완료
+
+        <div style="
+
+        margin:15px 0 20px 0;
+
+        padding:14px;
+
+        background:linear-gradient(
+        135deg,
+        #fff7ed,
+        #ffedd5
+        );
+
+        border-radius:14px;
+
+        font-weight:800;
+        font-size:17px;
+
+        color:#c2410c;
+
+        border-left:6px solid #f97316;
+
+        ">
+
+        🏆 AI가 기본분석 · 혈통분석 ·
+        전개분석을 통합 분석합니다.
+
+        </div>
+
+        남은 포인트 :
+        ${data.remain_point}P`,
+
+        "🏆",
+
+        false
+
     );
 
-    const target =
-    document.getElementById(
-        `final-analysis-${region}-${raceNo}`
-    );
-
-    if(target){
-        target.style.display =
-        "block";
+    window.location.href =
+    `/final-loading.html?region=${region}&raceNo=${raceNo}&raceDate=${raceDate}`;
     }
-
-}
 
 async function showHorseInfo(horseName){
 
@@ -3091,20 +2840,6 @@ background:#c7d2fe;
 
 }
 
-.analysis-comment-card{
-
-background:white;
-
-padding:15px;
-
-margin-bottom:15px;
-
-border-radius:10px;
-
-box-shadow:
-0 1px 4px rgba(0,0,0,.1);
-
-}
 
 .analysis-comment-card h4{
 
@@ -3114,53 +2849,6 @@ color:#1e3a8a;
 
 }
 
-.score-badge{
-
-display:inline-block;
-
-background:#2563eb;
-
-color:white;
-
-padding:5px 12px;
-
-border-radius:20px;
-
-font-weight:bold;
-
-margin-bottom:10px;
-
-}
-
-.comment-body{
-
-line-height:1.7;
-
-white-space:pre-line;
-
-}
-
-.score-top{
-background:#fef3c7;
-font-weight:bold;
-color:#92400e;
-}
-
-.score-good{
-background:#dbeafe;
-font-weight:bold;
-color:#1d4ed8;
-}
-
-.score-mid{
-background:#dcfce7;
-color:#166534;
-}
-
-.score-low{
-background:#f3f4f6;
-color:#6b7280;
-}
 
 .rank-badge{
 
@@ -3276,6 +2964,27 @@ font-weight:bold;
     text-align:center;
 
 }
+
+.analysis-comment{
+
+    margin:25px 0;
+
+    padding:18px;
+
+    background:#dbeafe;
+
+    border-left:6px solid #2563eb;
+
+    border-radius:16px;
+
+    color:#1e40af;
+
+    font-weight:700;
+
+    line-height:1.8;
+
+}
+
 </style>
 `;
 
@@ -5705,6 +5414,64 @@ function goHome(){
     location.href = "/";
 
 }
+
+function goCharge(){
+
+    location.href =
+    "charge.html";
+
+}
+
+function scrollToTop(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+function toggleFloatingMenu(){
+
+document
+.getElementById(
+"floatingList"
+)
+.classList.toggle(
+"show"
+);
+
+}
+
+function goSection(id){
+
+document
+.getElementById(id)
+.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+toggleFloatingMenu();
+
+}
+
+function scrollTopSmooth(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+
+}
 </script>
 
 <div
@@ -5755,5 +5522,132 @@ font-size:20px;
 </div>
 
 </div>
+
+<div id="custom-modal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <div
+        id="modal-icon"
+        class="modal-icon"
+        >
+        🧬
+        </div>
+
+        <div
+        id="modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="floating-nav">
+
+<button
+class="floating-btn"
+onclick="scrollTopSmooth()"
+>
+
+⬆
+
+</button>
+
+</div>
+
+<div class="floating-menu">
+
+<div
+id="floatingList"
+class="floating-list"
+>
+
+<div
+class="floating-item"
+onclick="goSection('pace-summary-section')"
+>
+
+🏇 전개 요약
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('race-svg-section')"
+>
+
+🗺 경주로 시각화
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('pace-ranking-section')"
+>
+
+📊 전개 유불리 순위
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('pace-detail-section')"
+>
+
+📋 전개 상세표
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('pace-final-section')"
+>
+
+🏆 AI 최종 결론
+
+</div>
+
+</div>
+
+<button
+class="floating-btn"
+onclick="toggleFloatingMenu()"
+>
+
+≡
+
+</button>
+
+</div>
+
 </body>
+
 </html>

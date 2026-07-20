@@ -52,11 +52,11 @@ body { margin:0; font-family:Arial; background:#f4f6f8; }
 }
 
 /* 카드 */
-.card {
+.card{
   background:white;
-  padding:20px;
+  padding:15px;
   border-radius:10px;
-  margin-bottom:20px;
+  margin-bottom:15px;
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
@@ -140,7 +140,7 @@ th{
 
 td{
 
-padding:10px;
+padding:4px;
 
 text-align:center;
 
@@ -211,18 +211,31 @@ tr:nth-child(even) {
   color: white;
 }
 
-  .admin-table input{
+.admin-table input{
+
     width:100%;
-    padding:6px;
+
+    height:30px !important;
+
+    margin:0 !important;
+
+    padding:4px 8px;
+
     border:1px solid #ddd;
     border-radius:6px;
+
     font-size:13px;
 }
 
 .admin-table button{
-    padding:6px 10px;
+
+    height:34px;
+
+    padding:4px 10px;
+
     border:none;
     border-radius:6px;
+
     cursor:pointer;
 }
 
@@ -416,16 +429,380 @@ tr:nth-child(even) {
     border-collapse:collapse;
     table-layout:auto;
 }
+
+.admin-table input{
+
+    height:30px !important;
+
+    padding:0 8px !important;
+
+    margin:0 !important;
+
+    font-size:13px;
+}
+
+.admin-table td{
+
+    padding:4px 6px !important;
+}
+
+.admin-table input[type="checkbox"]{
+
+    width:18px !important;
+    height:18px !important;
+
+    margin:0 auto !important;
+
+    transform:scale(0.9);
+}
+
+/* =========================
+종합분석 헤더
+========================= */
+
+.final-header{
+
+    background:
+    linear-gradient(
+    135deg,
+    #1e3a8a,
+    #2563eb
+    );
+
+    color:white;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.15);
+
+}
+
+.final-title{
+
+    font-size:42px;
+
+    font-weight:900;
+
+    margin-bottom:10px;
+
+}
+
+.final-sub{
+
+    font-size:18px;
+
+    opacity:.9;
+
+    margin-bottom:10px;
+
+}
+
+.final-confidence{
+
+    display:inline-block;
+
+    padding:10px 18px;
+
+    background:
+    rgba(255,255,255,.15);
+
+    border-radius:999px;
+
+    font-weight:bold;
+
+}
+
+.top3-preview{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+.top-card{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:
+    0 4px 15px
+    rgba(0,0,0,.08);
+
+}
+
+.top-rank{
+
+    font-size:42px;
+
+    margin-bottom:10px;
+
+}
+
+.top-score{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#2563eb;
+
+}
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+    width:100%;
+
+}
+
+.final-analysis-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.analysis-modal{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:
+rgba(0,0,0,0.6);
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+.analysis-modal-content{
+
+width:90%;
+max-width:700px;
+
+max-height:85vh;
+
+overflow-y:auto;
+
+background:white;
+
+border-radius:20px;
+
+padding:20px;
+
+box-shadow:
+0 10px 40px
+rgba(0,0,0,0.3);
+
+}
+
+.analysis-modal-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:20px;
+
+font-size:24px;
+font-weight:bold;
+
+}
+
+.analysis-close{
+
+border:none;
+
+background:#ef4444;
+
+color:white;
+
+padding:8px 12px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
+
+.analysis-modal-body{
+
+line-height:1.8;
+
+font-size:15px;
+
+white-space:auto;
+
+}
+
+.success{
+
+width:100%;
+
+margin-top:10px;
+
+padding:14px;
+
+border:none;
+
+border-radius:6px;
+
+background:#16a34a;
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.success:hover{
+
+background:#15803d;
+
+}
+
+/* ===========================
+   ICON PICKER
+=========================== */
+
+.icon-picker{
+
+    position:fixed;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:14px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.18);
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(8,1fr);
+
+    gap:10px;
+
+    z-index:99999;
+
+    width:420px;
+
+    max-height:320px;   /* 추가 */
+
+    overflow-y:auto;    /* 추가 */
+
+}
+
+.icon-item{
+
+    width:42px;
+
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.icon-item:hover{
+
+    background:#eef4ff;
+
+    transform:scale(1.15);
+
+}
 </style>
 </head>
 
 <body>
+<div
+id="analysis-modal"
+class="analysis-modal"
+style="display:none;"
+>
+
+<div class="analysis-modal-content">
+
+<div class="analysis-modal-header">
+
+<span id="analysis-title">
+분석결과
+</span>
+
+<button
+class="analysis-close"
+onclick="closeAnalysisModal()"
+>
+✖
+</button>
+
+</div>
+
+<div
+id="analysis-body"
+class="analysis-modal-body"
+>
+</div>
+
+</div>
+
+</div>
 
 <div id="admin-login">
 
     <div class="login-card">
 
-        <h2>관리자 로그인TEST 계정 admin//1111</h2>
+        <h2>관리자 로그인</h2>
 
         <input
             id="admin-email"
@@ -447,6 +824,8 @@ tr:nth-child(even) {
 
 </div>
 
+
+
 <div class="admin" id="admin-main" style="display:none;">
 
   <!-- 사이드바 -->
@@ -457,8 +836,11 @@ tr:nth-child(even) {
     <button onclick="showPage('analysis')">🧠 분석 관리</button>
     <button onclick="showPage('users')">👤 회원 관리</button>
     <button onclick="showPage('race')">🏇 경주정보</button>
+    <button onclick="showPage('fee')">💰 이용상품관리</button>
+    <button onclick="showPage('charge')">💳 충전관리</button>
     <button onclick="showPage('design')">🎨 디자인관리</button>
     <hr>
+    <button onclick="showPage('password')">⚙️ 보안설정</button>
     <button onclick="logout()">🚪 로그아웃</button>
   </div>
 
@@ -468,12 +850,454 @@ tr:nth-child(even) {
 </div>
 
 <script>
-let raceData = [];
 
+// =========================
+// 종합분석 데이터
+// =========================
+let finalData = [];
+
+// =========================
+// 아이콘 목록
+// =========================
+const ICONS = [
+
+    // ===== 경마 =====
+    "🏇","🐎","🐴","🎽","🏟️","🏆","🥇","🥈","🥉","🎖️","🏅",
+
+    // ===== AI / 분석 =====
+    "🤖","🧠","💡","✨","🚀","⭐","🌟","💎","👑","🔮","🎲","🪄",
+
+    // ===== 데이터 / 문서 =====
+    "📊","📈","📉","📋","📌","📍","📝","📚","📖","📂","🗂️","🔍","🔎",
+
+    // ===== 혈통 / 자연 =====
+    "🧬","🧪","🧫","🧩","🌳","🌱","🍀",
+
+    // ===== 효과 / 상태 =====
+    "⚡","🔥","💥","🌪️","💨","🌊","🛡️","💪","🏃","🎯",
+
+    // ===== 돈 =====
+    "💰","💵","💴","💳","🪙","💸","📦","🎁",
+
+    // ===== 하트 =====
+    "❤️","💙","💚","💛","🧡","💜","🤍","🩶","🖤","🤎","❤️‍🔥","❤️‍🩹",
+
+    // ===== 체크 / 색상 =====
+    "✅","☑️","✔️","❌","❎","⭕",
+    "🔴","🟠","🟡","🟢","🔵","🟣","⚪","⚫","🟤",
+
+    // ===== 경고 / 보안 =====
+    "⚠️","🚨","⛔","🚫","🔒","🔓","🔐","🛑",
+
+    // ===== IT =====
+    "📱","💻","🖥️","⌨️","🖱️","🖨️","📡","🌐","☁️","💾","💿","📀","🔌",
+
+    // ===== 도구 =====
+    "🛠️","🔧","🔨","⚙️","🧰","🧹","🐛","🔄","🔁","🔃",
+
+    // ===== 시간 =====
+    "⏳","⌛","🕒","🕓","🕔","🕕","🕖","🕗","🕘","🕙","🕚","🕛",
+
+    // ===== 사람 =====
+    "🏠","👤","👥","📞","📩","✉️","📧","📣","🔔","📢",
+
+    // ===== 날씨 =====
+    "🌞","🌤️","⛅","🌥️","🌧️","⛈️","🌈","🌙",
+
+    // ===== 이벤트 =====
+    "🎉","🎊","🎈","🍾","🥂","🎂","🌸","🌺","🌻","🌹",
+
+    // ===== 방향 =====
+    "⬆️","⬇️","⬅️","➡️","↗️","↘️","↙️","↖️","↔️","↕️",
+
+    // ===== 숫자 =====
+    "0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟",
+
+    // ===== 도형 =====
+    "🔹","🔸","🔺","🔻","🔶","🔷","♦️","◼️","◻️","◾","◽",
+
+    // ===== 없음 =====
+    ""
+
+];
 // =========================
 // 페이지 전환
 // =========================
+let raceData = [];
 function showPage(page) {
+  // =========================
+  // 관리자비밀번호변경
+  // =========================
+  if(page==="password"){
+
+  document.getElementById(
+  "content"
+  ).innerHTML = `
+
+  <div class="card">
+
+  <h2>
+  🔐 관리자 비밀번호 변경
+  </h2>
+
+  <input
+  type="password"
+  id="current-password"
+  placeholder="현재 비밀번호"
+  >
+
+  <input
+  type="password"
+  id="new-password"
+  placeholder="새 비밀번호"
+  >
+
+  <input
+  type="password"
+  id="confirm-password"
+  placeholder="새 비밀번호 확인"
+  >
+
+  <button
+  class="main"
+  onclick="changeAdminPassword()"
+  >
+
+  비밀번호 변경
+
+  </button>
+
+  </div>
+
+  `;
+
+document.getElementById(
+"content"
+).innerHTML = `
+
+<div class="card">
+
+<h2>
+🔐 관리자 비밀번호 변경
+</h2>
+
+<input
+type="password"
+id="current-password"
+placeholder="현재 비밀번호"
+>
+
+<input
+type="password"
+id="new-password"
+placeholder="새 비밀번호"
+>
+
+<input
+type="password"
+id="confirm-password"
+placeholder="새 비밀번호 확인"
+>
+
+<button
+class="main"
+onclick="changeAdminPassword()"
+>
+
+비밀번호 변경
+
+</button>
+
+</div>
+
+<!-- 여기부터 추가 -->
+
+<div class="card">
+
+<h2>
+📱 텔레그램 알림 설정
+</h2>
+
+<input
+type="text"
+id="telegram_chat_id"
+placeholder="관리자 Chat ID"
+>
+
+<button
+class="main"
+onclick="saveTelegramSetting()"
+>
+
+저장
+
+</button>
+
+<button
+class="success"
+onclick="testTelegram()"
+>
+
+테스트 메세지
+
+</button>
+
+</div>
+
+`;
+
+loadTelegramSetting();
+
+}
+  // =========================
+  // 이용상품관리
+  // =========================
+  if(page==="fee"){
+
+  document.getElementById("content").innerHTML=`
+
+  <div class="card">
+
+  <h2>💰 이용상품관리</h2>
+
+  <table>
+
+  <thead>
+
+  <tr>
+  <th>항목</th>
+  <th>금액</th>
+  <th>저장</th>
+  </tr>
+
+  </thead>
+
+  <tbody id="fee-table">
+
+  </tbody>
+
+  </table>
+
+  </div>
+
+  `;
+
+  loadFeeSettings();
+
+  }
+  // =========================
+  // 충전
+  // =========================
+  if(page==="charge"){
+
+  document.getElementById(
+  "content"
+  ).innerHTML = `
+
+  <div class="card">
+
+  <h2>🏦 입금계좌 관리</h2>
+
+  <table class="admin-table">
+
+  <tr>
+
+  <th>은행명</th>
+  <th>계좌번호</th>
+  <th>예금주</th>
+  <th>관리</th>
+
+  </tr>
+
+  <tr>
+
+  <td>
+  <input
+  id="bank_name"
+  value="농협은행"
+  >
+  </td>
+
+  <td>
+  <input
+  id="account_number"
+  value="123-456-789012"
+  >
+  </td>
+
+  <td>
+  <input
+  id="account_holder"
+  value="알마고"
+  >
+  </td>
+
+  <td>
+
+  <button
+  class="btn btn-admin"
+  onclick="saveChargeAccount()"
+  >
+  저장
+  </button>
+
+  </td>
+
+  </tr>
+
+  </table>
+
+  </div>
+
+  <div class="card">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+">
+
+    <h2 style="margin:0;">
+        📦 충전금액관리
+    </h2>
+
+    <button
+        class="btn btn-premium"
+        onclick="showNewChargeSetting()"
+        style="
+        padding:10px 18px;
+        font-size:15px;
+        "
+    >
+        ➕ 상품 추가
+    </button>
+
+</div>
+
+<!-- 새 상품 입력 영역 -->
+<div
+id="new-charge-setting"
+style="display:none;"
+>
+
+<table class="admin-table">
+
+<tr>
+
+<td>
+<input
+id="new-charge-name"
+placeholder="상품명"
+>
+</td>
+
+<td>
+<input
+id="new-charge-point"
+type="number"
+placeholder="포인트"
+>
+</td>
+
+<td>
+<input
+id="new-charge-price"
+type="number"
+placeholder="금액"
+>
+</td>
+
+<td>
+<input
+id="new-charge-active"
+type="checkbox"
+checked
+>
+</td>
+
+<td>
+
+<button
+class="btn btn-premium"
+onclick="addChargeSetting()"
+>
+추가
+</button>
+
+<button
+class="btn"
+onclick="hideNewChargeSetting()"
+>
+취소
+</button>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>상품명</th>
+<th>포인트</th>
+<th>금액</th>
+<th>사용</th>
+<th>관리</th>
+
+</tr>
+
+  </thead>
+
+  <tbody id="charge-setting-list">
+
+  </tbody>
+
+  </table>
+
+  </div>
+
+  <div class="card">
+
+  <h2>💳 충전신청 내역</h2>
+
+  <table>
+
+  <thead>
+  <tr>
+  <th>신청일</th>
+  <th>회원</th>
+  <th>입금자</th>
+  <th>상품</th>
+  <th>포인트</th>
+  <th>금액</th>
+  <th>상태</th>
+  <th>관리</th>
+  </tr>
+  </thead>
+
+  <tbody id="charge-table">
+  </tbody>
+
+  </table>
+
+  </div>  
+
+  `;
+
+  loadChargeRequests();
+  loadChargeSettings();
+  loadChargeAccount();
+
+  }
+
   if (page === 'dashboard') {
     document.getElementById("content").innerHTML = `
 
@@ -499,7 +1323,7 @@ function showPage(page) {
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">금일탈퇴</div>
+      <div class="stat-title">금일탈퇴(준비중)</div>
       <div class="stat-value" id="today-leave-count">0</div>
     </div>
 
@@ -524,17 +1348,17 @@ function showPage(page) {
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">일권결제</div>
+      <div class="stat-title">일권결제(준비중)</div>
       <div class="stat-value" id="day-payment-count">0</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">주권결제</div>
+      <div class="stat-title">주권결제(준비중)</div>
       <div class="stat-value" id="week-payment-count">0</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">월권결제</div>
+      <div class="stat-title">월권결제(준비중)</div>
       <div class="stat-value" id="month-payment-count">0</div>
     </div>
 
@@ -559,17 +1383,17 @@ function showPage(page) {
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">일권매출</div>
+      <div class="stat-title">일권매출(준비중)</div>
       <div class="stat-value" id="day-sales">0원</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">주권매출</div>
+      <div class="stat-title">주권매출(준비중)</div>
       <div class="stat-value" id="week-sales">0원</div>
     </div>
 
     <div class="stat-box">
-      <div class="stat-title">월권매출</div>
+      <div class="stat-title">월권매출(준비중)</div>
       <div class="stat-value" id="month-sales">0원</div>
     </div>
 
@@ -606,6 +1430,7 @@ function showPage(page) {
     setTimeout(() => {
     loadAdmins();
     loadUsers();
+    loadDashboardStats();
     }, 0);
   }
 
@@ -746,7 +1571,13 @@ document.getElementById("content").innerHTML = `
 
         <input id="new-name" placeholder="버튼명">
 
-        <input id="new-icon" placeholder="아이콘">
+        <input
+        id="new-icon"
+        class="icon-input"
+        placeholder="아이콘"
+        readonly
+        onclick="openIconPicker(this)"
+        >
 
         <input id="new-desc" placeholder="설명">
 
@@ -785,6 +1616,8 @@ document.getElementById("content").innerHTML = `
 </div>
 
 `;
+
+
 
 loadDesignMenus();
 }
@@ -1080,8 +1913,8 @@ html=`
 <th>
 저장
 <br>
-<button onclick="saveAllBasicAnalysis()">
-전체저장
+<button onclick="saveAllAnalysis()">
+💾 전체 분석 저장
 </button>
 </th>
 </tr>
@@ -1094,13 +1927,9 @@ html=`
 </table>
 
 `;
-
-setTimeout(
-loadBasicAnalysisTable,
-0
-);
-
 }
+
+
 
 if(tab==="blood"){
 
@@ -1143,14 +1972,6 @@ onclick="saveAllBloodAnalysis()"
 
 }
 
-document.getElementById(
-"analysis-tab-content"
-).innerHTML=html;
-
-if(tab==="blood"){
-    loadBloodAnalysisTable();
-}
-
 if(tab==="pace"){
 
 html=`
@@ -1188,38 +2009,59 @@ html=`
 
 }
 
-
-
 if(tab==="final"){
 
 html=`
 
-<h3>🏆 종합분석</h3>
+<div class="final-header">
 
-<table>
+    <div class="final-title">
+    🏆 AI 프리미엄 종합분석
+    </div>
+
+    <div class="final-sub">
+    종합분석 결과 관리
+    </div>
+
+    <div class="final-confidence">
+    AI Analysis Center
+    </div>
+
+</div>
+
+<input
+type="file"
+id="final-file"
+accept=".xlsx"
+>
+
+<button
+onclick="uploadFinalAnalysis()"
+>
+종합분석 업로드
+</button>
+
+<div class="table-wrapper">
+
+<table class="final-analysis-table">
 
 <thead>
+
 <tr>
-
 <th>지역</th>
-<th>경주번호</th>
-<th>날짜</th>
+<th>경주</th>
+<th>순위</th>
+<th>번호</th>
+<th>마명</th>
+<th>종합점수</th>
 
-<th>★</th>
-<th>■</th>
-<th>□</th>
-<th>▲</th>
-<th>△</th>
-
-<th>복병마</th>
-
-<th>단식</th>
-<th>복식</th>
-<th>쌍식</th>
-
-<th>저장</th>
+<th>📊능력</th>
+<th>🧬혈통</th>
+<th>📈순위</th>
+<th>🤖AI</th>
 
 </tr>
+
 </thead>
 
 <tbody id="analysis-table">
@@ -1227,28 +2069,34 @@ html=`
 
 </table>
 
-`;
+</div>
 
-setTimeout(
-loadAnalysisTable,
-0
-);
+`;
 
 }
 
 document.getElementById(
 "analysis-tab-content"
-).innerHTML=html;
+).innerHTML = html;
 
 if(tab==="basic"){
-    loadBasicAnalysisTable();
+loadBasicAnalysisTable();
+}
+
+if(tab==="blood"){
+loadBloodAnalysisTable();
 }
 
 if(tab==="pace"){
-    loadPaceAnalysisTable();
+loadPaceAnalysisTable();
+}
+
+if(tab==="final"){
+loadFinalAnalysisTable();
 }
 
 }
+
 
 // =========================
 // 조교사 업로드
@@ -1432,6 +2280,81 @@ async function deleteSidebarMenu(id) {
     const data = await res.json();
     alert(data.detail);
   }
+}
+// =========================
+// 이용요금관리
+// =========================
+async function loadFeeSettings(){
+
+    const res =
+    await fetch(
+        "/fee-settings"
+    );
+
+    const data =
+    await res.json();
+
+    const tbody =
+    document.getElementById(
+        "fee-table"
+    );
+
+    tbody.innerHTML = "";
+
+    data.forEach(r=>{
+
+        let name = r.item;
+
+        if(r.item==="basic"){
+            name = "기본분석";
+        }
+
+        if(r.item==="blood"){
+            name = "혈통분석";
+        }
+
+        if(r.item==="pace"){
+            name = "전개분석";
+        }
+
+        if(r.item==="total"){
+            name = "종합분석";
+        }
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>${name}</td>
+
+            <td>
+
+                <input
+                id="fee-${r.item}"
+                value="${r.point}"
+                >
+
+            </td>
+
+            <td>
+
+                <button
+                class="btn btn-admin"
+                onclick="saveFee('${r.item}')"
+                >
+
+                저장
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
 }
 
 // =========================
@@ -2606,54 +3529,144 @@ async function saveAnalysis() {
 
   alert("저장 완료");
 }
+
+function openAnalysisModal(
+title,
+content
+){
+
+document.getElementById(
+"analysis-title"
+).innerText = title;
+
+document.getElementById(
+"analysis-body"
+).innerHTML = content;
+
+document.getElementById(
+"analysis-modal"
+).style.display =
+"flex";
+
+}
+
+function closeAnalysisModal(){
+
+document.getElementById(
+"analysis-modal"
+).style.display =
+"none";
+
+}
+
 // =========================
 // 분석관리
 // =========================
-async function loadAnalysisTable() {
-  const token = localStorage.getItem("token");
+async function loadFinalAnalysisTable(){
 
-  const res = await fetch("/analysis-table", {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
-  });
+const token =
+localStorage.getItem("token");
 
-  const data = await res.json();
-
-  const table = document.getElementById("analysis-table");
-  table.innerHTML = "";
-
-  data.forEach(row => {
-    table.innerHTML += `
-      <tr>
-        <td>${row.지역}</td>
-        <td>${row.경주}</td>
-        <td>${row.경주일자}</td>
-
-        <td><input id="star_${row.id}" value="${row.star || ''}"></td>
-        <td><input id="square_${row.id}" value="${row.square || ''}"></td>
-        <td><input id="empty_${row.id}" value="${row.empty || ''}"></td>
-        <td><input id="up_${row.id}" value="${row.up || ''}"></td>
-        <td><input id="triangle_${row.id}" value="${row.triangle || ''}"></td>
-        <td><input id="dark_${row.id}" value="${row.darkhorse || ''}"></td>
-
-        <td><input id="single_${row.id}" value="${row.single || ''}"></td>
-        <td><input id="double_${row.id}" value="${row.double || ''}"></td>
-        <td><input id="triple_${row.id}" value="${row.triple || ''}"></td>
-
-        <td>
-          <button onclick="saveAnalysisRow(${row.id}, '${row.지역}', ${row.경주}, '${row.경주일자}')">
-            저장
-          </button>
-        </td>
-      </tr>
-    `;
-  });
+const res =
+await fetch(
+"/final-analysis-table",
+{
+headers:{
+Authorization:
+"Bearer " + token
 }
+}
+);
+
+const data =
+await res.json();
+
+finalData = data;
+
+const table =
+document.getElementById(
+"analysis-table"
+);
+
+table.innerHTML="";
+
+data.forEach(row=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${row.지역}</td>
+<td>${row.경주번호}</td>
+<td>${row.예상순위}</td>
+<td>${row.번호}</td>
+<td>${row.마명}</td>
+<td>${row.종합점수}</td>
+
+<td>
+<button
+class="info-btn"
+onclick="showAbility(${row.id})"
+>
+📊
+</button>
+</td>
+
+<td>
+<button
+class="info-btn"
+onclick="showBlood(${row.id})"
+>
+🧬
+</button>
+</td>
+
+<td>
+<button
+class="info-btn"
+onclick="showRank(${row.id})"
+>
+📈
+</button>
+</td>
+
+<td>
+<button
+class="info-btn"
+onclick="showAI(${row.id})"
+>
+🤖
+</button>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function showAIInfo(id){
+
+alert(
+"여기에 강점, 약점, 종합코멘트가 표시됩니다."
+);
+
+}
+
 // =========================
 // 행저장
 // =========================
 async function saveAnalysisRow(id, region, race_no, race_date) {
+
+    console.log(
+    "AI 저장",
+    region,
+    race_no,
+    race_date
+);
+
   const data = {
     region: region,
     race_no: race_no,
@@ -2865,9 +3878,13 @@ data
 
     <td>
         <input
-            value="${m.icon}"
-            id="icon-${m.id}"
-            style="width:60px">
+        value="${m.icon}"
+        id="icon-${m.id}"
+        class="icon-input"
+        style="width:60px"
+        readonly
+        onclick="openIconPicker(this)"
+        >
     </td>
 
     <td>
@@ -3045,6 +4062,8 @@ races.sort(
 
 races.forEach(r=>{
 
+console.log("경주목록", races);
+
 const dateText =
 String(r.날짜).split(" ")[0];
 
@@ -3068,6 +4087,11 @@ ${r.경주}경주
 if(races.length>0){
 
 select.selectedIndex=0;
+
+console.log(
+    "선택값",
+    select.value
+);
 
 loadRaceDetail();
 
@@ -3147,7 +4171,7 @@ let html=`
 
 <th>번호</th>
 <th>마명</th>
-<th>마중</th>
+<th>마종</th>
 <th>성별</th>
 <th>연령</th>
 
@@ -3190,7 +4214,16 @@ ${item.경주일자?.replace(
 
 <td>${item.번호 || "-"}</td>
 <td>${item.마명 || ""}</td>
-<td>${item.체중 || ""}</td>
+<td>${
+    item.마종 ||
+    (
+        item.지역 === "서울" ||
+        item.지역 === "부산경남" ||
+        item.지역 === "부산"
+            ? "더러브렛"
+            : ""
+    )
+}</td>
 <td>${item.성별 || ""}</td>
 <td>${item.나이 || ""}</td>
 
@@ -4803,19 +5836,37 @@ if(!silent){
 }
 
 
-async function saveAllBasicAnalysis(){
+async function saveAllBasicAnalysis(
+    silent = false
+){
 
     const buttons =
     document.querySelectorAll(
         ".basic-save-btn"
     );
 
+    console.log("버튼 개수 :", buttons.length);
+
+    buttons.forEach(btn=>{
+        console.log(
+            btn.dataset.region,
+            btn.dataset.race,
+            btn.dataset.date
+        );
+    });
+
     if(buttons.length === 0){
-        alert("저장할 경주가 없습니다");
+
+        if(!silent){
+            alert("저장할 경주가 없습니다");
+        }
+
         return;
+
     }
 
     if(
+        !silent &&
         !confirm(
             `${buttons.length}개 경주를 전체 저장할까?`
         )
@@ -4823,7 +5874,18 @@ async function saveAllBasicAnalysis(){
         return;
     }
 
-    for(const btn of buttons){
+    for(
+
+        let i=0;
+
+        i<buttons.length;
+
+        i++
+
+    ){
+
+        const btn =
+        buttons[i];
 
         const region =
         btn.dataset.region;
@@ -4841,6 +5903,33 @@ async function saveAllBasicAnalysis(){
             raceDate
         );
 
+        updateSaveProgress(
+
+            Math.round(
+                ((i+1)/buttons.length)*33
+            ),
+
+            `기본분석 저장중...
+
+        ${region}
+        ${raceNo}경주
+
+        (${i+1}/${buttons.length})`
+
+        );        
+
+        updateSaveCount(
+
+            i+1,
+
+            buttons.length,
+
+            region,
+
+            raceNo
+
+        );
+
         await loadBasicCompare(
             region,
             raceNo,
@@ -4855,32 +5944,42 @@ async function saveAllBasicAnalysis(){
         );
     }
 
-    alert("전체 저장 완료");
+    if(!silent){
+        alert("전체 저장 완료");
+    }
 }
 
-async function saveAllBloodAnalysis(){
+// =========================
+// AI 전체저장
+// =========================
+async function saveAllAIAnalysis(
+    silent=false
+){
 
     const buttons =
-    document.querySelectorAll(
-        ".blood-save-btn"
-    );
+    document.querySelectorAll(".basic-save-btn");
 
-    if(buttons.length === 0){
+    console.log("===== AI 저장 =====");
+    console.log("AI 버튼 개수 =", buttons.length);
 
-        alert("저장할 혈통분석이 없습니다");
+    if(buttons.length===0){
+
         return;
 
     }
 
-    if(
-        !confirm(
-            `${buttons.length}개 경주 혈통분석을 전체 저장할까?`
-        )
+    for(
+
+        let i=0;
+
+        i<buttons.length;
+
+        i++
+
     ){
-        return;
-    }
 
-    for(const btn of buttons){
+        const btn =
+        buttons[i];
 
         const region =
         btn.dataset.region;
@@ -4891,21 +5990,166 @@ async function saveAllBloodAnalysis(){
         const raceDate =
         btn.dataset.date;
 
-        // 제주 제외
-        if(region === "제주"){
-
-            console.log(
-                "제주 혈통분석 제외"
-            );
-
-            continue;
-        }
-
         console.log(
-            "혈통 전체저장:",
+            "AI 저장 대상:",
             region,
             raceNo,
             raceDate
+        );        
+
+        updateSaveProgress(
+
+            90 +
+
+            Math.round(
+
+                ((i+1)/buttons.length)*10
+
+            ),
+
+            `AI 저장중...
+
+        ${region}
+        ${raceNo}경주
+
+        (${i+1}/${buttons.length})`
+
+                );
+
+        const res =
+        await fetch(
+            `/analysis-auto/${region}/${raceNo}/${raceDate}`
+        );
+
+        console.log(
+            "analysis-auto 상태:",
+            res.status
+        );
+
+    const ai =
+    await res.json();
+
+    console.log(
+        "AI 데이터:",
+        ai
+    );
+
+        console.log("AI 데이터 =", ai);
+        console.log("analysis-save 호출");
+
+        const saveRes =
+        await fetch(
+
+            "/analysis-save",
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":"application/json"
+
+                },
+
+                body:JSON.stringify({
+
+                    region:region,
+
+                    race_no:raceNo,
+
+                    race_date:raceDate,
+
+                    ...ai
+
+                })
+
+            }
+
+        );
+
+        console.log(
+            "analysis-save 결과:",
+            saveRes.status
+        );
+
+    if(!silent){
+
+        alert("AI 저장 완료");
+
+    }
+
+}
+
+}
+
+async function saveAllBloodAnalysis(
+    silent = false
+){
+
+    const buttons =
+    document.querySelectorAll(
+        ".blood-save-btn"
+    );
+
+    if(buttons.length === 0){
+
+        if(!silent){
+            alert("저장할 혈통분석이 없습니다.");
+        }
+
+        return;
+
+    }
+
+    if(
+        !silent &&
+        !confirm(
+            `${buttons.length}개 경주를 전체 저장할까?`
+        )
+    ){
+        return;
+    }
+
+    for(
+        let i = 0;
+        i < buttons.length;
+        i++
+    ){
+
+        const btn =
+        buttons[i];
+
+        const region =
+        btn.dataset.region;
+
+        const raceNo =
+        Number(btn.dataset.race);
+
+        const raceDate =
+        btn.dataset.date;
+
+        if(region === "제주"){
+
+            console.log("제주 혈통분석 제외");
+            continue;
+
+        }
+
+        updateSaveProgress(
+
+            33 +
+            Math.round(
+                ((i + 1) / buttons.length) * 33
+            ),
+
+            `혈통분석 저장중...
+
+${region}
+${raceNo}경주
+
+(${i + 1}/${buttons.length})`
+
         );
 
         await showBloodAnalysis(
@@ -4923,7 +6167,9 @@ async function saveAllBloodAnalysis(){
 
     }
 
-    alert("혈통분석 전체 저장 완료");
+    if(!silent){
+        alert("혈통분석 전체 저장 완료");
+    }
 
 }
 
@@ -5111,44 +6357,57 @@ const saveRes =
 await fetch(
 "/save-blood-analysis",
 {
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
 
-body:JSON.stringify({
+    body: JSON.stringify({
 
-지역:region,
-경주:Number(raceNo),
-경주일자:date,
+        // =====================
+        // 기본정보
+        // =====================
+        지역: region,
+        경주: Number(raceNo),
+        경주일자: date,
 
-번호:Number(h.번호),
-마명:h.마명,
+        번호: Number(h.번호),
+        마명: h.마명,
 
-도시지프로필:h.도시지프로필,
+        // =====================
+        // 혈통 원본
+        // =====================
+        도시지프로필: h.도시지프로필 ?? "",
 
-DI:h.DI,
-CD:h.CD,
-근친:h.근친,
+        DI: h.DI ?? "",
+        CD: h.CD ?? "",
+        근친: h.근친 ?? "",
 
-AWD:h.AWD,
-부AWD:h.부AWD,
-모AWD:h.모AWD,
-모부AWD:h.모부AWD,
+        AWD: h.AWD ?? "",
+        부AWD: h.부AWD ?? "",
+        모AWD: h.모AWD ?? "",
+        모부AWD: h.모부AWD ?? "",
 
-경주마특성:style,
-거리적합:distance,
+        // =====================
+        // AI 분석
+        // =====================
+        경주마특성: style,
+        거리적합: distance,
 
-코멘트:comment,
-점수:score
+        // =====================
+        // 저장값
+        // =====================
+        코멘트: comment,
+        점수: Number(score) || 0
 
-})
+    })
+
 }
 );
 
 console.log(
-"상태코드:",
-saveRes.status
+    "상태코드:",
+    saveRes.status
 );
 
 }
@@ -5236,6 +6495,12 @@ margin-top:10px;
 <td>
 
 <button
+class="pace-save-btn"
+
+data-region="${r.지역}"
+data-race="${r.경주}"
+data-date="${r.경주일자}"
+
 onclick="
 savePaceAnalysis(
 '${r.지역}',
@@ -5528,7 +6793,8 @@ style="width:70px;"
 async function savePaceAnalysis(
 region,
 raceNo,
-raceDate
+raceDate,
+showAlert = true
 ){
 
 console.log(
@@ -5636,9 +6902,165 @@ text
 
 }
 
-alert(
-"전개분석 저장 완료"
-);
+console.log("showAlert =", showAlert);
+
+if(showAlert){
+
+    alert("전개분석 저장 완료");
+
+}
+
+}
+
+async function saveAllPaceAnalysis(
+    silent = false
+){
+
+    const buttons =
+    document.querySelectorAll(
+        ".pace-save-btn"
+    );
+
+    if(buttons.length === 0){
+
+        if(!silent){
+            alert("저장할 전개분석이 없습니다.");
+        }
+
+        return;
+
+    }
+
+    if(
+        !silent &&
+        !confirm(
+            `${buttons.length}개 경주를 전체 저장할까?`
+        )
+    ){
+        return;
+    }
+
+    for(
+        let i = 0;
+        i < buttons.length;
+        i++
+    ){
+
+        const btn =
+        buttons[i];
+
+        const region =
+        btn.dataset.region;
+
+        const raceNo =
+        Number(btn.dataset.race);
+
+        const raceDate =
+        btn.dataset.date;
+
+        updateSaveProgress(
+
+            66 +
+            Math.round(
+                ((i + 1) / buttons.length) * 34
+            ),
+
+            `전개분석 저장중...
+
+${region}
+${raceNo}경주
+
+(${i + 1}/${buttons.length})`
+
+        );
+
+        await showPaceAnalysis(
+            region,
+            raceNo,
+            raceDate
+        );
+
+        await new Promise(
+            resolve => setTimeout(resolve, 50)
+        );
+
+        await savePaceAnalysis(
+            region,
+            raceNo,
+            raceDate,
+            false
+        );
+
+    }
+
+    if(!silent){
+        alert("전개분석 전체 저장 완료");
+    }
+
+}
+
+
+async function saveAllAnalysis(){
+
+    showSaveProgress();
+
+    updateSaveProgress(
+        10,
+        "기본분석 저장중..."
+    );
+
+    showAnalysisTab("basic");
+
+    await loadBasicAnalysisTable();
+
+    await new Promise(r=>setTimeout(r,100));
+
+    await saveAllBasicAnalysis(true);
+
+
+
+    updateSaveProgress(
+        40,
+        "혈통분석 저장중..."
+    );
+
+    showAnalysisTab("blood");
+
+    await loadBloodAnalysisTable();
+
+    await new Promise(r=>setTimeout(r,100));
+
+    await saveAllBloodAnalysis(true);
+
+
+
+    updateSaveProgress(
+        70,
+        "전개분석 저장중..."
+    );
+
+    showAnalysisTab("pace");
+
+    await loadPaceAnalysisTable();
+
+    await new Promise(r=>setTimeout(r,100));
+
+    await saveAllPaceAnalysis(true);
+
+    await saveAllAIAnalysis(true);     
+
+
+
+    updateSaveProgress(
+        100,
+        "완료!"
+    );
+
+    await new Promise(r=>setTimeout(r,500));
+
+    hideSaveProgress();
+
+    alert("전체 분석 저장 완료");
 
 }
 
@@ -5660,6 +7082,1240 @@ region,
 raceNo,
 raceDate
 );
+
+}
+
+async function saveFee(item){
+
+    const point =
+    document.getElementById(
+        `fee-${item}`
+    ).value;
+
+    const password =
+    prompt(
+        "비밀번호를 입력하세요."
+    );
+
+    if(!password){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/save-fee-setting",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+
+                item:item,
+
+                point:Number(point),
+
+                password:password
+
+            })
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(res.ok){
+
+        alert(
+            "저장 완료"
+        );
+
+    }else{
+
+        alert(
+            data.detail ||
+            "저장 실패"
+        );
+
+    }
+
+}
+
+
+async function loadChargeRequests(){
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+const res =
+await fetch(
+"/charge-requests",
+{
+headers:{
+Authorization:
+"Bearer " + token
+}
+}
+);
+
+const data =
+await res.json();
+
+const table =
+document.getElementById(
+"charge-table"
+);
+
+table.innerHTML="";
+
+data.forEach(r=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${r.created_at}</td>
+
+<td>${r.email}</td>
+
+<td>${r.depositor_name}</td>
+
+<td>${r.product_name}</td>
+
+<td>${r.point}P</td>
+
+<td>${r.amount.toLocaleString()}원</td>
+
+<td>${r.status}</td>
+
+<td>
+
+${
+r.status==="대기"
+
+?
+
+`
+
+<button
+class="btn btn-premium"
+onclick="
+approveCharge(
+${r.id}
+)
+">
+
+승인
+
+</button>
+
+`
+
+:
+
+"완료"
+
+}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function approveCharge(id){
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+if(
+!confirm(
+"충전 승인할까요?"
+)
+){
+return;
+}
+
+const res =
+await fetch(
+
+`/charge-request/${id}/approve`,
+
+{
+method:"PUT",
+
+headers:{
+Authorization:
+"Bearer " + token
+}
+}
+
+);
+
+const data =
+await res.json();
+
+alert(
+data.msg ||
+"처리 완료"
+);
+
+loadChargeRequests();
+
+}
+
+async function saveChargeAccount(){
+
+const password =
+prompt(
+"비밀번호를 입력하세요"
+);
+
+if(!password){
+return;
+}
+
+const res = await fetch(
+"/charge-account",
+{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+bank_name:
+document.getElementById(
+"bank_name"
+).value,
+
+account_number:
+document.getElementById(
+"account_number"
+).value,
+
+account_holder:
+document.getElementById(
+"account_holder"
+).value,
+
+password:password
+
+})
+}
+);
+
+const data =
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.detail ||
+"저장 실패"
+);
+
+return;
+}
+
+alert(
+"계좌정보 저장 완료"
+);
+
+}
+
+async function loadChargeSettings(){
+
+const res =
+await fetch("/charge-settings");
+
+const data =
+await res.json();
+
+const area =
+document.getElementById(
+"charge-setting-list"
+);
+
+area.innerHTML="";
+
+data.forEach(item=>{
+
+area.innerHTML += `
+
+<tr>
+
+<td>
+<input
+id="name-${item.id}"
+value="${item.name || ''}">
+</td>
+
+<td>
+<input
+id="point-${item.id}"
+value="${item.point}">
+</td>
+
+<td>
+<input
+id="price-${item.id}"
+value="${item.price}">
+</td>
+
+<td>
+
+<input
+type="checkbox"
+id="active-${item.id}"
+${item.is_active ? "checked" : ""}
+>
+
+</td>
+
+<td>
+
+<button
+class="btn btn-admin"
+onclick="saveChargeSetting(${item.id})"
+>
+저장
+</button>
+
+<button
+class="btn btn-delete"
+onclick="deleteChargeSetting(${item.id})"
+>
+삭제
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function loadChargeAccount(){
+
+const res =
+await fetch(
+"/charge-account"
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"bank_name"
+).value =
+data.bank_name || "";
+
+document.getElementById(
+"account_number"
+).value =
+data.account_number || "";
+
+document.getElementById(
+"account_holder"
+).value =
+data.account_holder || "";
+
+}
+
+async function saveChargeSetting(id){
+
+const password =
+prompt(
+"관리 비밀번호를 입력하세요"
+);
+
+const name =
+document.getElementById(
+`name-${id}`
+).value;
+
+if(!password){
+return;
+}
+
+const point =
+document.getElementById(
+`point-${id}`
+).value;
+
+const price =
+document.getElementById(
+`price-${id}`
+).value;
+
+const active =
+document.getElementById(
+`active-${id}`
+).checked
+? 1
+: 0;
+
+const res =
+await fetch(
+"/charge-setting",
+{
+method:"PUT",
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+id:id,
+
+name:name,
+
+point:Number(point),
+
+price:Number(price),
+
+is_active:active,
+
+password:password
+
+})
+}
+);
+
+const data =
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.detail ||
+"저장 실패"
+);
+
+return;
+}
+
+alert(
+"저장 완료"
+);
+
+}
+
+async function changeAdminPassword(){
+
+const currentPassword =
+document.getElementById(
+"current-password"
+).value;
+
+const newPassword =
+document.getElementById(
+"new-password"
+).value;
+
+const confirmPassword =
+document.getElementById(
+"confirm-password"
+).value;
+
+const res =
+await fetch(
+"/change-admin-password",
+{
+method:"PUT",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+current_password:
+currentPassword,
+
+new_password:
+newPassword,
+
+confirm_password:
+confirmPassword
+
+})
+}
+);
+
+const data =
+await res.json();
+
+alert(
+data.msg ||
+data.detail
+);
+
+}
+
+async function loadDashboardStats(){
+
+    const res =
+    await fetch(
+        "/admin/dashboard-stats"
+    );
+
+    const data =
+    await res.json();
+
+    document.getElementById(
+        "payment-count"
+    ).innerText =
+    data.payment_count;
+
+    document.getElementById(
+        "race-payment-count"
+    ).innerText =
+    data.race_payment_count;
+
+    document.getElementById(
+        "day-payment-count"
+    ).innerText =
+    data.day_payment_count;
+
+    document.getElementById(
+        "week-payment-count"
+    ).innerText =
+    data.week_payment_count;
+
+    document.getElementById(
+        "month-payment-count"
+    ).innerText =
+    data.month_payment_count;
+
+    document.getElementById(
+        "sales-total"
+    ).innerText =
+    Number(
+        data.sales_total
+    ).toLocaleString() + "원";
+
+    document.getElementById(
+        "race-sales"
+    ).innerText =
+    Number(
+        data.race_sales
+    ).toLocaleString() + "원";
+
+    document.getElementById(
+        "today-join-count"
+    ).innerText =
+    data.today_join;    
+
+}
+
+async function uploadFinalAnalysis(){
+
+const file =
+document.getElementById(
+"final-file"
+).files[0];
+
+if(!file){
+
+alert(
+"엑셀 파일 선택"
+);
+
+return;
+}
+
+const formData =
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+const res =
+await fetch(
+"/upload-final-analysis",
+{
+method:"POST",
+headers:{
+Authorization:
+"Bearer " + token
+},
+body:formData
+}
+);
+
+const data =
+await res.json();
+
+alert(
+data.message
+);
+
+loadFinalAnalysisTable();
+
+}
+
+function v(x){
+
+    if(x == null){
+        return "";
+    }
+
+    if(typeof x === "number"){
+
+        return Number(x.toFixed(2));
+
+    }
+
+    return x;
+
+}
+
+function p(x){
+
+    if(x == null){
+        return "";
+    }
+
+    return `${Number(x.toFixed(2))}%`;
+
+}
+
+function showAbility(id){
+
+const row =
+finalData.find(
+r => r.id === id
+);
+
+openAnalysisModal(
+
+"📊 능력분석",
+
+`
+실전점수 : ${v(row.실전점수)}<br>
+최근폼점수 : ${v(row.최근폼점수)}<br>
+거리점수 : ${v(row.거리점수)}<br>
+주로점수 : ${v(row.주로점수)}<br><br>
+
+평균속도지수 : ${v(row.평균속도지수)}<br>
+최대속도지수 : ${v(row.최대속도지수)}<br><br>
+
+주행유형 : ${v(row.주행유형)}<br>
+
+과거최적거리 : ${v(row.과거최적거리)}<br>
+과거최적주로 : ${v(row.과거최적주로)}<br>
+
+위험등급 : ${v(row.위험등급)}<br><br>
+
+승률 : ${p(row.승률)}<br>
+복승률 : ${p(row.복승률)}<br>
+연승률 : ${p(row.연승률)}<br>
+5착내율 : ${p(row.오착내율)}<br><br>
+
+최근5전평균착순 : ${v(row.최근5전평균착순)}<br>
+최근10전평균착순 : ${v(row.최근10전평균착순)}<br><br>
+
+기수점수 : ${v(row.기수점수)}<br>
+조교사점수 : ${v(row.조교사점수)}<br>
+부담중량점수 : ${v(row.부담중량점수)}
+
+`
+
+);
+
+}
+
+
+function showRank(id){
+
+const row =
+finalData.find(
+x => x.id == id
+);
+
+alert(`
+
+RI순위 : ${v(row.RI순위)}
+CPI순위 : ${v(row.CPI순위)}
+SPR순위 : ${v(row.SPR순위)}
+
+폼순위 : ${v(row.폼순위)}
+혈통순위 : ${v(row.혈통순위)}
+
+승률순위 : ${v(row.승률순위)}
+복승률순위 : ${v(row.복승률순위)}
+연승률순위 : ${v(row.연승률순위)}
+
+`);
+
+}
+
+function showBlood(id){
+
+const row =
+finalData.find(
+r => r.id === id
+);
+
+openAnalysisModal(
+
+"🧬 혈통분석",
+
+`
+<b>RI</b> : ${v(row.RI)}<br>
+<b>CPI</b> : ${v(row.CPI)}<br>
+<b>SPR</b> : ${v(row.SPR)}<br>
+<br>
+
+<b>DI</b> : ${v(row.DI)}<br>
+<b>CD</b> : ${v(row.CD)}<br>
+<b>COI</b> : ${v(row.COI)}<br>
+<br>
+
+<b>혈통점수</b> : ${v(row.혈통점수)}
+
+`
+
+);
+
+}
+
+function showRank(id){
+
+const row =
+finalData.find(
+r => r.id === id
+);
+
+openAnalysisModal(
+
+"📈 순위분석",
+
+`
+<b>RI순위</b> : ${v(row.RI순위)}<br>
+<b>CPI순위</b> : ${v(row.CPI순위)}<br>
+<b>SPR순위</b> : ${v(row.SPR순위)}<br>
+<br>
+
+<b>승률순위</b> : ${v(row.승률순위)}<br>
+<b>복승률순위</b> : ${v(row.복승률순위)}<br>
+<b>연승률순위</b> : ${v(row.연승률순위)}<br>
+<br>
+
+<b>폼순위</b> : ${v(row.폼순위)}<br>
+<b>혈통순위</b> : ${v(row.혈통순위)}
+
+`
+
+);
+
+}
+
+function showAI(id){
+
+const row =
+finalData.find(
+r => r.id === id
+);
+
+openAnalysisModal(
+
+"🤖 AI 분석",
+
+`
+<b>추천유형</b><br>
+${v(row.추천유형)}
+<br><br>
+
+<b>최종추천</b><br>
+${v(row.최종추천)}
+<br><br>
+
+<b>추천사유</b><br>
+${v(row.추천사유)}
+<br><br>
+
+<b>강점</b><br>
+${v(row.강점)}
+<br><br>
+
+<b>약점</b><br>
+${v(row.약점)}
+<br><br>
+
+<b>종합코멘트</b><br>
+${v(row.종합코멘트)}
+`
+
+);
+
+}
+
+function showSaveProgress(){
+
+    document.getElementById(
+    "save-progress-modal"
+    ).style.display="flex";
+
+}
+
+function hideSaveProgress(){
+
+    document.getElementById(
+    "save-progress-modal"
+    ).style.display="none";
+
+}
+
+function updateSaveProgress(
+percent,
+text,
+detail = ""
+){
+
+    document.getElementById(
+        "save-progress-bar"
+    ).value = percent;
+
+    document.getElementById(
+        "save-progress-text"
+    ).innerText = text;
+
+    document.getElementById(
+        "save-progress-count"
+    ).innerText = detail;
+
+}
+
+function updateSaveCount(
+    current,
+    total,
+    region,
+    raceNo
+){
+
+    document.getElementById("save-progress-text").innerHTML = `
+        ${region}<br>
+        ${raceNo}경주<br><br>
+        (${current}/${total})
+    `;
+
+}
+
+async function saveTelegramSetting(){
+
+const chatId =
+document.getElementById(
+"telegram_chat_id"
+).value;
+
+if(chatId.trim()===""){
+
+alert(
+"Chat ID를 입력해주세요."
+);
+
+return;
+
+}
+
+const res = await fetch(
+
+"/telegram-setting",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+chat_id:chatId
+
+})
+
+}
+
+);
+
+const result =
+await res.json();
+
+if(result.success){
+
+alert(
+"저장되었습니다."
+);
+
+}else{
+
+alert(
+"저장 실패"
+);
+
+}
+
+}
+
+async function loadTelegramSetting(){
+
+const res = await fetch(
+"/telegram-setting"
+);
+
+const data = await res.json();
+
+document.getElementById(
+"telegram_chat_id"
+).value =
+data.chat_id;
+
+}
+
+async function testTelegram(){
+
+const res = await fetch(
+"/telegram-test",
+{
+method:"POST"
+});
+
+const result =
+await res.json();
+
+if(result.success){
+
+alert(
+"테스트 메세지를 전송했습니다."
+);
+
+}else{
+
+alert(
+result.message
+);
+
+}
+
+}
+
+function openIconPicker(input){
+
+    const picker =
+    document.getElementById(
+        "icon-picker"
+    );
+
+    picker.innerHTML="";
+
+    ICONS.forEach(icon=>{
+
+        picker.innerHTML += `
+
+<div
+class="icon-item"
+onclick="
+selectIcon(
+'${icon}'
+)
+">
+
+${icon || "없음"}
+
+</div>
+
+`;
+
+    });
+
+    const rect =
+    input.getBoundingClientRect();
+
+    picker.style.left =
+    rect.left + "px";
+
+    picker.style.top =
+    (rect.bottom+5)+"px";
+
+    picker.style.display="grid";
+
+    picker.dataset.target=input.id;
+
+}
+
+function selectIcon(icon){
+
+    document
+    .getElementById(
+        document
+        .getElementById(
+            "icon-picker"
+        ).dataset.target
+    ).value=icon;
+
+    document
+    .getElementById(
+        "icon-picker"
+    ).style.display="none";
+
+}
+
+document.addEventListener(
+"click",
+e=>{
+
+    if(
+        !e.target.closest(".icon-picker")
+        &&
+        !e.target.classList.contains("icon-input")
+    ){
+
+        document
+        .getElementById(
+            "icon-picker"
+        ).style.display="none";
+
+    }
+
+});
+
+// =========================
+// 충전상품 추가창 열기
+// =========================
+function showNewChargeSetting(){
+
+    document.getElementById(
+        "new-charge-setting"
+    ).style.display = "block";
+
+}
+
+
+// =========================
+// 충전상품 추가창 닫기
+// =========================
+function hideNewChargeSetting(){
+
+    document.getElementById(
+        "new-charge-setting"
+    ).style.display = "none";
+
+}
+
+
+// =========================
+// 충전상품 추가
+// =========================
+async function addChargeSetting(){
+
+    const name =
+    document.getElementById(
+        "new-charge-name"
+    ).value.trim();
+
+    const point =
+    document.getElementById(
+        "new-charge-point"
+    ).value;
+
+    const price =
+    document.getElementById(
+        "new-charge-price"
+    ).value;
+
+    const active =
+    document.getElementById(
+        "new-charge-active"
+    ).checked ? 1 : 0;
+
+
+    if(!name){
+
+        alert("상품명을 입력해주세요.");
+
+        return;
+    }
+
+    if(!point){
+
+        alert("포인트를 입력해주세요.");
+
+        return;
+    }
+
+    if(!price){
+
+        alert("금액을 입력해주세요.");
+
+        return;
+    }
+
+
+    const password =
+    prompt("관리 비밀번호");
+
+    if(!password){
+        return;
+    }
+
+
+    const res =
+    await fetch(
+        "/charge-setting",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+
+                name:name,
+
+                point:Number(point),
+
+                price:Number(price),
+
+                is_active:active,
+
+                password:password
+
+            })
+        }
+    );
+
+
+    const result =
+    await res.json();
+
+
+    if(!res.ok){
+
+        alert(
+            result.detail ||
+            "상품 추가 실패"
+        );
+
+        return;
+    }
+
+
+    alert("상품이 추가되었습니다.");
+
+
+    // 입력창 초기화
+    document.getElementById(
+        "new-charge-name"
+    ).value = "";
+
+    document.getElementById(
+        "new-charge-point"
+    ).value = "";
+
+    document.getElementById(
+        "new-charge-price"
+    ).value = "";
+
+    document.getElementById(
+        "new-charge-active"
+    ).checked = true;
+
+
+    // 추가창 닫기
+    hideNewChargeSetting();
+
+
+    // 상품목록 새로고침
+    await loadChargeSettings();
+
+}
+
+
+// =========================
+// 충전상품 삭제
+// =========================
+async function deleteChargeSetting(id){
+
+    const ok =
+    confirm(
+        "이 충전상품을 정말 삭제하시겠습니까?"
+    );
+
+    if(!ok){
+        return;
+    }
+
+
+    const password =
+    prompt("관리 비밀번호");
+
+    if(!password){
+        return;
+    }
+
+
+    const res =
+    await fetch(
+
+        `/charge-setting/${id}?password=${encodeURIComponent(password)}`,
+
+        {
+            method:"DELETE"
+        }
+
+    );
+
+
+    const result =
+    await res.json();
+
+
+    if(!res.ok){
+
+        alert(
+            result.detail ||
+            "상품 삭제 실패"
+        );
+
+        return;
+    }
+
+
+    alert("상품이 삭제되었습니다.");
+
+
+    // 목록 다시 불러오기
+    await loadChargeSettings();
 
 }
 
@@ -5705,7 +8361,78 @@ margin-bottom:20px;
 
 </div>
 </div>
-  
+ 
+</div>
+
+<div
+id="save-progress-modal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.35);
+z-index:9999;
+justify-content:center;
+align-items:center;
+">
+
+<div
+style="
+background:white;
+padding:30px;
+border-radius:16px;
+width:420px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+">
+
+<h2>
+💾 전체 분석 저장중...
+</h2>
+
+<progress
+id="save-progress-bar"
+value="0"
+max="100"
+style="
+width:100%;
+height:22px;
+">
+</progress>
+
+<div
+id="save-progress-text"
+style="
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+">
+준비중...
+</div>
+
+<div
+id="save-progress-count"
+style="
+margin-top:8px;
+font-size:15px;
+color:#666;
+">
+0 / 0
+</div>
+
+</div>
+
+</div>
+<div
+id="icon-picker"
+class="icon-picker"
+style="display:none;"
+>
+</div>
+
 </body>
 </html>
 

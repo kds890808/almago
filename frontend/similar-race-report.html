@@ -1,0 +1,3711 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>AI 유사경주 분석</title>
+
+<script src="/static/similar_statistics.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+Pretendard,
+sans-serif;
+
+background:
+linear-gradient(
+180deg,
+#f8fafc,
+#eef2ff
+);
+
+color:#1e293b;
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:40px 20px;
+
+}
+
+.header{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+.title{
+
+font-size:40px;
+
+font-weight:900;
+
+margin-bottom:12px;
+
+}
+
+.sub{
+
+font-size:16px;
+
+color:#64748b;
+
+}
+
+.report-section{
+
+background:white;
+
+border-radius:20px;
+
+padding:30px;
+
+margin-bottom:25px;
+
+box-shadow:
+0 10px 30px
+rgba(0,0,0,.08);
+
+}
+
+.report-section h2{
+
+margin-bottom:20px;
+
+font-size:24px;
+
+}
+
+.empty-box{
+
+height:180px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+border:2px dashed #dbeafe;
+
+border-radius:15px;
+
+background:#f8fbff;
+
+color:#64748b;
+
+font-size:18px;
+
+}
+
+.hero-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:35px;
+
+border-radius:25px;
+
+margin-bottom:30px;
+
+background:
+linear-gradient(
+135deg,
+#102a63,
+#1e3a8a
+);
+
+color:white;
+
+box-shadow:
+0 15px 40px
+rgba(0,0,0,.2);
+
+}
+
+.hero-left h1{
+
+font-size:42px;
+
+margin-bottom:20px;
+
+}
+
+.hero-info{
+
+display:flex;
+
+gap:25px;
+
+flex-wrap:wrap;
+
+font-size:18px;
+
+opacity:.95;
+
+}
+
+.hero-desc{
+
+margin-top:25px;
+
+font-size:18px;
+
+line-height:1.6;
+
+opacity:.9;
+
+}
+
+
+.hero-right{
+
+width:170px;
+
+height:170px;
+
+border-radius:50%;
+
+border:10px solid #6d5efc;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+background:white;
+
+color:#1e3a8a;
+
+}
+
+.similar-label{
+
+font-size:18px;
+
+font-weight:700;
+
+color:#64748b;
+
+margin-bottom:8px;
+
+padding-bottom:6px;
+
+border-bottom:2px solid #dbeafe;
+
+width:70%;
+
+text-align:center;
+
+}
+
+.hero-percent{
+
+font-size:58px;
+
+font-weight:900;
+
+line-height:1;
+
+}
+
+.criteria-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:20px;
+
+}
+
+.criteria-card{
+
+background:#f8fbff;
+
+border:2px solid #dbeafe;
+
+border-radius:18px;
+
+padding:22px;
+
+text-align:center;
+
+transition:.25s;
+
+}
+
+.criteria-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+0 10px 25px
+rgba(0,0,0,.08);
+
+}
+
+.criteria-icon{
+
+font-size:34px;
+
+margin-bottom:12px;
+
+}
+
+.criteria-title{
+
+font-size:18px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+color:#1e3a8a;
+
+}
+
+.criteria-value{
+
+font-size:16px;
+
+color:#475569;
+
+line-height:1.6;
+
+}
+
+.process-box{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.process-row{
+
+display:grid;
+
+grid-template-columns:
+220px
+1fr
+70px;
+
+align-items:center;
+
+gap:20px;
+
+}
+
+.process-title{
+
+font-weight:700;
+
+font-size:17px;
+
+}
+
+.process-bar{
+
+height:14px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.process-fill{
+
+height:100%;
+
+width:100%;
+
+background:
+linear-gradient(
+90deg,
+#2563eb,
+#60a5fa
+);
+
+border-radius:20px;
+
+}
+
+.process-score{
+
+font-weight:800;
+
+color:#1e3a8a;
+
+text-align:right;
+
+}
+
+.similar-scroll{
+
+display:flex;
+
+gap:20px;
+
+overflow-x:auto;
+
+padding-bottom:10px;
+
+scroll-behavior:smooth;
+
+}
+
+.similar-scroll::-webkit-scrollbar{
+
+height:8px;
+
+}
+
+.similar-scroll::-webkit-scrollbar-thumb{
+
+background:#cbd5e1;
+
+border-radius:20px;
+
+}
+
+.rank-badge{
+
+position:absolute;
+
+left:15px;
+
+top:15px;
+
+width:34px;
+
+height:34px;
+
+border-radius:50%;
+
+background:#fbbf24;
+
+color:white;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-weight:bold;
+
+}
+
+.rank-badge.silver{
+
+background:#9ca3af;
+
+}
+
+.rank-badge.bronze{
+
+background:#b45309;
+
+}
+
+.similar-score{
+
+position:absolute;
+
+right:15px;
+
+top:15px;
+
+background:#6d5efc;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:20px;
+
+font-size:13px;
+
+font-weight:bold;
+
+}
+
+.pattern-list{
+
+list-style:none;
+
+padding:0;
+
+}
+
+.pattern-list li{
+
+padding:12px;
+
+margin-bottom:10px;
+
+background:#f8fbff;
+
+border-radius:12px;
+
+font-size:16px;
+
+}
+
+.blood-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+.blood-table th,
+.blood-table td{
+
+padding:12px;
+
+border-bottom:1px solid #e5e7eb;
+
+text-align:center;
+
+}
+
+.ai-comment{
+
+font-size:18px;
+
+line-height:2;
+
+background:#f8fbff;
+
+padding:25px;
+
+border-radius:16px;
+
+}
+
+.pattern-desc{
+
+margin-bottom:25px;
+
+color:#64748b;
+
+line-height:1.6;
+
+}
+
+.pattern-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(220px,1fr)
+);
+
+gap:20px;
+
+}
+
+.pattern-card{
+
+background:#fff7ed;
+
+border:2px solid #fed7aa;
+
+border-radius:18px;
+
+padding:20px;
+
+transition:.25s;
+
+}
+
+.pattern-title{
+
+font-weight:800;
+
+margin-bottom:15px;
+
+color:#1e3a8a;
+
+}
+
+.pattern-value{
+
+line-height:1.8;
+
+font-size:16px;
+
+}
+
+.pattern-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+0 10px 25px
+rgba(0,0,0,.08);
+
+}
+
+.pattern-title{
+
+font-weight:800;
+
+margin-bottom:15px;
+
+color:#c2410c;
+
+}
+
+.pattern-value{
+
+font-size:17px;
+
+font-weight:600;
+
+line-height:1.8;
+
+}
+
+.blood-range{
+
+    background:#ecfdf5;
+
+    color:#065f46;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    font-weight:700;
+
+    display:inline-block;
+
+    border:1px solid #a7f3d0;
+
+}
+
+.blood-range{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:10px;
+
+background:#f0fdf4;
+
+border:1px solid #bbf7d0;
+
+color:#166534;
+
+font-weight:700;
+
+min-width:90px;
+
+text-align:center;
+
+}
+
+/* =========================
+   혈통지표 안내
+========================= */
+
+.blood-guide{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:8px;
+
+margin-top:14px;
+
+justify-content:center;
+
+}
+
+.blood-guide span{
+
+padding:6px 12px;
+
+background:#f8fafc;
+
+border:1px solid #dbeafe;
+
+border-radius:20px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#475569;
+
+transition:.2s;
+
+}
+
+.blood-guide span:hover{
+
+background:#eff6ff;
+
+transform:translateY(-2px);
+
+}
+
+.blood-guide b{
+
+color:#2563eb;
+
+margin-right:4px;
+
+}
+
+/* =========================
+   유리한 게이트
+========================= */
+
+.gate-chart{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+margin-top:20px;
+
+}
+
+.gate-item{
+
+display:grid;
+
+grid-template-columns:
+70px
+1fr
+70px;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.gate-title{
+
+font-weight:700;
+
+color:#334155;
+
+}
+
+.gate-bar{
+
+height:18px;
+
+background:#e2e8f0;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.gate-fill{
+
+width:0;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+#2563eb,
+#60a5fa
+);
+
+border-radius:20px;
+
+transition:1.2s;
+
+}
+
+.gate-rate{
+
+font-weight:700;
+
+color:#1e293b;
+
+text-align:right;
+
+}
+
+.gate-pie-wrap{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:35px;
+margin-top:20px;
+}
+
+.gate-pie{
+width:180px;
+height:180px;
+border-radius:50%;
+background:#e5e7eb;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.gate-legend{
+display:flex;
+flex-direction:column;
+gap:12px;
+font-size:16px;
+font-weight:700;
+}
+
+.gate-legend div{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.gate-legend b{
+margin-left:8px;
+color:#1e3a8a;
+}
+
+.dot{
+width:14px;
+height:14px;
+border-radius:50%;
+display:inline-block;
+}
+
+.dot.inside{background:#2563eb;}
+.dot.middle{background:#60a5fa;}
+.dot.outside{background:#cbd5e1;}
+
+.gate-layout{
+
+display:flex;
+
+gap:40px;
+
+align-items:center;
+
+margin-top:25px;
+
+}
+
+.gate-left{
+
+position:relative;
+
+width:260px;
+
+height:260px;
+
+}
+
+.gate-pie{
+
+width:260px;
+
+height:260px;
+
+border-radius:50%;
+
+}
+
+.gate-center{
+
+position:absolute;
+
+left:50%;
+
+top:50%;
+
+transform:
+translate(-50%,-50%);
+
+width:120px;
+
+height:120px;
+
+background:white;
+
+border-radius:50%;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:18px;
+
+font-weight:700;
+
+box-shadow:
+0 4px 15px
+rgba(0,0,0,.08);
+
+}
+
+.gate-right{
+
+flex:1;
+
+}
+
+.gate-row{
+
+display:grid;
+
+grid-template-columns:
+80px
+1fr
+70px;
+
+align-items:center;
+
+gap:15px;
+
+margin-bottom:22px;
+
+}
+
+.gate-bar{
+
+height:14px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.gate-fill{
+
+width:0;
+
+height:100%;
+
+background:#2563eb;
+
+transition:1s;
+
+}
+
+.middle{
+
+background:#60a5fa;
+
+}
+
+.outside{
+
+background:#cbd5e1;
+
+}
+
+.gate-comment{
+
+margin-top:20px;
+
+padding:16px;
+
+background:#eff6ff;
+
+border-radius:12px;
+
+font-weight:600;
+
+line-height:1.8;
+
+}
+
+/* =========================
+   전개패턴
+========================= */
+
+.pace-pattern{
+
+margin-top:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.pace-row{
+
+display:grid;
+
+grid-template-columns:
+50px
+1fr
+60px;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.pace-name{
+
+font-size:18px;
+
+font-weight:800;
+
+color:#1e3a8a;
+
+}
+
+.pace-bar{
+
+height:18px;
+
+background:#e2e8f0;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.pace-fill{
+
+width:0;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+#2563eb,
+#60a5fa
+);
+
+transition:1s;
+
+border-radius:20px;
+
+}
+
+.pace-value{
+
+font-weight:700;
+
+text-align:right;
+
+}
+
+.pace-guide{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+justify-content:center;
+
+margin-top:22px;
+
+}
+
+.pace-guide span{
+
+padding:6px 12px;
+
+border-radius:18px;
+
+background:#f8fafc;
+
+border:1px solid #dbeafe;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+.pace-guide b{
+
+color:#2563eb;
+
+margin-right:4px;
+
+}
+
+/* ========================= */
+/* 유사경주 TOP5 */
+/* ========================= */
+
+#top5Area{
+
+display:flex;
+
+gap:20px;
+
+overflow-x:auto;
+
+padding-bottom:12px;
+
+scrollbar-width:thin;
+
+}
+
+.similar-card{
+
+position:relative;
+
+flex:0 0 250px;
+
+background:#fff;
+
+border:2px solid #d8e7ff;
+
+border-radius:22px;
+
+padding:20px;
+
+transition:.25s;
+
+box-shadow:
+0 6px 18px
+rgba(0,0,0,.05);
+
+}
+
+.similar-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+0 14px 28px
+rgba(37,99,235,.18);
+
+border-color:#6ea8ff;
+
+}
+
+.rank-badge{
+
+position:absolute;
+
+top:16px;
+
+left:16px;
+
+width:38px;
+
+height:38px;
+
+border-radius:50%;
+
+background:#ffb61e;
+
+color:#fff;
+
+font-size:20px;
+
+font-weight:800;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+0 4px 10px
+rgba(255,182,30,.35);
+
+}
+
+.similar-percent{
+
+position:absolute;
+
+top:18px;
+
+right:18px;
+
+background:#6c5ce7;
+
+color:#fff;
+
+padding:5px 12px;
+
+border-radius:20px;
+
+font-size:15px;
+
+font-weight:800;
+
+}
+
+.similar-date{
+
+margin-top:48px;
+
+font-size:31px;
+
+font-weight:900;
+
+color:#1e293b;
+
+margin-bottom:10px;
+
+}
+
+.similar-info{
+
+font-size:17px;
+
+color:#475569;
+
+margin-top:4px;
+
+line-height:1.45;
+
+}
+
+.winner-name{
+
+margin-top:14px;
+
+font-size:19px;
+
+font-weight:800;
+
+color:#111827;
+
+padding-top:10px;
+
+border-top:1px solid #edf2f7;
+
+}
+
+.winner-stat{
+
+    margin-top:14px;
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+}
+
+.winner-stat span{
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    background:#f8fafc;
+
+    border:1px solid #dbeafe;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#334155;
+
+}
+
+/* =========================================
+   유사경주 분석 - 모바일
+========================================= */
+
+@media (max-width:768px){
+
+    body{
+        overflow-x:hidden;
+    }
+
+    .container{
+        width:100%;
+        padding:25px 10px 40px;
+        overflow:hidden;
+    }
+
+    /* 상단 제목 */
+    .title{
+        font-size:32px;
+        line-height:1.25;
+        word-break:keep-all;
+    }
+
+    .sub{
+        font-size:15px;
+        line-height:1.6;
+        word-break:keep-all;
+    }
+
+
+    /* =========================
+       상단 경주 정보
+    ========================= */
+
+    .hero-card{
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+
+        padding:25px 20px;
+        gap:25px;
+    }
+
+    .hero-left{
+        width:100%;
+        min-width:0;
+    }
+
+    .hero-left h1{
+        font-size:30px;
+        line-height:1.3;
+        margin-bottom:18px;
+
+        white-space:normal;
+        word-break:keep-all;
+    }
+
+    .hero-info{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+
+        font-size:17px;
+    }
+
+    .hero-desc{
+        font-size:16px;
+        line-height:1.8;
+        word-break:keep-all;
+    }
+
+    .hero-right{
+        width:150px;
+        height:150px;
+
+        flex-shrink:0;
+        align-self:center;
+    }
+
+    .hero-percent{
+        font-size:48px;
+    }
+
+
+    /* =========================
+       일반 섹션
+    ========================= */
+
+    .report-section{
+        padding:22px 16px;
+        border-radius:18px;
+    }
+
+    .report-section h2{
+        font-size:22px;
+        line-height:1.4;
+        word-break:keep-all;
+    }
+
+
+    /* =========================
+       AI 분석 기준
+    ========================= */
+
+    .criteria-grid{
+        grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+        gap:10px;
+    }
+
+    .criteria-card{
+        min-width:0;
+        padding:18px 8px;
+    }
+
+    .criteria-icon{
+        font-size:30px;
+    }
+
+    .criteria-title{
+        font-size:17px;
+    }
+
+    .criteria-value{
+        font-size:15px;
+        word-break:keep-all;
+    }
+
+
+    /* =========================
+       AI 분석 프로세스
+    ========================= */
+
+    .process-row{
+        display:grid;
+
+        grid-template-columns:
+        minmax(90px,120px)
+        minmax(0,1fr)
+        48px;
+
+        gap:8px;
+
+        width:100%;
+    }
+
+    .process-title{
+        font-size:15px;
+        white-space:nowrap;
+    }
+
+    .process-score{
+        font-size:15px;
+        text-align:right;
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       유사경주 TOP5
+    ========================= */
+
+    #top5Area{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    .similar-card{
+        flex:0 0 240px;
+    }
+
+
+    /* =========================
+       동일조건 패턴
+    ========================= */
+
+    .pattern-grid{
+        grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+        gap:10px;
+    }
+
+    .pattern-card{
+        min-width:0;
+        padding:16px 12px;
+    }
+
+
+    /* =========================
+       7열 분석표
+    ========================= */
+
+    .blood-table{
+        width:max-content;
+        min-width:700px;
+    }
+
+    .blood-table th,
+    .blood-table td{
+        min-width:85px;
+        padding:12px 8px;
+        white-space:nowrap;
+    }
+}
+
+
+@media (max-width:768px){
+
+    /* 유리한 게이트 전체 */
+    .gate-layout{
+        display:flex !important;
+        flex-direction:column !important;
+        align-items:center !important;
+        gap:24px !important;
+        width:100% !important;
+    }
+
+    /* 원형 그래프 영역 */
+    .gate-left{
+        width:100% !important;
+        display:flex !important;
+        justify-content:center !important;
+        align-items:center !important;
+        position:relative;
+    }
+
+    /* 원형 그래프 */
+    .gate-pie{
+        width:230px !important;
+        height:230px !important;
+        flex-shrink:0;
+    }
+
+    /* 가운데 문구 */
+    .gate-center{
+        position:absolute !important;
+        left:50% !important;
+        top:50% !important;
+        transform:translate(-50%, -50%) !important;
+    }
+
+    /* 오른쪽 게이트 설명 */
+    .gate-right{
+        width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box;
+    }
+}
+
+@media (max-width:768px){
+
+    .table-scroll{
+        width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .table-scroll .blood-table{
+        width:700px !important;
+        min-width:700px !important;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="title">
+
+🧠 AI 유사경주 분석
+
+</div>
+
+<div class="sub">
+
+과거 수만 건의 경주를 분석하여
+현재와 가장 유사한 경주를 제공합니다.
+
+</div>
+
+</div>
+
+<div class="hero-card">
+
+<div class="hero-left">
+
+<h1 id="heroTitle">
+
+📍
+
+</h1>
+
+<div class="hero-info">
+
+<span id="heroGrade">
+
+🏆
+
+</span>
+
+<span id="heroDistance">
+
+📏
+
+</span>
+
+<span id="heroStarter">
+
+🐎
+
+</span>
+
+</div>
+
+<div
+class="hero-desc"
+id="heroDesc"
+>
+
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<div class="similar-label">
+
+유사도
+
+</div>
+
+<div
+class="hero-percent"
+id="heroSimilarity"
+>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ========================= -->
+<!-- AI 분석 기준 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🧠 AI 분석 기준
+
+</h2>
+
+<div class="criteria-grid">
+
+<div class="criteria-card">
+
+<div class="criteria-icon">📏</div>
+
+<div class="criteria-title">거리</div>
+
+<div
+class="criteria-value"
+id="criteriaDistance"
+>
+1200m
+</div>
+
+</div>
+
+<div class="criteria-card">
+
+<div class="criteria-icon">🏆</div>
+
+<div class="criteria-title">등급</div>
+
+<div
+class="criteria-value"
+id="criteriaGrade"
+>
+국6등급
+</div>
+
+</div>
+
+<div class="criteria-card">
+
+<div class="criteria-icon">🐎</div>
+
+<div class="criteria-title">출전두수</div>
+
+<div
+class="criteria-value"
+id="criteriaStarter"
+>
+11두
+</div>
+
+</div>
+
+<div class="criteria-card">
+
+<div class="criteria-icon">🧬</div>
+
+<div class="criteria-title">혈통정보</div>
+
+<div class="criteria-value">
+
+DI · CD · COI<br>
+RI · CPI · SPR
+
+</div>
+
+</div>
+
+<div class="criteria-card">
+
+<div class="criteria-icon">🚩</div>
+
+<div class="criteria-title">게이트</div>
+
+<div class="criteria-value">
+
+내측 · 중간 · 외측
+
+</div>
+
+</div>
+
+<div class="criteria-card">
+
+<div class="criteria-icon">🏃</div>
+
+<div class="criteria-title">전개정보</div>
+
+<div class="criteria-value">
+
+선행 · 선입 · 추입
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- AI 분석 프로세스 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🔍 AI 분석 프로세스
+
+</h2>
+
+<div class="process-box">
+
+<!-- 거리 -->
+
+<div class="process-row">
+
+<div class="process-title">
+📏 거리 비교
+</div>
+
+<div class="process-bar">
+
+<div
+id="processDistanceBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processDistance"
+class="process-score">
+0%
+</div>
+
+</div>
+
+<!-- 등급 -->
+
+<div class="process-row">
+
+<div class="process-title">
+🏆 등급 비교
+</div>
+
+<div class="process-bar">
+
+<div
+id="processGradeBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processGrade"
+class="process-score">
+0%
+</div>
+
+</div>
+
+<!-- 주로 -->
+
+<div class="process-row">
+
+<div class="process-title">
+☀ 주로 비교
+</div>
+
+<div class="process-bar">
+
+<div
+id="processTrackBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processTrack"
+class="process-score">
+0%
+</div>
+
+</div>
+
+<!-- 혈통 -->
+
+<div class="process-row">
+
+<div class="process-title">
+🧬 혈통 분석
+</div>
+
+<div class="process-bar">
+
+<div
+id="processBloodBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processBlood"
+class="process-score">
+0%
+</div>
+
+</div>
+
+<!-- 게이트 -->
+
+<div class="process-row">
+
+<div class="process-title">
+🚩 게이트 비교
+</div>
+
+<div class="process-bar">
+
+<div
+id="processGateBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processGate"
+class="process-score">
+0%
+</div>
+
+</div>
+
+<!-- 전개 -->
+
+<div class="process-row">
+
+<div class="process-title">
+🏃 전개 분석
+</div>
+
+<div class="process-bar">
+
+<div
+id="processPaceBar"
+class="process-fill">
+</div>
+
+</div>
+
+<div
+id="processPace"
+class="process-score">
+0%
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- 유사경주 TOP5 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🏇 유사경주 TOP5
+
+</h2>
+
+<div
+id="top5Area"
+class="similar-scroll">
+
+</div>
+
+</section>
+
+<!-- ========================= -->
+<!-- 과거 동일조건 패턴 -->
+<!-- ========================= -->
+<section class="report-section">
+
+<h2>
+
+📊 과거 동일조건 패턴
+
+</h2>
+
+<div class="pattern-desc">
+
+동일한 거리 · 등급 조건의
+과거 경주를 분석한 결과입니다.
+
+</div>
+
+<div class="pattern-grid">
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        📈 분석 대상
+
+        </div>
+
+        <div
+        id="patternRaceCount"
+        class="pattern-value"
+        >
+
+        286경주
+
+        </div>
+
+    </div>
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        🐎 평균 출전
+
+        </div>
+
+        <div
+        id="patternStarter"
+        class="pattern-value"
+        >
+
+        10.8두
+
+        </div>
+
+    </div>
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        🚩 유리한 게이트
+
+        </div>
+
+        <div
+        id="patternGate"
+        class="pattern-value"
+        >
+
+        1~4번
+
+        </div>
+
+    </div>
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        🏇 우세 전개
+
+        </div>
+
+        <div
+        id="patternPace"
+        class="pattern-value"
+        >
+
+        선행형
+
+        </div>
+
+    </div>
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        🧬 대표 혈통
+
+        </div>
+
+        <div
+        id="patternBlood"
+        class="pattern-value"
+        >
+
+        DI 2.0~2.3
+        <br>
+        COI 5~9
+
+        </div>
+
+    </div>
+
+    <div class="pattern-card">
+
+        <div class="pattern-title">
+
+        💡 한줄 요약
+
+        </div>
+
+        <div
+        id="patternSummary"
+        class="pattern-value"
+        >
+
+        선행형과
+        안쪽 게이트가
+        강세였습니다.
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 혈통 패턴 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🧬 혈통 패턴 분석
+
+</h2>
+
+<div class="table-scroll">
+
+<table class="blood-table">
+
+<tr>
+
+<tr>
+
+<th>항목</th>
+
+<th>🎯추천범위</th>
+
+<th>🥇1위평균</th>
+
+<th>🥈2위평균</th>
+
+<th>🥉3위평균</th>
+
+<th>4위평균</th>
+
+<th>5위평균</th>
+
+</tr>
+
+</tr>
+
+<tr>
+
+<td>DI</td>
+
+<td id="bloodDI">-</td>
+
+<td id="bloodDI1">-</td>
+
+<td id="bloodDI2">-</td>
+
+<td id="bloodDI3">-</td>
+
+<td id="bloodDI4">-</td>
+
+<td id="bloodDI5">-</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>CD</td>
+
+<td id="bloodCD">-</td>
+
+<td id="bloodCD1">-</td>
+
+<td id="bloodCD2">-</td>
+
+<td id="bloodCD3">-</td>
+
+<td id="bloodCD4">-</td>
+
+<td id="bloodCD5">-</td>
+
+</tr>
+
+<tr>
+
+<td>COI</td>
+
+<td id="bloodCOI">-</td>
+
+<td id="bloodCOI1">-</td>
+
+<td id="bloodCOI2">-</td>
+
+<td id="bloodCOI3">-</td>
+
+<td id="bloodCOI4">-</td>
+
+<td id="bloodCOI5">-</td>
+
+</tr>
+
+<tr>
+
+<td>RI</td>
+
+<td id="bloodRI">-</td>
+
+<td id="bloodRI1">-</td>
+
+<td id="bloodRI2">-</td>
+
+<td id="bloodRI3">-</td>
+
+<td id="bloodRI4">-</td>
+
+<td id="bloodRI5">-</td>
+
+</tr>
+
+<tr>
+
+<td>CPI</td>
+
+<td id="bloodCPI">-</td>
+
+<td id="bloodCPI1">-</td>
+
+<td id="bloodCPI2">-</td>
+
+<td id="bloodCPI3">-</td>
+
+<td id="bloodCPI4">-</td>
+
+<td id="bloodCPI5">-</td>
+
+</tr>
+
+<tr>
+
+<td>SPR</td>
+
+<td id="bloodSPR">-</td>
+
+<td id="bloodSPR1">-</td>
+
+<td id="bloodSPR2">-</td>
+
+<td id="bloodSPR3">-</td>
+
+<td id="bloodSPR4">-</td>
+
+<td id="bloodSPR5">-</td>
+
+</tr>
+
+</table>
+
+<div class="blood-guide">
+
+<span><b>DI</b> 거리적성지수</span>
+
+<span><b>CD</b> 최적주행거리범위</span>
+
+<span><b>COI</b> 근친도↓</span>
+
+<span><b>RI</b> 경주능력지수</span>
+
+<span><b>CPI</b> 등급능력지수</span>
+
+<span><b>SPR</b> 출전지수</span>
+
+</div>
+
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 전개 패턴 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🏃 전개 패턴 분석
+
+</h2>
+
+<div class="table-scroll">
+
+<table class="blood-table">
+
+<tr>
+
+<th>항목</th>
+
+<th>🎯추천범위</th>
+
+<th>🥇</th>
+
+<th>🥈</th>
+
+<th>🥉</th>
+
+<th>4️⃣</th>
+
+<th>5️⃣</th>
+
+</tr>
+
+<tr>
+
+<td>B</td>
+
+<td id="paceB"></td>
+
+<td id="paceB1"></td>
+
+<td id="paceB2"></td>
+
+<td id="paceB3"></td>
+
+<td id="paceB4"></td>
+
+<td id="paceB5"></td>
+
+</tr>
+
+<tr>
+
+<td>I</td>
+
+<td id="paceI"></td>
+
+<td id="paceI1"></td>
+
+<td id="paceI2"></td>
+
+<td id="paceI3"></td>
+
+<td id="paceI4"></td>
+
+<td id="paceI5"></td>
+
+</tr>
+
+<tr>
+
+<td>C</td>
+
+<td id="paceC"></td>
+
+<td id="paceC1"></td>
+
+<td id="paceC2"></td>
+
+<td id="paceC3"></td>
+
+<td id="paceC4"></td>
+
+<td id="paceC5"></td>
+
+</tr>
+
+<tr>
+
+<td>S</td>
+
+<td id="paceS"></td>
+
+<td id="paceS1"></td>
+
+<td id="paceS2"></td>
+
+<td id="paceS3"></td>
+
+<td id="paceS4"></td>
+
+<td id="paceS5"></td>
+
+</tr>
+
+<tr>
+
+<td>P</td>
+
+<td id="paceP"></td>
+
+<td id="paceP1"></td>
+
+<td id="paceP2"></td>
+
+<td id="paceP3"></td>
+
+<td id="paceP4"></td>
+
+<td id="paceP5"></td>
+
+</tr>
+
+</table>
+
+<div class="blood-guide">
+
+<span><b>B</b> 초반가속</span>
+
+<span><b>I</b> 위치선점</span>
+
+<span><b>C</b> 코너주행</span>
+
+<span><b>S</b> 종반스퍼트</span>
+
+<span><b>P</b> 추진력</span>
+
+</div>
+
+</section>
+
+<section class="report-section">
+
+<h2>
+
+🚩 유리한 게이트
+
+</h2>
+
+<div class="gate-layout">
+
+<div class="gate-left">
+
+<div
+id="gatePie"
+class="gate-pie"
+></div>
+
+<div class="gate-center">
+
+🏆<br>
+
+<b id="bestGate">
+
+내측
+
+</b>
+
+</div>
+
+</div>
+
+<div class="gate-right">
+
+<div class="gate-row">
+
+<span>
+
+🔵 내측
+
+</span>
+
+<div class="gate-bar">
+
+<div
+id="insideBar"
+class="gate-fill"
+></div>
+
+</div>
+
+<b id="insideRate">
+
+40%
+
+</b>
+
+</div>
+
+<div class="gate-row">
+
+<span>
+
+🔷 중간
+
+</span>
+
+<div class="gate-bar">
+
+<div
+id="middleBar"
+class="gate-fill middle"
+></div>
+
+</div>
+
+<b id="middleRate">
+
+38%
+
+</b>
+
+</div>
+
+<div class="gate-row">
+
+<span>
+
+⚪ 외측
+
+</span>
+
+<div class="gate-bar">
+
+<div
+id="outsideBar"
+class="gate-fill outside"
+></div>
+
+</div>
+
+<b id="outsideRate">
+
+21%
+
+</b>
+
+</div>
+
+<div
+id="gateComment"
+
+class="gate-comment"
+
+>
+
+AI 해석
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- 이번 출전마 비교 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+⚖️ 이번 출전마 비교
+
+</h2>
+
+<div id="horseCompareArea">
+
+<div class="empty-box">
+
+현재 출전마와 유사경주 비교
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- AI 종합 의견 -->
+<!-- ========================= -->
+
+<section class="report-section">
+
+<h2>
+
+🤖 AI 종합 의견
+
+</h2>
+
+<div
+id="opinionArea"
+class="ai-comment">
+
+</div>
+
+</section>
+
+</div>
+
+<script>
+// =========================
+// 초기 실행
+// =========================
+
+window.onload = async function(){
+
+    await loadReport();
+
+};
+
+
+// =========================
+// 데이터 로드
+// =========================
+
+async function loadReport(){
+
+    const params =
+    new URLSearchParams(
+        location.search
+    );
+    const region =
+    params.get("region");
+
+    const raceNo =
+    params.get("raceNo");
+
+    const raceDate =
+    params.get("raceDate");
+
+    const res =
+    await fetch(
+
+    `/similar-report-data/${region}/${raceNo}/${raceDate}`
+
+    );
+
+    const hero =
+    await res.json();
+
+    console.log("========== HERO ==========");
+    console.log(hero);
+    console.table(hero);
+    console.log(JSON.stringify(hero, null, 2));
+    console.log("region =", hero.region);
+    console.log("raceNo =", hero.raceNo);
+    console.log("distance =", hero.distance);
+    console.log("grade =", hero.grade);
+    console.log("starter =", hero.starter);
+    console.log("similarity =", hero.similarity);
+    console.log(typeof hero.distance, hero.distance);
+
+    console.log(hero.distance);
+    console.log(typeof hero.distance);    
+
+
+    renderHero(hero);
+
+    renderCriteria(hero);
+
+    renderProcess(hero);
+
+    renderTop5(hero);
+
+    console.log(hero);
+    console.log(hero.horses);    
+
+    renderPattern(hero);
+
+    renderGatePattern(hero);   
+
+    renderBlood(hero);
+
+    renderPace(hero);
+
+    renderCompare(hero);
+
+    renderOpinion(hero);
+
+}
+
+
+// =========================
+// Hero
+// =========================
+
+function renderHero(hero){
+
+    document.getElementById(
+    "heroTitle"
+    ).innerHTML =
+    `📍 ${hero.region} ${hero.raceNo}경주`;
+
+    document.getElementById(
+    "heroGrade"
+    ).innerHTML =
+    `🏆 ${hero.grade}`;
+
+    document.getElementById(
+    "heroDistance"
+    ).innerHTML =
+    `📏 ${hero.distance}m`;
+
+    document.getElementById(
+    "heroStarter"
+    ).innerHTML =
+    `🐎 출전 ${hero.starter}`;
+
+    document.getElementById(
+    "heroSimilarity"
+    ).innerHTML =
+    `${hero.similarity}%`;
+
+    document.getElementById(
+    "heroDesc"
+    ).innerHTML =
+    `AI가 최근 수만 건의 경주를 분석한 결과,
+    이번 경주와 가장 유사한 과거 경주를 찾았습니다.`;
+
+}
+
+// =========================
+// AI 분석 기준
+// =========================
+
+function renderCriteria(hero){
+
+    document.getElementById(
+    "criteriaDistance"
+    ).innerHTML =
+    hero.distance;
+
+    document.getElementById(
+    "criteriaGrade"
+    ).innerHTML =
+    hero.grade;
+
+    document.getElementById(
+    "criteriaStarter"
+    ).innerHTML =
+    hero.starter;
+
+}
+
+
+// =========================
+// AI 분석 프로세스
+// =========================
+
+function renderProcess(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+    
+
+    if(!stat){
+        return;
+    }
+
+    const distanceScore = 100;
+    const gradeScore = 100;
+
+    const trackScore = 100;
+
+    const bloodScore =
+    Math.max(
+        80,
+        Math.min(
+            99,
+            Math.round(
+                100 -
+                (
+                    Number(stat.top5.DI.goodMax || 0) -
+                    Number(stat.top5.DI.goodMin || 0)
+                ) * 20
+            )
+        )
+    );
+
+    const gateScore =
+    Math.max(
+        80,
+        Math.min(
+            99,
+            Math.round(
+                50 +
+                Math.max(
+                    Number(stat.gateTop5.insideRate || 0),
+                    Number(stat.gateTop5.middleRate || 0),
+                    Number(stat.gateTop5.outsideRate || 0)
+                )
+            )
+        )
+    );
+
+    const paceRange =
+    Number(stat.top5.pace.B.goodMax || 0) -
+    Number(stat.top5.pace.B.goodMin || 0);
+
+    const paceScore =
+    Math.max(
+        80,
+        Math.min(
+            99,
+            Math.round(
+                100 - paceRange * 5
+            )
+        )
+    );
+
+    setProcess(
+        "Distance",
+        distanceScore
+    );
+
+    setProcess(
+        "Grade",
+        gradeScore
+    );
+
+    setProcess(
+        "Track",
+        trackScore
+    );
+
+    setProcess(
+        "Blood",
+        bloodScore
+    );
+
+    setProcess(
+        "Gate",
+        gateScore
+    );
+
+    setProcess(
+        "Pace",
+        paceScore
+    );
+
+    // =========================
+    // 최종 유사도 계산
+    // =========================
+
+    const similarity = Math.round(
+
+        distanceScore * 0.25 +
+
+        gradeScore * 0.20 +
+
+        trackScore * 0.10 +
+
+        bloodScore * 0.20 +
+
+        gateScore * 0.10 +
+
+        paceScore * 0.15
+
+    );
+
+    hero.similarity = Math.min(99, similarity);
+
+    document.getElementById(
+        "heroSimilarity"
+    ).innerHTML =
+    `${hero.similarity}%`;
+
+}
+
+function setProcess(
+    name,
+    score
+){
+
+    document.getElementById(
+        `process${name}`
+    ).innerHTML =
+    `${score}%`;
+
+    document.getElementById(
+        `process${name}Bar`
+    ).style.width =
+    `${score}%`;
+
+}
+
+
+hero.similarity = Math.min(99, similarity);
+
+document.getElementById(
+    "heroSimilarity"
+).innerHTML =
+`${hero.similarity}%`;
+
+// =========================
+// TOP5
+// =========================
+function renderTop5(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    console.log("key =", key);
+
+    const stat =
+    similarStatistics[key];
+
+    console.log("현재 key =", key);
+
+    console.log(
+        "실제 similarTop5",
+        similarStatistics[key].similarTop5
+    );
+
+    console.log(
+        "전체 객체",
+        similarStatistics[key]
+    );    
+
+    console.log(
+    Object.keys(similarStatistics)
+    );    
+
+    console.log("stat =", stat);
+
+    console.log(
+        "similarTop5 =",
+        stat?.similarTop5
+    );
+
+    if(!stat){
+
+        alert("stat 없음");
+
+        return;
+
+    }
+
+    if(!stat.similarTop5){
+
+
+        return;
+
+    }
+
+    let html = "";
+
+    console.log(stat.similarTop5.length);
+
+    stat.similarTop5.forEach((r,index)=>{
+
+        console.log("TOP5 =", r);
+
+        html += `
+        <div class="similar-card">
+
+            <div class="rank-badge">
+                ${index+1}
+            </div>
+
+            <div class="similar-percent">
+                ${98-index}%
+            </div>
+
+            <div class="similar-date">
+                ${r.date.slice(0,4)}.${r.date.slice(4,6)}.${r.date.slice(6,8)}
+            </div>
+
+            <div class="similar-info">
+                ${r.region} ${r.raceNo}경주
+            </div>
+
+            <div class="similar-info">
+                ${r.grade} · ${r.distance}m
+            </div>
+
+            <div class="similar-info">
+                ${r.track}
+            </div>
+
+        <div class="winner-name">
+            우승마 : ${r.winner}
+        </div>
+
+
+        <div class="winner-stat">
+
+            <span>🚩 ${r.gate ?? "-" }번</span>
+
+            <span>DI ${r.di != null ? Number(r.di).toFixed(2) : "-"}</span>
+
+            <span>CD ${r.cd != null ? Number(r.cd).toFixed(2) : "-"}</span>
+
+            <span>COI ${r.coi != null ? Number(r.coi).toFixed(2) : "-"}</span>
+
+        </div>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById(
+        "top5Area"
+    ).innerHTML = html;
+
+}
+
+
+// =========================
+// 과거 동일조건 패턴
+// =========================
+function renderPattern(hero){
+
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    console.log("key =", key);
+    console.log("hero =", hero);
+    console.log("keys =", Object.keys(similarStatistics));    
+
+    const stat =
+    similarStatistics[key];
+
+    console.log("pace B =", stat.top5.pace.B);
+    console.log("recommend =", `${stat.top5.pace.B.goodMin} ~ ${stat.top5.pace.B.goodMax}`);    
+
+    if(!stat){
+
+        console.log(
+        "통계 없음",
+        key
+        );
+
+        return;
+
+    }
+
+    document.getElementById(
+    "patternRaceCount"
+    ).innerHTML =
+    `${stat.raceCount}경주`;
+
+    document.getElementById(
+    "patternGate"
+    ).innerHTML =
+    stat.summary.top5BestGateZone;
+
+    document.getElementById(
+    "patternPace"
+    ).innerHTML =
+    stat.summary.top5BestPace;
+
+    document.getElementById(
+    "patternBlood"
+    ).innerHTML =
+    `
+    DI ${stat.summary.top5AvgDI}<br>
+    CD ${stat.summary.top5AvgCD}<br>
+    COI ${stat.summary.top5AvgCOI}
+    `;
+
+    document.getElementById(
+    "patternSummary"
+    ).innerHTML =
+    `
+    최근
+    ${stat.raceCount}경주를
+    분석한 결과,
+
+    ${stat.summary.top5BestGateZone}
+    게이트와
+
+    ${stat.summary.top5BestPace}
+    전개가 강세였습니다.
+    `;
+
+}
+
+
+// =========================
+// 혈통 패턴
+// =========================
+function renderBlood(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+
+    if(!stat){
+        return;
+    }
+
+    document.getElementById("bloodDI").innerHTML =
+    `<span class="blood-range">
+    ${stat.top5.DI.goodMin} ~ ${stat.top5.DI.goodMax}
+    </span>`;
+
+    document.getElementById("bloodCD").innerHTML =
+    `
+    <span class="blood-range">
+    ${stat.top5.CD.goodMin} ~ ${stat.top5.CD.goodMax}
+    </span>
+    `;
+
+    document.getElementById("bloodCOI").innerHTML =
+    `
+    <span class="blood-range">
+    ${stat.top5.COI.goodMin} ~ ${stat.top5.COI.goodMax}
+    </span>
+    `;
+
+    document.getElementById("bloodRI").innerHTML =
+    `
+    <span class="blood-range">
+    ${stat.top5.RI.goodMin} ~ ${stat.top5.RI.goodMax}
+    </span>
+    `;
+
+    document.getElementById("bloodCPI").innerHTML =
+    `
+    <span class="blood-range">
+    ${stat.top5.CPI.goodMin} ~ ${stat.top5.CPI.goodMax}
+    </span>
+    `;
+
+    document.getElementById("bloodSPR").innerHTML =
+    `
+    <span class="blood-range">
+    ${stat.top5.SPR.goodMin} ~ ${stat.top5.SPR.goodMax}
+    </span>
+    `;
+
+    document.getElementById("bloodDI1").innerHTML =
+    stat.rank1.DI.avg;
+
+    document.getElementById("bloodDI2").innerHTML =
+    stat.rank2.DI.avg;
+
+    document.getElementById("bloodDI3").innerHTML =
+    stat.rank3.DI.avg;
+
+    document.getElementById("bloodDI4").innerHTML =
+    stat.rank4.DI.avg;
+
+    document.getElementById("bloodDI5").innerHTML =
+    stat.rank5.DI.avg;    
+
+    document.getElementById("bloodCD1").innerHTML =
+    stat.rank1.CD.avg;
+
+    document.getElementById("bloodCD2").innerHTML =
+    stat.rank2.CD.avg;
+
+    document.getElementById("bloodCD3").innerHTML =
+    stat.rank3.CD.avg;
+
+    document.getElementById("bloodCD4").innerHTML =
+    stat.rank4.CD.avg;
+
+    document.getElementById("bloodCD5").innerHTML =
+    stat.rank5.CD.avg;    
+
+    document.getElementById("bloodCOI1").innerHTML =
+    stat.rank1.COI.avg;
+
+    document.getElementById("bloodCOI2").innerHTML =
+    stat.rank2.COI.avg;
+
+    document.getElementById("bloodCOI3").innerHTML =
+    stat.rank3.COI.avg;
+
+    document.getElementById("bloodCOI4").innerHTML =
+    stat.rank4.COI.avg;
+
+    document.getElementById("bloodCOI5").innerHTML =
+    stat.rank5.COI.avg;
+
+    document.getElementById("bloodRI1").innerHTML =
+    stat.rank1.RI.avg;
+
+    document.getElementById("bloodRI2").innerHTML =
+    stat.rank2.RI.avg;
+
+    document.getElementById("bloodRI3").innerHTML =
+    stat.rank3.RI.avg;
+
+    document.getElementById("bloodRI4").innerHTML =
+    stat.rank4.RI.avg;
+
+    document.getElementById("bloodRI5").innerHTML =
+    stat.rank5.RI.avg;
+
+    document.getElementById("bloodCPI1").innerHTML =
+    stat.rank1.CPI.avg;
+
+    document.getElementById("bloodCPI2").innerHTML =
+    stat.rank2.CPI.avg;
+
+    document.getElementById("bloodCPI3").innerHTML =
+    stat.rank3.CPI.avg;
+
+    document.getElementById("bloodCPI4").innerHTML =
+    stat.rank4.CPI.avg;
+
+    document.getElementById("bloodCPI5").innerHTML =
+    stat.rank5.CPI.avg;
+
+    document.getElementById("bloodSPR1").innerHTML =
+    stat.rank1.SPR.avg;
+
+    document.getElementById("bloodSPR2").innerHTML =
+    stat.rank2.SPR.avg;
+
+    document.getElementById("bloodSPR3").innerHTML =
+    stat.rank3.SPR.avg;
+
+    document.getElementById("bloodSPR4").innerHTML =
+    stat.rank4.SPR.avg;
+
+    document.getElementById("bloodSPR5").innerHTML =
+    stat.rank5.SPR.avg;
+
+}
+
+
+// =========================
+// 전개
+// =========================
+
+function renderPace(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+
+    if(!stat){
+        return;
+    }
+
+    // =====================
+    // B
+    // =====================
+
+    setPaceRow(
+        "B",
+        `${stat.top5.pace.B.goodMin.toFixed(2)} ~ ${stat.top5.pace.B.goodMax.toFixed(2)}`,
+        stat.rank1.pace.B.avg.toFixed(2),
+        stat.rank2.pace.B.avg.toFixed(2),
+        stat.rank3.pace.B.avg.toFixed(2),
+        stat.rank4.pace.B.avg.toFixed(2),
+        stat.rank5.pace.B.avg.toFixed(2)
+    );
+
+    // =====================
+    // I
+    // =====================
+
+    setPaceRow(
+        "I",
+        `${stat.top5.pace.I.goodMin.toFixed(2)} ~ ${stat.top5.pace.I.goodMax.toFixed(2)}`,
+        stat.rank1.pace.I.avg.toFixed(2),
+        stat.rank2.pace.I.avg.toFixed(2),
+        stat.rank3.pace.I.avg.toFixed(2),
+        stat.rank4.pace.I.avg.toFixed(2),
+        stat.rank5.pace.I.avg.toFixed(2)
+    );
+
+    // =====================
+    // C
+    // =====================
+
+    setPaceRow(
+        "C",
+        `${stat.top5.pace.C.goodMin.toFixed(2)} ~ ${stat.top5.pace.C.goodMax.toFixed(2)}`,
+        stat.rank1.pace.C.avg.toFixed(2),
+        stat.rank2.pace.C.avg.toFixed(2),
+        stat.rank3.pace.C.avg.toFixed(2),
+        stat.rank4.pace.C.avg.toFixed(2),
+        stat.rank5.pace.C.avg.toFixed(2)
+    );
+
+    // =====================
+    // S
+    // =====================
+
+    setPaceRow(
+        "S",
+        `${stat.top5.pace.S.goodMin.toFixed(2)} ~ ${stat.top5.pace.S.goodMax.toFixed(2)}`,
+        stat.rank1.pace.S.avg.toFixed(2),
+        stat.rank2.pace.S.avg.toFixed(2),
+        stat.rank3.pace.S.avg.toFixed(2),
+        stat.rank4.pace.S.avg.toFixed(2),
+        stat.rank5.pace.S.avg.toFixed(2)
+    );
+
+    // =====================
+    // P
+    // =====================
+
+    setPaceRow(
+        "P",
+        `${stat.top5.pace.P.goodMin.toFixed(2)} ~ ${stat.top5.pace.P.goodMax.toFixed(2)}`,
+        stat.rank1.pace.P.avg.toFixed(2),
+        stat.rank2.pace.P.avg.toFixed(2),
+        stat.rank3.pace.P.avg.toFixed(2),
+        stat.rank4.pace.P.avg.toFixed(2),
+        stat.rank5.pace.P.avg.toFixed(2)
+    );
+
+}
+
+function setPaceRow(
+
+    name,
+
+    recommend,
+
+    rank1,
+
+    rank2,
+
+    rank3,
+
+    rank4,
+
+    rank5
+
+){
+
+    document.getElementById(
+    "pace"+name
+    ).innerHTML =
+
+    `<span class="blood-range">${recommend}</span>`;
+
+    document.getElementById(
+    "pace"+name+"1"
+    ).innerHTML = rank1;
+
+    document.getElementById(
+    "pace"+name+"2"
+    ).innerHTML = rank2;
+
+    document.getElementById(
+    "pace"+name+"3"
+    ).innerHTML = rank3;
+
+    document.getElementById(
+    "pace"+name+"4"
+    ).innerHTML = rank4;
+
+    document.getElementById(
+    "pace"+name+"5"
+    ).innerHTML = rank5;
+
+}
+
+
+// =========================
+// 출전마 비교
+// =========================
+
+function renderCompare(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+    
+    if(!stat){
+
+         return;
+
+    }
+
+    if(!hero.horses){
+
+        return;
+
+    }
+
+    if(hero.horses.length===0){
+
+        return;
+
+    }
+
+    console.log("✅ renderCompare 시작");
+
+    const rankProfiles = [
+
+        {
+            label:"🥇 과거 1착 패턴",
+            result:"1착",
+            data:stat.rank1
+        },
+
+        {
+            label:"🥈 과거 2착 패턴",
+            result:"2착",
+            data:stat.rank2
+        },
+
+        {
+            label:"🥉 과거 3착 패턴",
+            result:"3착",
+            data:stat.rank3
+        }
+
+    ];
+
+    let html = `
+    <table class="blood-table">
+
+    <tr>
+        <th>현재 출전마</th>
+        <th>AI 점수</th>
+        <th>가장 유사한 과거 결과</th>
+        <th>유사도</th>
+        <th>AI 해석</th>
+    </tr>
+    `;
+
+    
+    hero.horses
+    .slice(0,5)
+    .forEach(h=>{
+
+        const best =
+        findBestPastPattern(
+            h,
+            rankProfiles
+        );
+
+        html += `
+        <tr>
+            <td>
+                <b>${h.no} ${h.name}</b>
+            </td>
+
+            <td>
+                ${f2(h.score)}점
+            </td>
+
+            <td>
+                ${best.label}
+            </td>
+
+            <td>
+                <span class="blood-range">
+                ${best.similarity}%
+                </span>
+            </td>
+
+            <td>
+                ${h.name}은 과거 동일조건의
+                <b>${best.result}</b> 말 패턴과
+                가장 유사합니다.
+            </td>
+        </tr>
+        `;
+
+    });
+
+    html += `
+    </table>
+
+    <div class="ai-comment">
+
+    <p>
+    AI는 이번 출전마의 종합점수·혈통지수·능력지수를
+    과거 동일조건 입상마 패턴에 대입했습니다.
+    </p>
+
+    <p>
+    유사도가 높을수록 과거 해당 착순마와 비슷한 조건을 가진 것으로 해석합니다.
+    </p>
+
+    </div>
+    `;
+
+    document.getElementById(
+    "horseCompareArea"
+    ).innerHTML =
+    html;
+
+}
+
+function findBestPastPattern(
+    horse,
+    profiles
+){
+
+    let best = null;
+
+    profiles.forEach(profile=>{
+
+        const similarity =
+        calcHorseSimilarity(
+            horse,
+            profile.data
+        );
+
+        if(
+            !best ||
+            similarity > best.similarity
+        ){
+
+            best = {
+                ...profile,
+                similarity:similarity
+            };
+
+        }
+
+    });
+
+    return best;
+
+}
+
+
+function calcHorseSimilarity(
+    horse,
+    profile
+){
+
+    let score = 100;
+    let count = 0;
+
+    function diffScore(
+        horseValue,
+        profileValue,
+        weight
+    ){
+
+        if(
+            horseValue === null ||
+            horseValue === undefined ||
+            profileValue === null ||
+            profileValue === undefined
+        ){
+            return;
+        }
+
+        const diff =
+        Math.abs(
+            Number(horseValue) -
+            Number(profileValue)
+        );
+
+        score -=
+        diff * weight;
+
+        count++;
+
+    }
+
+    diffScore(horse.DI, profile.DI?.avg, 6);
+    diffScore(horse.CD, profile.CD?.avg, 8);
+    diffScore(horse.COI, profile.COI?.avg, 2);
+
+    diffScore(horse.RI, profile.RI?.avg, 8);
+    diffScore(horse.CPI, profile.CPI?.avg, 8);
+    diffScore(horse.SPR, profile.SPR?.avg, 1);
+
+    if(count === 0){
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        Math.min(
+            99,
+            Math.round(score)
+        )
+    );
+
+}
+
+function f2(v){
+
+    return Number(v || 0).toFixed(2);
+
+}
+
+
+// =========================
+// AI 종합 의견
+// =========================
+
+function renderOpinion(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+
+    if(!stat){
+        return;
+    }
+
+    const topHorse =
+    hero.horses[0];
+
+    console.log("hero =", hero);
+    console.log("hero.horses =", hero.horses);
+    console.log("topHorse =", topHorse);    
+    console.log("❌ topHorse 없음");
+    console.log(hero);
+
+    document.getElementById(
+    "opinionArea"
+    ).innerHTML =
+
+    `
+
+    <p>
+
+    AI는 최근
+
+    <b>${stat.raceCount}개</b>
+
+    의 유사경주를 분석했습니다.
+
+    </p>
+
+    <p>
+
+    <b>
+
+    ${hero.distance}m ·
+    ${hero.grade}
+
+    </b>
+
+    조건에서는
+
+    <b style="color:#2563eb;">
+
+    ${stat.summary.top5BestPace}
+
+    </b>
+
+    전개와
+
+    <b style="color:#2563eb;">
+
+    ${stat.summary.top5BestGateZone}
+
+    </b>
+
+    게이트가 가장 높은 입상률을 보였습니다.
+
+    </p>
+
+    <p>
+
+    이번 경주에서는
+
+    <b style="color:#2563eb;">
+
+    ${topHorse.no}번
+    ${topHorse.name}
+
+    </b>
+
+    이 과거 입상마 패턴과 가장 높은 유사도를 보입니다.
+
+    </p>
+
+    `;
+
+}
+
+
+function renderGatePattern(hero){
+
+    const key =
+    `${hero.distance}_${hero.grade}`;
+
+    const stat =
+    similarStatistics[key];
+    console.log(stat.top5.pace.B);
+
+    if(!stat){
+        return;
+    }
+
+    const inside =
+    stat.gateTop5.insideRate;
+
+    const middle =
+    stat.gateTop5.middleRate;
+
+    const outside =
+    stat.gateTop5.outsideRate;
+
+    document.getElementById(
+    "insideRate"
+    ).innerHTML =
+    inside + "%";
+
+    document.getElementById(
+    "middleRate"
+    ).innerHTML =
+    middle + "%";
+
+    document.getElementById(
+    "outsideRate"
+    ).innerHTML =
+    outside + "%";    
+
+    insideBar.style.width =
+    inside+"%";
+
+    middleBar.style.width =
+    middle+"%";
+
+    outsideBar.style.width =
+    outside+"%";
+
+    gatePie.style.background =
+
+    `conic-gradient(
+
+    #2563eb 0 ${inside}%,
+
+    #60a5fa ${inside}% ${inside+middle}%,
+
+    #cbd5e1 ${inside+middle}% 100%
+
+    )`;
+
+    bestGate.innerHTML =
+    stat.gateTop5.bestZone;
+
+    gateComment.innerHTML =
+
+    `
+    💡 최근 동일조건에서는
+
+    <b>${stat.gateTop5.bestZone}</b>의
+    입상 비율이 가장 높았습니다.
+
+    <br><br>
+
+    내측+중간이 <b>${(inside + middle).toFixed(2)}%</b>를 차지했습니다.
+    `;
+
+}
+
+</script>
+
+</body>
+
+</html>

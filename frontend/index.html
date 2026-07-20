@@ -176,7 +176,7 @@ input:focus{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:18px;
+    font-size:16px;
     font-weight:700;
 }
 
@@ -184,10 +184,10 @@ input:focus{
     width:100%;
     height:55px;
     border:none;
-    border-radius:14px;
+    border-radius:18px;
     background:#111827;
     color:white;
-    font-size:18px;
+    font-size:16px;
     font-weight:700;
     margin-top:15px;
     cursor:pointer;
@@ -199,196 +199,150 @@ input:focus{
     color:white;
     padding:10px 16px;
     border-radius:10px;
-    font-size:14px;
-    font-weight:700;
+    font-size:12px;
+    font-weight:650;
     cursor:pointer;
 }
 
 .region-wrap{
     display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
+    align-items:stretch;
     gap:10px;
     margin-top:25px;
-}
-
-.region-card{
-    background:white;
-    border-radius:22px;
-    padding:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.07);
-}
-
-.region-title{
-    font-size:28px;
-    font-weight:800;
-}
-
-.time{
-    margin-top:10px;
-    font-size:20px;
-    color:#e60023;
-    font-weight:800;
-}
-
-.ai-btn{
-    margin-top:18px;
     width:100%;
-    height:60px;
-    border:none;
-    border-radius:15px;
-    background:#2563eb;
-    color:white;
-    font-size:20px;
-    font-weight:700;
-    cursor:pointer;
 }
 
-.card{
+/* =========================
+   경주 티켓 카드
+========================= */
+
+.ticket-card{
+    flex:1;
+    min-width:0;
+
     background:white;
+    border:3px solid #2563eb;
     border-radius:20px;
-    padding:20px;
-    margin-top:18px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.06);
-}
 
-.card button{
-    width:100%;
-    margin-top:15px;
-    height:50px;
-    border:none;
-    border-radius:12px;
-    background:#2563eb;
-    color:white;
-    font-size:18px;
-    font-weight:700;
-}
+    /* 모바일 2열 공간 확보 */
+    padding:18px 10px;
 
-.bottom-menu{
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:100%;
-    max-width:500px;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:16px 0;
-    border-top:1px solid #e5e5e5;
-}
-
-.menu-item{
     text-align:center;
-    color:#5b6070;
-    font-size:14px;
-    font-weight:700;
+    position:relative;
 }
 
-.menu-item div{
-    font-size:28px;
-    margin-bottom:8px;
-}
-
-/* 👇 여기 추가 */
-.ticket-card{
-  width:45%;
-  background:white;
-  border:3px solid #2563eb;
-  border-radius:20px;
-  padding:20px;
-  text-align:center;
-  position:relative;
-}
-
+/* 제주 1경주 / 부산 1경주 */
 .ticket-title{
+    font-size:24px;
+    font-weight:900;
+    color:#2563eb;
 
-  font-size:20px;
-  font-weight:bold;
-  color:#2563eb;
-  margin-bottom:15px;
+    margin-bottom:14px;
 
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-
+    /* 모바일에서 한 줄 유지 */
+    white-space:nowrap;
+    letter-spacing:-1px;
 }
 
-.ticket-card{
-
-  width:45%;
-  min-width:0;
-
-  background:white;
-  border:3px solid #2563eb;
-  border-radius:20px;
-  padding:20px;
-  text-align:center;
-  position:relative;
-
-}
-
-@media(max-width:480px){
-
-.ticket-title{
-
-    font-size:17px;
-
-}
-
-}
-
-.ticket-time{
-
-font-size:34px;
-
-line-height:1.1;
-
-font-weight:900;
-
-color:#d40000;
-
-margin:10px 0;
-
-}
-
-.ticket-day{
-
-font-size:15px;
-
-font-weight:700;
-
-color:#666;
-
-margin-top:5px;
-
-}
-
+/* 날짜 / 등급 / 거리 */
 .ticket-info{
+    font-size:21px;
+    font-weight:700;
+    color:#444;
 
-font-size:13px;
+    line-height:1.5;
+    margin-bottom:10px;
 
-color:#666;
-
-margin-bottom:10px;
-
+    letter-spacing:-0.7px;
 }
 
+/* 출전두수 */
+.ticket-day{
+    font-size:20px;
+    font-weight:800;
+    color:#333;
+
+    margin-top:5px;
+}
+
+/* D-1 / 카운트다운 */
+.ticket-time{
+    font-size:24px;
+    line-height:1.25;
+    font-weight:900;
+
+    color:#d40000;
+
+    margin:10px 0;
+
+    white-space:nowrap;
+    letter-spacing:-1px;
+}
+
+/* AI 분석 제공 */
 .ticket-sub{
-  font-size:20px;
-  margin-bottom:15px;
+    font-size:20px;
+    font-weight:700;
+
+    margin-bottom:15px;
+
+    white-space:nowrap;
 }
 
 .ticket-card button{
-  background:#0f2f73;
-  color:white;
-  border:none;
-  padding:12px;
-  width:100%;
-  border-radius:10px;
+    width:100%;
+    min-height:58px;
+
+    border:none;
+    border-radius:14px;
+
+    /* 더 선명하고 눈에 띄는 블루 */
+    background:linear-gradient(
+        135deg,
+        #2563eb 0%,
+        #1d4ed8 55%,
+        #1742b5 100%
+    );
+
+    color:white;
+
+    font-size:20px;
+    font-weight:500;
+
+    padding:12px 5px;
+
+    white-space:nowrap;
+    cursor:pointer;
+
+    /* 버튼이 떠 있는 느낌 */
+    box-shadow:
+        0 5px 0 #12358f,
+        0 8px 16px rgba(37,99,235,0.28);
+
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s,
+        filter 0.15s;
+}
+
+.ticket-card button:hover{
+    filter:brightness(1.08);
+}
+
+.ticket-card button:active{
+    transform:translateY(3px);
+
+    box-shadow:
+        0 2px 0 #12358f,
+        0 4px 8px rgba(37,99,235,0.25);
 }
 
 @media(max-width:480px){
+
+    .container{
+        padding-left:12px;
+        padding-right:12px;
+    }
 
     .logo-text{
         font-size:44px;
@@ -402,10 +356,41 @@ margin-bottom:10px;
         font-size:22px;
     }
 
+    .region-wrap{
+        gap:8px;
+    }
+
+    .ticket-card{
+        padding:16px 7px;
+    }
+
+    .ticket-title{
+        font-size:22px;
+        letter-spacing:-1.2px;
+    }
+
+    .ticket-info{
+        font-size:19px;
+        letter-spacing:-1px;
+    }
+
+    .ticket-day{
+        font-size:19px;
+    }
+
     .ticket-time{
+        font-size:22px;
+        letter-spacing:-1px;
+    }
 
-        font-size:24px;
+    .ticket-sub{
+        font-size:19px;
+    }
 
+    .ticket-card button{
+        min-height:56px;
+        font-size:18px;
+        padding:10px 2px;
     }
 
 }
@@ -416,46 +401,7 @@ margin-bottom:10px;
     margin-top:20px;
 }
 
-.quick-card{
-    border-radius:18px;
-    padding:22px;
-    color:white;
-    min-height:120px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    font-weight:700;
-}
 
-.quick-card:nth-child(1){
-    background:#4d8df7;
-}
-
-.quick-card:nth-child(2){
-    background:#284d91;
-}
-
-.quick-card:nth-child(3){
-    background:#002f87;
-}
-
-.quick-card:nth-child(4){
-    background:#0050d7;
-}
-
-.quick-card{
-
-    border-radius:18px;
-    padding:22px;
-
-    min-width:0;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    align-items:flex-start;
-
-}
 
 .quick-sub{
     font-size:18px;
@@ -763,6 +709,961 @@ box-shadow:
     background:#dbe7ff;
 
 }
+
+.ai-price{
+
+    margin-top:8px;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    color:#d97706;
+
+}
+
+.modal-overlay{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+#user-name{
+
+    white-space:nowrap;
+    min-width:90px;
+
+}
+
+/* ===========================
+   QUICK MENU
+=========================== */
+
+.quick-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:16px;
+
+    margin-top:20px;
+
+}
+
+.quick-card{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    min-height:120px;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+    border:2px solid transparent;
+
+}
+
+.quick-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 12px 24px rgba(0,0,0,.10);
+
+}
+
+/* 왼쪽 */
+
+.quick-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.quick-icon{
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:28px;
+
+    color:white;
+
+    flex-shrink:0;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.12);
+
+}
+
+.quick-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    flex:1;
+
+    min-width:0;    
+
+}
+
+.quick-title{
+
+    font-size:22px;
+
+    font-weight:900;
+
+    color:#0f172a;
+
+    white-space:nowrap;
+
+}
+
+.quick-card:hover .quick-arrow{
+
+    transform:translateX(4px);
+
+}
+
+/* ===========================
+   경마속보
+=========================== */
+
+.card-news{
+
+    background:linear-gradient(
+    135deg,
+    #eef6ff,
+    #ffffff
+    );
+
+    border-color:#cfe0ff;
+
+}
+
+.card-news .quick-icon{
+
+    background:linear-gradient(
+    135deg,
+    #3b82f6,
+    #60a5fa
+    );
+
+}
+
+.card-news .quick-arrow{
+
+    background:rgba(59,130,246,.12);
+
+    color:#2563eb;
+
+}
+
+/* ===========================
+   더비온
+=========================== */
+
+.card-race{
+
+    background:linear-gradient(
+    135deg,
+    #eefdf3,
+    #ffffff
+    );
+
+    border-color:#cdefd9;
+
+}
+
+.card-race .quick-icon{
+
+    background:linear-gradient(
+    135deg,
+    #22c55e,
+    #4ade80
+    );
+
+}
+
+.card-race .quick-arrow{
+
+    background:rgba(34,197,94,.12);
+
+    color:#16a34a;
+
+}
+
+/* ===========================
+   TOP10
+=========================== */
+
+.card-top10{
+
+    background:linear-gradient(
+    135deg,
+    #fff8e6,
+    #ffffff
+    );
+
+    border-color:#ffe39a;
+
+}
+
+.card-top10 .quick-icon{
+
+    background:linear-gradient(
+    135deg,
+    #f59e0b,
+    #fbbf24
+    );
+
+}
+
+.card-top10 .quick-arrow{
+
+    background:rgba(245,158,11,.12);
+
+    color:#d97706;
+
+}
+
+/* ===========================
+   AI
+=========================== */
+
+.card-ai{
+
+    background:linear-gradient(
+    135deg,
+    #f5efff,
+    #ffffff
+    );
+
+    border-color:#e0d2ff;
+
+}
+
+.card-ai .quick-icon{
+
+    background:linear-gradient(
+    135deg,
+    #8b5cf6,
+    #a78bfa
+    );
+
+}
+
+.card-ai .quick-arrow{
+
+    background:rgba(139,92,246,.12);
+
+    color:#7c3aed;
+
+}
+
+.analysis-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+    font-size:17px;
+
+    font-weight:500;
+
+    line-height:1.5;
+
+    letter-spacing:-0.3px;
+
+    color:#374151;
+
+    text-align:center;
+
+    font-family:
+    "Pretendard",
+    "SUIT",
+    "Noto Sans KR",
+    sans-serif;
+
+}
+
+.analysis-list div{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:6px;
+
+}
+
+.analysis-list span{
+
+    display:inline-flex;
+
+    width:22px;
+
+    justify-content:center;
+
+    font-size:18px;
+
+}
+
+.race-btn-group{
+
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+}
+
+.race-analysis-btn{
+
+    border:none;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:700;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    min-width:90px;
+
+}
+
+/* =========================
+   하단 고정 메뉴
+========================= */
+
+.bottom-menu{
+    position:fixed;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:100%;
+    max-width:500px;
+    height:72px;
+
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+
+    background:white;
+
+    border-top:1px solid #e5e7eb;
+
+    box-shadow:
+    0 -4px 15px
+    rgba(0,0,0,0.08);
+
+    z-index:1000;
+}
+
+.bottom-menu .menu-item{
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:4px;
+
+    font-size:13px;
+    font-weight:700;
+
+    color:#475569;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+}
+
+.bottom-menu .menu-item > div{
+    font-size:24px;
+    line-height:1;
+}
+
+.bottom-menu .menu-item:active{
+    background:#f1f5f9;
+}
+
+
+/* 모바일 */
+@media(max-width:480px){
+
+    .bottom-menu{
+        height:68px;
+    }
+
+    .bottom-menu .menu-item{
+        font-size:12px;
+    }
+
+    .bottom-menu .menu-item > div{
+        font-size:22px;
+    }
+
+}
+
+/* 상세보기 좌우 스크롤 안내 */
+.race-scroll-wrap{
+    position:relative;
+}
+
+.scroll-watermark{
+    position:sticky;
+    left:0;
+    bottom:8px;
+
+    width:100%;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    pointer-events:none;
+    z-index:50;
+
+    /* 전체 투명도 */
+    opacity:0.55;
+
+    filter:drop-shadow(
+        0 3px 5px rgba(37,99,235,0.25)
+    );
+}
+
+/* 가운데 안내문구 */
+.scroll-guide-text{
+    position:relative;
+
+    width:72%;
+    height:28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(
+        90deg,
+        #2563eb,
+        #3b82f6,
+        #2563eb
+    );
+
+    color:white;
+
+    font-size:14px;
+    font-weight:700;
+
+    letter-spacing:1px;
+}
+
+/* 왼쪽 화살표 */
+.scroll-watermark > span:first-child{
+    width:0;
+    height:0;
+
+    border-top:21px solid transparent;
+    border-bottom:21px solid transparent;
+    border-right:30px solid #2563eb;
+
+    font-size:0;
+}
+
+/* 오른쪽 화살표 */
+.scroll-watermark > span:last-child{
+    width:0;
+    height:0;
+
+    border-top:21px solid transparent;
+    border-bottom:21px solid transparent;
+    border-left:30px solid #2563eb;
+
+    font-size:0;
+}
+
+/* 클릭 가능한 글씨 안내 */
+.click-info-guide{
+    margin:10px 0 14px;
+    padding:10px 14px;
+
+    background:#fff7dc;
+    border:1px solid #f5c451;
+    border-radius:10px;
+
+    color:#59430b;
+
+    font-size:15px;
+    font-weight:600;
+    text-align:center;
+}
+
+/* 상세보기에서 중복 정보 숨김
+   지역 / 날짜 / 경주번호 */
+.race-detail-table th:nth-child(1),
+.race-detail-table td:nth-child(1),
+.race-detail-table th:nth-child(2),
+.race-detail-table td:nth-child(2),
+.race-detail-table th:nth-child(3),
+.race-detail-table td:nth-child(3){
+    display:none;
+}
+
+/* 인기도 상위 5두 강조 */
+.popularity-top5 td{
+    background:#fff7d6 !important;
+    font-weight:700;
+}
+
+.popularity-top5 td:first-child{
+    border-left:4px solid #f59e0b;
+}
+
+/* ==================================================
+   📱 모바일 전체 반응형 통합 보정
+================================================== */
+@media (max-width: 500px){
+
+    /* 전체 화면 */
+    body{
+        width:100%;
+        max-width:100%;
+        overflow-x:hidden;
+    }
+
+    .container{
+        width:100%;
+        padding:12px;
+        padding-bottom:90px;
+    }
+
+
+    /* =========================
+       👤 상단 회원정보
+    ========================= */
+
+    .user-card{
+        padding:12px;
+        border-radius:16px;
+        margin-top:10px;
+    }
+
+    .user-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:6px;
+
+        font-size:13px;
+    }
+
+    #user-name{
+        min-width:0;
+        white-space:normal;
+    }
+
+    #user-point{
+        padding:6px 9px;
+        font-size:12px;
+        white-space:nowrap;
+    }
+
+    .logout-top-btn{
+        padding:8px 10px;
+        font-size:11px;
+        white-space:nowrap;
+        flex-shrink:0;
+    }
+
+
+    /* =========================
+       📰 상단 퀵메뉴
+    ========================= */
+
+    .quick-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:8px;
+    }
+
+    .quick-card{
+        min-width:0;
+        min-height:85px;
+        padding:12px 8px;
+        border-radius:14px;
+    }
+
+    .quick-left{
+        gap:8px;
+        min-width:0;
+    }
+
+    .quick-icon{
+        width:40px;
+        height:40px;
+        font-size:21px;
+        border-radius:12px;
+    }
+
+    .quick-title{
+        font-size:15px;
+        line-height:1.25;
+        white-space:normal;
+        word-break:keep-all;
+    }
+
+
+    /* =========================
+       🏇 경주 티켓
+    ========================= */
+
+    .region-wrap{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:8px;
+        width:100%;
+    }
+
+    .ticket-card{
+        width:100%;
+        min-width:0;
+        padding:14px 6px;
+        border-width:2px;
+        border-radius:15px;
+    }
+
+    .ticket-title{
+        font-size:18px;
+        white-space:nowrap;
+        letter-spacing:-1px;
+    }
+
+    .ticket-info{
+        font-size:15px;
+        line-height:1.4;
+    }
+
+    .ticket-day{
+        font-size:16px;
+    }
+
+    .ticket-time{
+        font-size:18px;
+        white-space:normal;
+    }
+
+    .ticket-sub{
+        font-size:15px;
+        white-space:normal;
+    }
+
+    .ticket-card button{
+        min-height:48px;
+        font-size:14px;
+        white-space:normal;
+        padding:8px 3px;
+    }
+
+
+    /* =========================
+       🔘 동적 메뉴
+    ========================= */
+
+    .dynamic-menu-grid{
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+        gap:7px;
+    }
+
+    .dynamic-menu-btn{
+        min-width:0;
+        padding:12px 5px;
+        border-radius:12px;
+    }
+
+    .dynamic-menu-icon{
+        font-size:22px;
+        margin-bottom:5px;
+    }
+
+    .dynamic-menu-name{
+        font-size:13px;
+        word-break:keep-all;
+    }
+
+    .dynamic-menu-desc{
+        font-size:10px;
+        line-height:1.35;
+        word-break:keep-all;
+    }
+
+
+    /* =========================
+       🏁 금일경주
+    ========================= */
+
+    .today-race-box{
+        padding:10px;
+        border-radius:15px;
+    }
+
+    .today-title{
+        font-size:19px;
+    }
+
+    .race-card{
+        padding:11px 10px;
+    }
+
+    .race-title{
+        font-size:14px;
+    }
+
+    .race-sub{
+        font-size:14px;
+        white-space:nowrap;
+    }
+
+    .race-btn-group{
+        gap:5px;
+    }
+
+    .race-detail-btn,
+    .race-analysis-btn{
+        min-width:auto;
+        padding:8px 9px;
+        font-size:11px;
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       📋 모달 / 비교테이블
+    ========================= */
+
+    .modal{
+        padding:8px;
+    }
+
+    .modal-content{
+        width:100%;
+        max-width:100%;
+        padding:12px;
+        border-radius:14px;
+    }
+
+    .modal-header h2{
+        font-size:19px;
+    }
+
+    /*
+       테이블은 억지로 줄이지 않고
+       좌우 스크롤 방식으로 표시
+    */
+    .race-scroll-wrap,
+    .table-wrap,
+    .comparison-table-wrap{
+        width:100%;
+        max-width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    table{
+        font-size:12px;
+    }
+
+    table th,
+    table td{
+        padding:7px 8px;
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       📌 좌우 스크롤 안내
+    ========================= */
+
+    .scroll-guide-text{
+        width:75%;
+        font-size:11px;
+    }
+
+    .click-info-guide{
+        font-size:12px;
+        padding:8px;
+    }
+
+
+    /* =========================
+       🔻 하단 고정메뉴
+    ========================= */
+
+    .bottom-menu{
+        width:100%;
+        max-width:100%;
+        height:65px;
+    }
+
+    .bottom-menu .menu-item{
+        font-size:10px;
+        min-width:0;
+    }
+
+    .bottom-menu .menu-item > div{
+        font-size:20px;
+    }
+
+}
 </style>
 </head>
 
@@ -859,10 +1760,11 @@ box-shadow:
     <div class="ticket-sub">
 
     AI 분석 제공
+
     </div>
 
-    <button id="busan-ai-btn">
-      AI 추천보기
+    <button id="preview-ai-btn1">
+    AI 추천보기
     </button>
 
   </div>
@@ -945,7 +1847,7 @@ login();
     <input id="reg-name" placeholder="이름 입력">
 
     <div class="input-label">생년월일</div>
-    <input id="reg-birth" placeholder="예: 19890808">
+    <input id="reg-birth" placeholder="예: 19800101">
 
     <div class="input-label">휴대폰번호</div>
     <input id="reg-phone" placeholder="01012345678">
@@ -1012,41 +1914,97 @@ login();
 
         <div id="user-info"></div>
 
-        <div class="quick-grid">
+<div class="quick-grid">
 
-  <div
-  class="quick-card"
-  onclick="goHitRate()"
-  >
-      <div class="quick-title">📈 적중률</div>
-      <div class="quick-sub">등급 변경</div>
-  </div>
+    <div
+    class="quick-card card-news"
+    onclick="goQuickNews()"
+    >
 
-  <div
-  class="quick-card"
-  onclick="goRaceInfo()"
-  >
-      <div class="quick-title">🏇 경주정보</div>
-      <div class="quick-sub">과거/현재</div>
-  </div>
+        <div class="quick-left">
 
-  <div
-  class="quick-card"
-  onclick="goResult()"
-  >
-      <div class="quick-title">🎯 적중률 확인</div>
-      <div class="quick-sub">과거 경주</div>
-  </div>
+            <div class="quick-icon">📰</div>
 
-  <div
-  class="quick-card"
-  onclick="goDividend()"
-  >
-      <div class="quick-title">💰 배당률</div>
-      <div class="quick-sub">현재/인기</div>
-  </div>
+            <div class="quick-text">
+
+                <div class="quick-title">
+                경마속보
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div
+    class="quick-card card-race"
+    onclick="goQuickticket()"
+    >
+
+        <div class="quick-left">
+
+            <div class="quick-icon">🏇</div>
+
+            <div class="quick-text">
+
+                <div class="quick-title">
+                마권구매
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+    class="quick-card card-top10"
+    onclick="goQuickTop10()"
+    >
+
+        <div class="quick-left">
+
+            <div class="quick-icon">🏆</div>
+
+            <div class="quick-text">
+
+                <div class="quick-title">
+                금일<br>TOP10
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div
+    class="quick-card card-ai"
+    onclick="goQuickPublicBroadcast()"
+    >
+
+        <div class="quick-left">
+
+            <div class="quick-icon">📺</div>
+
+            <div class="quick-text">
+
+                <div class="quick-title">
+                 KRA<br>공식영상
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
 
 </div>
+
    
     </div>
 
@@ -1072,18 +2030,18 @@ login();
 
       </div>
 
-      <div id="seoul-time2"
-      class="ticket-time">
+        <div id="seoul-time2"
+        class="ticket-time">
 
-      --:--
+        --:--
 
-      </div>
+        </div>
 
-      <div class="ticket-sub">
+        <div class="ticket-sub">
 
-      AI 분석 제공
+        AI 분석 제공
 
-      </div>
+        </div>
 
         <button id="main-ai-btn1">
         AI 추천보기
@@ -1118,15 +2076,16 @@ login();
 
       </div>
 
-      <div class="ticket-sub">
+        <div class="ticket-sub">
 
-      AI 분석 제공
+        AI 분석 제공
 
-      </div>
+        </div>
 
-      <button id="main-ai-btn2">
-      AI 추천보기
-      </button>
+
+        <button id="main-ai-btn2">
+        AI 추천보기
+        </button>
 
       </div>
 
@@ -1161,22 +2120,34 @@ login();
 <!-- 하단 메뉴 -->
 <div class="bottom-menu">
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='about.html'"
+    >
         <div>🏇</div>
         AI알마고란?
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='guide.html'"
+    >
         <div>📄</div>
         초보자가이드
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='analysis.html'"
+    >
         <div>🎯</div>
         AI적중률
     </div>
 
-    <div class="menu-item">
+    <div
+    class="menu-item"
+    onclick="location.href='help.html'"
+    >
         <div>🎫</div>
         마권예매
     </div>
@@ -1358,7 +2329,26 @@ style="cursor:pointer;"
 
           💰 0P
 
-</span>
+        </span>
+
+        <span
+        onclick="location.href='charge.html'"
+        style="
+        background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+        );
+        color:white;
+        padding:6px 10px;
+        font-size:13px;
+        border-radius:999px;
+        font-weight:800;
+        cursor:pointer;
+        ">
+        💳 포인트충전
+        </span>
+
 
       </div>
 
@@ -1422,7 +2412,7 @@ window.onload = async () => {
     try {
 
         await loadRaceForHome();
-        await loadTodayRaceTable();
+        await loadticketTable();
 
         updateCountdown();
         setInterval(
@@ -1451,9 +2441,24 @@ let raceTargets = {
     card2:null
 };
 
+let basicFee = 100;
+
 // 경주 데이터
 async function loadRaceForHome() {
 
+    const feeRes =
+    await fetch(
+    "/fee-settings"
+    );
+
+    const feeData =
+    await feeRes.json();
+
+    basicFee =
+    feeData.find(
+    x=>x.item==="basic"
+    )?.point || 100;
+    
     const res = await fetch("/race");
     const data = await res.json();
 
@@ -1533,6 +2538,10 @@ title:
 `${firstRace.지역} ${firstRace.경주}경주`,
 raceNo:firstRace.경주,
 region:firstRace.지역,
+raceDate:firstRace.경주일자,
+dateText:formatRaceDate(
+    firstRace.경주일자
+),
 
 info:
 `${firstRace.등급} · ${formatDistance(firstRace.거리)}m`,
@@ -1556,6 +2565,10 @@ title:
 `${secondRace.지역} ${secondRace.경주}경주`,
 raceNo:secondRace.경주,
 region:secondRace.지역,
+raceDate:secondRace.경주일자,
+dateText:formatRaceDate(
+    secondRace.경주일자
+),
 
 info:
 `${secondRace.등급} · ${formatDistance(secondRace.거리)}m`,
@@ -1566,49 +2579,15 @@ horses:
 }
 : null;
 
-// =======================
-// AI 버튼 연결
-// =======================
 
-const btnMain1 =
-document.getElementById(
-"main-ai-btn1"
-);
-
-if(btnMain1 && raceTargets.card1){
-
-    btnMain1.onclick=()=>{
-
-        goAI(
-            raceTargets.card1.region,
-            raceTargets.card1.raceNo
-        );
-
-    };
-
-}
-
-const btnMain2 =
-document.getElementById(
-"main-ai-btn2"
-);
-
-if(btnMain2 && raceTargets.card2){
-
-    btnMain2.onclick=()=>{
-
-        goAI(
-            raceTargets.card2.region,
-            raceTargets.card2.raceNo
-        );
-
-    };
-
-}
+// =========================
+// 카드 렌더링
+// =========================
+renderTicketCards();
 
 }
 // 경주목록
-async function loadTodayRaceTable(){
+async function loadticketTable(){
 
     const res=await fetch("/race");
     const data=await res.json();
@@ -1871,6 +2850,8 @@ ${region}
 
         </div>
 
+        <div class="race-btn-group">
+
         <button
         class="race-detail-btn"
         onclick="
@@ -1879,12 +2860,27 @@ ${region}
         ${r.경주},
         '${r.경주일자}'
         )
-        "
-        >
+        ">
 
         상세보기
 
         </button>
+
+        <button
+        class="race-analysis-btn"
+        onclick="
+        goAI(
+        '${r.지역=="부산경남"?"부산":r.지역}',
+        ${r.경주},
+        '${r.경주일자}'
+        )
+        ">
+
+        분석보기
+
+        </button>
+
+        </div>
 </div>
     </div>
 
@@ -2015,175 +3011,249 @@ return new Date(
 
 }
 
+// =========================
 // 카운트다운
+// =========================
 function updateCountdown(){
 
-    const now=new Date();
+    const now = new Date();
 
     function format(target){
 
         if(!target)
             return "--:--";
 
-        const diff=
-        target.date-now;
+        const diff = target.date - now;
 
-        if(diff<=0)
+        if(diff <= 0)
             return "출발";
 
-        const day=
-        Math.floor(
-        diff/(1000*60*60*24)
-        );
+        const day =
+        Math.floor(diff / (1000*60*60*24));
 
-        const hour=
-        Math.floor(
-        (diff/(1000*60*60))%24
-        );
+        const hour =
+        Math.floor((diff/(1000*60*60)) % 24);
 
-        const min=
-        Math.floor(
-        (diff/(1000*60))%60
-        );
+        const min =
+        Math.floor((diff/(1000*60)) % 60);
 
-        const sec=
-        Math.floor(
-        (diff/1000)%60
-        );
+        const sec =
+        Math.floor((diff/1000) % 60);
 
-        return `D-${day}<br>${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-            }
+        return `D-${day}<br>${String(hour).padStart(2,"0")}:${String(min).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 
-    const titles =
-    document.querySelectorAll(
-    ".ticket-title"
-    );
-
-    const infos =
-document.querySelectorAll(
-".ticket-info"
-);
-
-const days =
-document.querySelectorAll(
-".ticket-day"
-);
-
-    if(titles[0]){
-        titles[0].innerText =
-        raceTargets.card1?.title || "-";
     }
 
-    if(titles[1]){
-        titles[1].innerText =
-        raceTargets.card2?.title || "-";
-    }
+    // =========================
+    // 카드1
+    // =========================
 
-    if(titles[2]){
-        titles[2].innerText =
-        raceTargets.card1?.title || "-";
-    }
-
-    if(titles[3]){
-        titles[3].innerText =
-        raceTargets.card2?.title || "-";
-    }
-
-    if(infos[0]){
-infos[0].innerText =
-raceTargets.card1?.info || "-";
-}
-
-if(infos[1]){
-infos[1].innerText =
-raceTargets.card2?.info || "-";
-}
-
-if(infos[2]){
-infos[2].innerText =
-raceTargets.card1?.info || "-";
-}
-
-if(infos[3]){
-infos[3].innerText =
-raceTargets.card2?.info || "-";
-}
-
-if(days[0]){
-days[0].innerText =
-`🐎 ${raceTargets.card1?.horses || "-"}`;
-}
-
-if(days[1]){
-days[1].innerText =
-`🐎 ${raceTargets.card2?.horses || "-"}`;
-}
-
-if(days[2]){
-days[2].innerText =
-`🐎 ${raceTargets.card1?.horses || "-"}`;
-}
-
-if(days[3]){
-days[3].innerText =
-`🐎 ${raceTargets.card2?.horses || "-"}`;
-}
-
+    const seoulTime =
     document.getElementById(
     "seoul-time"
-    ).innerHTML=
-    format(raceTargets.card1);
+    );
 
-    document.getElementById(
-    "busan-time"
-    ).innerHTML=
-    format(raceTargets.card2);
-
+    const seoulTime2 =
     document.getElementById(
     "seoul-time2"
-    ).innerHTML=
-    format(raceTargets.card1);
+    );
 
+    if(seoulTime){
+
+        seoulTime.innerHTML =
+        raceTargets.card1
+        ? format(raceTargets.card1)
+        : "수요일<br>오후공개";
+
+    }
+
+    if(seoulTime2){
+
+        seoulTime2.innerHTML =
+        raceTargets.card1
+        ? format(raceTargets.card1)
+        : "수요일<br>오후공개";
+
+    }
+
+    // =========================
+    // 카드2
+    // =========================
+
+    const busanTime =
+    document.getElementById(
+    "busan-time"
+    );
+
+    const busanTime2 =
     document.getElementById(
     "busan-time2"
-    ).innerHTML=
-    format(raceTargets.card2);
+    );
+
+    if(busanTime){
+
+        busanTime.innerHTML =
+        raceTargets.card2
+        ? format(raceTargets.card2)
+        : "수요일<br>오후공개";
+
+    }
+
+    if(busanTime2){
+
+        busanTime2.innerHTML =
+        raceTargets.card2
+        ? format(raceTargets.card2)
+        : "수요일<br>오후공개";
+
+    }
 
 }
 
-const btn1 =
-document.getElementById(
-"seoul-ai-btn"
-);
+// =========================
+// 티켓카드 렌더링
+// =========================
+function renderTicketCards(){
 
-if(btn1 && raceTargets.card1){
-
-    btn1.onclick=()=>{
-
-        goAI(
-            raceTargets.card1.region,
-            raceTargets.card1.raceNo
-        );
-
-    };
+    renderCard(0, raceTargets.card1);
+    renderCard(1, raceTargets.card2);
+    renderCard(2, raceTargets.card1);
+    renderCard(3, raceTargets.card2);
 
 }
 
-const btn2 =
-document.getElementById(
-"busan-ai-btn"
-);
+// =========================
+// 카드 하나 렌더링
+// =========================
+function renderCard(index, target){
 
-if(btn2 && raceTargets.card2){
+    const titles =
+    document.querySelectorAll(".ticket-title");
 
-    btn2.onclick=()=>{
+    const infos =
+    document.querySelectorAll(".ticket-info");
 
-        goAI(
-            raceTargets.card2.region,
-            raceTargets.card2.raceNo
-        );
+    const days =
+    document.querySelectorAll(".ticket-day");
 
-    };
+    const subs =
+    document.querySelectorAll(".ticket-sub");
+
+    const buttons = [
+
+        document.getElementById("seoul-ai-btn"),
+        document.getElementById("preview-ai-btn1"),
+        document.getElementById("main-ai-btn1"),
+        document.getElementById("main-ai-btn2")
+
+    ];
+
+    // =========================
+    // AI 준비중
+    // =========================
+
+    if(!target){
+
+        if(titles[index]){
+            titles[index].innerHTML =
+            "🤖 AI 분석 준비중";
+        }
+
+        if(infos[index]){
+            infos[index].innerHTML =
+            "다음 출전표 공개까지<br>수요일 오후 예정";
+        }
+
+        if(days[index]){
+            days[index].innerHTML =
+            "🧬 AI 업데이트 대기";
+        }
+
+        if(subs[index]){
+        subs[index].innerHTML = `
+
+        <div class="analysis-list">
+
+        <div>
+        <span>📊</span>기본분석
+        </div>
+
+        <div>
+        <span>🧬</span>혈통분석
+        </div>
+
+        <div>
+        <span>🎯</span>전개분석
+        </div>
+
+        <div>
+        <span>🏆</span>종합분석
+        </div>
+
+        </div>
+
+        `;
+
+    }
+
+        if(buttons[index]){
+
+            buttons[index].innerHTML =
+            "🏆 분석내용상세보기";
+
+            buttons[index].onclick = ()=>{
+
+                window.location =
+                "premium-analysis.html";
+
+            };
+
+        }
+
+        return;
+
+    }
+
+    // =========================
+    // 정상 카드
+    // =========================
+
+    if(titles[index]){
+        titles[index].innerHTML =
+        `🏇 ${target.title}`;
+    }
+
+    if(infos[index]){
+        infos[index].innerHTML =
+        `📅 ${target.dateText}<br>${target.info}`;
+    }
+
+    if(days[index]){
+        days[index].innerHTML =
+        `🐎 ${target.horses}`;
+    }
+
+    if(subs[index]){
+        subs[index].innerHTML =
+        "AI 분석 제공";
+    }
+
+    if(buttons[index]){
+
+        buttons[index].innerHTML =
+        "AI 추천보기";
+
+        buttons[index].onclick = ()=>{
+
+            goAI(
+                target.region,
+                target.raceNo,
+                target.raceDate
+            );
+
+        };
+
+    }
 
 }
 
@@ -2205,60 +3275,86 @@ function showFindAccount() {
     document.getElementById("find-area").style.display = "block";
 }
 
-// AI 페이지 이동
+let modalResolve = null;
+
+function showModal(
+title,
+message,
+icon="📌",
+showCancel=true
+){
+
+    document.querySelector(
+    ".modal-cancel"
+    ).style.display =
+
+    showCancel
+    ? "block"
+    : "none";
+
+    return new Promise(resolve=>{
+
+        modalResolve = resolve;
+
+        document.getElementById(
+        "custom-modal-title"
+        ).innerHTML = title;
+
+        document.getElementById(
+        "custom-modal-message"
+        ).innerHTML = message;
+
+        document.getElementById(
+        "custom-modal-icon"
+        ).innerHTML = icon;
+
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
+
+    });
+
+}
+
+function closeModal(result){
+
+    document.getElementById(
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+
+        modalResolve(result);
+
+    }
+
+}
+
 async function goAI(
     region,
-    raceNo
-) {
+    raceNo,
+    raceDate
+){
 
-console.log(
-"GO AI",
-region,
-raceNo
-);
+    if(!region || !raceNo || !raceDate){
 
-    const token =
-    localStorage.getItem("token");
+        alert("경주 정보가 부족합니다. 다시 선택해주세요.");
 
-    if (!token) {
-
-        alert("로그인 필요");
-        return;
-
-    }
-
-    // 포인트 차감 요청
-    const res = await fetch(
-        "/use-ai",
-        {
-            method:"POST",
-
-            headers:{
-                "Authorization":"Bearer " + token
-            }
-        }
-    );
-
-    const data = await res.json();
-
-    // 실패
-    if(!res.ok){
-
-        alert(
-            data.detail || "포인트 부족"
-        );
+        console.log("goAI 오류", {
+            region,
+            raceNo,
+            raceDate
+        });
 
         return;
 
     }
 
-    // 성공
-    alert(
-        `100P 차감 완료\n남은 포인트: ${data.remain_point}P`
-    );
+    const safeDate =
+    encodeURIComponent(raceDate);
 
     location.href =
-    `ai.html?region=${region}&raceNo=${raceNo}`;
+    `analysis-select.html?region=${region}&raceNo=${raceNo}&raceDate=${safeDate}`;
 
 }
 
@@ -2502,7 +3598,7 @@ raceNo
 );
 
 const url =
-`/race-detail/${region}/${raceNo}?date=${date}`;
+`/race-detail-data/${raceNo}?date=${date}&region=${region}`;
 
 console.log(
 "호출URL:",
@@ -2526,9 +3622,16 @@ let html=`
 ${region} ${raceNo}경주
 </h2>
 
-<div style="overflow-x:auto;">
+<div class="click-info-guide">
+💡 색상이 있는 이름을 누르면 상세정보를 볼 수 있습니다.
+</div>
 
-<table style="
+<div
+class="race-scroll-wrap"
+style="overflow-x:auto;"
+>
+
+<table class="race-detail-table" style="
 width:max-content;
 min-width:100%;
 border-collapse:collapse;
@@ -2548,6 +3651,20 @@ background:#f5f7ff;
 position:sticky;
 top:0;
 }
+
+.menu-item{
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.menu-item:active{
+
+transform:scale(.95);
+
+}
 </style>
 
 <tr>
@@ -2557,9 +3674,12 @@ top:0;
 <th>경주번호</th>
 <th>번호</th>
 <th>마명</th>
-<th>마중</th>
+<th>마종</th>
 <th>성별</th>
 <th>연령</th>
+<th>인기도</th>
+<th>통산전적</th>
+${region !== "제주" ? "<th>최근전적</th>" : ""}
 <th>레이팅</th>
 <th>중량</th>
 <th>증감</th>
@@ -2577,14 +3697,24 @@ top:0;
 
 data.forEach(row=>{
 
-html += `
+const popularity =
+Number(row["인기도"]);
 
-<tr>
+const top5Class =
+popularity >= 1 &&
+popularity <= 5
+? "popularity-top5"
+: "";
+
+html+=`
+
+<tr class="${top5Class}">
 
 <td>${row["지역"] || ""}</td>
-<td>${row["날짜"] || ""}</td>
-<td>${row["경주번호"] || ""}</td>
+<td>${row["경주일자"] || ""}</td>
+<td>${row["경주"] || ""}</td>
 <td>${row["번호"] || ""}</td>
+
 <td>
 
 <a
@@ -2607,12 +3737,17 @@ ${row["마명"] || ""}
 </a>
 
 </td>
-<td>${row["마중"] || ""}</td>
+
+<td>${row["마종"] || ""}</td>
 <td>${row["성별"] || ""}</td>
-<td>${row["연령"] || ""}</td>
+<td>${row["나이"] || ""}</td>
+<td>${row["인기도"] || "-"}</td>
+<td>${row["통산전적"] || "-"}</td>
+${region !== "제주" ? `<td>${row["최근전적"] || "-"}</td>` : ""}
 <td>${row["레이팅"] || ""}</td>
-<td>${row["중량"] || ""}</td>
+<td>${row["부담중량"] || ""}</td>
 <td>${row["증감"] || ""}</td>
+
 <td>
 
 <a
@@ -2620,7 +3755,7 @@ href="#"
 onclick="
 event.preventDefault();
 showJockeyInfo(
-'${row["기수명"]}'
+'${row["기수"]}'
 )
 "
 style="
@@ -2630,11 +3765,12 @@ text-decoration:none;
 "
 >
 
-${row["기수명"] || ""}
+${row["기수"] || ""}
 
 </a>
 
 </td>
+
 <td>
 
 <a
@@ -2642,7 +3778,7 @@ href="#"
 onclick="
 event.preventDefault();
 showTrainerInfo(
-'${row["조교사명"]}'
+'${row["조교사"]}'
 )
 "
 style="
@@ -2652,7 +3788,7 @@ text-decoration:none;
 "
 >
 
-${row["조교사명"] || ""}
+${row["조교사"] || ""}
 
 </a>
 
@@ -2670,8 +3806,16 @@ ${row["조교사명"] || ""}
 
 });
 
+
 html += `
 </table>
+
+<div class="scroll-watermark">
+    <span>←</span>
+    <span class="scroll-guide-text">좌우 스크롤</span>
+    <span>→</span>
+</div>
+
 </div>
 </div>
 `;
@@ -3363,28 +4507,75 @@ if(!user) return;
 document.getElementById(
 "user-point"
 ).innerText =
-`💰 ${user.point || 0}P`;
+`💰 ${Number(user.point || 0).toLocaleString()}P`;
 
-}    
-
-function goHitRate(){
-    location.href="hitrate.html";
 }
 
-function goRaceInfo(){
-    location.href="raceinfo.html";
+function goQuickNews(){
+    location.href="quickmenu-news.html";
 }
 
-function goResult(){
-    location.href="result.html";
+function goQuickticket(){
+    location.href="quickmenu-ticket.html";
 }
 
-function goDividend(){
-    location.href="dividend.html";
+function goQuickTop10(){
+    location.href="quickmenu-top10.html";
+}
+
+function goQuickPublicBroadcast(){
+    location.href="quickmenu-publicbroadcast.html";
+
 }
 
 </script>
 
+<div id="custom-modal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <div
+        id="custom-modal-icon"
+        class="modal-icon"
+        >
+        📌
+        </div>
+
+        <div
+        id="custom-modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="custom-modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
     
 </body>
 </html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>KRA 공식영상</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+Pretendard,
+sans-serif;
+
+background:#f5f7fb;
+
+color:#1e293b;
+
+}
+
+.container{
+
+max-width:700px;
+
+margin:auto;
+
+padding:25px 18px 40px;
+
+}
+
+.header{
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+.header h1{
+
+font-size:32px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.header p{
+
+color:#64748b;
+
+font-size:15px;
+
+line-height:1.6;
+
+}
+
+.news-card{
+
+background:white;
+
+border-radius:22px;
+
+padding:22px;
+
+margin-bottom:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.05);
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.news-card:hover{
+
+transform:translateY(-3px);
+
+}
+
+.left{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.icon{
+
+width:62px;
+
+height:62px;
+
+border-radius:18px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:30px;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+.training .icon{
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#60a5fa
+);
+
+}
+
+.highlight .icon{
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#4ade80
+);
+
+}
+
+.krbc .icon{
+
+background:
+linear-gradient(
+135deg,
+#f59e0b,
+#fbbf24
+);
+
+}
+
+.youtube .icon{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#f87171
+);
+
+}
+
+.title{
+
+font-size:24px;
+
+font-weight:900;
+
+margin-bottom:6px;
+
+}
+
+.sub{
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+.arrow{
+
+font-size:26px;
+
+color:#94a3b8;
+
+}
+
+.back-btn{
+
+width:100%;
+
+margin-top:20px;
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#1e3a8a;
+
+color:white;
+
+font-size:17px;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+.almago .icon{
+
+background:
+linear-gradient(
+135deg,
+#7c3aed,
+#a855f7
+);
+
+}
+
+.almago{
+
+opacity:.85;
+
+}
+
+.almago:hover{
+
+transform:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>📺 KRA 공식영상</h1>
+
+<p>
+
+한국마사회 공식 영상을<br>
+한 곳에서 확인하세요.
+
+</p>
+
+</div>
+
+<div
+class="news-card training"
+onclick="goTraining()"
+>
+
+<div class="left">
+
+<div class="icon">
+🎥
+</div>
+
+<div>
+
+<div class="title">
+새벽조교 영상
+</div>
+
+<div class="sub">
+서울 · 부산
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+›
+</div>
+
+</div>
+
+<div
+class="news-card highlight"
+onclick="goHighlight()"
+>
+
+<div class="left">
+
+<div class="icon">
+🏆
+</div>
+
+<div>
+
+<div class="title">
+경주 하이라이트
+</div>
+
+<div class="sub">
+주요 경주 다시보기
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+›
+</div>
+
+</div>
+
+<div
+class="news-card krbc"
+onclick="goKRBC()"
+>
+
+<div class="left">
+
+<div class="icon">
+🎙
+</div>
+
+<div>
+
+<div class="title">
+KRBC 경마방송
+</div>
+
+<div class="sub">
+경마 전문 방송
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+›
+</div>
+
+</div>
+
+<div
+class="news-card youtube"
+onclick="goYoutube()"
+>
+
+<div class="left">
+
+<div class="icon">
+📺
+</div>
+
+<div>
+
+<div class="title">
+KRA 공식 유튜브
+</div>
+
+<div class="sub">
+최신 영상 보기
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+›
+</div>
+
+</div>
+
+<div
+class="news-card almago"
+onclick="goAlmagoYoutube()"
+>
+
+<div class="left">
+
+<div class="icon">
+🎬
+</div>
+
+<div>
+
+<div class="title">
+알마고 유튜브
+</div>
+
+<div class="sub">
+준비중
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+🔒
+</div>
+
+</div>
+
+<button
+class="back-btn"
+onclick="history.back()"
+>
+
+← 홈으로 돌아가기
+
+</button>
+
+</div>
+
+<script>
+
+function goTraining(){
+
+window.open(
+"https://www.youtube.com/results?search_query=KRA+새벽조교",
+"_blank"
+);
+
+}
+
+function goHighlight(){
+
+window.open(
+"https://www.youtube.com/results?search_query=KRA+경주+하이라이트",
+"_blank"
+);
+
+}
+
+function goKRBC(){
+
+window.open(
+"https://www.youtube.com/results?search_query=KRBC+경마방송",
+"_blank"
+);
+
+}
+
+function goYoutube(){
+
+window.open(
+"https://www.youtube.com/@KRBCRACE",
+"_blank"
+);
+
+}
+
+function goAlmagoYoutube(){
+
+alert(
+`🎬 알마고 유튜브
+
+현재 준비중입니다.
+
+AI 분석 강의와
+프로그램 사용법,
+업데이트 소식을
+곧 공개할 예정입니다.`
+);
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>POINT SHOP</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:
+'Pretendard',
+sans-serif;
+
+background:#f3f4f6;
+
+color:#111827;
+
+overflow-x:hidden;
+
+}
+
+.hero{
+
+padding:70px 20px;
+
+text-align:center;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:10px 20px;
+
+border-radius:999px;
+
+background:
+rgba(
+245,
+158,
+11,
+0.15
+);
+
+border:
+1px solid
+rgba(
+245,
+158,
+11,
+0.4
+);
+
+color:#fbbf24;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.hero h1{
+
+font-size:52px;
+
+font-weight:900;
+
+margin-bottom:15px;
+
+}
+
+.gradient{
+
+background:
+linear-gradient(
+90deg,
+#fbbf24,
+#f59e0b
+);
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+color:#6b7280;
+
+line-height:1.8;
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:20px;
+
+}
+
+.section-title{
+
+font-size:28px;
+
+font-weight:900;
+
+margin-bottom:25px;
+
+}
+
+/* =========================
+   충전 상품
+========================= */
+
+.products{
+    display:grid;
+
+    /* PC : 3열 */
+    grid-template-columns:
+    repeat(3, 1fr);
+
+    gap:14px;
+
+    margin-bottom:30px;
+}
+
+.product{
+    min-width:0;
+
+    background:white;
+
+    border:2px solid #e5e7eb;
+
+    box-shadow:
+    0 3px 10px
+    rgba(0,0,0,0.05);
+
+    border-radius:18px;
+
+    padding:18px 10px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.product:hover{
+    transform:translateY(-3px);
+    border-color:#f59e0b;
+}
+
+.product.active{
+    border-color:#f59e0b;
+
+    background:#fffbeb;
+
+    box-shadow:
+    0 4px 14px
+    rgba(245,158,11,0.18);
+}
+
+
+/* 상품명 */
+.product-name{
+    font-size:20px;
+    font-weight:800;
+
+    margin-bottom:8px;
+
+    color:#111827;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+
+/* 포인트 */
+.product-point{
+    font-size:28px;
+    font-weight:900;
+
+    color:#22c55e;
+
+    margin-bottom:5px;
+
+    white-space:nowrap;
+}
+
+
+/* 가격 */
+.product-price{
+    font-size:18px;
+    font-weight:700;
+
+    color:#6b7280;
+
+    margin-bottom:12px;
+
+    white-space:nowrap;
+}
+
+
+/* 선택 버튼 */
+.select-btn{
+    min-width:80px;
+
+    padding:9px 18px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    );
+
+    color:white;
+
+    font-size:16px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.card{
+
+background:white;
+
+border:
+1px solid #e5e7eb;
+
+box-shadow:
+0 4px 15px
+rgba(
+0,
+0,
+0,
+0.05
+);
+
+border-radius:25px;
+
+padding:25px;
+
+margin-bottom:25px;
+
+backdrop-filter:
+blur(15px);
+
+}
+
+.account{
+
+font-size:26px;
+
+font-weight:900;
+
+color:#60a5fa;
+
+margin-top:15px;
+
+}
+
+.selected-box{
+
+text-align:center;
+
+}
+
+.selected-name{
+
+font-size:30px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+color:#fbbf24;
+
+}
+
+.selected-info{
+
+font-size:20px;
+
+}
+
+.input{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:15px;
+
+margin-top:15px;
+
+font-size:18px;
+
+}
+
+.submit-btn{
+
+width:100%;
+
+padding:20px;
+
+border:none;
+
+border-radius:20px;
+
+font-size:20px;
+
+font-weight:900;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#16a34a
+);
+
+color:white;
+
+margin-top:20px;
+
+}
+
+.notice{
+
+line-height:2;
+
+opacity:.9;
+
+}
+
+.time-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+3,
+1fr
+);
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+.time-box{
+
+background:#f9fafb;
+
+border:
+1px solid #e5e7eb;
+
+padding:15px;
+
+border-radius:15px;
+
+text-align:center;
+
+font-weight:800;
+
+}
+
+.footer{
+
+padding:50px;
+
+text-align:center;
+
+opacity:.5;
+
+}
+
+/* =========================
+   모바일 최적화
+========================= */
+
+@media(max-width:768px){
+
+    body{
+        padding:0;
+    }
+
+    .user-bar{
+        margin:0;
+        padding:10px;
+
+        border-radius:0;
+
+        gap:6px;
+    }
+
+    .user-left{
+        gap:6px;
+        min-width:0;
+    }
+
+    .home-btn{
+        width:38px;
+        height:38px;
+
+        flex-shrink:0;
+
+        font-size:20px;
+    }
+
+    .user-name{
+        font-size:15px;
+
+        white-space:nowrap;
+    }
+
+    .user-point{
+        padding:7px 10px;
+
+        font-size:15px;
+
+        white-space:nowrap;
+    }
+
+    .charge-btn{
+        display:none;
+    }
+
+    .logout-top-btn{
+        padding:9px 10px;
+
+        font-size:14px;
+
+        white-space:nowrap;
+    }
+
+
+    /* 상단 영역 축소 */
+    .hero{
+        padding:30px 15px 20px;
+    }
+
+    .badge{
+        padding:7px 14px;
+
+        margin-bottom:12px;
+    }
+
+    .hero h1{
+        font-size:32px;
+
+        margin-bottom:10px;
+    }
+
+    .hero p{
+        font-size:16px;
+        line-height:1.5;
+    }
+
+
+    /* 전체 여백 */
+    .container{
+        padding:14px;
+    }
+
+    .section-title{
+        font-size:22px;
+
+        margin-bottom:15px;
+    }
+
+
+    /* 충전상품 모바일 2열 */
+    .products{
+        grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+        gap:10px;
+
+        margin-bottom:24px;
+    }
+
+    .product{
+        border-radius:15px;
+
+        padding:14px 6px;
+    }
+
+    .product-name{
+        font-size:18px;
+
+        margin-bottom:7px;
+
+        letter-spacing:-0.5px;
+    }
+
+    .product-point{
+        font-size:24px;
+
+        margin-bottom:4px;
+
+        letter-spacing:-0.5px;
+    }
+
+    .product-price{
+        font-size:17px;
+
+        margin-bottom:10px;
+    }
+
+    .select-btn{
+        min-width:70px;
+
+        padding:8px 14px;
+
+        font-size:16px;
+    }
+
+
+    /* 나머지 카드도 모바일에서 축소 */
+    .card{
+        padding:18px 15px;
+
+        border-radius:18px;
+
+        margin-bottom:16px;
+    }
+
+    .account{
+        font-size:20px;
+        line-height:1.5;
+    }
+
+    .selected-name{
+        font-size:24px;
+    }
+
+    .selected-info{
+        font-size:18px;
+    }
+
+    .input{
+        padding:15px;
+
+        font-size:18px;
+    }
+
+    .submit-btn{
+        padding:16px;
+
+        font-size:19px;
+
+        border-radius:15px;
+    }
+
+    .notice{
+        font-size:16px;
+
+        line-height:1.8;
+    }
+
+    .time-grid{
+        gap:8px;
+    }
+
+    .time-box{
+        padding:12px 4px;
+
+        font-size:16px;
+    }
+
+    .footer{
+        padding:30px 15px;
+    }
+
+    .payment-tabs{
+
+        margin-bottom:16px;
+
+        padding:4px;
+
+    }
+
+    .payment-tab{
+
+        min-height:50px;
+
+        font-size:17px;
+
+    }
+
+}
+
+.input{
+
+background:#f9fafb;
+
+border:
+1px solid #d1d5db;
+}
+
+.user-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:14px 18px;
+
+    margin-bottom:20px;
+
+    border-radius:18px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.user-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.user-name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#111827;
+
+}
+
+.user-point{
+
+    background:#eef2ff;
+
+    color:#1d4ed8;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+.logout-top-btn{
+
+    background:#0f172a;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.user-left{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
+.logout-top-btn{
+
+    background:#111827;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+.home-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eef2ff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.home-btn:hover{
+
+    background:#dbeafe;
+
+    transform:translateY(-2px);
+
+}
+
+.charge-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.charge-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.user-point{
+
+background:#eef2ff;
+
+color:#1d4ed8;
+
+padding:8px 16px;
+
+border-radius:999px;
+
+font-size:18px;
+
+font-weight:800;
+
+cursor:pointer;
+
+transition:all .25s ease;
+
+box-shadow:
+0 2px 8px rgba(37,99,235,.08);
+
+}
+
+.user-point:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 8px 18px rgba(37,99,235,.18);
+
+}
+
+/* =========================
+   결제방법 탭
+========================= */
+
+.payment-tabs{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2, 1fr);
+
+    max-width:600px;
+
+    margin:
+    5px auto
+    25px;
+
+    padding:5px;
+
+    background:#e5e7eb;
+
+    border-radius:16px;
+
+}
+
+.payment-tab{
+
+    min-height:54px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:transparent;
+
+    color:#6b7280;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.payment-tab.active{
+
+    background:white;
+
+    color:#2563eb;
+
+    box-shadow:
+    0 2px 8px
+    rgba(0,0,0,.10);
+
+}
+
+
+/* 신용카드 준비중 */
+
+.card-payment-ready{
+
+    text-align:center;
+
+}
+
+.card-ready-icon{
+
+    font-size:48px;
+
+    margin:
+    15px 0
+    10px;
+
+}
+
+.card-ready-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.card-ready-text{
+
+    font-size:17px;
+
+    color:#6b7280;
+
+    line-height:1.6;
+
+}
+
+.card-pay-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:17px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#d1d5db;
+
+    color:#6b7280;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+</style>
+
+</head>
+
+<body>
+<div class="user-bar">
+
+<div class="user-left">
+
+    <div
+    class="home-btn"
+    onclick="goHome()"
+    >
+    🏠
+    </div>
+
+    <div
+    id="user-name"
+    class="user-name"
+    onclick="goMyPage()"
+    >
+    👤 admin님
+    </div>
+
+    <div
+    id="user-point"
+    class="user-point"
+    onclick="goPointLog()"
+    >
+    💰 999999P
+    </div>
+
+    <div
+    class="charge-btn"
+    onclick="goCharge()"
+    >
+    💳
+    </div>
+
+</div>
+
+
+    <button
+    class="logout-top-btn"
+    onclick="logout()"
+    >
+    로그아웃
+    </button>    
+    
+</div>
+
+<div class="hero">
+
+<div class="badge">
+POINT SHOP
+</div>
+
+<h1>
+
+<span class="gradient">
+💰 포인트 충전소
+</span>
+
+</h1>
+
+<p>
+
+AI 분석을 위한 포인트 충전
+
+<br><br>
+
+24시간 신청 가능 · 관리자 승인 후 순차 충전
+
+</p>
+
+</div>
+
+<div style="
+margin-top:15px;
+font-size:15px;
+color:#6b7280;
+text-align:center;
+">
+
+<span
+id="currentPoint"
+style="
+font-weight:900;
+color:#2563eb;
+">
+0P
+</span>
+
+<div style="
+margin-top:8px;
+font-size:13px;
+color:#9ca3af;
+">
+
+분석 이용 전
+충분한 포인트를 충전해주세요.
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="section-title">
+💎 충전 상품
+</div>
+
+<div
+class="products"
+id="productArea"
+>
+</div>
+
+<div class="card selected-box">
+
+<div class="section-title">
+📦 선택 상품
+</div>
+
+<div
+id="selectedName"
+class="selected-name"
+>
+🥉 Starter
+</div>
+
+<div
+id="selectedInfo"
+class="selected-info"
+>
+1,000P / 5,000원
+</div>
+
+</div>
+
+<!-- 결제방법 탭 -->
+<div class="payment-tabs">
+
+    <button
+        id="bankTab"
+        class="payment-tab active"
+        onclick="changePaymentTab('bank')"
+    >
+        🏦 무통장입금
+    </button>
+
+    <button
+        id="cardTab"
+        class="payment-tab"
+        onclick="changePaymentTab('card')"
+    >
+        💳 신용카드
+    </button>
+
+</div>
+
+<!-- 무통장입금 결제 영역 -->
+<div id="bankPaymentArea">
+
+<div class="card">
+
+<div class="section-title">
+🏦 입금 계좌
+</div>
+
+<div
+class="account"
+id="accountInfo"
+>
+불러오는 중...
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<div class="section-title">
+✍ 입금자 정보
+</div>
+
+<input
+type="text"
+id="depositorName"
+class="input"
+placeholder="입금자명을 입력하세요"
+>
+
+<button
+class="submit-btn"
+onclick="submitCharge()"
+>
+💰 충전 신청하기
+</button>
+
+</div>
+
+<!-- 무통장입금 영역 끝 -->
+</div>
+
+
+<!-- =========================
+     신용카드 결제 영역
+========================= -->
+<div
+id="cardPaymentArea"
+style="display:none;"
+>
+
+    <div class="card card-payment-ready">
+
+        <div class="section-title">
+            💳 신용카드 결제
+        </div>
+
+        <div class="card-ready-icon">
+            💳
+        </div>
+
+        <div class="card-ready-title">
+            신용카드 결제 준비중
+        </div>
+
+        <div class="card-ready-text">
+            안전한 카드 결제 서비스를 준비하고 있습니다.
+        </div>
+
+        <button
+            class="card-pay-btn"
+            disabled
+        >
+            카드 결제 준비중
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- 충전안내는 결제방식과 관계없이 항상 표시 -->
+<div class="card">
+
+<div class="section-title">
+📌 충전 안내
+</div>
+
+<div class="notice">
+
+✔ 24시간 신청 가능
+
+<br>
+
+✔ 오전 10시 ~ 오후 8시
+
+<br>
+
+✔ 2시간 간격으로 순차 처리
+
+<br>
+
+✔ 입금자명 불일치 시 처리가 지연될 수 있습니다
+
+<br>
+
+✔ 충전된 포인트는 환불되지 않습니다
+
+</div>
+
+<div class="time-grid">
+
+<div class="time-box">
+10:00
+</div>
+
+<div class="time-box">
+12:00
+</div>
+
+<div class="time-box">
+14:00
+</div>
+
+<div class="time-box">
+16:00
+</div>
+
+<div class="time-box">
+18:00
+</div>
+
+<div class="time-box">
+20:00
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+AI ALMAGO POINT SHOP
+
+</div>
+
+<script>
+
+let selectedProduct = null;
+
+async function loadProducts(){
+
+const res =
+await fetch(
+"/charge-settings"
+);
+
+const data =
+await res.json();
+
+const area =
+document.getElementById(
+"productArea"
+);
+
+area.innerHTML="";
+
+data.forEach((item,index)=>{
+
+area.innerHTML += `
+
+<div
+class="product ${index===0 ? 'active' : ''}"
+onclick="
+selectProduct(
+this,
+${index},
+'${item.name}',
+'${item.point.toLocaleString()}P',
+'${item.price.toLocaleString()}원'
+)
+"
+>
+
+<div class="product-name">
+${getIcon(index)} ${item.name}
+</div>
+
+<div class="product-point">
+${item.point.toLocaleString()}P
+</div>
+
+<div class="product-price">
+${item.price.toLocaleString()}원
+</div>
+
+<button class="select-btn">
+선택
+</button>
+
+</div>
+
+`;
+
+if(index===0){
+
+selectedProduct=item;
+
+document.getElementById(
+"selectedName"
+).innerHTML =
+`${getIcon(index)} ${item.name}`;
+
+document.getElementById(
+"selectedInfo"
+).innerHTML =
+`${item.point.toLocaleString()}P / ${item.price.toLocaleString()}원`;
+
+}
+
+});
+
+}
+
+function getIcon(index){
+
+    const icons = [
+        "🥉",
+        "🥈",
+        "🥇",
+        "👑",
+        "💎",
+        "⭐",
+        "🏆",
+        "🔥"
+    ];
+
+    return icons[index] || "💎";
+
+}
+
+function selectProduct(
+card,
+index,
+name,
+point,
+price
+){
+
+document
+.querySelectorAll(
+".product"
+)
+.forEach(p=>{
+
+    p.classList.remove(
+        "active"
+    );
+
+});
+
+card.classList.add(
+    "active"
+);
+
+document
+.getElementById(
+    "selectedName"
+).innerHTML =
+`${getIcon(index)} ${name}`;
+
+document
+.getElementById(
+    "selectedInfo"
+).innerHTML =
+point+" / "+price;
+
+}
+
+loadProducts();
+loadAccount();
+loadUserInfo();
+
+async function loadAccount(){
+
+const res =
+await fetch(
+"/charge-account"
+);
+
+const data =
+await res.json();
+
+document
+.getElementById(
+"accountInfo"
+)
+.innerHTML = `
+
+${data.bank_name}
+
+<br><br>
+
+${data.account_number}
+
+<br><br>
+
+예금주 :
+${data.account_holder}
+
+<div style="
+margin-top:20px;
+font-size:14px;
+color:#6b7280;
+line-height:1.8;
+">
+
+📌 ${data.notice}
+
+</div>
+
+`;
+
+}
+
+async function loadUserInfo(){
+
+    const token =
+    localStorage.getItem("token");
+
+    if(!token){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/my-info",
+        {
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const user =
+    await res.json();
+
+    document.getElementById(
+        "user-name"
+    ).innerHTML =
+    `👤 ${user.name}님`;
+
+    document.getElementById(
+    "user-point"
+    ).innerHTML =
+    `💰 ${user.point}P`;
+
+}
+
+async function submitCharge(){
+
+const depositorName =
+document.getElementById(
+"depositorName"
+).value.trim();
+
+if(!depositorName){
+
+alert(
+"입금자명을 입력하세요."
+);
+
+return;
+}
+
+const token =
+localStorage.getItem(
+"token"
+);
+
+const point =
+parseInt(
+document
+.getElementById(
+"selectedInfo"
+)
+.innerText
+.replace(/,/g,"")
+);
+
+const amount =
+parseInt(
+document
+.getElementById(
+"selectedInfo"
+)
+.innerText
+.split("/")
+[1]
+.replace(/,/g,"")
+);
+
+const productName =
+document
+.getElementById(
+    "selectedName"
+)
+.innerText
+.replace(
+    /🥉|🥈|🥇|👑|💎|⭐|🏆|🔥/g,
+    ""
+)
+.trim();
+
+const res =
+await fetch(
+"/charge-request",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json",
+
+"Authorization":
+`Bearer ${token}`
+},
+
+body:JSON.stringify({
+
+depositor_name:
+depositorName,
+
+product_name:
+productName,
+
+point:
+point,
+
+amount:
+amount
+
+})
+
+}
+);
+
+const data =
+await res.json();
+
+if(!res.ok){
+
+alert(
+data.detail ||
+"신청 실패"
+);
+
+return;
+
+}
+
+alert(
+"충전 신청이 완료되었습니다."
+);
+
+document
+.getElementById(
+"depositorName"
+).value="";
+
+}
+
+function goMyPage(){
+
+    location.href =
+    "mypage.html";
+
+}
+
+function goPointLog(){
+
+    location.href =
+    "point-log.html";
+
+}
+
+function logout(){
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    location.href =
+    "login.html";
+
+}
+
+function goMyPage(){
+
+    location.href =
+    "my.html";
+
+}
+
+function goPointLog(){
+
+    location.href =
+    "point.html";
+
+}
+
+function logout(){
+
+    localStorage.clear();
+
+    location.href = "/";
+
+}
+
+function goHome(){
+
+    location.href = "/";
+
+}
+
+function goCharge(){
+
+    location.href =
+    "charge.html";
+
+}
+
+// =========================
+// 결제방법 탭 전환
+// =========================
+
+function changePaymentTab(type){
+
+    const bankTab =
+    document.getElementById(
+        "bankTab"
+    );
+
+    const cardTab =
+    document.getElementById(
+        "cardTab"
+    );
+
+    const bankArea =
+    document.getElementById(
+        "bankPaymentArea"
+    );
+
+    const cardArea =
+    document.getElementById(
+        "cardPaymentArea"
+    );
+
+
+    if(type === "bank"){
+
+        bankTab.classList.add(
+            "active"
+        );
+
+        cardTab.classList.remove(
+            "active"
+        );
+
+        bankArea.style.display =
+        "block";
+
+        cardArea.style.display =
+        "none";
+
+    }
+    else{
+
+        bankTab.classList.remove(
+            "active"
+        );
+
+        cardTab.classList.add(
+            "active"
+        );
+
+        bankArea.style.display =
+        "none";
+
+        cardArea.style.display =
+        "block";
+
+    }
+
+}
+</script>
+
+</body>
+
+</html>

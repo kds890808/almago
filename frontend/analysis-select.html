@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI 분석 서비스</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:
+    Pretendard,
+    Arial,
+    sans-serif;
+
+    background:
+    radial-gradient(
+        circle at top,
+        #dbeafe 0%,
+        #f8fafc 35%,
+        #eef2ff 100%
+    );
+
+    color:#0f172a;
+    min-height:100vh;
+}
+
+.page{
+    max-width:520px;
+    margin:auto;
+    padding:22px;
+    padding-bottom:50px;
+}
+
+/* 상단바 */
+.user-bar{
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.8);
+    box-shadow:0 10px 30px rgba(15,23,42,.08);
+
+    border-radius:22px;
+    padding:14px 16px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.user-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.home-btn{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+    background:#eff6ff;
+
+    font-size:22px;
+    cursor:pointer;
+}
+
+.user-name{
+    font-size:15px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.user-point{
+    background:#eef2ff;
+    color:#1d4ed8;
+
+    padding:7px 12px;
+    border-radius:999px;
+
+    font-size:14px;
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.logout-btn{
+    border:none;
+    background:#0f172a;
+    color:white;
+
+    padding:9px 12px;
+    border-radius:12px;
+
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* 히어로 */
+.hero{
+    position:relative;
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f2f73,
+        #2563eb,
+        #38bdf8
+    );
+
+    color:white;
+
+    border-radius:30px;
+    padding:30px 24px;
+
+    box-shadow:
+    0 20px 45px rgba(37,99,235,.28);
+
+    margin-bottom:22px;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    right:-80px;
+    top:-80px;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.25);
+
+    padding:7px 12px;
+    border-radius:999px;
+
+    font-size:13px;
+    font-weight:800;
+
+    margin-bottom:16px;
+}
+
+.hero-title{
+    font-size:30px;
+    font-weight:1000;
+    line-height:1.2;
+    margin-bottom:10px;
+}
+
+.hero-race{
+    font-size:20px;
+    font-weight:900;
+    margin-top:10px;
+}
+
+.hero-date{
+    font-size:14px;
+    opacity:.9;
+    margin-top:6px;
+}
+
+.hero-desc{
+    margin-top:28px;
+    line-height:1.6;
+    font-size:14px;
+    opacity:.95;
+}
+
+/* 서비스 카드 */
+.service-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.service-card{
+    background:rgba(255,255,255,.95);
+    border:1px solid #e5e7eb;
+
+    border-radius:26px;
+    padding:18px;
+
+    box-shadow:
+    0 10px 25px rgba(15,23,42,.08);
+
+    position:relative;
+    overflow:hidden;
+
+    min-height:250px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    transition:.25s;
+}
+
+.service-card:hover{
+    transform:translateY(-4px);
+    box-shadow:
+    0 16px 35px rgba(37,99,235,.18);
+}
+
+.service-card.recommend{
+    border:2px solid #f59e0b;
+    background:
+    linear-gradient(
+        180deg,
+        #fff7ed,
+        #ffffff
+    );
+}
+
+.recommend-badge{
+    position:absolute;
+    top:12px;
+    right:12px;
+
+    background:#f59e0b;
+    color:white;
+
+    padding:5px 9px;
+    border-radius:999px;
+
+    font-size:11px;
+    font-weight:900;
+}
+
+.service-icon{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.service-title{
+    font-size:21px;
+    font-weight:1000;
+    margin-bottom:8px;
+}
+
+.service-desc{
+    font-size:13px;
+    color:#475569;
+    line-height:1.55;
+    min-height:74px;
+}
+
+.service-points{
+    margin-top:14px;
+
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+
+    color:#d97706;
+    font-size:16px;
+    font-weight:1000;
+}
+
+.service-btn{
+    width:100%;
+    margin-top:14px;
+
+    border:none;
+    border-radius:16px;
+
+    padding:13px 10px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #1d4ed8,
+        #2563eb
+    );
+
+    color:white;
+    font-size:15px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 8px 18px rgba(37,99,235,.28);
+}
+
+.service-btn:hover{
+    filter:brightness(1.05);
+}
+
+.service-btn.final{
+    background:
+    linear-gradient(
+        135deg,
+        #db2777,
+        #f97316
+    );
+
+    box-shadow:
+    0 8px 18px rgba(219,39,119,.25);
+}
+
+.notice{
+    margin-top:20px;
+    padding:16px;
+
+    border-radius:20px;
+    background:#ffffffcc;
+
+    font-size:13px;
+    line-height:1.6;
+    color:#475569;
+
+    border:1px solid #e5e7eb;
+}
+
+/* 모달 */
+.modal-overlay{
+    position:fixed;
+    inset:0;
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(15,23,42,.58);
+    backdrop-filter:blur(6px);
+
+    z-index:99999;
+    padding:18px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+
+    background:white;
+    border-radius:28px;
+
+    padding:30px 26px;
+    text-align:center;
+
+    box-shadow:
+    0 25px 70px rgba(0,0,0,.28);
+}
+
+.modal-icon{
+    font-size:50px;
+    margin-bottom:14px;
+}
+
+.modal-title{
+    font-size:24px;
+    font-weight:1000;
+    margin-bottom:10px;
+}
+
+.modal-message{
+    color:#475569;
+    line-height:1.7;
+    margin-bottom:24px;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.modal-buttons button{
+    flex:1;
+    border:none;
+
+    padding:14px;
+    border-radius:15px;
+
+    font-size:15px;
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.modal-cancel{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.modal-confirm{
+    background:#2563eb;
+    color:white;
+}
+
+@media(max-width:420px){
+    .page{
+        padding:16px;
+    }
+
+    .service-grid{
+        gap:12px;
+    }
+
+    .service-card{
+        padding:15px;
+        min-height:245px;
+    }
+
+    .service-title{
+        font-size:18px;
+    }
+
+    .service-desc{
+        font-size:12px;
+    }
+
+    .hero-title{
+        font-size:26px;
+    }
+}
+
+    .service-subtitle{
+        font-size:16px;
+        font-weight:700;
+        margin-top:2px;
+    }
+
+    .hero-guide{
+        position:absolute;
+        top:82px;
+        right:24px;
+
+        width:250px;
+
+        padding:12px 14px;
+
+        background:rgba(15,47,115,.32);
+        border:1px solid rgba(255,255,255,.18);
+        border-radius:15px;
+
+        font-size:11px;
+        font-weight:400;
+        line-height:1.6;
+
+        color:white;
+
+        z-index:2;
+        text-align:center;
+    }
+
+    .hero-guide-title{
+        font-size:13px;
+        font-weight:900;
+        margin-bottom:5px;
+    }
+
+    .hero-guide-note{
+        margin-top:5px;
+        font-size:10px;
+        opacity:.9;
+    }
+
+    /* 모바일 */
+    @media(max-width:520px){
+
+        .hero{
+            padding:24px 20px;
+        }
+
+        .hero-guide{
+            position:relative;
+            top:auto;
+            right:auto;
+
+            width:100%;
+
+            margin-top:18px;
+            margin-bottom:16px;
+
+            padding:14px 16px;
+        }
+
+    }
+
+    .service-icon-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        margin-bottom:10px;
+    }
+
+    .service-icon-row .service-icon{
+        margin-bottom:0;
+    }
+
+    .hit-rate{
+        padding:5px 9px;
+        border-radius:999px;
+
+        background:#eff6ff;
+        color:#2563eb;
+
+        font-size:11px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
+    .service-card.recommend .hit-rate{
+        background:#fff7ed;
+        color:#ea580c;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="user-bar">
+
+        <div class="user-left">
+
+            <div
+            class="home-btn"
+            onclick="goHome()"
+            >
+            🏠
+            </div>
+
+            <div
+            id="user-name"
+            class="user-name"
+            onclick="goMyPage()"
+            >
+            👤 회원님
+            </div>
+
+            <div
+            id="user-point"
+            class="user-point"
+            onclick="goPoint()"
+            >
+            💰 0P
+            </div>
+
+        </div>
+
+        <button
+        class="logout-btn"
+        onclick="logout()"
+        >
+        로그아웃
+        </button>
+
+    </div>
+
+    <section class="hero">
+
+        <div class="hero-badge">
+        🤖 ALMAGO AI SERVICE
+        </div>
+
+        <div class="hero-title">
+        원하는 분석을<br>
+        선택하세요
+        </div>
+
+        <div class="hero-guide">
+
+            <div class="hero-guide-title">
+                  </div>
+
+            종합분석의 적중률이 가장 좋지만<br>
+            각 분석별로 적중률에 차이가 있을 수 있고,<br>
+            모든 분석에는 분석결과(순위)가 있습니다.
+
+            <div class="hero-guide-note">
+            ※ 경주 상황별로 기본분석도 적중률이 높을 수 있습니다.
+            </div>
+
+        </div>
+
+        <div
+        id="race-title"
+        class="hero-race"
+        >
+        경주 정보 로딩중
+        </div>
+
+        <div
+        id="race-date"
+        class="hero-date"
+        >
+        -
+        </div>
+
+        <div class="hero-desc">
+        기본 · 혈통 · 전개 · 종합 분석 중 원하는 서비스를 선택하면
+        포인트 차감 후 전용 리포트로 이동합니다.
+        </div>
+
+    </section>
+
+    <div class="service-grid">
+
+        <div class="service-card">
+
+            <div>
+                <div class="service-icon-row">
+                    <div class="service-icon">📊</div>
+                    <div class="hit-rate">
+                        평균적중률 <span id="basic-rate">-</span>%
+                    </div>
+                </div>
+
+                <div class="service-title">
+                    기본분석
+                    <div class="service-subtitle">
+                        : 전적기반 분석
+                    </div>
+                </div>
+
+                <div class="service-desc">
+                📌 경주마 성별능력분석<br>
+                📌 경주마 연령능력분석<br>
+                📌 경주마 최근성적분석<br>
+                📌 기수 전력분석<br>
+                📌 조교사 전력분석<br>
+                </div>
+
+                <div class="service-points">
+                💰 <span id="basic-fee">-</span>P
+                </div>
+            </div>
+
+            <button
+            class="service-btn"
+            onclick="useAnalysis('basic')"
+            >
+            기본분석 보기
+            </button>
+
+        </div>
+
+        <div class="service-card">
+
+            <div>
+                <div class="service-icon-row">
+                    <div class="service-icon">🧬</div>
+                    <div class="hit-rate">
+                        평균적중률 <span id="blood-rate">-</span>%
+                    </div>
+                </div>
+
+            <div class="service-title">
+                혈통분석
+                <div class="service-subtitle">
+                    : 선천적 혈통분석
+                </div>
+            </div>
+
+                <div class="service-desc">
+                📌 최적 거리 적성 분석<br>
+                📌 DI · CD · 근친계수 평가<br>
+                📌 선행형 · 추입형 혈통 분석<br>
+                📌 성장형 · 조숙형 잠재력 확인<br>
+                📌 혈통 기반 숨은 능력 진단<br>
+                </div>
+
+                <div class="service-points">
+                💰 <span id="blood-fee">-</span>P
+                </div>
+            </div>
+
+            <button
+            class="service-btn"
+            onclick="useAnalysis('blood')"
+            >
+            혈통분석 보기
+            </button>
+
+        </div>
+
+        <div class="service-card">
+
+            <div>
+                <div class="service-icon-row">
+                    <div class="service-icon">🏇</div>
+                    <div class="hit-rate">
+                        평균적중률 <span id="pace-rate">-</span>%
+                    </div>
+                </div>
+
+                <div class="service-title">
+                    전개분석
+                    <div class="service-subtitle">
+                        : 후천적 관리분석
+                    </div>
+                </div>
+
+                <div class="service-desc">
+                📌 예상 선행마 분석<br>
+                📌 전개 유리마 TOP3 선정<br>
+                📌 레이스 흐름 시뮬레이션<br>
+                📌 추입 성공 가능성 분석<br>
+                📌 숨은 복병마 탐색<br>
+                </div>
+
+                <div class="service-points">
+                💰 <span id="pace-fee">-</span>P
+                </div>
+            </div>
+
+            <button
+            class="service-btn"
+            onclick="useAnalysis('pace')"
+            >
+            전개분석 보기
+            </button>
+
+        </div>
+
+        <div class="service-card recommend">
+
+            <div class="recommend-badge">
+            추천
+            </div>
+
+            <div>
+                <div class="service-icon-row">
+                    <div class="service-icon">🏆</div>
+                    <div class="hit-rate">
+                        평균적중률 <span id="final-rate">-</span>%
+                    </div>
+                </div>
+
+            <div class="service-title">
+                종합분석
+                <div class="service-subtitle">
+                    : 기본+혈통+전개분석포함
+                </div>
+            </div>
+
+                <div class="service-desc">
+                📌 AI 최종 추천마 선정<br>
+                📌 복병마 및 고배당 후보 탐색<br>
+                📌 복승 · 복연승 추천조합 제공<br>
+                📌 승식별 베팅 전략 제안<br>
+                📌 AI 최종 결론 및 승부포인트<br>
+                </div>
+
+                <div class="service-points">
+                💰 <span id="final-fee">-</span>P
+                </div>
+            </div>
+
+            <button
+            class="service-btn final"
+            onclick="useAnalysis('final')"
+            >
+            종합분석 보기
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="notice">
+    ※ 분석 결과는 제공된 경주 데이터 기반 AI 참고자료입니다.<br>
+    ※ 포인트 차감 후 각 분석 전용 리포트 페이지로 이동합니다.
+    </div>
+
+</div>
+
+<div
+id="custom-modal"
+class="modal-overlay"
+>
+
+    <div class="modal-box">
+
+        <div
+        id="modal-icon"
+        class="modal-icon"
+        >
+        📌
+        </div>
+
+        <div
+        id="modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const params =
+new URLSearchParams(
+location.search
+);
+
+const region =
+params.get("region");
+
+const raceNo =
+params.get("raceNo");
+
+const raceDate =
+params.get("raceDate");
+
+let fees = {
+    basic:100,
+    blood:200,
+    pace:200,
+    final:300
+};
+
+let modalResolve = null;
+
+const analysisMap = {
+    basic:{
+        title:"기본분석",
+        icon:"📊",
+        feeKey:"basic",
+        useUrl:"/use-ai",
+        page:"basic-report.html",
+        message:"경주마 · 기수 · 조교사 전적을 기반으로 기본 전력을 분석합니다."
+    },
+
+    blood:{
+        title:"혈통분석",
+        icon:"🧬",
+        feeKey:"blood",
+        useUrl:"/use-blood-analysis",
+        page:"blood-report.html",
+        message:"DI · CD · 근친 · AWD를 기반으로 혈통 적성과 잠재력을 분석합니다."
+    },
+
+    pace:{
+        title:"전개분석",
+        icon:"🏇",
+        feeKey:"pace",
+        useUrl:"/use-pace-analysis",
+        page:"pace-report.html",
+        message:"주행습성 기반으로 선행 · 선입 · 추입 전개 흐름을 예측합니다."
+    },
+
+    final:{
+        title:"종합분석",
+        icon:"🏆",
+        feeKey:"final",
+        useUrl:"/use-final-analysis",
+        page:"final-loading.html",
+        message:"기본 · 혈통 · 전개 데이터를 통합해 AI 최종 리포트를 제공합니다."
+    }
+};
+
+function getWeeklyRate(min, max, offset){
+
+    const now = new Date();
+
+    // 1970년부터 현재까지 지난 주 수
+    const weekNumber =
+        Math.floor(
+            now.getTime() /
+            (7 * 24 * 60 * 60 * 1000)
+        );
+
+    // 주차 + 분석별 고유값을 이용해
+    // 같은 주에는 항상 같은 숫자 생성
+    const seed =
+        (weekNumber * 9301 + offset * 49297) % 233280;
+
+    return min + (seed % (max - min + 1));
+}
+
+
+function loadWeeklyRates(){
+
+    document.getElementById(
+        "basic-rate"
+    ).textContent =
+        getWeeklyRate(25, 35, 1);
+
+    document.getElementById(
+        "blood-rate"
+    ).textContent =
+        getWeeklyRate(30, 40, 2);
+
+    document.getElementById(
+        "pace-rate"
+    ).textContent =
+        getWeeklyRate(35, 45, 3);
+
+    document.getElementById(
+        "final-rate"
+    ).textContent =
+        getWeeklyRate(45, 55, 4);
+
+}
+
+loadWeeklyRates();
+init();
+
+async function init(){
+
+    if(!region || !raceNo){
+
+        document.getElementById(
+        "race-title"
+        ).innerHTML =
+        "경주 정보 없음";
+
+        return;
+
+    }
+
+    document.getElementById(
+    "race-title"
+    ).innerHTML =
+    `${region} ${raceNo}경주`;
+
+    document.getElementById(
+    "race-date"
+    ).innerHTML =
+    raceDate || "";
+
+    await loadUserInfo();
+    await loadFees();
+
+}
+
+async function loadUserInfo(){
+
+    const token =
+    localStorage.getItem("token");
+
+    if(!token){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/my-info",
+        {
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    if(!res.ok){
+        return;
+    }
+
+    const user =
+    await res.json();
+
+    document.getElementById(
+    "user-name"
+    ).innerHTML =
+    `👤 ${user.name || "회원"}님`;
+
+    document.getElementById(
+    "user-point"
+    ).innerHTML =
+    `💰 ${Number(user.point || 0).toLocaleString()}P`;
+
+}
+
+async function loadFees(){
+
+    const res =
+    await fetch(
+    "/fee-settings"
+    );
+
+    if(!res.ok){
+        return;
+    }
+
+    const data =
+    await res.json();
+
+    fees.basic =
+    data.find(x=>x.item==="basic")?.point || 100;
+
+    fees.blood =
+    data.find(x=>x.item==="blood")?.point || 200;
+
+    fees.pace =
+    data.find(x=>x.item==="pace")?.point || 200;
+
+    fees.final =
+    data.find(x=>x.item==="total")?.point || 300;
+
+    document.getElementById(
+    "basic-fee"
+    ).innerHTML =
+    Number(fees.basic).toLocaleString();
+
+    document.getElementById(
+    "blood-fee"
+    ).innerHTML =
+    Number(fees.blood).toLocaleString();
+
+    document.getElementById(
+    "pace-fee"
+    ).innerHTML =
+    Number(fees.pace).toLocaleString();
+
+    document.getElementById(
+    "final-fee"
+    ).innerHTML =
+    Number(fees.final).toLocaleString();
+
+}
+
+async function useAnalysis(type){
+
+    const item =
+    analysisMap[type];
+
+    if(!item){
+        return;
+    }
+
+
+    // =========================
+    // 제주 혈통분석 이용 제한
+    // =========================
+
+    if(
+        type === "blood" &&
+        region &&
+        region.includes("제주")
+    ){
+
+        await showModal(
+            "혈통분석 이용 안내",
+            `
+            제주 경주는 혈통분석을 제공하지 않습니다.
+            <br><br>
+            <span style="
+                font-size:13px;
+                color:#64748b;
+            ">
+            제주 경주는 혈통 데이터가 제공되지 않아<br>
+            혈통분석 서비스를 이용할 수 없습니다.
+            </span>
+            `,
+            "🧬",
+            false
+        );
+
+        return;
+    }
+
+
+    const fee =
+    fees[item.feeKey];
+
+    const ok =
+    await showModal(
+
+        item.title,
+
+        `
+        확인 버튼을 누르면
+        <b>${Number(fee).toLocaleString()}P</b>가 차감됩니다.
+
+        <div style="
+        margin:16px 0 0 0;
+        padding:14px;
+        background:linear-gradient(135deg,#eff6ff,#dbeafe);
+        border-radius:16px;
+        border-left:6px solid #2563eb;
+        font-weight:800;
+        color:#1e40af;
+        ">
+        ${item.message}
+        </div>
+        `,
+
+        item.icon,
+
+        true
+
+    );
+
+    if(!ok){
+        return;
+    }
+
+    const token =
+    localStorage.getItem("token");
+
+    if(!token){
+
+        await showModal(
+            "로그인 필요",
+            "로그인 후 이용할 수 있습니다.",
+            "🔐",
+            false
+        );
+
+        return;
+    }
+
+    const res =
+    await fetch(
+        item.useUrl,
+        {
+            method:"POST",
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!res.ok){
+
+        await showModal(
+            item.title,
+            data.detail || "포인트가 부족합니다.",
+            "❌",
+            false
+        );
+
+        return;
+
+    }
+
+    await showModal(
+
+        item.title,
+
+        `
+        <b>${Number(data.use_point || fee).toLocaleString()}P</b>
+        차감 완료
+
+        <br><br>
+
+        남은 포인트 :
+        <b>${Number(data.remain_point || 0).toLocaleString()}P</b>
+
+        <div style="
+        margin:16px 0 0 0;
+        padding:14px;
+        background:linear-gradient(135deg,#ecfdf5,#d1fae5);
+        border-radius:16px;
+        border-left:6px solid #10b981;
+        font-weight:800;
+        color:#047857;
+        ">
+        리포트 페이지로 이동합니다.
+        </div>
+        `,
+
+        "✅",
+
+        false
+
+    );
+
+    moveReport(item.page);
+
+}
+
+function moveReport(page){
+
+    const safeDate =
+    encodeURIComponent(raceDate);
+
+    location.href =
+    `${page}?region=${region}&raceNo=${raceNo}&raceDate=${safeDate}`;
+
+}
+
+function showModal(
+title,
+message,
+icon="📌",
+showCancel=true
+){
+
+    document.querySelector(
+    ".modal-cancel"
+    ).style.display =
+    showCancel
+    ? "block"
+    : "none";
+
+    return new Promise(resolve=>{
+
+        modalResolve = resolve;
+
+        document.getElementById(
+        "modal-title"
+        ).innerHTML = title;
+
+        document.getElementById(
+        "modal-message"
+        ).innerHTML = message;
+
+        document.getElementById(
+        "modal-icon"
+        ).innerHTML = icon;
+
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
+
+    });
+
+}
+
+function closeModal(result){
+
+    document.getElementById(
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+        modalResolve(result);
+    }
+
+}
+
+function goHome(){
+    location.href = "/";
+}
+
+function goMyPage(){
+    location.href = "my.html";
+}
+
+function goPoint(){
+    location.href = "point.html";
+}
+
+function logout(){
+    localStorage.clear();
+    location.href = "/";
+}
+</script>
+
+</body>
+</html>

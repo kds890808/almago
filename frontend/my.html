@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>마이페이지</title>
 
 <style>
@@ -187,6 +188,96 @@ button.change-btn{
 
     font-weight:bold;
 
+}
+
+/* =========================
+   모바일 대응
+========================= */
+
+@media (max-width:600px){
+
+    body{
+        padding:12px;
+    }
+
+    .container{
+        width:100%;
+        max-width:100%;
+    }
+
+    .user-bar{
+        padding:12px;
+        gap:10px;
+        top:6px;
+    }
+
+    .user-bar > div{
+        display:flex;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:8px;
+        min-width:0;
+        font-size:14px;
+    }
+
+    .home-btn{
+        padding:8px 10px;
+        white-space:nowrap;
+    }
+
+    .logout-btn{
+        padding:9px 12px;
+        white-space:nowrap;
+        flex-shrink:0;
+    }
+
+    .card{
+        padding:18px 16px;
+        border-radius:16px;
+    }
+
+    .card h2{
+        font-size:22px;
+    }
+
+    .info-row{
+        gap:15px;
+    }
+
+    .info-label{
+        flex-shrink:0;
+    }
+
+    .info-data{
+        min-width:0;
+        text-align:right;
+        word-break:break-all;
+    }
+
+    input{
+        font-size:16px;
+    }
+
+    button.change-btn{
+        min-height:48px;
+        font-size:16px;
+    }
+}
+
+@media (max-width:400px){
+
+    .user-bar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .user-bar > div{
+        justify-content:center;
+    }
+
+    .logout-btn{
+        width:100%;
+    }
 }
 </style>
 

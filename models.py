@@ -1,5 +1,13 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Boolean,
+    Float,
+    Text
+)
 from database import Base
+from pydantic import BaseModel
 
 # =========================
 # 회원
@@ -14,6 +22,8 @@ class Member(Base):
     name = Column(String)
     birth = Column(String)
     phone = Column(String)
+
+    created_at = Column(String)
 
     is_premium = Column(Boolean, default=False)
 
@@ -121,3 +131,31 @@ class PaceAnalysis(Base):
 
     코멘트 = Column(String)
     점수 = Column(Integer)
+
+# =========================
+# 텔레그램 설정
+# =========================
+class TelegramSetting(Base):
+
+    __tablename__ = "telegram_settings"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    chat_id = Column(String)
+
+    is_active = Column(
+        Integer,
+        default=1
+    )
+
+# =========================
+# 텔레그램 설정 변경
+# =========================
+class TelegramSettingUpdate(BaseModel):
+
+    chat_id: str
+

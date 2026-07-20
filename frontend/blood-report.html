@@ -1,0 +1,6164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 분석</title>
+
+<style>
+.user-name,
+.user-point{
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.user-name:hover{
+
+    color:#2563eb;
+
+}
+
+.user-point:hover{
+
+    transform:scale(1.05);
+
+}
+
+.user-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:14px 18px;
+
+    margin-bottom:20px;
+
+    border-radius:18px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.user-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.user-name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#111827;
+
+}
+
+.user-point{
+
+    background:#eef2ff;
+
+    color:#1d4ed8;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+.logout-top-btn{
+
+    background:#0f172a;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.user-left{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
+.logout-top-btn{
+
+    background:#111827;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+body{
+
+    padding-bottom:90px;
+
+}
+    
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 20px;
+  padding-bottom:100px;
+}
+
+/* 상단 추천 */
+.top-area {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.main-picks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  flex: 1;
+}
+
+.pick {
+  text-align: center;
+}
+
+.pick .icon {
+  font-size: 20px;
+}
+
+.pick .name {
+  font-size: 14px;
+  color: #555;
+}
+
+.pick .num {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* 복병마 */
+.darkhorse {
+  width: 140px;
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+.darkhorse .title {
+  font-size: 14px;
+}
+
+.darkhorse .name {
+  font-size: 12px;
+  color: gray;
+}
+
+.darkhorse .num {
+  font-size: 40px;
+  font-weight: bold;
+  background: black;
+  color: white;
+}
+
+/* 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #3b82f6;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #e0e7ff;
+}
+
+.btn {
+  background: #2563eb;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.analysis-box{
+
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+
+}
+
+.locked-box{
+
+    background:#eee;
+    padding:12px;
+    text-align:center;
+    border-radius:10px;
+
+}
+
+.card{
+
+background:white;
+padding:12px;
+border-radius:8px;
+box-shadow:0 1px 3px rgba(0,0,0,.1);
+
+}
+
+.point-info{
+
+margin-top:10px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#92400e;
+
+}
+
+
+.info-pill{
+
+display:inline-flex;
+
+align-items:center;
+justify-content:center;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+background:#f1f5f9;
+
+color:#0f172a;
+
+font-weight:700;
+
+font-size:13px;
+
+text-decoration:none;
+
+border:1px solid #cbd5e1;
+
+cursor:pointer;
+
+transition:.2s;
+
+white-space:nowrap;
+
+/* 삭제 */
+min-width:90px;
+
+}
+
+.info-pill:hover{
+
+background:#dbeafe;
+
+border-color:#60a5fa;
+
+}
+
+
+th,
+td{
+
+white-space:nowrap;
+
+}
+
+.analysis-tabs{
+
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+
+    display:flex;
+
+    background:white;
+
+    border-top:1px solid #e5e7eb;
+
+    z-index:999;
+
+}
+
+.analysis-tabs{
+
+position:fixed;
+
+bottom:0;
+left:0;
+right:0;
+
+height:75px;
+
+background:white;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid #e5e7eb;
+
+box-shadow:
+0 -4px 12px rgba(0,0,0,.08);
+
+z-index:9999;
+
+}
+
+.tab-icon{
+
+    font-size:26px;
+
+    margin-bottom:4px;
+
+}
+
+.tab-text{
+
+    font-size:12px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+.analysis-tabs{
+
+    position:fixed;
+
+    bottom:0;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:100%;
+    max-width:500px;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    padding:16px 0;
+
+    border-top:1px solid #e5e5e5;
+
+    z-index:999;
+
+}
+
+.analysis-tab-btn{
+
+    flex:1;
+
+    text-align:center;
+
+    color:#5b6070;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+.tab-icon{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+.table-wrap{
+
+    width:100%;
+    max-width:100%;
+
+    overflow-x:scroll;
+    overflow-y:hidden;
+
+    scrollbar-gutter:stable;
+
+    display:block;
+
+}
+
+.table-wrap table{
+
+    width:max-content;
+    min-width:1200px;
+
+}
+
+.home-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eef2ff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.home-btn:hover{
+
+    background:#dbeafe;
+
+    transform:translateY(-2px);
+
+}
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(0,0,0,.55);
+
+    backdrop-filter:
+    blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.charge-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.charge-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+출전마 정보
+========================= */
+
+.entry-detail{
+
+margin-bottom:30px;
+
+background:white;
+
+border-radius:18px;
+
+border:1px solid #dbeafe;
+
+overflow:hidden;
+
+box-shadow:
+0 6px 18px rgba(37,99,235,.08);
+
+}
+
+.entry-detail summary{
+
+padding:18px 22px;
+
+font-size:18px;
+
+font-weight:800;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+90deg,
+#eff6ff,
+#ffffff
+);
+
+list-style:none;
+
+}
+
+.entry-detail summary:hover{
+
+background:
+linear-gradient(
+90deg,
+#dbeafe,
+#f8fbff
+);
+
+}
+
+.entry-detail summary::-webkit-details-marker{
+
+display:none;
+
+}
+
+.entry-detail summary::before{
+
+content:"▶";
+
+display:inline-block;
+
+margin-right:10px;
+
+transition:.25s;
+
+}
+
+.entry-detail[open] summary::before{
+
+transform:rotate(90deg);
+
+}
+
+/* =========================
+혈통 요약 카드
+========================= */
+
+.blood-summary-card{
+
+margin:18px 0 26px 0;
+
+padding:22px;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e3a8a
+);
+
+color:white;
+
+box-shadow:
+0 14px 35px rgba(15,23,42,.25);
+
+}
+
+.blood-summary-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:18px;
+
+}
+
+.blood-kicker{
+
+font-size:14px;
+
+font-weight:800;
+
+color:#bfdbfe;
+
+margin-bottom:6px;
+
+}
+
+.blood-title{
+
+font-size:26px;
+
+font-weight:900;
+
+}
+
+.blood-score-circle{
+
+width:74px;
+height:74px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+background:white;
+
+color:#1e3a8a;
+
+font-size:28px;
+
+font-weight:900;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.25);
+
+flex-shrink:0;
+
+}
+
+.blood-summary-text{
+
+margin-top:18px;
+
+line-height:1.8;
+
+font-size:15px;
+
+color:#e0f2fe;
+
+}
+
+.blood-summary-tags{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin-top:18px;
+
+}
+
+.blood-summary-tags span{
+
+padding:8px 12px;
+
+border-radius:999px;
+
+background:rgba(255,255,255,.14);
+
+border:1px solid rgba(255,255,255,.2);
+
+font-size:13px;
+
+font-weight:800;
+
+}
+
+.blood-summary-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:15px;
+
+margin:20px 0;
+
+}
+
+.summary-item{
+
+background:rgba(255,255,255,.12);
+
+padding:18px;
+
+border-radius:14px;
+
+line-height:1.8;
+
+font-size:15px;
+
+}
+
+.summary-item b{
+
+font-size:16px;
+
+}
+
+.blood-ai-comment{
+
+margin-top:18px;
+
+padding:18px;
+
+background:rgba(255,255,255,.12);
+
+border-radius:16px;
+
+line-height:1.9;
+
+font-size:15px;
+
+}
+
+.blood-summary-title{
+
+font-size:26px;
+
+font-weight:900;
+
+margin-bottom:10px;
+
+}
+
+.blood-keywords{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+margin:18px 0 25px;
+
+}
+
+.keyword{
+
+padding:8px 16px;
+
+border-radius:999px;
+
+font-size:14px;
+
+font-weight:800;
+
+background:rgba(255,255,255,.15);
+
+border:1px solid rgba(255,255,255,.25);
+
+backdrop-filter:blur(5px);
+
+}
+
+.summary-icon{
+
+font-size:26px;
+
+margin-bottom:8px;
+
+}
+
+.summary-title{
+
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:10px;
+
+}
+
+.summary-body{
+
+line-height:1.8;
+
+}
+
+.summary-value{
+
+font-size:30px;
+
+font-weight:900;
+
+margin-top:8px;
+
+}
+
+.summary-desc{
+
+margin-top:6px;
+
+font-size:13px;
+
+opacity:.8;
+
+}
+
+.comment-block{
+
+margin-top:18px;
+
+padding:15px;
+
+border-radius:12px;
+
+background:rgba(255,255,255,.08);
+
+line-height:1.8;
+
+}
+
+.dosage-card{
+
+margin:25px 0;
+
+padding:20px;
+
+background:
+rgba(255,255,255,.08);
+
+border-radius:18px;
+
+}
+
+.dosage-chart{
+
+height:240px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+rgba(255,255,255,.05);
+
+border-radius:16px;
+
+font-size:24px;
+
+font-weight:bold;
+
+}
+
+.dosage-text{
+
+margin-top:18px;
+
+line-height:1.8;
+
+font-size:15px;
+
+}
+
+.dosage-title{
+
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+.dosage-row{
+
+display:grid;
+
+grid-template-columns:
+110px
+1fr
+35px;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:12px;
+
+}
+
+.dosage-bar{
+
+height:12px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.dosage-fill{
+
+height:100%;
+
+border-radius:20px;
+
+transition:1s;
+
+}
+
+.dosage-name{
+
+font-size:13px;
+
+font-weight:700;
+
+}
+
+.dosage-value{
+
+font-weight:800;
+
+text-align:right;
+
+}
+
+.dosage-wrapper{
+
+display:flex;
+
+flex-wrap:wrap;
+
+align-items:center;
+
+gap:25px;
+
+margin:15px 0;
+
+}
+
+.dosage-svg{
+
+flex:0 0 180px;
+
+display:flex;
+
+justify-content:center;
+
+}
+
+.dosage-legend{
+
+flex:1;
+
+min-width:180px;
+
+}
+
+.dosage-legend-row{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:8px 0;
+
+font-size:14px;
+
+border-bottom:1px solid #eee;
+
+}
+
+.legend-dot{
+
+display:inline-block;
+
+width:12px;
+
+height:12px;
+
+border-radius:50%;
+
+margin-right:8px;
+
+}
+
+@media(max-width:700px){
+
+.dosage-wrapper{
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+.dosage-legend{
+
+width:100%;
+
+}
+
+}
+
+.compare-card{
+
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+margin:25px 0;
+
+box-shadow:
+0 6px 18px rgba(0,0,0,.08);
+
+}
+
+.compare-row{
+
+display:grid;
+
+grid-template-columns:
+90px
+1fr
+55px;
+
+gap:12px;
+
+align-items:center;
+
+margin:10px 0;
+
+}
+
+.compare-name{
+
+font-weight:700;
+
+font-size:13px;
+
+}
+
+.compare-bar{
+
+height:12px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.compare-fill{
+
+height:100%;
+
+border-radius:20px;
+
+transition:1s;
+
+}
+
+.compare-cd{
+
+background:
+linear-gradient(
+90deg,
+#14532d,
+#15803d,
+#22c55e
+);
+
+}
+.compare-value{
+
+font-weight:800;
+
+text-align:right;
+
+}
+
+/* ===========================
+   혈통 핵심 비교 강조
+=========================== */
+
+.compare-fill{
+
+transition:
+width 1s ease;
+
+}
+
+.compare-fill.highlight{
+
+animation:
+comparePulse
+2s ease-in-out infinite;
+
+}
+
+@keyframes comparePulse{
+
+0%{
+
+filter:
+brightness(1);
+
+box-shadow:
+0 0 4px rgba(34,197,94,.25);
+
+}
+
+50%{
+
+filter:
+brightness(1.45);
+
+box-shadow:
+0 0 8px #15803d,
+0 0 18px #15803d,
+0 0 30px rgba(21,128,61,.8);
+
+}
+
+100%{
+
+filter:
+brightness(1);
+
+box-shadow:
+0 0 4px rgba(34,197,94,.25);
+
+}
+
+}
+
+.compare-badge{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:4px;
+
+margin-top:4px;
+
+padding:2px 8px;
+
+border-radius:20px;
+
+background:#dcfce7;
+
+color:#15803d;
+
+font-size:11px;
+
+font-weight:700;
+
+}
+
+.compare-bar-wrap{
+
+display:flex;
+align-items:center;
+gap:10px;
+flex:1;
+
+}
+
+.compare-bar{
+
+flex:1;
+
+}
+
+.compare-badge{
+
+padding:3px 10px;
+
+border-radius:20px;
+
+background:#dcfce7;
+
+color:#15803d;
+
+font-weight:700;
+
+font-size:12px;
+
+white-space:nowrap;
+
+}
+
+.compare-di{
+
+background:
+linear-gradient(
+90deg,
+#1e3a8a,
+#2563eb,
+#60a5fa
+);
+
+}
+
+.compare-section{
+
+margin:30px 0;
+
+padding:20px;
+
+background:#f8fafc;
+
+border:1px solid #e2e8f0;
+
+border-radius:18px;
+
+}
+
+.compare-coi{
+
+background:
+linear-gradient(
+90deg,
+#991b1b,
+#dc2626,
+#ef4444
+);
+
+}
+
+.compare-normal{
+
+padding:3px 10px;
+border-radius:20px;
+background:#dcfce7;
+color:#15803d;
+font-size:12px;
+font-weight:700;
+
+}
+
+.compare-warning{
+
+padding:3px 10px;
+border-radius:20px;
+background:#fef3c7;
+color:#b45309;
+font-size:12px;
+font-weight:700;
+
+}
+
+.compare-danger{
+
+padding:3px 10px;
+border-radius:20px;
+background:#fee2e2;
+color:#b91c1c;
+font-size:12px;
+font-weight:700;
+
+animation:
+dangerPulse
+1.5s infinite;
+
+}
+
+@keyframes dangerPulse{
+
+0%,100%{
+
+box-shadow:
+0 0 0 rgba(239,68,68,0);
+
+}
+
+50%{
+
+box-shadow:
+0 0 12px rgba(239,68,68,.6);
+
+}
+
+}
+
+.awd-section{
+
+margin-top:40px;
+
+}
+
+.awd-title{
+
+font-size:24px;
+
+font-weight:800;
+
+margin-bottom:20px;
+
+}
+
+.race-card{
+
+background:#f8fafc;
+
+padding:20px;
+
+border-radius:18px;
+
+text-align:center;
+
+margin-bottom:20px;
+
+}
+
+.race-distance{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#2563eb;
+
+margin:10px 0;
+
+}
+
+.awd-card{
+
+background:white;
+
+border:1px solid #e5e7eb;
+
+border-radius:18px;
+
+padding:18px;
+
+margin-bottom:16px;
+
+box-shadow:
+0 4px 12px
+rgba(0,0,0,.05);
+
+}
+
+.awd-distance{
+
+font-size:34px;
+
+font-weight:800;
+
+color:#2563eb;
+
+}
+
+.awd-diff{
+
+font-size:22px;
+
+font-weight:700;
+
+margin:8px 0;
+
+}
+
+.awd-state{
+
+font-size:18px;
+
+font-weight:800;
+
+}
+
+.awd-container{
+
+margin-top:40px;
+
+}
+
+.awd-header{
+
+font-size:28px;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+}
+
+.race-card{
+
+background:white;
+
+border-radius:20px;
+
+padding:24px;
+
+text-align:center;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+border:1px solid #e5e7eb;
+
+}
+
+.race-title{
+
+font-size:16px;
+
+font-weight:700;
+
+color:#64748b;
+
+}
+
+.race-value{
+
+font-size:46px;
+
+font-weight:900;
+
+color:#2563eb;
+
+margin:12px 0;
+
+}
+
+.race-desc{
+
+font-size:14px;
+
+color:#64748b;
+
+line-height:1.6;
+
+}
+
+.awd-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(220px,1fr)
+);
+
+gap:18px;
+
+margin-top:25px;
+
+}
+
+.awd-card{
+
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+box-shadow:
+0 8px 20px
+rgba(0,0,0,.08);
+
+border:1px solid #eef2f7;
+
+transition:.3s;
+
+}
+
+.awd-card:hover{
+
+transform:
+translateY(-3px);
+
+}
+
+.awd-name{
+
+font-size:22px;
+
+font-weight:800;
+
+margin-bottom:10px;
+
+}
+
+.awd-distance{
+
+font-size:42px;
+
+font-weight:900;
+
+color:#2563eb;
+
+}
+
+.awd-diff{
+
+margin-top:8px;
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+.awd-star{
+
+margin-top:10px;
+
+font-size:22px;
+
+color:#f59e0b;
+
+}
+
+.awd-state{
+
+margin-top:12px;
+
+display:inline-block;
+
+padding:
+
+6px 14px;
+
+border-radius:20px;
+
+font-weight:700;
+
+font-size:14px;
+
+background:#dcfce7;
+
+color:#15803d;
+
+}
+
+.awd-horse-card{
+
+margin:20px 0;
+
+padding:18px;
+
+background:#1e3a8a;
+
+color:white;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+}
+
+.awd-horse-name{
+
+font-size:30px;
+
+font-weight:900;
+
+margin-bottom:8px;
+
+}
+
+.awd-horse-info{
+
+font-size:16px;
+
+opacity:.9;
+
+}
+
+
+.awd-summary-left{
+
+display:flex;
+
+align-items:flex-end;
+
+gap:6px;
+
+}
+
+.awd-score{
+
+font-size:72px;
+
+font-weight:900;
+
+color:#2563eb;
+
+line-height:1;
+
+}
+
+.awd-score-unit{
+
+font-size:24px;
+
+color:#64748b;
+
+padding-bottom:10px;
+
+}
+
+.awd-summary-right{
+
+text-align:right;
+
+max-width:320px;
+
+}
+
+.awd-summary-result{
+
+font-size:34px;
+
+font-weight:900;
+
+white-space:nowrap;
+
+}
+
+.awd-summary-comment{
+
+font-size:18px;
+
+line-height:1.7;
+
+color:#475569;
+
+}
+
+.awd-ai{
+
+margin-top:25px;
+
+padding:24px;
+
+background:
+linear-gradient(
+135deg,
+#ffffff,
+#f8fbff
+);
+
+border-radius:20px;
+
+border:1px solid #dbeafe;
+
+box-shadow:
+0 8px 20px
+rgba(37,99,235,.08);
+
+}
+
+.awd-ai-title{
+
+font-size:24px;
+
+font-weight:900;
+
+color:#1e40af;
+
+margin-bottom:15px;
+
+}
+
+.awd-ai-body{
+
+font-size:17px;
+
+line-height:1.9;
+
+color:#334155;
+
+}
+
+.awd-summary{
+
+margin-top:30px;
+
+padding:25px;
+
+background:white;
+
+border-radius:20px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+.awd-summary-title{
+
+font-size:24px;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+}
+
+.awd-summary-wrap{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+gap:40px;
+
+flex-wrap:nowrap;
+
+}
+
+.awd-gauge{
+
+width:320px;
+
+max-width:100%;
+
+}
+
+.gauge-needle{
+
+transition:transform 1.2s ease;
+
+}
+
+.awd-summary-text{
+
+flex:1;
+
+min-width:280px;
+
+text-align:left;
+
+padding-left:20px;
+
+}
+
+.awd-score-detail{
+
+margin-top:16px;
+
+padding-top:14px;
+
+border-top:1px solid #e5e7eb;
+
+}
+
+.awd-score-detail div{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:6px 0;
+
+font-size:15px;
+
+}
+
+.awd-score-detail span{
+
+font-weight:800;
+
+color:#334155;
+
+}
+
+.awd-score-detail b{
+
+font-size:17px;
+
+font-weight:900;
+
+color:#2563eb;
+
+}
+
+/* =========================
+플로팅 버튼
+========================= */
+
+.floating-nav{
+
+position:fixed;
+
+right:20px;
+
+bottom:110px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+z-index:99999;
+
+}
+
+.float-btn{
+
+width:56px;
+height:56px;
+
+border:none;
+
+border-radius:50%;
+
+background:#2563eb;
+
+color:white;
+
+font-size:24px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+box-shadow:
+0 8px 20px rgba(37,99,235,.35);
+
+transition:.25s;
+
+}
+
+.float-btn:hover{
+
+transform:translateY(-3px);
+
+background:#1d4ed8;
+
+}
+
+/* =========================
+플로팅 네비게이션
+========================= */
+
+.floating-menu{
+
+position:fixed;
+
+right:20px;
+
+bottom:25px;
+
+z-index:99999;
+
+}
+
+.floating-btn{
+
+width:58px;
+height:58px;
+
+border:none;
+
+border-radius:50%;
+
+background:#2563eb;
+
+color:white;
+
+font-size:28px;
+
+cursor:pointer;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.2);
+
+transition:.25s;
+
+}
+
+.floating-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+.floating-list{
+
+position:absolute;
+
+right:70px;
+
+bottom:0;
+
+display:none;
+
+background:white;
+
+border-radius:16px;
+
+padding:10px;
+
+min-width:220px;
+
+box-shadow:
+0 12px 30px rgba(0,0,0,.15);
+
+}
+
+.floating-list.show{
+
+display:block;
+
+}
+
+.floating-item{
+
+display:block;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:15px;
+
+transition:.2s;
+
+}
+
+.floating-item:hover{
+
+background:#eff6ff;
+
+}
+
+.top-row{
+
+background:#ecfdf5;
+
+}
+
+.top-row td{
+
+background:#ecfdf5;
+
+font-weight:700;
+
+border-top:2px solid #22c55e;
+
+border-bottom:2px solid #22c55e;
+
+}
+
+.run-badge{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+font-weight:700;
+
+font-size:13px;
+
+}
+
+.run-front{
+
+background:#fee2e2;
+
+color:#b91c1c;
+
+}
+
+.run-stalker{
+
+background:#dbeafe;
+
+color:#1d4ed8;
+
+}
+
+.run-closer{
+
+background:#dcfce7;
+
+color:#15803d;
+
+}
+
+.distance-badge{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+font-size:13px;
+
+font-weight:800;
+
+}
+
+.distance-short{
+
+background:#fee2e2;
+
+color:#dc2626;
+
+}
+
+.distance-middle{
+
+background:#dcfce7;
+
+color:#15803d;
+
+}
+
+.distance-long{
+
+background:#ede9fe;
+
+color:#6d28d9;
+
+}
+
+.awd-chip{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+background:#eff6ff;
+
+color:#2563eb;
+
+font-weight:800;
+
+}
+
+.table-wrap table{
+
+border-collapse:separate;
+
+border-spacing:0;
+
+}
+
+.table-wrap th:nth-child(2),
+.table-wrap td:nth-child(2){
+
+position:sticky;
+
+left:55px;
+
+background:#fff;
+
+z-index:20;
+
+}
+
+.table-wrap th:first-child,
+.table-wrap td:first-child{
+
+position:sticky;
+
+left:0;
+
+background:#fff;
+
+z-index:30;
+
+width:55px;
+
+}
+
+/* =========================
+   노안 대비 가독성 보강
+========================= */
+
+/* 혈통 핵심 비교 - 마명 */
+.compare-name{
+    font-size:15px;
+    line-height:1.5;
+}
+
+/* 비교 수치 */
+.compare-value{
+    font-size:16px;
+}
+
+/* 우세 배지 */
+.compare-badge{
+    font-size:14px;
+    padding:5px 10px;
+}
+
+/* COI 정상 / 주의 / 위험 배지 */
+.compare-normal,
+.compare-warning,
+.compare-danger{
+    font-size:14px;
+    padding:5px 10px;
+}
+
+/* 도시지 그래프 이름 */
+.dosage-name{
+    font-size:15px;
+}
+
+/* 도시지 그래프 수치 */
+.dosage-value{
+    font-size:15px;
+}
+
+/* 도시지 범례 */
+.dosage-legend-row{
+    font-size:15px;
+    padding:10px 0;
+}
+
+/* 혈통 요약 태그 */
+.keyword,
+.blood-summary-tags span{
+    font-size:15px;
+}
+
+/* 요약 카드 본문 */
+.summary-item{
+    font-size:16px;
+}
+
+/* 작은 설명 */
+.summary-desc{
+    font-size:15px;
+    line-height:1.6;
+}
+
+/* 출전마 정보 버튼 */
+.info-pill{
+    font-size:15px;
+}
+
+/* 상세 분석 테이블 */
+th,
+td{
+    font-size:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="user-bar">
+
+<div class="user-left">
+
+    <div
+    class="home-btn"
+    onclick="goHome()"
+    >
+    🏠
+    </div>
+
+    <div
+    id="user-name"
+    class="user-name"
+    onclick="goMyPage()"
+    >
+    👤 admin님
+    </div>
+
+    <div
+    id="user-point"
+    class="user-point"
+    onclick="goPointLog()"
+    >
+    💰 999999P
+    </div>
+
+    <div
+    class="charge-btn"
+    onclick="goCharge()"
+    >
+    💳
+    </div>
+
+</div>
+
+
+    <button
+    class="logout-top-btn"
+    onclick="logout()"
+    >
+    로그아웃
+    </button>
+
+</div>
+
+<h2>AI 분석 결과</h2>
+
+<div id="analysis-area"></div>
+
+<script>
+
+function sleep(ms){
+
+return new Promise(
+resolve =>
+setTimeout(resolve, ms)
+);
+
+}
+
+
+async function loadUserInfo(){
+
+    const token =
+    localStorage.getItem(
+        "token"
+    );
+
+    if(!token){
+        return;
+    }
+
+    const res =
+    await fetch(
+        "/my-info",
+        {
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const user =
+    await res.json();
+
+    document.getElementById(
+    "user-name"
+    ).innerHTML =
+    `👤 ${user.name}님`;
+
+    document.getElementById(
+    "user-point"
+    ).innerHTML =
+    `💰 ${user.point}P`;
+
+}
+
+function makeDosageChart(
+dosage,
+score
+){
+
+const labels=[
+"Brilliant",
+"Intermediate",
+"Classic",
+"Solid",
+"Professional"
+];
+
+const korean = {
+
+Brilliant:"순발형",
+
+Intermediate:"스피드형",
+
+Classic:"균형형",
+
+Solid:"지구력형",
+
+Professional:"장거리형"
+
+};
+
+const desc = {
+
+Brilliant:"초반 가속",
+
+Intermediate:"빠른 속도",
+
+Classic:"균형 잡힌 혈통",
+
+Solid:"후반 지구력",
+
+Professional:"장거리 적성"
+
+};
+
+const colors=[
+"#ef4444",
+"#3b82f6",
+"#22c55e",
+"#f59e0b",
+"#8b5cf6"
+];
+
+const values=
+String(dosage||"")
+.trim()
+.split(/\s+/)
+.map(Number);
+
+const total=
+values.reduce((a,b)=>a+b,0);
+
+const cx=110;
+const cy=110;
+const r=96;
+
+let startAngle=-90;
+
+let paths="";
+
+let maxIndex=0;
+
+values.forEach((v,i)=>{
+
+if(v>values[maxIndex]){
+maxIndex=i;
+}
+
+});
+
+values.forEach((v,i)=>{
+
+if(total===0)return;
+
+const angle=
+v/total*360;
+
+const endAngle=
+startAngle+angle;
+
+const x1=
+cx+r*Math.cos(startAngle*Math.PI/180);
+
+const y1=
+cy+r*Math.sin(startAngle*Math.PI/180);
+
+const x2=
+cx+r*Math.cos(endAngle*Math.PI/180);
+
+const y2=
+cy+r*Math.sin(endAngle*Math.PI/180);
+
+const large=
+angle>180?1:0;
+
+paths+=`
+
+<path
+d="
+M ${cx} ${cy}
+L ${x1} ${y1}
+A ${r} ${r} 0 ${large} 1 ${x2} ${y2}
+Z
+"
+fill="${colors[i]}"
+stroke="white"
+stroke-width="2"
+/>
+
+`;
+
+startAngle=endAngle;
+
+});
+
+let legend="";
+
+values.forEach((v,i)=>{
+
+legend+=`
+
+<div class="dosage-legend-row">
+
+<div>
+
+<div>
+
+<span
+class="legend-dot"
+style="
+background:${colors[i]};
+"
+></span>
+
+<b>${korean[labels[i]]}</b>
+
+<div
+style="
+font-size:11px;
+color:#64748b;
+margin-left:20px;
+"
+>
+
+${labels[i]}
+
+</div>
+
+</div>
+
+</div>
+
+<b>${v}</b>
+
+</div>
+
+`;
+
+});
+
+return `
+
+<div class="dosage-wrapper">
+
+<div class="dosage-svg">
+
+<svg
+viewBox="0 0 260 260"
+width="300"
+height="300"
+>
+
+${paths}
+
+<circle
+cx="110"
+cy="110"
+r="60"
+fill="white"
+stroke="#e5e7eb"
+stroke-width="2"
+/>
+
+<text
+x="110"
+y="76"
+text-anchor="middle"
+font-size="16"
+fill="#64748b"
+>
+
+🧬
+
+</text>
+
+<text
+x="110"
+y="105"
+text-anchor="middle"
+font-size="22"
+font-weight="900"
+fill="#111827"
+>
+
+${korean[labels[maxIndex]]}
+
+</text>
+
+<text
+x="110"
+y="126"
+text-anchor="middle"
+font-size="13"
+fill="#16a34a"
+font-weight="700"
+>
+
+${labels[maxIndex]}
+
+</text>
+
+<text
+x="110"
+y="143"
+text-anchor="middle"
+font-size="11"
+fill="#64748b"
+>
+
+${desc[labels[maxIndex]]}
+
+</text>
+
+<g>
+
+<circle
+cx="200"
+cy="28"
+r="18"
+fill="#f59e0b"
+/>
+
+<text
+x="200"
+y="24"
+text-anchor="middle"
+font-size="9"
+fill="white"
+font-weight="700"
+>
+
+🏅
+
+</text>
+
+<text
+x="200"
+y="34"
+text-anchor="middle"
+font-size="11"
+fill="white"
+font-weight="900"
+>
+
+${score}
+
+</text>
+
+</g>
+
+</svg>
+
+</div>
+
+<div class="dosage-legend">
+
+${legend}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+function makeBloodCompare(bloodData){
+
+let html=`
+
+<div class="compare-card">
+
+<h3>📊 혈통 핵심 비교</h3>
+
+`;
+
+
+// ======================
+// CD
+// ======================
+html+=`
+
+<div class="compare-section">
+
+<h4>
+🟢 CD(분포중심)
+</h4>
+
+<div style="
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+margin-bottom:18px;
+">
+
+0을 기준으로 숫자가크면 단거리 작으면 장거리입니다
+
+</div>
+
+`;
+
+const cdRank = [...bloodData]
+.sort((a,b)=>Number(b.CD)-Number(a.CD));
+
+bloodData.forEach(h=>{
+
+const width =
+Math.min(
+100,
+Number(h.CD||0)*100
+);
+
+// ★ Top5인지 확인
+const isTop5 =
+cdRank
+.slice(0,5)
+.some(x=>x.마명===h.마명);
+
+html+=`
+
+<div class="compare-row">
+
+    <div class="compare-name">
+        ${h.번호} ${h.마명}
+    </div>
+
+    <div class="compare-bar-wrap">
+
+        <div class="compare-bar">
+
+            <div
+            class="
+            compare-fill
+            compare-cd
+            ${isTop5 ? "highlight" : ""}
+            "
+            style="width:${width}%;">
+            </div>
+
+        </div>
+
+        ${
+        isTop5
+        ?
+        `<span class="compare-badge">🟢 우세</span>`
+        :
+        ""
+        }
+
+    </div>
+
+    <div class="compare-value">
+        ${h.CD}
+    </div>
+
+</div>
+
+`;
+
+});
+
+html+=`
+</div>
+`;
+
+// ======================
+// DI
+// ======================
+
+html+=`
+
+<div class="compare-section">
+
+<h4>
+🔵 DI(도시지지수)
+</h4>
+
+<div style="
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+margin-bottom:18px;
+">
+
+높을수록 스피드형, 낮을수록 지구력형 혈통입니다.
+
+</div>
+
+`;
+
+const diRank = [...bloodData]
+.sort((a,b)=>Number(b.DI)-Number(a.DI));
+
+bloodData.forEach(h=>{
+
+const width =
+Math.min(
+100,
+Number(h.DI||0)*25
+);
+
+// ★ Top5인지 확인
+const isTop5 =
+diRank
+.slice(0,5)
+.some(x=>x.마명===h.마명);
+
+html+=`
+
+<div class="compare-row">
+
+    <div class="compare-name">
+        ${h.번호} ${h.마명}
+    </div>
+
+    <div class="compare-bar-wrap">
+
+        <div class="compare-bar">
+
+            <div
+            class="
+            compare-fill
+            compare-di
+            ${isTop5 ? "highlight" : ""}
+            "
+            style="width:${width}%;">
+            </div>
+
+        </div>
+
+        ${
+        isTop5
+        ?
+        `<span class="compare-badge">🟢 우세</span>`
+        :
+        ""
+        }
+
+    </div>
+
+    <div class="compare-value">
+        ${h.DI}
+    </div>
+
+</div>
+
+`;
+
+});
+
+html+=`
+</div>
+`;
+
+// ======================
+// COI
+// ======================
+
+html+=`
+
+<div class="compare-section">
+
+<div class="compare-title">
+
+🔴 COI(근친교배계수)
+
+<div style="
+font-size:13px;
+color:#64748b;
+margin-top:4px;
+font-weight:500;
+">
+
+근친도 (낮을수록 안정적)
+
+🟡 주의 : 오늘 출전마 중 근친도가 높은 편
+🔴 위험 : 12.5% 이상
+
+</div>
+
+</div>
+
+`;
+
+const coiRank = [...bloodData]
+.sort((a,b)=>Number(b.근친)-Number(a.근친));
+
+const relativeDanger =
+coiRank.slice(0,3);
+
+bloodData.forEach(h=>{
+
+const coi =
+Number(h.근친||0);
+
+const width =
+Math.min(
+100,
+coi*8
+);
+
+// ---------------------
+// 배지 판정
+// ---------------------
+
+const isRelativeDanger =
+relativeDanger.some(
+x=>x.마명===h.마명
+);
+
+let badge = "";
+let badgeClass = "";
+
+if(coi >= 12.5){
+
+    badge = "🔴 위험";
+    badgeClass = "compare-danger";
+
+}
+else if(isRelativeDanger){
+
+    badge = "🟡 주의";
+    badgeClass = "compare-warning";
+
+}
+else{
+
+    badge = "🟢 정상";
+    badgeClass = "compare-normal";
+
+}
+
+html+=`
+
+<div class="compare-row">
+
+    <div class="compare-name">
+
+        ${h.번호}
+        ${h.마명}
+
+    </div>
+
+    <div class="compare-bar-wrap">
+
+        <div class="compare-bar">
+
+            <div
+            class="
+            compare-fill
+            compare-coi
+            ${isRelativeDanger ? "highlight" : ""}
+            "
+            style="
+            width:${width}%;
+            ">
+            </div>
+
+        </div>
+
+        ${
+        badge
+        ?
+        `
+        <span class="${badgeClass}">
+        ${badge}
+        </span>
+        `
+        :
+        ""
+        }
+
+    </div>
+
+    <div class="compare-value">
+
+        ${coi.toFixed(2)}%
+
+    </div>
+
+</div>
+
+`;
+
+});
+
+html+=`
+
+</div>
+
+`;
+
+return html;
+
+}    
+
+async function loadAI(
+    region,
+    raceNo
+) {
+
+    const feeRes =
+    await fetch(
+    "/fee-settings"
+    );
+
+    const feeData =
+    await feeRes.json();
+
+    basicFee =
+    feeData.find(
+    x=>x.item==="basic"
+    )?.point || 100;
+
+    bloodFee =
+    feeData.find(
+    x=>x.item==="blood"
+    )?.point || 1000;
+
+    paceFee =
+    feeData.find(
+    x=>x.item==="pace"
+    )?.point || 1000;
+
+    finalFee =
+    feeData.find(
+    x=>x.item==="total"
+    )?.point || 1500;
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("로그인 필요");
+    return;
+  }
+
+  const res = await fetch(
+  "/analysis-table",
+{
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+
+    alert("데이터 로드 실패");
+    return;
+
+}
+
+  const data = await res.json();
+
+
+// =========================
+// 실제 금일/예정 경주 기준 연동
+// =========================
+
+const raceRes =
+await fetch("/race");
+
+const raceData =
+await raceRes.json();
+
+const realRaces =
+raceData
+.filter(r =>
+    r.지역 === region
+)
+.map(r => ({
+
+    region : r.지역,
+
+    raceNo : String(r.경주),
+
+    date : String(r.경주일자)
+        .replace(/\(.*?\)/g,"")
+        .trim()
+
+}));
+
+console.log("AI DATA =", data);
+console.log("RACE DATA =", raceData);
+console.log("첫번째 AI =", data[0]);
+
+// 선택한 지역 + 경주만 출력
+
+const filtered =
+data.filter(r =>
+
+    r.지역 === region &&
+
+    String(r.경주) ===
+    String(raceNo)
+
+);
+
+const latest =
+filtered.length
+? [filtered[0]]
+: [];
+
+console.log(
+"filtered 개수:",
+filtered.length
+);
+
+console.log(
+"filtered 데이터:",
+filtered
+);
+
+  
+
+
+  if(filtered.length === 0){
+
+    document.getElementById(
+        "analysis-area"
+    ).innerHTML =
+    "현재 표시할 AI 분석이 없습니다.";
+
+    return;
+
+}
+  
+const area = document.getElementById("analysis-area");
+  area.innerHTML = "";
+
+  for (const r of latest) {
+
+const detailRes = await fetch(
+`/race-detail-data/${r.경주}?date=${r.경주일자}&region=${r.지역}`
+);
+
+const detailData =
+await detailRes.json();
+
+const raceDate =
+String(r.경주일자)
+.replace(/\//g,"");
+
+const raceInfo =
+raceData.find(x =>
+
+    x.지역 === r.지역 &&
+
+    String(x.경주) === String(r.경주)
+
+);
+
+console.log("raceInfo =", raceInfo);
+console.log("거리 =", raceInfo.거리);
+console.log("typeof =", typeof raceInfo.거리);
+console.log("raceInfo =", raceInfo);
+console.log(
+"raceDate",
+raceDate
+);
+
+
+// =======================
+// 혈통분석 추가
+// =======================
+let bloodTable = "";
+let bloodComment = "";
+let bloodSummary = "";
+let bloodData = [];
+
+if(r.지역 !== "제주"){
+
+const url =
+`/user-blood-analysis/${r.지역}/${r.경주}/${raceDate}`;
+
+console.log("호출 URL =", url);
+
+const bloodRes =
+await fetch(url);
+
+bloodData =
+await bloodRes.json();
+
+console.log("받자마자 =", bloodData);
+console.log("받자마자 length =", bloodData.length);
+
+}
+
+    console.table(
+    bloodData.map(h=>({
+    번호:h.번호,
+    마명:h.마명,
+    점수:h.점수,
+    AWD:h.AWD
+    }))
+    );
+
+    console.log(
+    bloodData.map(h=>({
+    번호:h.번호,
+    AWD:h.AWD,
+    부AWD:h.부AWD,
+    모AWD:h.모AWD,
+    모부AWD:h.모부AWD
+    }))
+    );
+
+    console.log(
+    "bloodData length =",
+    bloodData.length
+    );
+
+
+
+// =======================
+// 혈통분석
+// =======================
+console.log(
+"bloodData before table =",
+bloodData
+);
+
+// =========================
+// 혈통 통계
+// =========================
+
+const middleCount =
+bloodData.filter(
+h=>h.거리적합==="중거리"
+).length;
+
+const shortCount =
+bloodData.filter(
+h=>h.거리적합==="단거리"
+).length;
+
+const longCount =
+bloodData.filter(
+h=>h.거리적합==="장거리"
+).length;
+
+const leadCount =
+bloodData.filter(
+h=>(h.경주마특성||"").includes("선행")
+).length;
+
+const preCount =
+bloodData.filter(
+h=>(h.경주마특성||"").includes("선입")
+).length;
+
+const chaseCount =
+bloodData.filter(
+h=>(h.경주마특성||"").includes("추입")
+).length;
+
+const avgKin =
+bloodData.length
+?
+(
+bloodData.reduce(
+(sum,h)=>sum+Number(h.근친||0),
+0
+)
+/bloodData.length
+).toFixed(2)
+:
+"-";
+
+const awdList =
+bloodData
+.map(h=>Number(h.부AWD))
+.filter(v=>!isNaN(v));
+
+const avgAWD =
+awdList.length
+?
+Math.round(
+awdList.reduce((a,b)=>a+b,0)
+/awdList.length
+)
+:
+"-";
+
+const mainDistanceType =
+middleCount >= shortCount &&
+middleCount >= longCount
+?
+"중거리"
+:
+shortCount >= longCount
+?
+"단거리"
+:
+"장거리";
+
+const mainRunType =
+preCount >= leadCount &&
+preCount >= chaseCount
+?
+"선입형"
+:
+leadCount >= chaseCount
+?
+"선행형"
+:
+"추입형";
+
+const dosage =
+bloodData.length
+?
+String(bloodData[0].도시지프로필 || "").trim()
+:
+"";
+
+const dosageArray =
+dosage
+.split(/\s+/)
+.map(Number)
+.filter(v=>!isNaN(v));
+
+console.log("dosage =", dosage);
+console.log("dosageArray =", dosageArray);
+
+bloodSummary = `
+
+<div class="blood-summary-card">
+
+<div class="blood-summary-title">
+🧬 AI 혈통 요약
+</div>
+
+<div class="blood-keywords">
+
+<span class="keyword distance">
+🏇 ${mainDistanceType}형
+</span>
+
+<span class="keyword style">
+⚡ ${mainRunType}
+</span>
+
+<span class="keyword kin">
+🧬 안정혈통
+</span>
+
+<span class="keyword awd">
+📏 AWD ${avgAWD}m
+</span>
+
+</div>
+
+<div class="blood-summary-grid">
+
+<div class="summary-item">
+
+<div class="summary-icon">
+🏇
+</div>
+
+<div class="summary-title">
+거리 성향
+</div>
+
+<div class="summary-body">
+
+🟦 중거리 ${middleCount}두<br>
+
+🟧 단거리 ${shortCount}두<br>
+
+⬜ 장거리 ${longCount}두
+
+</div>
+
+</div>
+
+<div class="summary-item">
+
+<div class="summary-icon">
+⚡
+</div>
+
+<div class="summary-title">
+주행 성향
+</div>
+
+<div class="summary-body">
+
+🟥 선행 ${leadCount}두<br>
+
+🟦 선입 ${preCount}두<br>
+
+🟩 추입 ${chaseCount}두
+
+</div>
+
+</div>
+
+<div class="summary-item">
+
+<div class="summary-icon">
+📏
+</div>
+
+<div class="summary-title">
+평균 AWD
+</div>
+
+<div class="summary-value">
+
+${avgAWD}m
+
+</div>
+
+<div class="summary-desc">
+
+혈통 평균 우승거리
+
+</div>
+
+</div>
+
+<div class="summary-item">
+
+<div class="summary-icon">
+🧬
+</div>
+
+<div class="summary-title">
+평균 근친도
+</div>
+
+<div class="summary-value">
+
+${avgKin}
+
+</div>
+
+<div class="summary-desc">
+
+혈통 안정성 지표
+
+</div>
+
+</div>
+
+</div>
+
+<div class="blood-ai-comment">
+
+<h3>🧠 AI 혈통 종합 의견</h3>
+
+<div class="comment-block">
+
+<b>🏇 혈통 특징</b><br>
+
+이번 경주는
+<b>${mainDistanceType}</b>
+혈통 비중이 가장 높으며,
+
+<b>${mainRunType}</b>
+유형의 혈통이 우세합니다.
+
+</div>
+
+<div class="comment-block">
+
+<b>📏 거리 적합도</b><br>
+
+평균 AWD는
+<b>${avgAWD}m</b>입니다.
+
+현재 출전거리와 비교하면
+혈통 적합도를 쉽게 판단할 수 있습니다.
+
+</div>
+
+<div class="comment-block">
+
+<b>💡 AI 한줄평</b><br>
+
+균형감 있는 혈통 구성이며,
+전개만 잘 풀리면
+혈통 능력을 충분히 발휘할 가능성이 있습니다.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+bloodData.forEach(h=>{
+
+let scoreClass = "score-low";
+
+if(h.점수 >= 95){
+
+    scoreClass = "score-best";
+
+}
+else if(h.점수 >= 90){
+
+    scoreClass = "score-high";
+
+}
+else if(h.점수 >= 80){
+
+    scoreClass = "score-good";
+
+}    
+
+let rowClass = "";
+
+if(h.점수 >= 95){
+
+    rowClass = "top-row";
+
+}
+
+    bloodTable += `
+    <tr class="${rowClass}">
+        <td>${h.번호}</td>
+        <td>${h.마명}</td>
+
+        <td>${h.도시지프로필 || "-"}</td>
+
+        <td>${h.DI}</td>
+        <td>${h.CD}</td>
+        <td>${h.근친}</td>
+
+        <td>${h.AWD || "-"}</td>
+        <td>
+
+        <span class="awd-chip">
+
+        ${h.부AWD || "-"}
+
+        m
+
+        </span>
+
+        </td>
+        <td>${h.모AWD || "-"}</td>
+        <td>${h.모부AWD || "-"}</td>
+
+        <td>
+
+        <span class="
+        run-badge
+        ${
+        h.경주마특성?.includes("선행")
+        ? "run-front"
+        :
+        h.경주마특성?.includes("선입")
+        ? "run-stalker"
+        :
+        "run-closer"
+        }
+        ">
+
+        ${h.경주마특성 || "-"}
+
+        </span>
+
+        </td>
+        <td>
+
+        <span class="
+        distance-badge
+        ${
+        h.거리적합==="단거리"
+        ? "distance-short"
+        :
+        h.거리적합==="중거리"
+        ? "distance-middle"
+        :
+        "distance-long"
+        }
+        ">
+
+        ${h.거리적합}
+
+        </span>
+
+        </td>
+
+        <td>
+
+        <div class="${scoreClass}">
+
+        ${h.점수}
+
+        </div>
+
+        </td>
+    </tr>
+    `;
+
+    bloodComment += `
+    <div class="analysis-comment-card">
+
+    <h4>
+    🧬 ${h.번호}번 ${h.마명}
+    </h4>
+
+
+    ${makeDosageChart(
+    h.도시지프로필,
+    h.점수
+    )}
+    <div class="comment-body">
+    ${h.코멘트 || "-"}
+    </div>
+
+    </div>
+    `;
+});
+
+console.log(
+"bloodTable length=",
+bloodTable.length
+);
+
+console.log(
+bloodTable
+);
+
+
+console.log(
+"조회",
+r.지역,
+r.경주,
+r.경주일자
+);
+
+console.log(detailData);
+
+    area.innerHTML += `
+      <div style="background:white; padding:20px; margin-bottom:20px; border-radius:10px;">
+
+        <h3>${r.지역} ${r.경주}경주</h3>
+
+        
+
+<details class="entry-detail">
+
+<summary>
+
+🏇 출전마 정보 (클릭하여 펼치기)
+
+</summary>
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+<th>성별</th>
+<th>나이</th>
+<th>레이팅</th>
+<th>중량</th>
+<th>증감</th>
+<th>기수</th>
+<th>조교사</th>
+<th>마주</th>
+<th>조교횟수</th>
+<th>출전주기</th>
+
+</tr>
+
+${detailData.map(h=>`
+
+<tr>
+
+<td>${h.번호}</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showHorseInfo(
+'${h.마명}'
+)
+"
+>
+
+🐎 ${h.마명}
+
+</a>
+
+</td>
+
+<td>${h.성별 || "-"}</td>
+
+<td>${h.나이 || "-"}</td>
+
+<td>${h.레이팅 || "-"}</td>
+
+<td>${h.부담중량 || "-"}</td>
+
+<td>${h.증감 || "-"}</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showJockeyInfo(
+'${h.기수}'
+)
+"
+>
+
+🏇 ${h.기수 || "-"}
+
+</a>
+
+</td>
+
+<td>
+
+<a
+class="info-pill"
+href="#"
+onclick="
+event.preventDefault();
+showTrainerInfo(
+'${h.조교사}'
+)
+"
+>
+
+👨‍🏫 ${h.조교사 || "-"}
+
+</a>
+
+</td>
+
+<td>${h.마주명 || "-"}</td>
+
+<td>${h.조교횟수 || "-"}</td>
+
+<td>${h.출전주기 || "-"}</td>
+
+</tr>
+
+`).join("")}
+
+</table>
+
+</div>
+
+</details>
+
+<div
+id="tab-blood"
+class="analysis-section active"
+>
+
+${
+r.지역 === "제주"
+
+?
+
+`
+
+<div class="locked-box">
+
+
+🧬 제주경마는
+원본 혈통 데이터가 제공되지 않아
+혈통분석을 지원하지 않습니다.
+
+</div>
+
+`
+
+:
+
+`
+
+
+<div
+id="pedigree-${r.지역}-${r.경주}"
+>
+
+<h4>🧬 혈통분석</h4>
+
+<div id="blood-summary">
+
+${bloodSummary}
+
+</div>
+
+<div id="blood-index">
+
+${makeBloodCompare(
+bloodData
+)}
+
+</div>
+
+<div id="blood-awd">
+
+${(() => {
+
+    console.log(
+    "bloodData before map =",
+    bloodData.length
+    );
+
+    console.table(
+    bloodData.map(h=>({
+    번호:h.번호,
+    마명:h.마명
+    }))
+    );
+
+    return bloodData.map(h=>{
+
+        console.log(
+            "AWD REPORT:",
+            h.번호,
+            h.마명
+        );
+
+        return makeAwdReport(
+            h,
+            raceInfo
+        );
+
+    }).join("");
+
+    return bloodData.map(h=>
+
+        makeAwdReport(
+            h,
+            raceInfo
+        )
+
+    ).join("");
+
+})()}
+
+</div>
+
+<div id="blood-origin">
+
+<div class="blood-origin-card">
+
+<h3>
+
+📊 혈통 원본 데이터(좌우스크롤)
+
+</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+
+<th>번호</th>
+<th>마명</th>
+
+<th>도시지</th>
+
+<th>DI</th>
+<th>CD</th>
+<th>근친</th>
+
+<th>AWD</th>
+<th>부AWD</th>
+<th>모AWD</th>
+<th>모부AWD</th>
+
+<th>선천적주행습성</th>
+<th>거리적합</th>
+
+<th>점수</th>
+
+</tr>
+
+${bloodTable}
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="blood-comment">
+
+<h4>
+📝 혈통분석 코멘트
+</h4>
+
+${bloodComment}
+
+</div>
+
+
+</div>
+`
+  }
+
+</div>
+
+
+</div>
+
+`;
+
+  }
+
+}
+
+const params =
+new URLSearchParams(
+location.search
+);
+
+const region =
+params.get("region");
+
+const raceNo =
+params.get("raceNo");
+
+console.log(
+"지역:",
+region,
+"경주:",
+raceNo
+);
+
+loadUserInfo();
+
+loadAI(
+    region,
+    raceNo
+);;
+
+let modalResolve = null;
+
+function showModal(
+title,
+message,
+icon="📌"
+){
+
+    return new Promise(resolve=>{
+
+        modalResolve = resolve;
+
+        document.getElementById(
+        "modal-title"
+        ).innerHTML = title;
+
+        document.getElementById(
+        "modal-message"
+        ).innerHTML = message;
+
+        document.getElementById(
+        "modal-icon"
+        ).innerHTML = icon;
+
+        document.getElementById(
+        "custom-modal"
+        ).style.display = "flex";
+
+    });
+
+}
+
+function closeModal(result){
+
+    document.getElementById(
+    "custom-modal"
+    ).style.display = "none";
+
+    if(modalResolve){
+
+        modalResolve(result);
+
+    }
+
+}
+
+async function unlockPedigree(
+region,
+raceNo
+){
+
+    const ok =
+    await showModal(
+
+        "혈통분석",
+
+        `확인 버튼을 누르면
+        ${bloodFee}P가 차감됩니다.`,
+
+        "🧬",
+
+        true
+
+    );
+
+    if(!ok){
+        return;
+    }
+
+    const token =
+    localStorage.getItem(
+        "token"
+    );
+
+    const res =
+    await fetch(
+        "/use-blood-analysis",
+        {
+            method:"POST",
+            headers:{
+                "Authorization":
+                `Bearer ${token}`
+            }
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!res.ok){
+
+        await showModal(
+
+            "혈통분석",
+
+            data.detail ||
+            "포인트 부족",
+
+            "❌",
+
+            false
+
+        );
+
+        return;
+    }
+
+    await showModal(
+
+        "혈통분석",
+
+        `${data.use_point}P 차감 완료<br><br>
+
+        <div style="
+
+        margin:15px 0 20px 0;
+
+        padding:14px;
+
+        background:
+        linear-gradient(
+        90deg,
+        #14532d,
+        #166534,
+        #22c55e
+        );
+
+        border-radius:14px;
+
+        font-weight:800;
+        font-size:17px;
+
+        color:#be185d;
+
+        border-left:6px solid #ec4899;
+
+        ">
+
+        🧬 AI가 경주마의 유전적 혈통을 기반으로 분석합니다.
+
+        </div>
+
+        남은 포인트 :
+        ${data.remain_point}P`,
+
+        "🧬",
+
+        false
+
+    );
+
+    document.getElementById(
+        `pedigree-${region}-${raceNo}`
+    ).style.display = "block";
+
+}
+
+async function showJockeyInfo(jockeyName){
+
+const res = await fetch(
+`/jockey/${encodeURIComponent(jockeyName)}`
+);
+
+const j = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#dcfce7;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🏇
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${j.기수명 || jockeyName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${j.지역명 || "-"} ·
+데뷔 ${j.데뷔일자 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>기승가능중량</b>
+<div>${j.기승가능중량 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산전적</b>
+<div>${j.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${j.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${j.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${j.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${j.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${j.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${j.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 기수 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerInfo(
+trainerName
+){
+
+const res = await fetch(
+`/trainer/${encodeURIComponent(
+trainerName
+)}`
+);
+
+const t = await res.json();
+
+let html=`
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+margin-bottom:25px;
+flex-wrap:wrap;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:65px;
+height:65px;
+border-radius:50%;
+background:#fee2e2;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:34px;
+">
+
+🐎
+
+</div>
+
+<div>
+
+<div style="
+font-size:28px;
+font-weight:800;
+">
+
+${t.조교사명 || trainerName}
+
+</div>
+
+<div style="
+color:#666;
+font-size:14px;
+margin-top:4px;
+">
+
+${t.지역명 || "-"}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+">
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+min-width:520px;
+">
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','info')
+"
+>
+📋 인적사항
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','horse')
+"
+>
+🐎 위탁관리말
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','year')
+"
+>
+📈 연도별성적
+</button>
+
+<button
+class="trainer-tab-btn"
+onclick="
+showTrainerTab('${trainerName}','recent')
+"
+>
+🕒 최근1개월
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="trainer-tab-content">
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+">
+
+<div class="card">
+<b>통산전적</b>
+<div>${t.통산전적 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산승률</b>
+<div>${t.통산승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산복승률</b>
+<div>${t.통산복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>통산연승률</b>
+<div>${t.통산연승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년전적</b>
+<div>${t.최근1년 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년승률</b>
+<div>${t.최근1년승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년복승률</b>
+<div>${t.최근1년복승률 || "-"}</div>
+</div>
+
+<div class="card">
+<b>최근1년연승률</b>
+<div>${t.최근1년연승률 || "-"}</div>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🐎 조교사 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+async function showTrainerTab(
+trainerName,
+tab
+){
+
+let url="";
+
+if(tab==="info"){
+showTrainerInfo(trainerName);
+return;
+}
+
+if(tab==="horse"){
+url=`/trainer-horse-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="year"){
+url=`/trainer-year-name/${encodeURIComponent(trainerName)}`;
+}
+
+if(tab==="recent"){
+url=`/trainer-recent-name/${encodeURIComponent(trainerName)}`;
+}
+
+const res=await fetch(url);
+
+const data=await res.json();
+
+let html=`
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+">
+
+<style>
+.info-pill{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:999px;
+
+background:#f1f5f9;
+
+color:#0f172a;
+
+font-weight:700;
+
+text-decoration:none;
+
+border:1px solid #cbd5e1;
+
+transition:.2s;
+
+}
+
+.info-pill:hover{
+
+background:#dbeafe;
+
+border-color:#60a5fa;
+
+}
+
+    
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+white-space:nowrap;
+}
+
+th{
+background:#f5f7ff;
+}
+
+.info-pill{
+
+display:inline-block;
+padding:5px 10px;
+border-radius:20px;
+background:#eef2ff;
+color:#1e40af;
+font-weight:600;
+cursor:pointer;
+text-decoration:none;
+
+}
+
+.info-pill:hover{
+
+background:#c7d2fe;
+
+}
+
+.analysis-card{
+
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+    border-left:
+    5px solid #2563eb;
+
+}
+
+.analysis-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:10px;
+
+}
+
+.analysis-horse{
+
+    font-size:20px;
+    font-weight:bold;
+
+}
+
+.analysis-score{
+
+    background:#2563eb;
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+    font-weight:bold;
+
+}
+
+.analysis-comment{
+
+    line-height:1.7;
+    color:#333;
+
+}
+
+.analysis-comment-card{
+
+background:white;
+
+padding:15px;
+
+margin-bottom:15px;
+
+border-radius:10px;
+
+box-shadow:
+0 1px 4px rgba(0,0,0,.1);
+
+}
+
+.analysis-comment-card h4{
+
+margin:0 0 10px 0;
+
+color:#1e3a8a;
+
+}
+
+.score-badge{
+
+display:inline-block;
+
+background:#2563eb;
+
+color:white;
+
+padding:5px 12px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+margin-bottom:10px;
+
+}
+
+.comment-body{
+
+line-height:1.7;
+
+white-space:pre-line;
+
+}
+
+.score-top{
+background:#fef3c7;
+font-weight:bold;
+color:#92400e;
+}
+
+.score-good{
+background:#dbeafe;
+font-weight:bold;
+color:#1d4ed8;
+}
+
+.score-mid{
+background:#dcfce7;
+color:#166534;
+}
+
+.score-low{
+background:#f3f4f6;
+color:#6b7280;
+}
+
+.rank-badge{
+
+padding:4px 10px;
+
+border-radius:20px;
+
+font-size:12px;
+
+font-weight:bold;
+
+display:inline-block;
+
+}
+
+.score-top{
+background:#fef3c7;
+font-weight:bold;
+color:#92400e;
+}
+
+.score-good{
+background:#dbeafe;
+font-weight:bold;
+color:#1d4ed8;
+}
+
+.score-mid{
+background:#dcfce7;
+color:#166534;
+}
+
+.score-low{
+background:#f3f4f6;
+color:#6b7280;
+}
+
+.rank-badge{
+
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+display:inline-block;
+
+}
+
+.pace-map{
+
+background:white;
+
+padding:20px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.pace-lane{
+
+padding:15px;
+
+margin-bottom:10px;
+
+border-radius:10px;
+
+}
+
+.pace-lead{
+background:#ffe5e5;
+}
+
+.pace-middle{
+background:#fff3d8;
+}
+
+.pace-normal{
+background:#f2f2f2;
+}
+
+.pace-chase{
+background:#e6f0ff;
+}
+
+.horse-chip{
+
+display:inline-block;
+
+margin:5px;
+
+padding:8px 12px;
+
+border-radius:20px;
+
+background:white;
+
+font-weight:bold;
+
+}
+
+.locked-box{
+
+    min-height:180px;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+}
+
+.analysis-comment{
+
+    margin:25px 0;
+
+    padding:18px;
+
+    background:#dbeafe;
+
+    border-left:6px solid #2563eb;
+
+    border-radius:16px;
+
+    color:#1e40af;
+
+    font-weight:700;
+
+    line-height:1.8;
+
+}
+
+.score-best{
+
+display:inline-block;
+
+min-width:54px;
+
+padding:8px 12px;
+
+border-radius:12px;
+
+background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+color:white;
+
+font-weight:900;
+
+text-align:center;
+
+box-shadow:0 4px 12px rgba(37,99,235,.3);
+
+}
+
+.score-high{
+
+display:inline-block;
+
+min-width:54px;
+
+padding:8px 12px;
+
+border-radius:12px;
+
+background:#dcfce7;
+
+color:#166534;
+
+font-weight:900;
+
+text-align:center;
+
+}
+
+.score-good{
+
+display:inline-block;
+
+min-width:54px;
+
+padding:8px 12px;
+
+border-radius:12px;
+
+background:#fef3c7;
+
+color:#92400e;
+
+font-weight:900;
+
+text-align:center;
+
+}
+
+.score-low{
+
+display:inline-block;
+
+min-width:54px;
+
+padding:8px 12px;
+
+border-radius:12px;
+
+background:#f1f5f9;
+
+color:#475569;
+
+font-weight:900;
+
+text-align:center;
+
+}
+
+</style>
+`;
+
+
+// =====================
+// 위탁관리말
+// =====================
+
+if(tab==="horse"){
+
+html+=`
+<tr>
+<th>마명</th>
+<th>마주명</th>
+<th>조번</th>
+<th>등급</th>
+<th>레이팅</th>
+<th>산지</th>
+<th>성별</th>
+<th>연령</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.마명||"-"}</td>
+<td>${r.마주명||"-"}</td>
+<td>${r.조번||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.레이팅||"-"}</td>
+<td>${r.산지||"-"}</td>
+<td>${r.성별||"-"}</td>
+<td>${r.연령||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 연도별성적
+// =====================
+
+if(tab==="year"){
+
+html+=`
+<tr>
+<th>연도</th>
+<th>출전</th>
+<th>1위</th>
+<th>2위</th>
+<th>3위</th>
+<th>승률</th>
+<th>복승률</th>
+<th>연승률</th>
+<th>순위상금</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.연도||"-"}</td>
+<td>${r.출전||"-"}</td>
+<td>${r.일위||"-"}</td>
+<td>${r.이위||"-"}</td>
+<td>${r.삼위||"-"}</td>
+<td>${r.승률||"-"}</td>
+<td>${r.복승률||"-"}</td>
+<td>${r.연승률||"-"}</td>
+<td>${r.순위상금||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+
+// =====================
+// 최근1개월
+// =====================
+
+if(tab==="recent"){
+
+html+=`
+<tr>
+<th>날짜</th>
+<th>마번</th>
+<th>마명</th>
+<th>기수명</th>
+<th>등급</th>
+<th>순위</th>
+<th>중량</th>
+<th>거리</th>
+<th>기록</th>
+<th>도착차</th>
+<th>마체중</th>
+</tr>
+`;
+
+data.forEach(r=>{
+
+html+=`
+<tr>
+
+<td>${r.경주일자||"-"}</td>
+<td>${r.마번||"-"}</td>
+<td>${r.마명||"-"}</td>
+<td>${r.기수명||"-"}</td>
+<td>${r.등급||"-"}</td>
+<td>${r.순위||"-"}</td>
+<td>${r.중량||"-"}</td>
+<td>${r.거리||"-"}</td>
+<td>${r.기록||"-"}</td>
+<td>${r.도착차||"-"}</td>
+<td>${r.마체중||"-"}</td>
+
+</tr>
+`;
+
+});
+
+}
+
+html+="</table>";
+
+document.getElementById(
+"trainer-tab-content"
+).innerHTML=html;
+
+}
+
+function getTopPercent(
+data,
+row,
+key
+){
+
+const values =
+data
+.map(r=>Number(r[key]))
+.filter(v=>!isNaN(v));
+
+const target =
+Number(row[key]);
+
+if(
+isNaN(target) ||
+values.length===0
+){
+return "-";
+}
+
+const rank =
+
+values
+.filter(v=>v<target)
+.length + 1;
+
+const percent =
+
+Math.round(
+(rank/values.length)*100
+);
+
+return `상위 ${percent}%`;
+
+}
+
+
+function goMyPage(){
+
+    location.href =
+    "my.html";
+
+}
+
+function goPointLog(){
+
+    location.href =
+    "point.html";
+
+}
+
+function logout(){
+
+    localStorage.clear();
+
+    location.href = "/";
+
+}
+
+function goHome(){
+
+    location.href = "/";
+
+}
+
+function goCharge(){
+
+    location.href =
+    "charge.html";
+
+}
+
+function closeHorseModal(){
+
+    document.getElementById(
+        "horse-modal"
+    ).style.display = "none";
+
+}
+
+async function showHorseInfo(horseName){
+
+const res = await fetch(
+`/horse/${encodeURIComponent(horseName)}`
+);
+
+const data = await res.json();
+
+let html=`
+
+<div class="card">
+
+<h2>
+🏇 ${data.마명 || horseName}
+</h2>
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+"
+>
+
+<tr>
+<th>성별</th>
+<td>${data.성별 || "-"}</td>
+</tr>
+
+<tr>
+<th>나이</th>
+<td>${data.나이 || "-"}</td>
+</tr>
+
+<tr>
+<th>조교사</th>
+<td>${data.조교사 || "-"}</td>
+</tr>
+
+<tr>
+<th>마주</th>
+<td>${data.마주 || "-"}</td>
+</tr>
+
+<tr>
+<th>부마</th>
+<td>${data.부마 || "-"}</td>
+</tr>
+
+<tr>
+<th>모마</th>
+<td>${data.모마 || "-"}</td>
+</tr>
+
+<tr>
+<th>통산전적</th>
+<td>${data.통산전적 || "-"}</td>
+</tr>
+
+<tr>
+<th>승률</th>
+<td>${data.승률 || "-"}</td>
+</tr>
+
+<tr>
+<th>수득상금</th>
+<td>${data.수득상금 || "-"}</td>
+</tr>
+
+<tr>
+<th>생년월일</th>
+<td>${data.생년월일 || "-"}</td>
+</tr>
+
+<tr>
+<th>산지</th>
+<td>${data.산지 || "-"}</td>
+</tr>
+
+</table>
+
+</div>
+`;
+
+document.querySelector(
+"#horse-modal h2"
+).innerText="🏇 경주마 정보";
+
+document.getElementById(
+"horse-body"
+).innerHTML=html;
+
+document.getElementById(
+"horse-modal"
+).style.display="flex";
+
+}
+
+function makeAwdReport(
+    horse,
+    raceInfo
+){
+
+    console.log(
+    "AWD REPORT:",
+    horse.번호,
+    horse.마명
+);
+
+
+let html = "";
+
+const raceDistance =
+parseInt(raceInfo?.거리) || 0;
+
+const father =
+Number(horse.부AWD||0);
+
+const mother =
+Number(horse.모AWD||0);
+
+const mFather =
+Number(horse.모부AWD||0);
+
+html += `
+
+<div class="awd-container">
+
+<div class="awd-header">
+
+🧬 AWD(평균 우승거리) 혈통 분석
+
+</div>
+
+<div class="awd-horse-card">
+
+<div class="awd-horse-name">
+
+🐎 ${horse.번호}번 ${horse.마명}
+
+</div>
+
+<div class="awd-horse-info">
+
+${raceInfo.등급} │ ${raceInfo.지역} ${raceInfo.경주}경주
+
+</div>
+
+</div>
+
+<div class="race-card">
+
+<div class="race-title">
+
+🎯 오늘 경주거리
+
+</div>
+
+<div class="race-value">
+
+${raceDistance}m
+
+</div>
+
+<div class="race-desc">
+
+AI가 혈통 최적거리와 비교하여
+적합도를 분석합니다.
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+html += `
+
+<div class="awd-grid">
+
+${makeAwdCard(
+"🔵 부 AWD",
+father,
+raceDistance
+)}
+
+${makeAwdCard(
+"🔴 모 AWD",
+mother,
+raceDistance
+)}
+
+${makeAwdCard(
+"🟣 모부 AWD",
+mFather,
+raceDistance
+)}
+
+</div>
+
+`;
+
+const awdScore =
+calcAwdScore(
+father,
+mother,
+mFather,
+raceDistance
+);
+
+
+html += makeAwdSummary(
+awdScore.total,
+raceDistance,
+awdScore
+);
+
+html += makeAwdComment(
+father,
+mother,
+mFather,
+raceDistance
+);
+
+
+return html;
+
+}
+
+function makeAwdCard(
+title,
+awd,
+raceDistance
+){
+
+const noData =
+!Number.isFinite(awd) || awd <= 0;
+
+if(noData){
+
+return `
+
+<div class="awd-card">
+
+<div class="awd-name">
+
+${title}
+
+</div>
+
+<div class="awd-distance">
+
+-
+
+</div>
+
+<div class="awd-diff-title">
+
+오늘 경주와의 거리 차이
+
+</div>
+
+<div class="awd-diff">
+
+-
+
+</div>
+
+<div class="awd-star">
+
+-
+
+</div>
+
+<div class="awd-state">
+
+⚪ AWD 데이터 없음
+
+</div>
+
+</div>
+
+`;
+
+}    
+
+const diff = awd - raceDistance;
+
+let state = "";
+let star = "";
+
+if(Math.abs(diff)<=200){
+
+    state="🟢 매우 적합";
+    star="★★★★★";
+
+}
+else if(Math.abs(diff)<=400){
+
+    state="🟡 적합";
+    star="★★★★☆";
+
+}
+else if(Math.abs(diff)<=600){
+
+    state="🟠 다소 차이";
+    star="★★★☆☆";
+
+}
+else{
+
+    state="🔴 차이 큼";
+    star="★★☆☆☆";
+
+}
+
+return `
+
+<div class="awd-card">
+
+    <div class="awd-name">
+
+    ${title}
+
+    </div>
+
+    <div class="awd-distance">
+
+    ${awd}m
+
+    </div>
+
+    <div class="awd-diff-title">
+
+    오늘 경주와의 거리 차이
+
+    </div>
+
+    <div class="awd-diff">
+
+    ${diff>=0?"+":""}${diff}m
+
+    </div>
+
+    <div class="awd-star">
+
+    ${star}
+
+    </div>
+
+    <div class="awd-state">
+
+    ${state}
+
+    </div>
+
+</div>
+
+`;
+
+}
+
+function getAwdPartScore(
+awd,
+raceDistance,
+maxScore
+){
+
+if(
+!Number.isFinite(awd) ||
+awd <= 0
+){
+return 0;
+}
+
+const diff =
+Math.abs(
+awd - raceDistance
+);
+
+let rate = 0;
+
+if(diff <= 100){
+rate = 1;
+}
+else if(diff <= 200){
+rate = 0.9;
+}
+else if(diff <= 400){
+rate = 0.7;
+}
+else if(diff <= 600){
+rate = 0.45;
+}
+else if(diff <= 800){
+rate = 0.25;
+}
+else{
+rate = 0.1;
+}
+
+return Math.round(
+maxScore * rate
+);
+
+}
+
+
+function calcAwdScore(
+father,
+mother,
+mFather,
+raceDistance
+){
+
+const fatherScore =
+getAwdPartScore(
+father,
+raceDistance,
+35
+);
+
+const motherScore =
+getAwdPartScore(
+mother,
+raceDistance,
+35
+);
+
+const mFatherScore =
+getAwdPartScore(
+mFather,
+raceDistance,
+30
+);
+
+const total =
+fatherScore +
+motherScore +
+mFatherScore;
+
+return {
+
+total:total,
+
+father:fatherScore,
+
+mother:motherScore,
+
+mFather:mFatherScore
+
+};
+
+}
+
+function makeAwdSummary(
+score,
+raceDistance,
+detail
+){
+
+let result="";
+let comment="";
+let color="#16a34a";
+
+if(score>=90){
+
+    result="매우 적합";
+    comment=`오늘 ${raceDistance}m는 혈통적으로 매우 적합한 거리입니다.`;
+    color="#16a34a";
+
+}
+else if(score>=80){
+
+    result="적합";
+    comment=`오늘 ${raceDistance}m는 혈통 밸런스가 좋습니다.`;
+    color="#22c55e";
+
+}
+else if(score>=70){
+
+    result="보통";
+    comment=`혈통은 무난하지만 거리 적성이 조금 갈립니다.`;
+    color="#ca8a04";
+
+}
+else{
+
+    result="거리 적합도 낮음";
+    comment=`혈통상 오늘 거리와 차이가 있습니다.`;
+    color="#dc2626";
+
+}
+
+const angle =
+-90 + (score*180/100);
+
+return `
+
+<div class="awd-summary">
+
+<div class="awd-summary-title">
+
+🧬 종합 혈통 적합도
+
+</div>
+
+<div class="awd-summary-wrap">
+
+<svg
+class="awd-gauge"
+viewBox="0 0 320 190"
+>
+
+<!-- =========================
+     그라데이션 정의
+========================= -->
+
+<defs>
+
+<linearGradient
+id="gaugeGradient"
+x1="0%"
+y1="0%"
+x2="100%"
+y2="0%"
+>
+
+<stop offset="0%" stop-color="#ef4444"/>
+
+<stop offset="25%" stop-color="#fb923c"/>
+
+<stop offset="50%" stop-color="#facc15"/>
+
+<stop offset="75%" stop-color="#84cc16"/>
+
+<stop offset="100%" stop-color="#22c55e"/>
+
+</linearGradient>
+
+</defs>
+
+<!-- =========================
+     바깥 회색 게이지
+========================= -->
+
+<path
+d="
+M40 160
+A120 120 0 0 1 280 160
+"
+stroke="#e5e7eb"
+stroke-width="32"
+fill="none"
+stroke-linecap="round"
+/>
+
+<!-- =========================
+     컬러 게이지
+========================= -->
+
+<path
+d="
+M40 160
+A120 120 0 0 1 280 160
+"
+stroke="url(#gaugeGradient)"
+stroke-width="24"
+fill="none"
+stroke-linecap="round"
+/>
+
+<!-- =========================
+     바늘
+========================= -->
+
+<g
+class="gauge-needle"
+style="
+transform-origin:160px 160px;
+transform:rotate(${angle}deg);
+transition:transform 1.2s ease;
+"
+>
+
+<line
+x1="160"
+y1="160"
+x2="160"
+y2="62"
+stroke="#111827"
+stroke-width="6"
+stroke-linecap="round"
+/>
+
+<circle
+cx="160"
+cy="160"
+r="10"
+fill="#111827"
+/>
+
+</g>
+
+<!-- =========================
+     점수
+========================= -->
+
+<text
+x="160"
+y="138"
+text-anchor="middle"
+font-size="44"
+font-weight="900"
+fill="#1d4ed8"
+>
+
+${score}
+
+</text>
+
+<text
+x="210"
+y="138"
+font-size="18"
+fill="#64748b"
+>
+
+/100
+
+</text>
+
+</svg>
+
+<div class="awd-summary-text">
+
+<div
+class="awd-summary-result"
+style="color:${color};"
+>
+
+🐎 ${result}
+
+</div>
+
+<div class="awd-summary-comment">
+
+${comment}
+
+</div>
+
+<div class="awd-score-detail">
+
+<div>
+<span>🔵 부 AWD</span>
+<b>${detail.father}점</b>
+</div>
+
+<div>
+<span>🔴 모 AWD</span>
+<b>${detail.mother}점</b>
+</div>
+
+<div>
+<span>🟣 모부 AWD</span>
+<b>${detail.mFather}점</b>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function makeAwdComment(
+father,
+mother,
+mFather,
+raceDistance
+){
+
+const fatherDiff =
+father-raceDistance;
+
+const motherDiff =
+mother-raceDistance;
+
+const mFatherDiff =
+mFather-raceDistance;
+
+let comment="";
+
+// ---------------------
+// 부계
+// ---------------------
+
+if(fatherDiff>300){
+
+comment +=
+"부계는 중·장거리 지구력 혈통 성향이 강합니다.<br>";
+
+}
+else if(fatherDiff<-300){
+
+comment +=
+"부계는 단거리 스피드 혈통 성향이 강합니다.<br>";
+
+}
+else{
+
+comment +=
+"부계는 현재 거리와 좋은 균형을 보입니다.<br>";
+
+}
+
+// ---------------------
+// 모계
+// ---------------------
+
+if(motherDiff>300){
+
+comment +=
+"모계는 중·장거리 혈통의 영향을 받습니다.<br>";
+
+}
+else if(motherDiff<-300){
+
+comment +=
+"모계는 단거리 스피드 혈통의 영향이 큽니다.<br>";
+
+}
+else{
+
+comment +=
+"모계는 현재 거리와 가장 잘 어울립니다.<br>";
+
+}
+
+// ---------------------
+// 종합
+// ---------------------
+
+const avg =
+(
+Math.abs(fatherDiff)+
+Math.abs(motherDiff)+
+Math.abs(mFatherDiff)
+)/3;
+
+if(avg<=200){
+
+comment +=
+`오늘 <b>${raceDistance}m</b>는
+혈통적으로 매우 이상적인 거리입니다.`;
+
+}
+else if(avg<=400){
+
+comment +=
+`오늘 <b>${raceDistance}m</b>는
+혈통과 잘 맞는 거리입니다.`;
+
+}
+else{
+
+comment +=
+`오늘 <b>${raceDistance}m</b>는
+혈통과 다소 차이가 있는 거리입니다.`;
+
+}
+
+return `
+
+<div class="awd-ai">
+
+<div class="awd-ai-title">
+
+🤖 AI 혈통 해석
+
+</div>
+
+<div class="awd-ai-body">
+
+${comment}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function scrollToTop(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+function toggleFloatingMenu(){
+
+document
+.getElementById(
+"floatingList"
+)
+.classList.toggle(
+"show"
+);
+
+}
+
+function goSection(id){
+
+document
+.getElementById(id)
+.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+toggleFloatingMenu();
+
+}
+
+function scrollTopSmooth(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+toggleFloatingMenu();
+
+}
+</script>
+
+<div
+id="horse-modal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+"
+>
+
+<div
+style="
+background:white;
+width:90%;
+max-width:1000px;
+max-height:90vh;
+overflow:auto;
+padding:20px;
+border-radius:10px;
+position:relative;
+"
+>
+
+<button
+onclick="closeHorseModal()"
+style="
+position:absolute;
+right:15px;
+top:15px;
+font-size:20px;
+"
+>
+✖
+</button>
+
+<h2>정보</h2>
+
+<div id="horse-body"></div>
+
+</div>
+
+</div>
+
+<div id="custom-modal" class="modal-overlay">
+
+    <div class="modal-box">
+
+        <div
+        id="modal-icon"
+        class="modal-icon"
+        >
+        🧬
+        </div>
+
+        <div
+        id="modal-title"
+        class="modal-title"
+        >
+        제목
+        </div>
+
+        <div
+        id="modal-message"
+        class="modal-message"
+        >
+        내용
+        </div>
+
+        <div class="modal-buttons">
+
+            <button
+            class="modal-cancel"
+            onclick="closeModal(false)"
+            >
+            취소
+            </button>
+
+            <button
+            class="modal-confirm"
+            onclick="closeModal(true)"
+            >
+            확인
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="floating-nav">
+
+<button
+class="float-btn"
+onclick="scrollToTop()"
+>
+
+⬆
+
+</button>
+
+
+</div>
+
+<div class="floating-menu">
+
+<div
+id="floatingList"
+class="floating-list"
+>
+
+<div
+class="floating-item"
+onclick="goSection('blood-summary')"
+>
+
+🧬 혈통 요약
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('blood-index')"
+>
+
+📊 CD · DI · COI
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('blood-awd')"
+>
+
+📏 AWD
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('blood-origin')"
+>
+
+📋 혈통분석비교표
+
+</div>
+
+<div
+class="floating-item"
+onclick="goSection('blood-comment')"
+>
+
+💬 혈통 코멘트
+
+</div>
+
+</div>
+
+<button
+class="floating-btn"
+onclick="toggleFloatingMenu()"
+>
+
+≡
+
+</button>
+
+</div>
+
+
+</body>
+</html>
