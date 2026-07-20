@@ -746,7 +746,7 @@ class FeePassword(Base):
 
 Base.metadata.create_all(bind=engine)
 
-==
+# =========================
 # race_detail 마종 컬럼 추가
 # =========================
 try:
