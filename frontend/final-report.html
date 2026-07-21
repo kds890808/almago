@@ -5008,6 +5008,135 @@ background:none;
     }
 
 }
+
+    /* =========================
+    TOP3 번호 / 마명 정렬
+    ========================= */
+
+    #top3Area .top-card{
+        display:flex;
+        flex-direction:column;
+        text-align:center;
+    }
+
+    #top3Area .top-horse-number{
+        height:22px;
+        margin-top:8px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:16px;
+        font-weight:900;
+    }
+
+    #top3Area .top-horse-divider{
+        width:75%;
+        height:1px;
+        margin:2px auto 5px;
+
+        background:#cbd5e1;
+    }
+
+    #top3Area .horse-name{
+        height:38px;
+        margin-top:0;
+
+        display:flex;
+        align-items:flex-start;
+        justify-content:center;
+
+        text-align:center;
+        line-height:1.2;
+    }
+
+    #top3Area .horse-score{
+        margin-top:5px;
+    }
+
+/* =========================
+   AI 비교센터 우세마 요약
+========================= */
+
+.compare-summary-box{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:14px;
+}
+
+.compare-summary-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    padding:10px 8px;
+
+    border-radius:12px;
+    text-align:center;
+}
+
+.compare-summary-item.total{
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+}
+
+.compare-summary-item.practical{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+}
+
+.compare-summary-label{
+    font-size:12px;
+    font-weight:800;
+    color:#64748b;
+    margin-bottom:4px;
+}
+
+.compare-summary-horse{
+    font-size:16px;
+    font-weight:900;
+    color:#1e40af;
+    word-break:keep-all;
+}
+
+/* =========================
+   비교테이블 하단 세부점수
+========================= */
+
+.sub-score{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:36px;
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    font-size:14px;
+    font-weight:900;
+}
+
+/* 혈통 */
+.sub-score.blood{
+    background:#f3e8ff;
+    color:#7e22ce;
+}
+
+/* 거리 */
+.sub-score.distance{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+/* 주로 */
+.sub-score.track{
+    background:#fef3c7;
+    color:#b45309;
+}
 </style>
 
 </head>
@@ -5577,40 +5706,38 @@ function renderReport(){
     `;    
 
     document.getElementById(
-        "aiConfidence"
-    ).innerHTML =
-    `
-    <span class="grade-badge">
-    🏆 추천등급 ${top1.위험등급}
-    </span>
-    `;
-
-
-    document.getElementById(
     "compareSummary"
     ).innerHTML =
 
     `
-    🏆 종합점수 우세 :
-    ${top1.마명}
+    <div class="compare-summary-box">
 
-    &nbsp;&nbsp;&nbsp;
-    <br>
-    ⚡ 실전점수 우세 :
-    ${
-    top1.실전점수 >
-    top2.실전점수
+        <div class="compare-summary-item total">
+            <span class="compare-summary-label">
+                🏆 종합점수 우세
+            </span>
 
-    ?
+            <span class="compare-summary-horse">
+                ${top1.마명}
+            </span>
+        </div>
 
-    top1.마명
+        <div class="compare-summary-item practical">
+            <span class="compare-summary-label">
+                ⚡ 실전점수 우세
+            </span>
 
-    :
+            <span class="compare-summary-horse">
+                ${
+                    top1.실전점수 > top2.실전점수
+                    ? top1.마명
+                    : top2.마명
+                }
+            </span>
+        </div>
 
-    top2.마명
-    }
-
-    `;    
+    </div>
+    `;
    
 
     // TOP3
@@ -5634,8 +5761,14 @@ function renderReport(){
     🥇 ${index+1}위
     </div>
 
+    <div class="top-horse-number">
+    ${row.번호}번마
+    </div>
+
+    <div class="top-horse-divider"></div>
+
     <div class="horse-name">
-    ${row.번호} ${row.마명}
+    ${row.마명}
     </div>
 
     <div class="horse-score">
@@ -5647,7 +5780,6 @@ function renderReport(){
     </div>
 
     </div>
-
     `;
 
     });
@@ -6370,23 +6502,23 @@ function renderReport(){
 
     <tr>
     <td>혈통점수</td>
-    <td>${top1.혈통점수}</td>
-    <td>${top2.혈통점수}</td>
-    <td>${top3horse.혈통점수}</td>
+    <td><span class="sub-score blood">${top1.혈통점수}</span></td>
+    <td><span class="sub-score blood">${top2.혈통점수}</span></td>
+    <td><span class="sub-score blood">${top3horse.혈통점수}</span></td>
     </tr>
 
     <tr>
     <td>거리점수</td>
-    <td>${top1.거리점수}</td>
-    <td>${top2.거리점수}</td>
-    <td>${top3horse.거리점수}</td>
+    <td><span class="sub-score distance">${top1.거리점수}</span></td>
+    <td><span class="sub-score distance">${top2.거리점수}</span></td>
+    <td><span class="sub-score distance">${top3horse.거리점수}</span></td>
     </tr>
 
     <tr>
     <td>주로점수</td>
-    <td>${top1.주로점수}</td>
-    <td>${top2.주로점수}</td>
-    <td>${top3horse.주로점수}</td>
+    <td><span class="sub-score track">${top1.주로점수}</span></td>
+    <td><span class="sub-score track">${top2.주로점수}</span></td>
+    <td><span class="sub-score track">${top3horse.주로점수}</span></td>
     </tr>
 
     </table>

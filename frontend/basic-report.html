@@ -1746,6 +1746,43 @@ z-index:59;
     font-size:22px !important;
     line-height:1.5;
 }
+
+@media(max-width:520px){
+
+    .entry-detail{
+        margin-bottom:18px;
+        border-radius:12px;
+    }
+
+    .entry-detail summary{
+        padding:10px 12px;
+        font-size:14px;
+        line-height:1.3;
+    }
+
+    .entry-detail summary::before{
+        margin-right:6px;
+        font-size:12px;
+    }
+
+}
+
+@media(max-width:520px){
+
+    .table-wrap th:nth-child(1),
+    .table-wrap td:nth-child(1){
+        min-width:45px;
+        width:45px;
+    }
+
+    .table-wrap th:nth-child(2),
+    .table-wrap td:nth-child(2){
+        left:45px;
+        min-width:95px;
+        width:95px;
+    }
+
+}
 </style>
 
 </head>
@@ -2727,7 +2764,7 @@ ${top5Html}
 📊 비교 테이블(좌우스크롤)
 </h4>
 
-<div class="table-wrap">
+<div class="table-wrap compare-table-wrap">
 
 <table>
 
@@ -3457,6 +3494,99 @@ display:inline-block;
 
 }
 
+/* =========================
+   기본분석 비교 테이블 가독성
+========================= */
+
+.compare-table-wrap{
+    border:1px solid #dbeafe;
+    border-radius:14px;
+    background:#fff;
+}
+
+.compare-table-wrap table{
+    font-size:15px;
+}
+
+.compare-table-wrap th{
+    padding:13px 14px;
+    background:#eaf2ff;
+    color:#1e3a8a;
+    font-weight:900;
+}
+
+.compare-table-wrap td{
+    padding:12px 14px;
+    border-color:#e2e8f0;
+}
+
+/* 짝수 행 구분 */
+.compare-table-wrap tbody tr:nth-child(even) td{
+    background:#f8fafc;
+}
+
+/* 마명 강조 */
+.compare-table-wrap td:nth-child(2){
+    font-weight:900;
+    color:#1e3a8a;
+}
+
+/* 마지막 점수칸 강조 */
+.compare-table-wrap td:last-child{
+    font-size:17px;
+    font-weight:900;
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:520px){
+
+    .compare-table-wrap table{
+        font-size:11px;
+    }
+
+    .compare-table-wrap th{
+        padding:7px 6px;
+        font-size:11px;
+    }
+
+    .compare-table-wrap td{
+        padding:7px 6px;
+        font-size:11px;
+    }
+
+    /* 번호 */
+    .compare-table-wrap th:nth-child(1),
+    .compare-table-wrap td:nth-child(1){
+        min-width:35px;
+        width:35px;
+    }
+
+    /* 마명 */
+    .compare-table-wrap th:nth-child(2),
+    .compare-table-wrap td:nth-child(2){
+        left:35px;
+        min-width:75px;
+        width:75px;
+        font-size:11px;
+    }
+
+    /* 승률 배지까지 작게 */
+    .compare-table-wrap .rate-badge{
+        min-width:55px;
+        padding:4px 6px;
+        font-size:10px;
+    }
+
+    /* 점수 */
+    .compare-table-wrap td:last-child{
+        font-size:13px;
+        padding:6px 8px;
+    }
+}
 </style>
 `;
 

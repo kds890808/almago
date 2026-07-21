@@ -385,6 +385,245 @@ body{
         width:100%;
     }
 }
+
+/* =========================
+   포인트 이용내역 모바일 카드형
+========================= */
+
+@media (max-width:600px){
+
+    .card:has(#history-table){
+        overflow:visible;
+    }
+
+    #history-table{
+        min-width:0;
+        width:100%;
+    }
+
+    #history-table thead{
+        display:none;
+    }
+
+    #history-table,
+    #history-table tbody,
+    #history-table tr,
+    #history-table td{
+        display:block;
+        width:100%;
+    }
+
+    #history-table tr{
+        position:relative;
+
+        margin-bottom:12px;
+        padding:14px;
+
+        background:#f8fafc;
+
+        border:1px solid #e2e8f0;
+        border-radius:14px;
+
+        box-sizing:border-box;
+    }
+
+    #history-table td{
+        padding:3px 0;
+        border:none;
+        text-align:left;
+        white-space:normal;
+    }
+
+    /* 연번 */
+    #history-table td:nth-child(1){
+        display:inline-block;
+        width:auto;
+
+        margin-right:6px;
+        padding:4px 8px;
+
+        background:#eef2ff;
+        border-radius:7px;
+
+        font-size:12px;
+        font-weight:900;
+        color:#4338ca;
+    }
+
+    /* 연번 뒤에 '번' 표시 */
+    #history-table td:nth-child(1)::after{
+        content:"번";
+    }
+
+    /* 충전 / 사용 */
+    #history-table td:nth-child(2){
+        display:inline-block;
+        width:auto;
+
+        padding:4px 9px;
+        margin-bottom:7px;
+
+        background:#e2e8f0;
+        border-radius:999px;
+
+        font-size:12px;
+        font-weight:900;
+    }
+
+    /* 금액 */
+    #history-table td:nth-child(3){
+        position:absolute;
+        top:14px;
+        right:14px;
+
+        width:auto;
+
+        font-size:18px;
+        font-weight:900;
+    }
+
+    /* 내역명 */
+    #history-table td:nth-child(4){
+        margin-top:4px;
+
+        font-size:15px;
+        font-weight:800;
+        color:#1e293b;
+    }
+
+    /* 날짜 */
+    #history-table td:nth-child(5){
+        margin-top:7px;
+
+        font-size:12px;
+        color:#64748b;
+    }
+
+    /* 잔액 */
+    #history-table td:nth-child(6){
+        margin-top:8px;
+        padding-top:8px;
+
+        border-top:1px dashed #cbd5e1;
+
+        font-size:13px;
+        font-weight:800;
+        color:#2563eb;
+    }
+
+    #history-table td:nth-child(6)::before{
+        content:"잔액 ";
+        color:#64748b;
+    }
+}
+
+    .point-fixed-area{
+        position:sticky;
+        top:0;
+        z-index:200;
+
+        background:#f3f4f8;
+
+        padding-top:5px;
+        padding-bottom:1px;
+    }
+
+/* =========================
+   포인트 누적 요약
+========================= */
+
+.point-summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+
+    margin-bottom:20px;
+}
+
+.summary-card{
+    background:white;
+
+    padding:18px 12px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    box-shadow:
+    0 2px 10px
+    rgba(0,0,0,0.06);
+}
+
+.summary-title{
+    font-size:14px;
+    font-weight:800;
+    color:#475569;
+
+    white-space:nowrap;
+}
+
+.summary-count{
+    margin-top:7px;
+
+    font-size:12px;
+    font-weight:700;
+
+    color:#94a3b8;
+}
+
+.summary-value{
+    margin-top:5px;
+
+    font-size:24px;
+    font-weight:900;
+}
+
+/* 받은 포인트 */
+.summary-card.received .summary-value{
+    color:#16a34a;
+}
+
+/* 사용 포인트 */
+.summary-card.used .summary-value{
+    color:#dc2626;
+}
+
+
+/* 모바일 */
+@media(max-width:400px){
+
+    .point-summary{
+        gap:8px;
+    }
+
+    .summary-card{
+        padding:15px 7px;
+    }
+
+    .summary-title{
+        font-size:12px;
+    }
+
+    .summary-value{
+        font-size:21px;
+    }
+
+}
+
+.history-title-card{
+    background:white;
+    border-radius:16px 16px 0 0;
+    padding:16px 20px 10px;
+}
+
+.history-title-card h2{
+    margin:0;
+}
+
+.history-list-card{
+    border-radius:0 0 16px 16px;
+    padding-top:8px;
+}
 </style>
 
 </head>
@@ -393,7 +632,9 @@ body{
 
 <div class="container">
 
-<div id="user-info"></div>
+<div class="point-fixed-area">
+
+    <div id="user-info"></div>
 
     <div class="card">
 
@@ -410,18 +651,72 @@ body{
 
         </div>
 
-        <div
-        id="point"
-        class="point"
-        >
-        0P
+        <div id="point" class="point">
+            0P
         </div>
 
     </div>
 
-    <div class="card">
+<!-- =========================
+     포인트 누적 요약
+========================= -->
 
+<div class="point-summary">
+
+    <div class="summary-card received">
+
+        <div class="summary-title">
+            🎁 누적 받은 포인트
+        </div>
+
+        <div
+            class="summary-count"
+            id="received-count"
+        >
+            0건
+        </div>
+
+        <div
+            class="summary-value"
+            id="received-total"
+        >
+            0P
+        </div>
+
+    </div>
+
+
+    <div class="summary-card used">
+
+        <div class="summary-title">
+            📉 누적 사용 포인트
+        </div>
+
+        <div
+            class="summary-count"
+            id="used-count"
+        >
+            0건
+        </div>
+
+        <div
+            class="summary-value"
+            id="used-total"
+        >
+            0P
+        </div>
+
+    </div>
+
+</div>
+
+<div class="history-title-card">
     <h2>📋 포인트 이용내역</h2>
+</div>
+
+</div> <!-- point-fixed-area 끝 -->
+
+<div class="card history-list-card">
 
     <table id="history-table">
 
@@ -529,6 +824,65 @@ historyData.filter(
     h => h.email === email
 );
 
+// =========================
+// 누적 포인트 계산
+// =========================
+
+// 받은 포인트
+const receivedHistory =
+myHistory.filter(
+    h => Number(h.amount) > 0
+);
+
+// 사용 포인트
+const usedHistory =
+myHistory.filter(
+    h => Number(h.amount) < 0
+);
+
+
+// 받은 포인트 합계
+const totalReceived =
+receivedHistory.reduce(
+    (sum, h) =>
+    sum + Number(h.amount),
+    0
+);
+
+
+// 사용 포인트 합계
+const totalUsed =
+Math.abs(
+    usedHistory.reduce(
+        (sum, h) =>
+        sum + Number(h.amount),
+        0
+    )
+);
+
+
+// 화면 표시
+document.getElementById(
+    "received-count"
+).innerText =
+`${receivedHistory.length}건`;
+
+document.getElementById(
+    "received-total"
+).innerText =
+`${totalReceived.toLocaleString()}P`;
+
+
+document.getElementById(
+    "used-count"
+).innerText =
+`${usedHistory.length}건`;
+
+document.getElementById(
+    "used-total"
+).innerText =
+`${totalUsed.toLocaleString()}P`;
+
 let html = "";
 
 myHistory.forEach((h,index)=>{
@@ -538,7 +892,7 @@ myHistory.forEach((h,index)=>{
     <tr>
 
         <td>
-        ${index + 1}
+        ${myHistory.length - index}
         </td>
 
         <td>

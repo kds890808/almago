@@ -1749,6 +1749,12 @@ box-shadow:
         font-size:16px;
     }
 }
+
+    .cancel-horses{
+        color:#22a447;
+        font-weight:600;
+        font-size:0.88em;
+    }
 </style>
 </head>
 
@@ -3337,7 +3343,13 @@ function renderCard(index, target){
     if(days[index]){
         days[index].innerHTML =
         `🐎 ${target.horses}두
-${target.cancelHorses > 0 ? `(취소 ${target.cancelHorses}두)` : ""}`;
+        ${
+            target.cancelHorses > 0
+            ? `<span class="cancel-horses">
+                (취소 ${target.cancelHorses}두)
+            </span>`
+            : ""
+        }`;
     }
 
     if(subs[index]){
@@ -4870,7 +4882,7 @@ changeRacingQuote();
 // 7초마다 다음 문구
 setInterval(
     changeRacingQuote,
-    5000
+    4000
 );
 
 </script>
