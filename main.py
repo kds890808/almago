@@ -854,6 +854,42 @@ with engine.begin() as conn:
     ON CONFLICT DO NOTHING
     """))
 
+# =========================
+# PostgreSQL charge_settings 시퀀스 동기화
+# =========================
+if DATABASE_URL.startswith("postgresql"):
+
+    try:
+
+        with engine.begin() as conn:
+
+            conn.execute(text("""
+                SELECT setval(
+                    pg_get_serial_sequence(
+                        'charge_settings',
+                        'id'
+                    ),
+                    COALESCE(
+                        (
+                            SELECT MAX(id)
+                            FROM charge_settings
+                        ),
+                        1
+                    ),
+                    true
+                )
+            """))
+
+        print(
+            "✅ charge_settings ID 시퀀스 동기화 완료"
+        )
+
+    except Exception as e:
+
+        print(
+            "❌ charge_settings ID 시퀀스 동기화 실패:",
+            e
+        )
 
 with engine.begin() as conn:
 
@@ -6871,18 +6907,47 @@ def approve_charge_request(
             "회원 없음"
         )
 
+    # =========================
+    # 회원 포인트 충전
+    # =========================
     member.point += req.point
 
+    # =========================
+    # 포인트 이용내역 기록
+    # =========================
+    history = PointHistory(
+
+        email=member.email,
+
+        type="charge",
+
+        amount=req.point,
+
+        remain_point=member.point,
+
+        description=f"{req.product_name} 충전",
+
+        created_at=str(datetime.now())
+
+    )
+
+    db.add(history)
+
+    # =========================
+    # 충전신청 완료 처리
+    # =========================
     req.status = "완료"
 
     req.processed_at = datetime.now().strftime(
         "%Y-%m-%d %H:%M:%S"
     )
 
+    # 포인트 증가 + 이용내역 + 신청완료를 한번에 저장
     db.commit()
 
     return {
-        "msg":"충전 완료"
+        "msg":"충전 완료",
+        "point":member.point
     }
 
 @app.put("/charge-account")

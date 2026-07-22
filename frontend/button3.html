@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>알마고 공지사항</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        sans-serif;
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:35px 18px 60px;
+}
+
+/* =========================
+   상단
+========================= */
+
+.header{
+    margin-bottom:25px;
+}
+
+.title{
+    margin:0 0 8px;
+    font-size:30px;
+    font-weight:900;
+}
+
+.description{
+    font-size:17px;
+    color:#64748b;
+    line-height:1.6;
+}
+
+/* =========================
+   공지 카드
+========================= */
+
+.notice-box{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.07);
+}
+
+/* =========================
+   공지 한 개
+========================= */
+
+.notice-item{
+    border-bottom:1px solid #e2e8f0;
+}
+
+.notice-item:last-child{
+    border-bottom:none;
+}
+
+/* 제목 영역 */
+
+.notice-header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:22px 25px;
+
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.notice-header:hover{
+    background:#f8fafc;
+}
+
+/* 중요 공지 */
+
+.notice-badge{
+    flex-shrink:0;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    background:#fee2e2;
+    color:#dc2626;
+
+    font-size:13px;
+    font-weight:900;
+}
+
+/* 일반 공지 */
+
+.normal-badge{
+    flex-shrink:0;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    background:#dbeafe;
+    color:#2563eb;
+
+    font-size:13px;
+    font-weight:900;
+}
+
+.notice-title{
+    flex:1;
+
+    font-size:18px;
+    font-weight:800;
+}
+
+.notice-date{
+    color:#94a3b8;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.arrow{
+    margin-left:5px;
+    color:#94a3b8;
+
+    transition:0.3s;
+}
+
+/* =========================
+   상세내용
+========================= */
+
+.notice-content{
+    display:none;
+
+    padding:
+        5px
+        30px
+        30px;
+
+    background:#f8fafc;
+
+    font-size:17px;
+    line-height:1.9;
+
+    color:#475569;
+}
+
+.notice-item.active
+.notice-content{
+    display:block;
+}
+
+.notice-item.active
+.arrow{
+    transform:rotate(180deg);
+}
+
+/* =========================
+   안내 박스
+========================= */
+
+.info-box{
+    margin-top:25px;
+
+    padding:20px;
+
+    border-radius:14px;
+
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+
+    font-size:15px;
+    line-height:1.7;
+
+    color:#1e40af;
+}
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+        padding:
+            22px
+            12px
+            40px;
+    }
+
+    .title{
+        font-size:26px;
+    }
+
+    .notice-box{
+        border-radius:14px;
+    }
+
+    .notice-header{
+        padding:19px 15px;
+        gap:9px;
+    }
+
+    .notice-title{
+        font-size:16px;
+        line-height:1.5;
+    }
+
+    .notice-date{
+        display:none;
+    }
+
+    .notice-content{
+        padding:
+            5px
+            18px
+            25px;
+
+        font-size:16px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- 상단 -->
+
+    <div class="header">
+
+        <h1 class="title">
+            📢 공지사항
+        </h1>
+
+        <div class="description">
+            알마고 서비스의 주요 소식과
+            업데이트 내용을 안내드립니다.
+        </div>
+
+    </div>
+
+
+    <!-- 공지 목록 -->
+
+    <div class="notice-box">
+
+
+        <!-- 공지 1 -->
+
+        <div class="notice-item active">
+
+            <div
+                class="notice-header"
+                onclick="toggleNotice(this)"
+            >
+
+                <span class="notice-badge">
+                    중요
+                </span>
+
+                <div class="notice-title">
+                    알마고 서비스 이용 안내
+                </div>
+
+                <div class="notice-date">
+                    2026.07.22
+                </div>
+
+                <div class="arrow">
+                    ▼
+                </div>
+
+            </div>
+
+
+            <div class="notice-content">
+
+                안녕하세요.
+                알마고입니다.
+
+                <br><br>
+
+                알마고는 경주 데이터를 기반으로
+                다양한 분석 정보를 제공하는 서비스입니다.
+
+                <br><br>
+
+                AI 분석 결과는 경주 결과를
+                보장하는 정보가 아니며,
+                경주 분석을 위한 참고자료로
+                활용해주시기 바랍니다.
+
+                <br><br>
+
+                앞으로도 더욱 편리하고
+                정확한 분석 서비스를 제공할 수 있도록
+                지속적으로 개선하겠습니다.
+
+            </div>
+
+        </div>
+
+
+        <!-- 공지 2 -->
+
+        <div class="notice-item">
+
+            <div
+                class="notice-header"
+                onclick="toggleNotice(this)"
+            >
+
+                <span class="normal-badge">
+                    안내
+                </span>
+
+                <div class="notice-title">
+                    모바일 화면 개선 안내
+                </div>
+
+                <div class="notice-date">
+                    2026.07.21
+                </div>
+
+                <div class="arrow">
+                    ▼
+                </div>
+
+            </div>
+
+
+            <div class="notice-content">
+
+                알마고 모바일 화면이
+                새롭게 개선되었습니다.
+
+                <br><br>
+
+                스마트폰에서도 경주정보와
+                AI 분석 내용을 더욱 편하게
+                확인할 수 있도록 글자 크기와
+                화면 구성을 개선하였습니다.
+
+            </div>
+
+        </div>
+
+
+        <!-- 공지 3 -->
+
+        <div class="notice-item">
+
+            <div
+                class="notice-header"
+                onclick="toggleNotice(this)"
+            >
+
+                <span class="normal-badge">
+                    업데이트
+                </span>
+
+                <div class="notice-title">
+                    AI 종합분석 서비스 업데이트
+                </div>
+
+                <div class="notice-date">
+                    2026.07.20
+                </div>
+
+                <div class="arrow">
+                    ▼
+                </div>
+
+            </div>
+
+
+            <div class="notice-content">
+
+                AI 종합분석 서비스가
+                업데이트되었습니다.
+
+                <br><br>
+
+                기본분석, 혈통분석,
+                전개분석 등의 데이터를 종합하여
+                경주별 분석 정보를 제공합니다.
+
+            </div>
+
+        </div>
+
+
+        <!-- 공지 4 -->
+
+        <div class="notice-item">
+
+            <div
+                class="notice-header"
+                onclick="toggleNotice(this)"
+            >
+
+                <span class="normal-badge">
+                    안내
+                </span>
+
+                <div class="notice-title">
+                    포인트 충전 및 이용 안내
+                </div>
+
+                <div class="notice-date">
+                    2026.07.18
+                </div>
+
+                <div class="arrow">
+                    ▼
+                </div>
+
+            </div>
+
+
+            <div class="notice-content">
+
+                포인트 충전 메뉴에서
+                원하는 충전 상품을 선택한 후
+                충전을 신청할 수 있습니다.
+
+                <br><br>
+
+                충전 완료 후
+                마이페이지의 포인트 이용내역에서
+                충전 및 사용 내역을
+                확인할 수 있습니다.
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- 하단 안내 -->
+
+    <div class="info-box">
+
+        💡 새로운 서비스 안내 및
+        중요 업데이트 내용은
+        공지사항을 통해 안내해드립니다.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+function toggleNotice(header){
+
+    const item =
+        header.parentElement;
+
+    const allItems =
+        document.querySelectorAll(
+            ".notice-item"
+        );
+
+    allItems.forEach(other => {
+
+        if(other !== item){
+
+            other.classList.remove(
+                "active"
+            );
+
+        }
+
+    });
+
+    item.classList.toggle(
+        "active"
+    );
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>알마고 게시판</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+/* =========================
+   전체 영역
+========================= */
+
+.container{
+    max-width:1000px;
+    margin:0 auto;
+    padding:35px 20px 60px;
+}
+
+/* =========================
+   상단 제목
+========================= */
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-title{
+    margin:0 0 8px;
+    font-size:30px;
+    font-weight:800;
+}
+
+.page-description{
+    font-size:16px;
+    color:#64748b;
+}
+
+/* =========================
+   게시판 카드
+========================= */
+
+.board-card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.07);
+}
+
+/* =========================
+   게시판 상단
+========================= */
+
+.board-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.board-count{
+    font-size:16px;
+    font-weight:700;
+}
+
+.search-box{
+    display:flex;
+    gap:7px;
+}
+
+.search-box input{
+    width:220px;
+    padding:10px 12px;
+
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+
+    font-size:15px;
+}
+
+.search-box button{
+    border:none;
+    border-radius:8px;
+
+    padding:10px 18px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:15px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+/* =========================
+   게시판 테이블
+========================= */
+
+.board-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.board-table th{
+    padding:15px 10px;
+
+    background:#1e293b;
+    color:white;
+
+    font-size:16px;
+}
+
+.board-table td{
+    padding:17px 10px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    font-size:16px;
+    text-align:center;
+}
+
+.board-table tbody tr{
+    transition:0.2s;
+}
+
+.board-table tbody tr:hover{
+    background:#f8fafc;
+}
+
+.board-table .title{
+    text-align:left;
+    font-weight:600;
+}
+
+.board-table .title a{
+    color:#1e293b;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.board-table .title a:hover{
+    color:#2563eb;
+}
+
+/* 공지 */
+
+.notice-badge{
+    display:inline-block;
+
+    padding:4px 9px;
+    margin-right:7px;
+
+    border-radius:20px;
+
+    background:#fee2e2;
+    color:#dc2626;
+
+    font-size:13px;
+    font-weight:800;
+}
+
+/* =========================
+   상세내용
+========================= */
+
+.board-detail{
+    display:none;
+
+    padding:25px;
+
+    background:#f8fafc;
+
+    border-bottom:
+        2px solid #2563eb;
+
+    text-align:left;
+}
+
+.board-detail.active{
+    display:table-row;
+}
+
+.detail-content{
+    line-height:1.9;
+    font-size:16px;
+    color:#334155;
+}
+
+/* =========================
+   페이지 버튼
+========================= */
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    gap:7px;
+
+    margin-top:25px;
+}
+
+.pagination button{
+    width:38px;
+    height:38px;
+
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+
+    background:white;
+
+    font-size:15px;
+    cursor:pointer;
+}
+
+.pagination button.active{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+        padding:20px 12px 40px;
+    }
+
+    .page-title{
+        font-size:25px;
+    }
+
+    .board-card{
+        padding:15px 10px;
+        border-radius:14px;
+    }
+
+    .board-top{
+        display:block;
+    }
+
+    .search-box{
+        margin-top:15px;
+    }
+
+    .search-box input{
+        flex:1;
+        width:auto;
+        min-width:0;
+    }
+
+    .board-table th,
+    .board-table td{
+        padding:14px 5px;
+        font-size:14px;
+    }
+
+    /* 모바일에서는 조회수 숨김 */
+
+    .views{
+        display:none;
+    }
+
+    .board-table .title{
+        font-size:15px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- 제목 -->
+
+    <div class="page-header">
+
+        <h1 class="page-title">
+            📋 알마고 게시판
+        </h1>
+
+        <div class="page-description">
+            알마고의 새로운 소식과 안내사항을 확인하세요.
+        </div>
+
+    </div>
+
+
+    <!-- 게시판 -->
+
+    <div class="board-card">
+
+        <!-- 상단 -->
+
+        <div class="board-top">
+
+            <div class="board-count">
+                전체 게시글 5개
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="제목을 검색하세요"
+                >
+
+                <button onclick="searchBoard()">
+                    검색
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 목록 -->
+
+        <table class="board-table">
+
+            <thead>
+
+                <tr>
+
+                    <th width="80">
+                        번호
+                    </th>
+
+                    <th>
+                        제목
+                    </th>
+
+                    <th width="130">
+                        작성일
+                    </th>
+
+                    <th
+                        width="90"
+                        class="views"
+                    >
+                        조회
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="boardBody">
+
+
+                <!-- 게시글 1 -->
+
+                <tr>
+
+                    <td>
+                        공지
+                    </td>
+
+                    <td class="title">
+
+                        <a onclick="toggleDetail('detail1')">
+
+                            <span class="notice-badge">
+                                공지
+                            </span>
+
+                            알마고 서비스 이용 안내
+
+                        </a>
+
+                    </td>
+
+                    <td>
+                        2026-07-22
+                    </td>
+
+                    <td class="views">
+                        152
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    id="detail1"
+                    class="board-detail"
+                >
+
+                    <td colspan="4">
+
+                        <div class="detail-content">
+
+                            안녕하세요. 알마고입니다.
+                            <br><br>
+
+                            알마고는 경주 데이터를 기반으로
+                            다양한 분석 정보를 제공하고 있습니다.
+                            <br><br>
+
+                            보다 편리하고 안정적인 서비스를
+                            제공할 수 있도록 지속적으로
+                            기능을 개선하겠습니다.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- 게시글 2 -->
+
+                <tr>
+
+                    <td>
+                        4
+                    </td>
+
+                    <td class="title">
+
+                        <a onclick="toggleDetail('detail2')">
+                            AI 분석 서비스 업데이트 안내
+                        </a>
+
+                    </td>
+
+                    <td>
+                        2026-07-21
+                    </td>
+
+                    <td class="views">
+                        84
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    id="detail2"
+                    class="board-detail"
+                >
+
+                    <td colspan="4">
+
+                        <div class="detail-content">
+
+                            AI 분석 서비스가 업데이트되었습니다.
+                            <br><br>
+
+                            기본분석, 혈통분석, 전개분석 및
+                            종합분석 화면의 가독성을 개선하였습니다.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- 게시글 3 -->
+
+                <tr>
+
+                    <td>
+                        3
+                    </td>
+
+                    <td class="title">
+
+                        <a onclick="toggleDetail('detail3')">
+                            포인트 충전 기능 안내
+                        </a>
+
+                    </td>
+
+                    <td>
+                        2026-07-20
+                    </td>
+
+                    <td class="views">
+                        63
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    id="detail3"
+                    class="board-detail"
+                >
+
+                    <td colspan="4">
+
+                        <div class="detail-content">
+
+                            포인트 충전 메뉴에서
+                            원하는 상품을 선택하여
+                            충전을 신청할 수 있습니다.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- 게시글 4 -->
+
+                <tr>
+
+                    <td>
+                        2
+                    </td>
+
+                    <td class="title">
+
+                        <a onclick="toggleDetail('detail4')">
+                            모바일 화면 개선 안내
+                        </a>
+
+                    </td>
+
+                    <td>
+                        2026-07-18
+                    </td>
+
+                    <td class="views">
+                        51
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    id="detail4"
+                    class="board-detail"
+                >
+
+                    <td colspan="4">
+
+                        <div class="detail-content">
+
+                            스마트폰에서도 더욱 편리하게
+                            이용하실 수 있도록
+                            모바일 화면을 개선하였습니다.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- 게시글 5 -->
+
+                <tr>
+
+                    <td>
+                        1
+                    </td>
+
+                    <td class="title">
+
+                        <a onclick="toggleDetail('detail5')">
+                            알마고 게시판이 개설되었습니다.
+                        </a>
+
+                    </td>
+
+                    <td>
+                        2026-07-15
+                    </td>
+
+                    <td class="views">
+                        35
+                    </td>
+
+                </tr>
+
+
+                <tr
+                    id="detail5"
+                    class="board-detail"
+                >
+
+                    <td colspan="4">
+
+                        <div class="detail-content">
+
+                            알마고 게시판이 개설되었습니다.
+                            <br><br>
+
+                            앞으로 다양한 소식과 안내사항을
+                            게시판을 통해 전달드리겠습니다.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <!-- 페이지 -->
+
+        <div class="pagination">
+
+            <button>
+                ‹
+            </button>
+
+            <button class="active">
+                1
+            </button>
+
+            <button>
+                2
+            </button>
+
+            <button>
+                3
+            </button>
+
+            <button>
+                ›
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   게시글 펼치기
+========================= */
+
+function toggleDetail(id){
+
+    const target =
+        document.getElementById(id);
+
+    const details =
+        document.querySelectorAll(
+            ".board-detail"
+        );
+
+    details.forEach(detail => {
+
+        if(
+            detail !== target
+        ){
+
+            detail.classList.remove(
+                "active"
+            );
+
+        }
+
+    });
+
+    target.classList.toggle(
+        "active"
+    );
+
+}
+
+
+/* =========================
+   제목 검색
+========================= */
+
+function searchBoard(){
+
+    const keyword =
+        document
+        .getElementById(
+            "searchInput"
+        )
+        .value
+        .toLowerCase();
+
+    const rows =
+        document.querySelectorAll(
+            "#boardBody > tr:not(.board-detail)"
+        );
+
+    rows.forEach(row => {
+
+        const title =
+            row.querySelector(
+                ".title"
+            );
+
+        if(!title){
+            return;
+        }
+
+        const detail =
+            row.nextElementSibling;
+
+        const match =
+            title.innerText
+            .toLowerCase()
+            .includes(keyword);
+
+        row.style.display =
+            match
+            ? ""
+            : "none";
+
+        if(
+            detail &&
+            detail.classList.contains(
+                "board-detail"
+            )
+        ){
+
+            if(!match){
+
+                detail.style.display =
+                    "none";
+
+            }
+            else{
+
+                detail.style.display =
+                    "";
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* 엔터키 검색 */
+
+document
+.getElementById(
+    "searchInput"
+)
+.addEventListener(
+    "keydown",
+    function(e){
+
+        if(
+            e.key === "Enter"
+        ){
+
+            searchBoard();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
