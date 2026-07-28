@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>알마고 자주 묻는 질문</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+.container{
+    max-width:900px;
+    margin:0 auto;
+    padding:35px 18px 60px;
+}
+
+/* =========================
+   상단
+========================= */
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-title{
+    margin:0 0 10px;
+
+    font-size:30px;
+    font-weight:900;
+}
+
+.page-description{
+    font-size:17px;
+    line-height:1.7;
+
+    color:#64748b;
+}
+
+
+/* =========================
+   검색
+========================= */
+
+.search-box{
+    display:flex;
+    gap:8px;
+
+    margin-bottom:25px;
+
+    padding:18px;
+
+    background:white;
+
+    border-radius:16px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.06);
+}
+
+.search-box input{
+    flex:1;
+
+    min-width:0;
+
+    padding:13px 15px;
+
+    border:
+        1px solid
+        #cbd5e1;
+
+    border-radius:9px;
+
+    font-size:16px;
+
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#2563eb;
+}
+
+.search-box button{
+    padding:0 22px;
+
+    border:none;
+    border-radius:9px;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:16px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   카테고리
+========================= */
+
+.category{
+    margin-bottom:25px;
+}
+
+.category-title{
+    margin-bottom:12px;
+
+    font-size:20px;
+    font-weight:900;
+}
+
+
+/* =========================
+   FAQ
+========================= */
+
+.faq-list{
+    overflow:hidden;
+
+    background:white;
+
+    border-radius:16px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.06);
+}
+
+.faq-item{
+    border-bottom:
+        1px solid
+        #e2e8f0;
+}
+
+.faq-item:last-child{
+    border-bottom:none;
+}
+
+
+/* 질문 */
+
+.faq-question{
+    display:flex;
+    align-items:center;
+
+    width:100%;
+
+    padding:21px 22px;
+
+    border:none;
+
+    background:white;
+
+    text-align:left;
+
+    cursor:pointer;
+}
+
+.faq-question:hover{
+    background:#f8fafc;
+}
+
+
+/* Q */
+
+.q-mark{
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:34px;
+    height:34px;
+
+    margin-right:14px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:17px;
+    font-weight:900;
+}
+
+
+/* 질문 글 */
+
+.question-text{
+    flex:1;
+
+    font-size:17px;
+    font-weight:800;
+
+    line-height:1.5;
+}
+
+
+/* 화살표 */
+
+.arrow{
+    margin-left:15px;
+
+    font-size:16px;
+    color:#94a3b8;
+
+    transition:
+        transform
+        0.25s;
+}
+
+
+/* =========================
+   답변
+========================= */
+
+.faq-answer{
+    display:none;
+
+    padding:
+        0
+        25px
+        25px
+        70px;
+
+    background:#f8fafc;
+}
+
+.faq-item.active
+.faq-answer{
+    display:block;
+}
+
+.faq-item.active
+.arrow{
+    transform:
+        rotate(180deg);
+}
+
+
+/* 답변 내부 */
+
+.answer-box{
+    padding:18px 20px;
+
+    border-left:
+        4px solid
+        #2563eb;
+
+    border-radius:0 10px 10px 0;
+
+    background:white;
+
+    font-size:16px;
+    line-height:1.9;
+
+    color:#475569;
+}
+
+
+/* A 표시 */
+
+.answer-title{
+    margin-bottom:8px;
+
+    color:#2563eb;
+
+    font-size:16px;
+    font-weight:900;
+}
+
+
+/* 검색 결과 없음 */
+
+.no-result{
+    display:none;
+
+    padding:40px 20px;
+
+    background:white;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    font-size:17px;
+    color:#64748b;
+}
+
+
+/* =========================
+   하단 문의
+========================= */
+
+.help-box{
+    margin-top:30px;
+
+    padding:23px;
+
+    border:
+        1px solid
+        #bfdbfe;
+
+    border-radius:15px;
+
+    background:#eff6ff;
+
+    text-align:center;
+}
+
+.help-title{
+    margin-bottom:7px;
+
+    font-size:18px;
+    font-weight:900;
+
+    color:#1e40af;
+}
+
+.help-text{
+    font-size:15px;
+    line-height:1.7;
+
+    color:#475569;
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+        padding:
+            22px
+            12px
+            40px;
+    }
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .page-description{
+        font-size:16px;
+    }
+
+    .search-box{
+        padding:12px;
+    }
+
+    .search-box input{
+        font-size:15px;
+    }
+
+    .search-box button{
+        padding:0 15px;
+    }
+
+    .category-title{
+        font-size:19px;
+    }
+
+    .faq-question{
+        padding:
+            18px
+            15px;
+    }
+
+    .q-mark{
+        width:31px;
+        height:31px;
+
+        margin-right:10px;
+
+        font-size:15px;
+    }
+
+    .question-text{
+        font-size:16px;
+    }
+
+    .faq-answer{
+        padding:
+            0
+            15px
+            20px
+            15px;
+    }
+
+    .answer-box{
+        font-size:16px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =====================
+         상단
+    ====================== -->
+
+    <div class="page-header">
+
+        <h1 class="page-title">
+            ❓ 자주 묻는 질문
+        </h1>
+
+        <div class="page-description">
+            알마고 이용 중 궁금한 내용을
+            빠르게 확인해보세요.
+        </div>
+
+    </div>
+
+
+    <!-- =====================
+         검색
+    ====================== -->
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="faqSearch"
+            placeholder="궁금한 내용을 검색하세요"
+        >
+
+        <button onclick="searchFAQ()">
+            검색
+        </button>
+
+    </div>
+
+
+    <!-- =====================
+         서비스 이용
+    ====================== -->
+
+    <div class="category">
+
+        <div class="category-title">
+            🏇 서비스 이용
+        </div>
+
+
+        <div class="faq-list">
+
+
+            <!-- FAQ 1 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        알마고는 어떤 서비스인가요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 알마고는 경주 분석 정보를 제공하는 서비스입니다.
+                        </div>
+
+                        경주마, 기수, 조교사,
+                        혈통 및 경주 전개와 관련된
+                        다양한 데이터를 분석하여
+                        경주별 참고 정보를 제공합니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 2 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        AI 분석은 언제 확인할 수 있나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 경주 출전정보가 준비된 이후 확인할 수 있습니다.
+                        </div>
+
+                        경주 출전정보와 분석에 필요한
+                        데이터가 준비되면
+                        해당 경주의 AI 분석 서비스를
+                        이용할 수 있습니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 3 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        제주 경주는 혈통분석을 이용할 수 없나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 현재 제주 경주는 혈통분석을 제공하지 않습니다.
+                        </div>
+
+                        제주 경주는 분석에 필요한
+                        혈통 데이터 구성의 차이로 인해
+                        현재 혈통분석 서비스에서
+                        제외되어 있습니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         포인트
+    ====================== -->
+
+    <div class="category">
+
+        <div class="category-title">
+            💰 포인트 이용
+        </div>
+
+
+        <div class="faq-list">
+
+
+            <!-- FAQ 4 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        포인트는 어떻게 충전하나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 포인트 충전 메뉴에서 신청할 수 있습니다.
+                        </div>
+
+                        원하는 충전 상품을 선택한 후
+                        안내된 계좌로 입금하고
+                        충전 신청을 완료해주세요.
+
+                        <br><br>
+
+                        입금 확인 후 포인트가
+                        회원 계정에 반영됩니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 5 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        포인트 사용내역은 어디에서 확인하나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 포인트 이용내역 화면에서 확인할 수 있습니다.
+                        </div>
+
+                        포인트 충전 내역과
+                        분석 서비스 이용으로 차감된
+                        포인트 내역을 확인할 수 있습니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 6 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        분석을 다시 보면 포인트가 또 차감되나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 이용 정책에 따라 적용됩니다.
+                        </div>
+
+                        분석 서비스별 포인트 이용 기준은
+                        서비스 화면에 표시된 내용을
+                        확인해주세요.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         분석 서비스
+    ====================== -->
+
+    <div class="category">
+
+        <div class="category-title">
+            🤖 AI 분석
+        </div>
+
+
+        <div class="faq-list">
+
+
+            <!-- FAQ 7 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        기본분석과 종합분석은 무엇이 다른가요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 분석에 활용되는 정보의 범위가 다릅니다.
+                        </div>
+
+                        기본분석은 경주마의 기본적인
+                        능력과 최근 성적 등을 분석합니다.
+
+                        <br><br>
+
+                        종합분석은 기본분석을 포함하여
+                        혈통, 전개 등 여러 분석 정보를
+                        종합적으로 제공합니다.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 8 -->
+
+            <div class="faq-item">
+
+                <button
+                    class="faq-question"
+                    onclick="toggleFAQ(this)"
+                >
+
+                    <span class="q-mark">
+                        Q
+                    </span>
+
+                    <span class="question-text">
+                        AI 분석 결과가 실제 경주 결과를 보장하나요?
+                    </span>
+
+                    <span class="arrow">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="faq-answer">
+
+                    <div class="answer-box">
+
+                        <div class="answer-title">
+                            A. 실제 경주 결과를 보장하지 않습니다.
+                        </div>
+
+                        경마는 다양한 변수가 발생할 수 있는
+                        경기이므로 AI 분석 결과는
+                        경주 결과를 보장하지 않습니다.
+
+                        <br><br>
+
+                        제공되는 분석 정보는
+                        경주 분석을 위한 참고자료로
+                        활용해주세요.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 검색 결과 없음 -->
+
+    <div
+        class="no-result"
+        id="noResult"
+    >
+        🔍 검색 결과가 없습니다.
+    </div>
+
+
+
+    <!-- 하단 -->
+
+    <div class="help-box">
+
+        <div class="help-title">
+            원하는 답변을 찾지 못하셨나요?
+        </div>
+
+        <div class="help-text">
+            추가적인 문의사항은
+            고객지원 또는 문의하기 메뉴를
+            이용해주세요.
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   FAQ 열기/닫기
+========================= */
+
+function toggleFAQ(button){
+
+    const item =
+        button.parentElement;
+
+    item.classList.toggle(
+        "active"
+    );
+
+}
+
+
+/* =========================
+   FAQ 검색
+========================= */
+
+function searchFAQ(){
+
+    const keyword =
+        document
+        .getElementById(
+            "faqSearch"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const items =
+        document.querySelectorAll(
+            ".faq-item"
+        );
+
+
+    let count = 0;
+
+
+    items.forEach(item => {
+
+        const text =
+            item.innerText
+            .toLowerCase();
+
+
+        if(
+            keyword === "" ||
+            text.includes(keyword)
+        ){
+
+            item.style.display =
+                "";
+
+            count++;
+
+        }
+        else{
+
+            item.style.display =
+                "none";
+
+        }
+
+    });
+
+
+    document
+    .getElementById(
+        "noResult"
+    )
+    .style.display =
+        count === 0
+        ? "block"
+        : "none";
+
+}
+
+
+/* 엔터키 검색 */
+
+document
+.getElementById(
+    "faqSearch"
+)
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter"
+        ){
+
+            searchFAQ();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

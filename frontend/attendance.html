@@ -1,0 +1,4269 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>오늘의 미션 | ALMAGO</title>
+
+    <style>
+
+        /* =====================================================
+           기본 설정
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1557b0;
+            --primary-dark: #0e3f85;
+            --primary-light: #eaf3ff;
+
+            --navy: #10294c;
+            --blue-gray: #52677f;
+
+            --green: #16935c;
+            --green-dark: #0e7447;
+            --green-light: #eaf9f1;
+
+            --gold: #d89516;
+            --gold-dark: #a86e07;
+            --gold-light: #fff7df;
+
+            --red: #db4055;
+            --red-light: #fff0f2;
+
+            --purple: #7355c7;
+            --purple-light: #f2efff;
+
+            --background: #f2f6fb;
+            --card: #ffffff;
+
+            --text: #172337;
+            --sub-text: #66758a;
+            --border: #dce5f0;
+
+            --shadow:
+                0 10px 30px
+                rgba(23, 55, 94, 0.09);
+
+            --radius-large: 24px;
+            --radius-medium: 18px;
+            --radius-small: 13px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Pretendard,
+                "Noto Sans KR",
+                "Apple SD Gothic Neo",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(73, 139, 224, 0.12),
+                    transparent 32%
+                ),
+                var(--background);
+
+            color: var(--text);
+
+            line-height: 1.55;
+
+            word-break: keep-all;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        button,
+        .quiz-option {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* =====================================================
+           상단 헤더
+        ===================================================== */
+
+        .top-header {
+            position: relative;
+
+            overflow: hidden;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0e3d80 0%,
+                    #1762c3 62%,
+                    #2b7fe2 100%
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 65, 135, 0.22);
+        }
+
+        .top-header::before {
+            content: "";
+
+            position: absolute;
+            top: -90px;
+            right: -80px;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+        }
+
+        .top-header::after {
+            content: "";
+
+            position: absolute;
+            bottom: -110px;
+            left: -70px;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+        }
+
+        .header-inner {
+            position: relative;
+            z-index: 2;
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+            padding:
+                24px 20px
+                42px;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 34px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 48px;
+            height: 48px;
+
+            padding: 0 16px;
+
+            color: white;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            text-decoration: none;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.26);
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 20px;
+            font-weight: 900;
+
+            letter-spacing: 0.5px;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+            font-size: 23px;
+        }
+
+        .header-point-box {
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+
+            min-height: 48px;
+
+            padding: 0 16px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(8px);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .header-point-box strong {
+            color: #ffe991;
+
+            font-size: 17px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1fr)
+                auto;
+
+            align-items: end;
+
+            gap: 24px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 10px;
+
+            color: #cfe4ff;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .hero h1 {
+            margin-bottom: 10px;
+
+            font-size: clamp(30px, 5vw, 48px);
+            font-weight: 950;
+
+            line-height: 1.16;
+
+            letter-spacing: -1.5px;
+        }
+
+        .hero-description {
+            max-width: 620px;
+
+            color: #dcecff;
+
+            font-size: 17px;
+            font-weight: 600;
+
+            line-height: 1.7;
+        }
+
+        .today-progress {
+            min-width: 190px;
+
+            padding: 18px 20px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.23);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .today-progress-label {
+            margin-bottom: 8px;
+
+            color: #d9ebff;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .today-progress-value {
+            margin-bottom: 10px;
+
+            font-size: 29px;
+            font-weight: 950;
+        }
+
+        .progress-track {
+            overflow: hidden;
+
+            width: 100%;
+            height: 9px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffe27d,
+                    #fff3bd
+                );
+
+            transition: width 0.4s ease;
+        }
+
+        /* =====================================================
+           전체 레이아웃
+        ===================================================== */
+
+        .page-container {
+            position: relative;
+            z-index: 3;
+
+            max-width: 1100px;
+
+            margin:
+                -20px auto
+                0;
+
+            padding:
+                0 20px
+                60px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1.25fr)
+                minmax(320px, 0.75fr);
+
+            align-items: start;
+
+            gap: 22px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+
+            gap: 22px;
+        }
+
+        .card {
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(207, 219, 232, 0.88);
+
+            border-radius: var(--radius-large);
+
+            background: var(--card);
+
+            box-shadow: var(--shadow);
+        }
+
+        .card-inner {
+            padding: 25px;
+        }
+
+        .card-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        .heading-left {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .heading-icon {
+            display: inline-flex;
+            flex: 0 0 auto;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+
+            border-radius: 16px;
+
+            font-size: 24px;
+        }
+
+        .heading-icon.blue {
+            color: var(--primary);
+
+            background: var(--primary-light);
+        }
+
+        .heading-icon.gold {
+            color: var(--gold-dark);
+
+            background: var(--gold-light);
+        }
+
+        .heading-icon.green {
+            color: var(--green-dark);
+
+            background: var(--green-light);
+        }
+
+        .heading-icon.purple {
+            color: var(--purple);
+
+            background: var(--purple-light);
+        }
+
+        .card-title {
+            margin-bottom: 3px;
+
+            font-size: 21px;
+            font-weight: 950;
+
+            letter-spacing: -0.5px;
+        }
+
+        .card-subtitle {
+            color: var(--sub-text);
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .reward-badge {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 5px;
+
+            flex: 0 0 auto;
+
+            padding: 8px 12px;
+
+            color: var(--gold-dark);
+
+            border:
+                1px solid
+                #f0d99d;
+
+            border-radius: 999px;
+
+            background: var(--gold-light);
+
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        /* =====================================================
+           출석 카드
+        ===================================================== */
+
+        .attendance-card {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    150deg,
+                    #ffffff 0%,
+                    #f5f9ff 100%
+                );
+        }
+
+        .attendance-status-area {
+            display: grid;
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .status-box {
+            min-height: 116px;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 18px;
+
+            background:
+                rgba(255, 255, 255, 0.88);
+        }
+
+        .status-label {
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+
+            margin-bottom: 9px;
+
+            color: var(--sub-text);
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .status-value {
+            color: var(--navy);
+
+            font-size: 30px;
+            font-weight: 950;
+
+            line-height: 1.2;
+        }
+
+        .status-value small {
+            margin-left: 4px;
+
+            color: var(--sub-text);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .attendance-message {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            min-height: 54px;
+
+            margin-bottom: 15px;
+            padding: 13px 15px;
+
+            color: #365577;
+
+            border:
+                1px solid
+                #cfe0f4;
+
+            border-radius: 15px;
+
+            background:
+                #f1f7ff;
+
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .attendance-button {
+            width: 100%;
+            min-height: 60px;
+
+            padding: 14px 20px;
+
+            color: white;
+
+            border: none;
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #2676dc
+                );
+
+            box-shadow:
+                0 10px 22px
+                rgba(21, 87, 176, 0.24);
+
+            font-size: 18px;
+            font-weight: 950;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease,
+                opacity 0.18s ease;
+        }
+
+        .attendance-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 28px
+                rgba(21, 87, 176, 0.3);
+        }
+
+        .attendance-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .attendance-button:disabled {
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #15925b,
+                    #28ab72
+                );
+
+            box-shadow:
+                0 8px 18px
+                rgba(22, 147, 92, 0.2);
+
+            cursor: default;
+        }
+
+        .attendance-button.loading {
+            opacity: 0.75;
+
+            cursor: wait;
+        }
+
+        /* =====================================================
+           오늘 획득 포인트
+        ===================================================== */
+
+        .mission-point-card {
+            border: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #142f54 0%,
+                    #1c4e88 100%
+                );
+        }
+
+        .mission-point-card .card-subtitle {
+            color: #c8daf0;
+        }
+
+        .mission-point-card .card-title {
+            color: white;
+        }
+
+        .point-summary {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .point-total-label {
+            margin-bottom: 4px;
+
+            color: #c8daf0;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .point-total {
+            color: #ffe088;
+
+            font-size: 39px;
+            font-weight: 950;
+
+            line-height: 1.15;
+        }
+
+        .point-total small {
+            font-size: 18px;
+        }
+
+        .mission-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+        .mission-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 12px;
+
+            min-height: 48px;
+
+            padding: 10px 13px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 13px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+        }
+
+        .mission-row-name {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            color: #eff6ff;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .mission-row-value {
+            color: #bcd0e7;
+
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .mission-row.completed .mission-row-value {
+            color: #92f2c0;
+        }
+
+        /* =====================================================
+           경마퀴즈
+        ===================================================== */
+
+        .quiz-category {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 5px;
+
+            margin-bottom: 13px;
+            padding: 6px 10px;
+
+            color: var(--purple);
+
+            border-radius: 999px;
+
+            background: var(--purple-light);
+
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .quiz-number {
+            margin-bottom: 7px;
+
+            color: var(--primary);
+
+            font-size: 14px;
+            font-weight: 950;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+
+            color: var(--navy);
+
+            font-size: 21px;
+            font-weight: 950;
+
+            line-height: 1.55;
+
+            letter-spacing: -0.4px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 11px;
+
+            margin-bottom: 16px;
+        }
+
+        .quiz-option {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            min-height: 59px;
+
+            padding: 13px 14px;
+
+            color: #35465d;
+
+            border:
+                2px solid
+                #e2e9f2;
+
+            border-radius: 15px;
+
+            background: #ffffff;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.18s ease,
+                background 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .quiz-option:hover:not(:disabled) {
+            transform: translateY(-1px);
+
+            border-color: #9abce5;
+
+            background: #f7fbff;
+        }
+
+        .quiz-option-number {
+            display: inline-flex;
+            flex: 0 0 auto;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 31px;
+            height: 31px;
+
+            margin-right: 9px;
+
+            color: var(--primary);
+
+            border-radius: 10px;
+
+            background: var(--primary-light);
+
+            font-size: 14px;
+            font-weight: 950;
+        }
+
+        .quiz-option.selected {
+            color: var(--primary-dark);
+
+            border-color: var(--primary);
+
+            background: var(--primary-light);
+        }
+
+        .quiz-option.correct {
+            color: var(--green-dark);
+
+            border-color: var(--green);
+
+            background: var(--green-light);
+        }
+
+        .quiz-option.wrong {
+            color: #ae283b;
+
+            border-color: var(--red);
+
+            background: var(--red-light);
+        }
+
+        .quiz-option:disabled {
+            cursor: default;
+        }
+
+        .quiz-submit-button {
+            width: 100%;
+            min-height: 56px;
+
+            color: white;
+
+            border: none;
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6649b6,
+                    #8165d4
+                );
+
+            box-shadow:
+                0 9px 20px
+                rgba(104, 73, 183, 0.2);
+
+            font-size: 17px;
+            font-weight: 950;
+
+            cursor: pointer;
+        }
+
+        .quiz-submit-button:disabled {
+            color: #8490a0;
+
+            background: #e7ebf0;
+
+            box-shadow: none;
+
+            cursor: default;
+        }
+
+        .quiz-result {
+            display: none;
+
+            margin-top: 15px;
+            padding: 15px 16px;
+
+            border-radius: 15px;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            line-height: 1.65;
+        }
+
+        .quiz-result.success {
+            display: block;
+
+            color: var(--green-dark);
+
+            border:
+                1px solid
+                #bde6cf;
+
+            background: var(--green-light);
+        }
+
+        .quiz-result.fail {
+            display: block;
+
+            color: #a83243;
+
+            border:
+                1px solid
+                #f0c4ca;
+
+            background: var(--red-light);
+        }
+
+        .quiz-explanation {
+            display: block;
+
+            margin-top: 5px;
+
+            color: inherit;
+
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           달력
+        ===================================================== */
+
+        .calendar-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 17px;
+        }
+
+        .calendar-month {
+            color: var(--navy);
+
+            font-size: 19px;
+            font-weight: 950;
+        }
+
+        .calendar-legend {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+
+            color: var(--sub-text);
+
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: var(--green);
+        }
+
+        .calendar-weekdays,
+        .calendar-days {
+            display: grid;
+            grid-template-columns:
+                repeat(7, 1fr);
+
+            gap: 6px;
+        }
+
+        .calendar-weekdays {
+            margin-bottom: 7px;
+        }
+
+        .weekday {
+            padding: 6px 0;
+
+            color: #8290a2;
+
+            font-size: 12px;
+            font-weight: 900;
+
+            text-align: center;
+        }
+
+        .weekday:first-child {
+            color: #d25264;
+        }
+
+        .weekday:last-child {
+            color: #3d74c7;
+        }
+
+        .calendar-day {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            aspect-ratio: 1 / 1;
+
+            min-height: 37px;
+
+            color: #516074;
+
+            border:
+                1px solid
+                #edf1f5;
+
+            border-radius: 12px;
+
+            background: #fafbfd;
+
+            font-size: 13px;
+            font-weight: 850;
+        }
+
+        .calendar-day.empty {
+            border-color: transparent;
+
+            background: transparent;
+        }
+
+        .calendar-day.today {
+            color: var(--primary);
+
+            border-color: #8eb6e7;
+
+            background: var(--primary-light);
+        }
+
+        .calendar-day.attended {
+            color: white;
+
+            border-color: var(--green);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    #2fb77b
+                );
+
+            box-shadow:
+                0 5px 10px
+                rgba(22, 147, 92, 0.18);
+        }
+
+        .calendar-notice {
+            margin-top: 13px;
+
+            color: var(--sub-text);
+
+            font-size: 12px;
+            font-weight: 650;
+
+            text-align: center;
+        }
+
+        /* =====================================================
+           연속 출석 보상
+        ===================================================== */
+
+        .reward-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        .reward-item {
+            display: grid;
+            grid-template-columns:
+                52px
+                minmax(0, 1fr)
+                auto;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 15px;
+
+            background: #fbfcfe;
+        }
+
+        .reward-day {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 52px;
+            height: 52px;
+
+            color: var(--gold-dark);
+
+            border-radius: 15px;
+
+            background: var(--gold-light);
+
+            font-size: 15px;
+            font-weight: 950;
+        }
+
+        .reward-name {
+            margin-bottom: 2px;
+
+            color: var(--navy);
+
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .reward-description {
+            color: var(--sub-text);
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .reward-point {
+            color: var(--gold-dark);
+
+            font-size: 15px;
+            font-weight: 950;
+        }
+
+        /* =====================================================
+           오늘의 경마상식
+        ===================================================== */
+
+        .knowledge-box {
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 185px;
+
+            padding: 23px;
+
+            border:
+                1px solid
+                #cee1f7;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eef6ff,
+                    #ffffff
+                );
+        }
+
+        .knowledge-box::after {
+            content: "🐎";
+
+            position: absolute;
+            right: 14px;
+            bottom: -22px;
+
+            opacity: 0.09;
+
+            font-size: 95px;
+        }
+
+        .knowledge-title {
+            position: relative;
+            z-index: 2;
+
+            margin-bottom: 10px;
+
+            color: var(--primary);
+
+            font-size: 16px;
+            font-weight: 950;
+        }
+
+        .knowledge-content {
+            position: relative;
+            z-index: 2;
+
+            min-height: 76px;
+
+            margin-bottom: 17px;
+
+            color: var(--navy);
+
+            font-size: 18px;
+            font-weight: 850;
+
+            line-height: 1.7;
+        }
+
+        .knowledge-next-button {
+            position: relative;
+            z-index: 2;
+
+            min-height: 43px;
+
+            padding: 9px 16px;
+
+            color: var(--primary);
+
+            border:
+                1px solid
+                #b8d2ef;
+
+            border-radius: 12px;
+
+            background: white;
+
+            font-size: 14px;
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           명언
+        ===================================================== */
+
+        .quote-card {
+            border: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #3d2d70,
+                    #5b4698
+                );
+        }
+
+        .quote-label {
+            margin-bottom: 13px;
+
+            color: #dfd6ff;
+
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .quote-text {
+            margin-bottom: 12px;
+
+            font-size: 19px;
+            font-weight: 850;
+
+            line-height: 1.65;
+
+            letter-spacing: -0.3px;
+        }
+
+        .quote-source {
+            color: #d5caef;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            text-align: right;
+        }
+
+        /* =====================================================
+           안내 박스
+        ===================================================== */
+
+        .service-notice {
+            display: flex;
+            align-items: flex-start;
+
+            gap: 10px;
+
+            padding: 16px 18px;
+
+            color: #596b80;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255, 255, 255, 0.78);
+
+            font-size: 13px;
+            font-weight: 650;
+
+            line-height: 1.7;
+        }
+
+        .service-notice-icon {
+            flex: 0 0 auto;
+
+            font-size: 19px;
+        }
+
+        /* =====================================================
+           팝업
+        ===================================================== */
+
+        .modal-overlay {
+            position: fixed;
+            z-index: 9999;
+
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(7, 24, 48, 0.56);
+
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: min(100%, 390px);
+
+            padding: 30px 24px 23px;
+
+            border-radius: 25px;
+
+            background: white;
+
+            box-shadow:
+                0 24px 70px
+                rgba(0, 0, 0, 0.24);
+
+            text-align: center;
+
+            animation:
+                modalAppear
+                0.25s ease;
+        }
+
+        @keyframes modalAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(12px)
+                    scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        .modal-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 74px;
+            height: 74px;
+
+            margin-bottom: 16px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e8f7ef,
+                    #d8f3e4
+                );
+
+            font-size: 37px;
+        }
+
+        .modal-title {
+            margin-bottom: 8px;
+
+            color: var(--navy);
+
+            font-size: 23px;
+            font-weight: 950;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+
+            color: var(--sub-text);
+
+            font-size: 15px;
+            font-weight: 700;
+
+            line-height: 1.7;
+        }
+
+        .modal-point {
+            display: block;
+
+            margin-top: 6px;
+
+            color: var(--green);
+
+            font-size: 21px;
+            font-weight: 950;
+        }
+
+        .modal-close-button {
+            width: 100%;
+            min-height: 52px;
+
+            color: white;
+
+            border: none;
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #2877d9
+                );
+
+            font-size: 16px;
+            font-weight: 950;
+
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           로딩
+        ===================================================== */
+
+        .loading-placeholder {
+            color: transparent !important;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #edf1f5 25%,
+                    #f7f9fb 50%,
+                    #edf1f5 75%
+                );
+
+            background-size: 200% 100%;
+
+            animation:
+                loadingShimmer
+                1.3s infinite linear;
+        }
+
+        @keyframes loadingShimmer {
+
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* =====================================================
+           모바일
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .today-progress {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                display: contents;
+            }
+
+            .attendance-card {
+                order: 1;
+            }
+
+            .mission-point-card {
+                order: 2;
+            }
+
+            .quiz-card {
+                order: 3;
+            }
+
+            .calendar-card {
+                order: 4;
+            }
+
+            .knowledge-card {
+                order: 5;
+            }
+
+            .reward-card {
+                order: 6;
+            }
+
+            .quote-card {
+                order: 7;
+            }
+
+            .service-notice {
+                order: 8;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header-inner {
+                padding:
+                    17px 14px
+                    35px;
+            }
+
+            .header-nav {
+                margin-bottom: 27px;
+            }
+
+            .back-button {
+                min-width: 44px;
+                height: 44px;
+
+                padding: 0 13px;
+
+                font-size: 15px;
+            }
+
+            .brand {
+                font-size: 17px;
+            }
+
+            .brand-mark {
+                width: 38px;
+                height: 38px;
+
+                font-size: 20px;
+            }
+
+            .header-point-box {
+                min-height: 44px;
+
+                padding: 0 11px;
+
+                font-size: 12px;
+            }
+
+            .header-point-box strong {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .page-container {
+                margin-top: -13px;
+
+                padding:
+                    0 13px
+                    45px;
+            }
+
+            .dashboard-grid,
+            .column {
+                gap: 15px;
+            }
+
+            .card {
+                border-radius: 20px;
+            }
+
+            .card-inner {
+                padding: 19px 17px;
+            }
+
+            .card-heading {
+                margin-bottom: 17px;
+            }
+
+            .heading-icon {
+                width: 43px;
+                height: 43px;
+
+                border-radius: 14px;
+
+                font-size: 21px;
+            }
+
+            .card-title {
+                font-size: 19px;
+            }
+
+            .card-subtitle {
+                font-size: 12px;
+            }
+
+            .reward-badge {
+                padding: 6px 9px;
+
+                font-size: 12px;
+            }
+
+            .attendance-status-area {
+                gap: 9px;
+            }
+
+            .status-box {
+                min-height: 104px;
+
+                padding: 14px 13px;
+            }
+
+            .status-label {
+                font-size: 12px;
+            }
+
+            .status-value {
+                font-size: 26px;
+            }
+
+            .attendance-button {
+                min-height: 57px;
+
+                font-size: 17px;
+            }
+
+            .quiz-question {
+                font-size: 18px;
+            }
+
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-option {
+                min-height: 55px;
+            }
+
+            .calendar-day {
+                min-height: 34px;
+
+                border-radius: 10px;
+
+                font-size: 12px;
+            }
+
+            .knowledge-content {
+                font-size: 16px;
+            }
+
+            .quote-text {
+                font-size: 17px;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            .brand span:last-child {
+                display: none;
+            }
+
+            .header-point-box {
+                padding: 0 9px;
+            }
+
+            .attendance-status-area {
+                grid-template-columns: 1fr;
+            }
+
+            .status-box {
+                min-height: 88px;
+            }
+
+            .card-heading {
+                align-items: center;
+            }
+
+            .reward-item {
+                grid-template-columns:
+                    46px
+                    minmax(0, 1fr);
+
+                gap: 10px;
+            }
+
+            .reward-day {
+                width: 46px;
+                height: 46px;
+            }
+
+            .reward-point {
+                grid-column: 2;
+
+                margin-top: -5px;
+            }
+
+        }
+
+    /* ===========================
+    출석 애니메이션
+    =========================== */
+
+    .attendance-button.bounce{
+        animation:attendanceBounce .45s ease;
+    }
+
+    @keyframes attendanceBounce{
+
+        0%{
+            transform:scale(1);
+        }
+
+        30%{
+            transform:scale(.94);
+        }
+
+        60%{
+            transform:scale(1.05);
+        }
+
+        100%{
+            transform:scale(1);
+        }
+
+    }
+
+    /* +10P */
+
+    .point-fly{
+
+        position:fixed;
+
+        z-index:99999;
+
+        font-size:28px;
+
+        font-weight:900;
+
+        color:#FFD700;
+
+        pointer-events:none;
+
+        text-shadow:
+            0 2px 8px rgba(0,0,0,.25);
+
+        transition:
+            transform .9s cubic-bezier(.2,.8,.2,1),
+            opacity .9s;
+
+    }
+
+    /* =====================================================
+    출석 포인트 적립 애니메이션
+    ===================================================== */
+
+    .attendance-button {
+        position: relative;
+        overflow: visible;
+    }
+
+    /* 버튼 통통 효과 */
+    .attendance-button.reward-pop {
+        animation: attendanceRewardBounce 0.65s ease;
+    }
+
+    /* 버튼 위에 나타나는 +10P */
+    .attendance-button.reward-pop::after {
+        content:attr(data-reward);
+        position: absolute;
+
+        left: 50%;
+        top: 0;
+
+        z-index: 100;
+
+        color: #f6b900;
+        font-size: 25px;
+        font-weight: 900;
+        white-space: nowrap;
+
+        pointer-events: none;
+
+        text-shadow:
+            0 2px 4px rgba(255, 255, 255, 0.95),
+            0 5px 12px rgba(246, 185, 0, 0.35);
+
+        animation: attendancePointRise 1.15s ease-out forwards;
+    }
+
+    /* 버튼이 눌렸다가 통통 튀는 효과 */
+    @keyframes attendanceRewardBounce {
+
+        0% {
+            transform: scale(1);
+        }
+
+        20% {
+            transform: scale(0.94);
+        }
+
+        48% {
+            transform: scale(1.06);
+        }
+
+        70% {
+            transform: scale(0.985);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* +10P가 위로 올라가면서 사라지는 효과 */
+    @keyframes attendancePointRise {
+
+        0% {
+            opacity: 0;
+            transform:
+                translate(-50%, 5px)
+                scale(0.65);
+        }
+
+        18% {
+            opacity: 1;
+            transform:
+                translate(-50%, -18px)
+                scale(1.12);
+        }
+
+        65% {
+            opacity: 1;
+            transform:
+                translate(-50%, -58px)
+                scale(1);
+        }
+
+        100% {
+            opacity: 0;
+            transform:
+                translate(-50%, -90px)
+                scale(0.9);
+        }
+    }
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         상단
+    ====================================================== -->
+
+    <header class="top-header">
+
+        <div class="header-inner">
+
+            <div class="header-nav">
+
+                <a
+                    href="javascript:history.back();"
+                    class="back-button"
+                    aria-label="이전 화면"
+                >
+                    ←
+                </a>
+
+                <div class="brand">
+
+                    <span class="brand-mark">馬</span>
+
+                    <span>ALMAGO</span>
+
+                </div>
+
+                <div class="header-point-box">
+
+                    보유
+
+                    <strong id="headerPoint">
+                        0P
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="hero">
+
+                <div>
+
+                    <div class="hero-eyebrow">
+
+                        <span>●</span>
+
+                        DAILY REWARD
+
+                    </div>
+
+                    <h1>
+                        오늘의 미션
+                    </h1>
+
+                    <p class="hero-description">
+
+                        매일 출석하고 경마상식도 익혀보세요.<br>
+
+                        작은 습관이 더 나은 분석의 시작이 됩니다.
+
+                    </p>
+
+                </div>
+
+                <div class="today-progress">
+
+                    <div class="today-progress-label">
+                        오늘 미션 진행률
+                    </div>
+
+                    <div
+                        class="today-progress-value"
+                        id="todayProgressValue"
+                    >
+                        0 / 2
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-bar"
+                            id="todayProgressBar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- =====================================================
+         콘텐츠
+    ====================================================== -->
+
+    <main class="page-container">
+
+        <div class="dashboard-grid">
+
+            <!-- 왼쪽 영역 -->
+
+            <section class="column">
+
+                <!-- 출석체크 -->
+
+                <article class="card attendance-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div class="heading-left">
+
+                                <div class="heading-icon blue">
+                                    📅
+                                </div>
+
+                                <div>
+
+                                    <h2 class="card-title">
+                                        오늘의 출석
+                                    </h2>
+
+                                <p class="card-subtitle" id="attendanceSubtitle">
+                                    하루 한 번 출석하고 포인트를 받아보세요.
+                                </p>
+
+                                </div>
+
+                            </div>
+
+                        <div class="reward-badge" id="attendanceReward">
+                            🎁 +0P
+                        </div>
+
+                        </div>
+
+                        <div class="attendance-status-area">
+
+                            <div class="status-box">
+
+                                <div class="status-label">
+                                    🔥 연속 출석
+                                </div>
+
+                                <div
+                                    class="status-value"
+                                    id="streakValue"
+                                >
+                                    0<small>일</small>
+                                </div>
+
+                            </div>
+
+                            <div class="status-box">
+
+                                <div class="status-label">
+                                    💰 오늘 보상
+                                </div>
+
+                                <div
+                                    class="status-value"
+                                    id="todayRewardPoint"
+                                >
+                                    0<small>Point</small>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="attendance-message"
+                            id="attendanceMessage"
+                        >
+
+                            <span>ℹ️</span>
+
+                            <span>
+                                오늘도 출석하고 포인트를 받아가세요.
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="attendance-button"
+                            id="attendanceButton"
+                        >
+                            오늘 출석하기
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <!-- 경마퀴즈 -->
+
+                <article class="card quiz-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div class="heading-left">
+
+                                <div class="heading-icon purple">
+                                    🧠
+                                </div>
+
+                                <div>
+
+                                    <h2 class="card-title">
+                                        오늘의 경마퀴즈
+                                    </h2>
+
+                                    <p class="card-subtitle">
+                                        하루 한 문제로 경마상식을 쌓아보세요.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        <div class="reward-badge" id="quizReward">
+                            🎁 +0P
+                        </div>
+
+                        </div>
+
+                        <div
+                            class="quiz-category"
+                            id="quizCategory"
+                        >
+                            경마 기초
+                        </div>
+
+                        <div
+                            class="quiz-number"
+                            id="quizNumber"
+                        >
+                            오늘의 문제
+                        </div>
+
+                        <div
+                            class="quiz-question"
+                            id="quizQuestion"
+                        >
+                            문제를 불러오는 중입니다.
+                        </div>
+
+                        <div
+                            class="quiz-options"
+                            id="quizOptions"
+                        ></div>
+
+                        <button
+                            type="button"
+                            class="quiz-submit-button"
+                            id="quizSubmitButton"
+                            disabled
+                        >
+                            답을 선택해주세요
+                        </button>
+
+                        <div
+                            class="quiz-result"
+                            id="quizResult"
+                        ></div>
+
+                    </div>
+
+                </article>
+
+                <!-- 경마상식 -->
+
+                <article class="card knowledge-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div class="heading-left">
+
+                                <div class="heading-icon green">
+                                    📖
+                                </div>
+
+                                <div>
+
+                                    <h2 class="card-title">
+                                        오늘의 경마상식
+                                    </h2>
+
+                                    <p class="card-subtitle">
+                                        알아두면 분석이 쉬워지는 핵심 용어입니다.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="knowledge-box">
+
+                            <div
+                                class="knowledge-title"
+                                id="knowledgeTitle"
+                            >
+                                선행마
+                            </div>
+
+                            <div
+                                class="knowledge-content"
+                                id="knowledgeContent"
+                            >
+                                초반부터 빠르게 앞으로 나가 경주를
+                                주도하는 경주마를 말합니다.
+                            </div>
+
+                            <button
+                                type="button"
+                                class="knowledge-next-button"
+                                id="knowledgeNextButton"
+                            >
+                                다른 상식 보기 →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- 오른쪽 영역 -->
+
+            <aside class="column right-column">
+
+                <!-- 포인트 현황 -->
+
+                <article class="card mission-point-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <h2 class="card-title">
+                                    오늘 획득 포인트
+                                </h2>
+
+                                <p class="card-subtitle">
+                                    오늘 완료한 미션 보상입니다.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="point-summary">
+
+                            <div>
+
+                                <div class="point-total-label">
+                                    오늘 누적
+                                </div>
+
+                                <div class="point-total">
+
+                                    <span id="todayPoint">
+                                        0
+                                    </span>
+
+                                    <small>P</small>
+
+                                </div>
+
+                            </div>
+
+                            <div>
+                                🎁
+                            </div>
+
+                        </div>
+
+                        <div class="mission-list">
+
+                            <div
+                                class="mission-row"
+                                id="attendanceMissionRow"
+                            >
+
+                                <div class="mission-row-name">
+                                    📅 출석체크
+                                </div>
+
+                                <div class="mission-row-value">
+                                    미완료
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="mission-row"
+                                id="quizMissionRow"
+                            >
+
+                                <div class="mission-row-name">
+                                    🧠 오늘의 퀴즈
+                                </div>
+
+                                <div class="mission-row-value">
+                                    미완료
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- 달력 -->
+
+                <article class="card calendar-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div class="heading-left">
+
+                                <div class="heading-icon green">
+                                    🗓️
+                                </div>
+
+                                <div>
+
+                                    <h2 class="card-title">
+                                        이번 달 출석
+                                    </h2>
+
+                                    <p class="card-subtitle">
+                                        매일의 기록을 확인해보세요.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="calendar-head">
+
+                            <div
+                                class="calendar-month"
+                                id="calendarMonth"
+                            >
+                                2026년 7월
+                            </div>
+
+                            <div class="calendar-legend">
+
+                                <span class="legend-dot"></span>
+
+                                출석완료
+
+                            </div>
+
+                        </div>
+
+                        <div class="calendar-weekdays">
+
+                            <div class="weekday">일</div>
+                            <div class="weekday">월</div>
+                            <div class="weekday">화</div>
+                            <div class="weekday">수</div>
+                            <div class="weekday">목</div>
+                            <div class="weekday">금</div>
+                            <div class="weekday">토</div>
+
+                        </div>
+
+                        <div
+                            class="calendar-days"
+                            id="calendarDays"
+                        ></div>
+
+                        <p class="calendar-notice">
+
+                            이번 달 출석을 완료한 날짜가 초록색으로 표시됩니다.
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+                <!-- 연속 출석 보상 -->
+
+                <article class="card reward-card">
+
+                    <div class="card-inner">
+
+                        <div class="card-heading">
+
+                            <div class="heading-left">
+
+                                <div class="heading-icon gold">
+                                    🏆
+                                </div>
+
+                                <div>
+
+                                    <h2 class="card-title">
+                                        연속 출석 보상
+                                    </h2>
+
+                                    <p class="card-subtitle">
+                                        꾸준히 출석하면 추가 보상을 받을 수 있습니다.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="reward-list">
+
+                            <div class="reward-item">
+
+                                <div class="reward-day">
+                                    1일
+                                </div>
+
+                                <div>
+
+                                    <div class="reward-name">
+                                        기본 출석
+                                    </div>
+
+                                    <div class="reward-description">
+                                        매일 출석 시 지급
+                                    </div>
+
+                                </div>
+
+                                <div
+                                class="reward-point"
+                                id="rewardDaily"
+                                >
+                                +0P
+                                </div>
+
+                            </div>
+
+                            <div class="reward-item">
+
+                                <div class="reward-day">
+                                    7일
+                                </div>
+
+                                <div>
+
+                                    <div class="reward-name">
+                                        일주일 연속
+                                    </div>
+
+                                    <div class="reward-description">
+                                        7일 연속 달성 보너스
+                                    </div>
+
+                                </div>
+
+                                <div
+                                class="reward-point"
+                                id="reward7"
+                                >
+                                +0P
+                                </div>
+
+                            </div>
+
+                            <div class="reward-item">
+
+                                <div class="reward-day">
+                                    30일
+                                </div>
+
+                                <div>
+
+                                    <div class="reward-name">
+                                        한 달 연속
+                                    </div>
+
+                                    <div class="reward-description">
+                                        30일 연속 달성 보너스
+                                    </div>
+
+                                </div>
+
+                                <div
+                                class="reward-point"
+                                id="reward30"
+                                >
+                                +0P
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- 명언 -->
+
+                <article class="card quote-card">
+
+                    <div class="card-inner">
+
+                        <div class="quote-label">
+                            🎯 오늘의 경마 한마디
+                        </div>
+
+                        <div
+                            class="quote-text"
+                            id="quoteText"
+                        >
+                            승부는 많이 하는 사람이 아니라,
+                            기다릴 줄 아는 사람이 가져갑니다.
+                        </div>
+
+                        <div class="quote-source">
+                            — ALMAGO
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <div class="service-notice">
+
+                    <span class="service-notice-icon">
+                        🛡️
+                    </span>
+
+                    <span>
+
+                        ALMAGO는 건전한 경마문화를 지향하며
+                        무분별한 베팅이나 도박을 권유하지 않습니다.
+                        분석자료는 참고용으로만 이용해주세요.
+
+                    </span>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- =====================================================
+         결과 팝업
+    ====================================================== -->
+
+    <div
+        class="modal-overlay"
+        id="resultModal"
+    >
+
+        <div
+            class="modal-box"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitle"
+        >
+
+            <div
+                class="modal-icon"
+                id="modalIcon"
+            >
+                🎉
+            </div>
+
+            <h3
+                class="modal-title"
+                id="modalTitle"
+            >
+                출석 완료
+            </h3>
+
+            <div
+                class="modal-message"
+                id="modalMessage"
+            >
+                오늘의 출석이 완료되었습니다.
+
+                <span class="modal-point">
+                    +10P
+                </span>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close-button"
+                id="modalCloseButton"
+            >
+                확인
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="js/quiz-data.js"></script>
+
+    <script>
+
+        /* =====================================================
+           설정
+
+           로그인을 저장하는 localStorage 키가 다르다면
+           getLoginEmail() 함수만 수정하면 됩니다.
+        ===================================================== */
+
+        const API_BASE_URL = "";
+
+        let ATTENDANCE_REWARD = 10;
+        let QUIZ_REWARD = 20;
+
+        /* =====================================================
+           DOM
+        ===================================================== */
+
+        const attendanceButton =
+            document.getElementById(
+                "attendanceButton"
+            );
+
+        const attendanceMessage =
+            document.getElementById(
+                "attendanceMessage"
+            );
+
+        const streakValue =
+            document.getElementById(
+                "streakValue"
+            );
+
+        const headerPoint =
+            document.getElementById(
+                "headerPoint"
+            );
+
+        const todayPoint =
+            document.getElementById(
+                "todayPoint"
+            );
+
+        const attendanceMissionRow =
+            document.getElementById(
+                "attendanceMissionRow"
+            );
+
+        const quizMissionRow =
+            document.getElementById(
+                "quizMissionRow"
+            );
+
+        const todayProgressValue =
+            document.getElementById(
+                "todayProgressValue"
+            );
+
+        const todayProgressBar =
+            document.getElementById(
+                "todayProgressBar"
+            );
+
+        const quizCategory =
+            document.getElementById(
+                "quizCategory"
+            );
+
+        const quizQuestion =
+            document.getElementById(
+                "quizQuestion"
+            );
+
+        const quizOptions =
+            document.getElementById(
+                "quizOptions"
+            );
+
+        const quizSubmitButton =
+            document.getElementById(
+                "quizSubmitButton"
+            );
+
+        const quizResult =
+            document.getElementById(
+                "quizResult"
+            );
+
+        const resultModal =
+            document.getElementById(
+                "resultModal"
+            );
+
+        const modalIcon =
+            document.getElementById(
+                "modalIcon"
+            );
+
+        const modalTitle =
+            document.getElementById(
+                "modalTitle"
+            );
+
+        const modalMessage =
+            document.getElementById(
+                "modalMessage"
+            );
+
+        const modalCloseButton =
+            document.getElementById(
+                "modalCloseButton"
+            );
+
+        /* =====================================================
+           로그인 이메일 확인
+
+           ALMAGO에서 사용하는 저장 키에 맞춰
+           아래 목록을 수정할 수 있습니다.
+        ===================================================== */
+
+        function getLoginEmail() {
+
+            const possibleKeys = [
+                "email",
+                "userEmail",
+                "memberEmail",
+                "loginEmail",
+                "almago_email"
+            ];
+
+            for (
+                const key
+                of possibleKeys
+            ) {
+
+                const value =
+                    localStorage.getItem(key);
+
+                if (
+                    value &&
+                    value.trim()
+                ) {
+                    return value.trim();
+                }
+
+            }
+
+            const sessionKeys = [
+                "email",
+                "userEmail",
+                "memberEmail",
+                "loginEmail"
+            ];
+
+            for (
+                const key
+                of sessionKeys
+            ) {
+
+                const value =
+                    sessionStorage.getItem(key);
+
+                if (
+                    value &&
+                    value.trim()
+                ) {
+                    return value.trim();
+                }
+
+            }
+
+            return "";
+
+        }
+
+        /* =====================================================
+           날짜
+        ===================================================== */
+
+        function getTodayKey() {
+
+            const today = new Date();
+
+            const year =
+                today.getFullYear();
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+            const date =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+            return `${year}${month}${date}`;
+
+        }
+
+        /* =====================================================
+           숫자 표시
+        ===================================================== */
+
+        function formatPoint(value) {
+
+            const numberValue =
+                Number(value || 0);
+
+            return (
+                numberValue.toLocaleString(
+                    "ko-KR"
+                ) + "P"
+            );
+
+        }
+
+        /* =====================================================
+           팝업
+        ===================================================== */
+
+        function openModal({
+            icon = "🎉",
+            title = "완료",
+            message = "",
+            point = ""
+        }) {
+
+            modalIcon.textContent = icon;
+
+            modalTitle.textContent = title;
+
+            modalMessage.innerHTML = `
+                ${message}
+
+                ${
+                    point
+                    ? `
+                        <span class="modal-point">
+                            ${point}
+                        </span>
+                    `
+                    : ""
+                }
+            `;
+
+            resultModal.classList.add(
+                "show"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+        function closeModal() {
+
+            resultModal.classList.remove(
+                "show"
+            );
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+        modalCloseButton.addEventListener(
+            "click",
+            closeModal
+        );
+
+        resultModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    resultModal
+                ) {
+                    closeModal();
+                }
+
+            }
+        );
+
+        /* =====================================================
+           출석 상태 UI
+        ===================================================== */
+
+        let attendanceCompleted = false;
+
+        let quizCompleted = false;
+
+        let attendancePointToday = 0;
+
+        let quizPointToday = 0;
+
+        let attendedDates = [];
+
+        function setAttendanceCompleted({
+            streak = 0,
+            point = null
+        } = {}) {
+
+            attendanceCompleted = true;
+
+            attendancePointToday =
+                ATTENDANCE_REWARD;
+
+            attendanceButton.disabled = true;
+
+            attendanceButton.classList.remove(
+                "loading"
+            );
+
+            attendanceButton.textContent =
+                "✓ 오늘 출석 완료";
+
+            attendanceMessage.innerHTML = `
+                <span>✅</span>
+
+                <span>
+                    오늘의 출석이 완료되었습니다.
+                    내일 다시 만나요!
+                </span>
+            `;
+
+            streakValue.innerHTML = `
+                ${Number(streak || 0)}
+                <small>일</small>
+            `;
+
+            console.log("현재포인트 =", point);
+
+            if (
+                point !== null &&
+                point !== undefined
+            ) {
+
+                headerPoint.textContent =
+                    formatPoint(point);
+
+            }
+
+            attendanceMissionRow.classList.add(
+                "completed"
+            );
+
+            attendanceMissionRow
+                .querySelector(
+                    ".mission-row-value"
+                )
+                .textContent =
+                `완료 +${ATTENDANCE_REWARD}P`;
+
+            updateMissionSummary();
+
+            renderCalendar();
+
+        }
+
+        function setAttendanceBefore({
+            streak = 0,
+            reward = ATTENDANCE_REWARD,
+            point = null
+        } = {}) {
+
+            attendanceCompleted = false;
+
+            attendancePointToday = 0;
+
+            attendanceButton.disabled = false;
+
+            attendanceButton.classList.remove(
+                "loading"
+            );
+
+            attendanceButton.textContent =
+                "오늘 출석하기";
+
+            attendanceMessage.innerHTML = `
+                <span>ℹ️</span>
+
+                <span>
+                    오늘 출석하면
+                    ${Number(reward || ATTENDANCE_REWARD)}P가
+                    지급됩니다.
+                </span>
+            `;
+
+            streakValue.innerHTML = `
+                ${Number(streak || 0)}
+                <small>일</small>
+            `;
+
+            console.log("현재포인트 =", point); 
+
+            if (
+                point !== null &&
+                point !== undefined
+            ) {
+
+                headerPoint.textContent =
+                    formatPoint(point);
+
+            }
+
+            attendanceMissionRow.classList.remove(
+                "completed"
+            );
+
+            attendanceMissionRow
+                .querySelector(
+                    ".mission-row-value"
+                )
+                .textContent =
+                "미완료";
+
+            updateMissionSummary();
+
+            renderCalendar(false);
+
+        }
+
+        /* =====================================================
+           출석 상태 조회
+        ===================================================== */
+
+        async function loadAttendanceStatus() {
+
+            const email =
+                getLoginEmail();
+
+            if (!email) {
+
+                attendanceMessage.innerHTML = `
+                    <span>⚠️</span>
+
+                    <span>
+                        로그인 정보를 확인할 수 없습니다.
+                        로그인 후 이용해주세요.
+                    </span>
+                `;
+
+                attendanceButton.disabled = true;
+
+                attendanceButton.textContent =
+                    "로그인이 필요합니다";
+
+                return;
+
+            }
+
+            try {
+
+                const url =
+                    `${API_BASE_URL}/attendance-status` +
+                    `?email=${encodeURIComponent(email)}`;
+
+                const response =
+                    await fetch(url);
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `출석 상태 조회 실패: ${response.status}`
+                    );
+
+                }
+
+                const data =
+                    await response.json();
+
+                attendedDates =
+                    Array.isArray(data.attended_dates)
+                        ? data.attended_dates
+                        : [];
+
+
+                if (data.today) {
+
+                    setAttendanceCompleted({
+                        streak: data.streak,
+                        point: data.point
+                    });
+
+                } else {
+
+                    setAttendanceBefore({
+                        streak: data.streak,
+                        reward: data.reward,
+                        point: data.point
+                    });
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                attendanceMessage.innerHTML = `
+                    <span>⚠️</span>
+
+                    <span>
+                        출석 상태를 불러오지 못했습니다.
+                        잠시 후 다시 시도해주세요.
+                    </span>
+                `;
+
+            }
+
+        }
+
+        /* =====================================================
+           출석하기
+        ===================================================== */
+
+        async function checkAttendance() {
+
+            const email =
+                getLoginEmail();
+
+            if (!email) {
+
+                openModal({
+                    icon: "🔐",
+                    title: "로그인이 필요합니다",
+                    message:
+                        "출석체크는 로그인 후 이용할 수 있습니다."
+                });
+
+                return;
+
+            }
+
+            if (attendanceCompleted) {
+                return;
+            }
+
+            attendanceButton.disabled = true;
+
+            attendanceButton.classList.add(
+                "loading"
+            );
+
+            attendanceButton.textContent =
+                "출석 처리 중...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/attendance-check`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email
+                            })
+                        }
+                    );
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `출석 처리 실패: ${response.status}`
+                    );
+
+                }
+
+                const data =
+                    await response.json();
+
+                if (data.success) {
+
+                const now =
+                    new Date();
+
+                const todayKey =
+                    `${now.getFullYear()}` +
+                    `${String(now.getMonth() + 1).padStart(2, "0")}` +
+                    `${String(now.getDate()).padStart(2, "0")}`;
+
+                if (
+                    !attendedDates.includes(
+                        todayKey
+                    )
+                ) {
+
+                    attendedDates.push(
+                        todayKey
+                    );
+
+                }
+
+
+                    setAttendanceCompleted({
+                        streak: data.streak,
+                        point: data.point
+                    });
+
+                    attendanceButton.dataset.reward =
+                        `✨ +${ATTENDANCE_REWARD}P`;
+
+                    attendanceButton.classList.remove("reward-pop");
+                    void attendanceButton.offsetWidth;
+                    attendanceButton.classList.add("reward-pop");
+                    openModal({
+                        icon: "🎉",
+                        title: "출석 완료!",
+                        message:
+                            "오늘의 출석이 정상적으로 처리되었습니다.",
+                        point:
+                            `+${ATTENDANCE_REWARD}P 지급`
+                    });
+
+                    return;
+
+                }
+
+                if (
+                    data.msg &&
+                    data.msg.includes(
+                        "이미 출석"
+                    )
+                ) {
+
+                    setAttendanceCompleted({
+                        streak: data.streak,
+                        point: data.point
+                    });
+
+                    openModal({
+                        icon: "😊",
+                        title: "오늘 출석 완료",
+                        message:
+                            "오늘은 이미 출석하셨습니다.<br>내일 다시 찾아주세요."
+                    });
+
+                    return;
+
+                }
+
+                throw new Error(
+                    data.msg ||
+                    "출석 처리 중 문제가 발생했습니다."
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                attendanceButton.disabled = false;
+
+                attendanceButton.classList.remove(
+                    "loading"
+                );
+
+                attendanceButton.textContent =
+                    "다시 출석하기";
+
+                openModal({
+                    icon: "⚠️",
+                    title: "출석 처리 실패",
+                    message:
+                        "출석을 처리하지 못했습니다.<br>잠시 후 다시 시도해주세요."
+                });
+
+            }
+
+        }
+
+        attendanceButton.addEventListener(
+            "click",
+            checkAttendance
+        );
+
+        /* =====================================================
+        경마퀴즈
+        ===================================================== */
+
+        let selectedQuizOption = null;
+
+        let todayQuiz = null;
+
+        function getTodayQuiz() {
+
+            const dateNumber =
+                Number(getTodayKey());
+
+            const index =
+                dateNumber %
+                quizData.length;
+
+            return quizData[index];
+
+        }
+
+        function getTodayQuiz() {
+
+            const dateNumber =
+                Number(getTodayKey());
+
+            const index =
+                dateNumber %
+                quizData.length;
+
+            return quizData[index];
+
+        }
+
+        function getQuizStorageKey() {
+
+            const email =
+                getLoginEmail() ||
+                "guest";
+
+            return (
+                "almago_quiz_" +
+                email +
+                "_" +
+                getTodayKey()
+            );
+
+        }
+
+        function renderQuiz() {
+
+            todayQuiz =
+                getTodayQuiz();
+
+            selectedQuizOption = null;
+
+            quizCategory.textContent =
+                todayQuiz.category;
+
+            quizQuestion.textContent =
+                todayQuiz.question;
+
+            quizOptions.innerHTML = "";
+
+            quizResult.className =
+                "quiz-result";
+
+            quizResult.innerHTML = "";
+
+            const savedResult =
+                localStorage.getItem(
+                    getQuizStorageKey()
+                );
+
+            todayQuiz.options.forEach(
+                function(option, index) {
+
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+                    button.type = "button";
+
+                    button.className =
+                        "quiz-option";
+
+                    button.innerHTML = `
+                        <span class="quiz-option-number">
+                            ${index + 1}
+                        </span>
+
+                        <span>
+                            ${option}
+                        </span>
+                    `;
+
+                    button.addEventListener(
+                        "click",
+                        function() {
+
+                            if (quizCompleted) {
+                                return;
+                            }
+
+                            selectedQuizOption =
+                                index;
+
+                            document
+                                .querySelectorAll(
+                                    ".quiz-option"
+                                )
+                                .forEach(
+                                    function(item) {
+
+                                        item.classList.remove(
+                                            "selected"
+                                        );
+
+                                    }
+                                );
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+                            quizSubmitButton.disabled =
+                                false;
+
+                            quizSubmitButton.textContent =
+                                "정답 확인하기";
+
+                        }
+                    );
+
+                    quizOptions.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+            if (savedResult) {
+
+                const result =
+                    JSON.parse(savedResult);
+
+                showSavedQuizResult(result);
+
+            } else {
+
+                quizCompleted = false;
+
+                quizPointToday = 0;
+
+                quizSubmitButton.disabled =
+                    true;
+
+                quizSubmitButton.textContent =
+                    "답을 선택해주세요";
+
+                quizMissionRow.classList.remove(
+                    "completed"
+                );
+
+                quizMissionRow
+                    .querySelector(
+                        ".mission-row-value"
+                    )
+                    .textContent =
+                    "미완료";
+
+                updateMissionSummary();
+
+            }
+
+        }
+
+        async function checkQuizAnswer() {
+
+            if (
+                selectedQuizOption === null ||
+                quizCompleted
+            ) {
+                return;
+            }
+
+            const email = getLoginEmail();
+
+            if (!email) {
+
+                alert("로그인 후 이용해주세요.");
+
+                return;
+
+            }
+
+            const response = await fetch("/quiz-check", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                email: email,
+
+                quiz_id: todayQuiz.id,
+
+                answer: selectedQuizOption
+
+            })
+
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+
+            alert(result.msg);
+
+            return;
+
+        }
+
+        const resultData = {
+
+            selected: selectedQuizOption,
+
+            correct: result.correct
+
+        };
+
+        localStorage.setItem(
+
+            getQuizStorageKey(),
+
+            JSON.stringify(resultData)
+
+        );
+
+        showSavedQuizResult(resultData);
+
+            if (result.correct) {
+
+                openModal({
+
+                    icon: "🧠",
+
+                    title: "정답입니다!",
+
+                    message:
+                        "오늘의 경마퀴즈를 맞혔습니다.",
+
+                    point:
+                        `+${result.reward}P`
+
+                });
+
+            } else {
+
+                openModal({
+
+                    icon: "❌",
+
+                    title: "오답입니다.",
+
+                    message:
+                        `정답은 ${todayQuiz.options[result.correct_answer]} 입니다.`,
+
+                    point: "+0P"
+
+                });
+
+            }
+
+        }
+
+        function showSavedQuizResult(
+            resultData
+        ) {
+
+            quizCompleted = true;
+
+            const optionButtons =
+                document.querySelectorAll(
+                    ".quiz-option"
+                );
+
+            optionButtons.forEach(
+                function(button, index) {
+
+                    button.disabled = true;
+
+                    button.classList.remove(
+                        "selected"
+                    );
+
+                    if (
+                        index ===
+                        todayQuiz.answer
+                    ) {
+
+                        button.classList.add(
+                            "correct"
+                        );
+
+                    }
+
+                    if (
+                        index ===
+                            resultData.selected &&
+                        !resultData.correct
+                    ) {
+
+                        button.classList.add(
+                            "wrong"
+                        );
+
+                    }
+
+                }
+            );
+
+            quizSubmitButton.disabled =
+                true;
+
+            if (resultData.correct) {
+
+                quizPointToday =
+                    QUIZ_REWARD;
+
+                quizSubmitButton.textContent =
+                    "✓ 오늘의 퀴즈 완료";
+
+                quizResult.className =
+                    "quiz-result success";
+
+                quizResult.innerHTML = `
+                    🎉 정답입니다!
+
+                    <span class="quiz-explanation">
+                        ${todayQuiz.explanation}
+                    </span>
+                `;
+
+                quizMissionRow.classList.add(
+                    "completed"
+                );
+
+                quizMissionRow
+                    .querySelector(
+                        ".mission-row-value"
+                    )
+                    .textContent =
+                    `정답 +${QUIZ_REWARD}P`;
+
+            } else {
+
+                quizPointToday = 0;
+
+                quizSubmitButton.textContent =
+                    "오늘의 퀴즈 종료";
+
+                quizResult.className =
+                    "quiz-result fail";
+
+                quizResult.innerHTML = `
+                    아쉽습니다. 정답은
+                    <strong>
+                        ${todayQuiz.answer + 1}번
+                        ${todayQuiz.options[todayQuiz.answer]}
+                    </strong>
+                    입니다.
+
+                    <span class="quiz-explanation">
+                        ${todayQuiz.explanation}
+                    </span>
+                `;
+
+                quizMissionRow.classList.add(
+                    "completed"
+                );
+
+                quizMissionRow
+                    .querySelector(
+                        ".mission-row-value"
+                    )
+                    .textContent =
+                    "참여 완료";
+
+            }
+
+            updateMissionSummary();
+
+        }
+
+        quizSubmitButton.addEventListener(
+            "click",
+            checkQuizAnswer
+        );
+
+        /* =====================================================
+           오늘 미션 현황
+        ===================================================== */
+
+        function updateMissionSummary() {
+
+            const completedCount =
+                Number(attendanceCompleted) +
+                Number(quizCompleted);
+
+            const totalMission = 2;
+
+            todayProgressValue.textContent =
+                `${completedCount} / ${totalMission}`;
+
+            todayProgressBar.style.width =
+                `${
+                    (
+                        completedCount /
+                        totalMission
+                    ) * 100
+                }%`;
+
+            todayPoint.textContent =
+                (
+                    attendancePointToday +
+                    quizPointToday
+                ).toLocaleString(
+                    "ko-KR"
+                );
+
+        }
+
+        /* =====================================================
+           달력
+
+           월별 출석목록 API가 아직 없기 때문에
+           현재는 오늘 출석 여부만 녹색으로 표시합니다.
+        ===================================================== */
+
+        function renderCalendar() {
+
+            const now =
+                new Date();
+
+            const year =
+                now.getFullYear();
+
+            const month =
+                now.getMonth();
+
+            const todayDate =
+                now.getDate();
+
+            const firstDay =
+                new Date(
+                    year,
+                    month,
+                    1
+                ).getDay();
+
+            const lastDate =
+                new Date(
+                    year,
+                    month + 1,
+                    0
+                ).getDate();
+
+            const calendarMonth =
+                document.getElementById(
+                    "calendarMonth"
+                );
+
+            const calendarDays =
+                document.getElementById(
+                    "calendarDays"
+                );
+
+            calendarMonth.textContent =
+                `${year}년 ${month + 1}월`;
+
+            calendarDays.innerHTML = "";
+
+            for (
+                let i = 0;
+                i < firstDay;
+                i++
+            ) {
+
+                const emptyDay =
+                    document.createElement(
+                        "div"
+                    );
+
+                emptyDay.className =
+                    "calendar-day empty";
+
+                calendarDays.appendChild(
+                    emptyDay
+                );
+
+            }
+
+            for (
+                let date = 1;
+                date <= lastDate;
+                date++
+            ) {
+
+                const day =
+                    document.createElement(
+                        "div"
+                    );
+
+                day.className =
+                    "calendar-day";
+
+                day.textContent =
+                    date;
+
+                const monthText =
+                    String(month + 1)
+                        .padStart(2, "0");
+
+                const dateText =
+                    String(date)
+                        .padStart(2, "0");
+
+                const dateKey =
+                    `${year}${monthText}${dateText}`;
+
+                // 오늘 날짜 표시
+                if (date === todayDate) {
+
+                    day.classList.add(
+                        "today"
+                    );
+
+                }
+
+                // 실제 출석한 날짜 표시
+                if (
+                    attendedDates.includes(
+                        dateKey
+                    )
+                ) {
+
+                    day.classList.add(
+                        "attended"
+                    );
+
+                    day.title =
+                        `${month + 1}월 ${date}일 출석 완료`;
+
+                }
+
+                calendarDays.appendChild(
+                    day
+                );
+
+            }
+
+        }
+
+        /* =====================================================
+           경마상식
+        ===================================================== */
+
+        const knowledgeData = [
+
+            {
+                title: "선행마",
+
+                content:
+                    "초반부터 빠르게 앞으로 나가 경주를 주도하는 경주마를 말합니다."
+            },
+
+            {
+                title: "선입마",
+
+                content:
+                    "선두 바로 뒤쪽의 유리한 위치에서 경주를 전개하다가 승부하는 경주마입니다."
+            },
+
+            {
+                title: "추입마",
+
+                content:
+                    "경주 초반에는 힘을 아끼고 후반 직선주로에서 빠르게 추격하는 경주마입니다."
+            },
+
+            {
+                title: "복병마",
+
+                content:
+                    "인기는 낮지만 전개, 컨디션 또는 적성에 따라 입상 가능성을 가진 경주마입니다."
+            },
+
+            {
+                title: "부담중량",
+
+                content:
+                    "경주에서 경주마가 기수와 장구를 포함해 부담해야 하는 정해진 중량입니다."
+            },
+
+            {
+                title: "예시장",
+
+                content:
+                    "경주 전 출전마의 걸음걸이와 상태를 관람객이 살펴볼 수 있는 장소입니다."
+            },
+
+            {
+                title: "주로 함수율",
+
+                content:
+                    "주로에 포함된 수분의 정도를 나타내며 경주마의 기록과 적성에 영향을 줄 수 있습니다."
+            },
+
+            {
+                title: "출주취소",
+
+                content:
+                    "부상, 질병 또는 기타 사유로 예정된 경주에 출전하지 못하게 된 상태입니다."
+            },
+
+            {
+                title: "동착",
+
+                content:
+                    "두 마리 이상의 경주마가 동시에 결승선을 통과한 것으로 판정된 결과입니다."
+            },
+
+            {
+                title: "거리 적성",
+
+                content:
+                    "경주마가 단거리, 중거리 또는 장거리 중 어떤 거리에서 능력을 잘 발휘하는지를 뜻합니다."
+            }
+
+        ];
+
+        let knowledgeIndex = 0;
+
+        function showKnowledge() {
+
+            const item =
+                knowledgeData[
+                    knowledgeIndex
+                ];
+
+            document
+                .getElementById(
+                    "knowledgeTitle"
+                )
+                .textContent =
+                item.title;
+
+            document
+                .getElementById(
+                    "knowledgeContent"
+                )
+                .textContent =
+                item.content;
+
+        }
+
+        document
+            .getElementById(
+                "knowledgeNextButton"
+            )
+            .addEventListener(
+                "click",
+                function() {
+
+                    knowledgeIndex =
+                        (
+                            knowledgeIndex + 1
+                        ) %
+                        knowledgeData.length;
+
+                    showKnowledge();
+
+                }
+            );
+
+        /* =====================================================
+           경마 한마디
+        ===================================================== */
+
+        const quotes = [
+
+            "승부는 많이 하는 사람이 아니라, 기다릴 줄 아는 사람이 가져갑니다.",
+
+            "좋은 분석은 확신을 키우는 것이 아니라 위험을 줄이는 과정입니다.",
+
+            "모든 경주에 답이 있는 것은 아닙니다. 쉬어가는 것도 하나의 판단입니다.",
+
+            "인기만 따라가기보다 경주의 흐름을 먼저 살펴보세요.",
+
+            "작은 이익을 지키는 습관이 무리한 승부를 막아줍니다.",
+
+            "결과보다 중요한 것은 정해둔 원칙을 지키는 일입니다.",
+
+            "경마는 예측의 영역이지만 자금관리는 선택의 영역입니다.",
+
+            "확신이 부족한 경주는 보지 않는 용기도 필요합니다."
+        ];
+
+        function renderTodayQuote() {
+
+            const quoteIndex =
+                Number(getTodayKey()) %
+                quotes.length;
+
+            document
+                .getElementById(
+                    "quoteText"
+                )
+                .textContent =
+                quotes[quoteIndex];
+
+        }
+
+        /* =====================================================
+           최초 실행
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            async function() {
+
+                renderCalendar();
+
+                renderQuiz();
+
+                showKnowledge();
+
+                renderTodayQuote();
+
+                updateMissionSummary();
+
+                await loadPointPolicy();
+
+                await loadAttendanceStatus();
+
+            }
+        );
+
+    function playAttendanceAnimation(){
+
+        const btn=document.getElementById("attendanceButton");
+        const point=document.getElementById("headerPoint");
+
+        btn.dataset.reward = `✨ +${ATTENDANCE_REWARD}P`;
+
+        btn.classList.remove("reward-pop");
+        void btn.offsetWidth;
+        btn.classList.add("reward-pop");
+
+        setTimeout(()=>{
+            btn.classList.remove("bounce");
+        },500);
+
+        const fly=document.createElement("div");
+
+        fly.className="point-fly";
+
+        fly.innerHTML = `✨ +${ATTENDANCE_REWARD}P`;
+
+        document.body.appendChild(fly);
+
+        const start=btn.getBoundingClientRect();
+        const end=point.getBoundingClientRect();
+
+        fly.style.left=(start.left+start.width/2)+"px";
+        fly.style.top=(start.top)+"px";
+
+        requestAnimationFrame(()=>{
+
+            fly.style.transform=
+            `translate(
+            ${end.left-start.left}px,
+            ${end.top-start.top}px
+            ) scale(.7)`;
+
+            fly.style.opacity="0";
+
+        });
+
+        setTimeout(()=>{
+
+            fly.remove();
+
+        },900);
+
+    }
+
+    async function loadPointPolicy(){
+
+        const res = await fetch("/point-policy");
+
+        const policy = await res.json();
+
+        if(
+            policy.attendance_daily &&
+            policy.attendance_daily.is_active
+        ){
+
+            ATTENDANCE_REWARD = policy.attendance_daily.point;
+
+            document.getElementById("attendanceReward").innerHTML =
+                `🎁 +${ATTENDANCE_REWARD}P`;
+
+            document.getElementById("attendanceSubtitle").innerHTML =
+                `하루 한 번 출석하고 ${ATTENDANCE_REWARD}P를 받아보세요.`;
+
+            document.getElementById("todayRewardPoint").innerHTML =
+                `${ATTENDANCE_REWARD}<small>Point</small>`;
+
+            document.getElementById("rewardDaily").innerHTML =
+                `+${ATTENDANCE_REWARD}P`;
+        }
+
+        if(policy.attendance_streak_7){
+
+            document.getElementById("reward7").innerHTML =
+                `+${policy.attendance_streak_7.point}P`;
+        }
+
+        if(policy.attendance_streak_30){
+
+            document.getElementById("reward30").innerHTML =
+                `+${policy.attendance_streak_30.point}P`;
+        }
+
+        if(policy.quiz_daily){
+
+            QUIZ_REWARD = policy.quiz_daily.point;
+
+            document.getElementById("quizReward").innerHTML =
+                `🎁 +${QUIZ_REWARD}P`;
+        }
+
+    }
+
+    </script>
+
+
+</body>
+
+</html>

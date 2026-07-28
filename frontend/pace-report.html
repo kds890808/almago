@@ -1500,35 +1500,269 @@ background:#eff6ff;
     }
 }
 
-@media (max-width:700px){
+    @media (max-width:700px){
 
-    /* 섹션 제목 */
-    .section-title{
-        font-size:20px !important;
+        /* 섹션 제목 */
+        .section-title{
+            font-size:20px !important;
+        }
+
+        /* 전개요약 4개 카드 */
+        .pace-card{
+            font-size:17px !important;
+        }
+
+        .pace-card strong{
+            font-size:18px !important;
+            line-height:1.5;
+        }
+
+        /* AI 전개 해석 */
+        .pace-analysis{
+            font-size:17px !important;
+            line-height:1.9 !important;
+        }
+
+        /* 일반 분석 본문 */
+        .analysis-box{
+            font-size:17px !important;
+            line-height:1.9 !important;
+        }
     }
 
-    /* 전개요약 4개 카드 */
-    .pace-card{
-        font-size:17px !important;
+    @media (max-width: 600px){
+
+        /* AI 전개요약 4개 카드 */
+        .pace-summary-box{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:8px;
+        }
+
+        .pace-card{
+            min-width:0;
+            padding:18px 4px;
+            box-sizing:border-box;
+            white-space:nowrap;
+            font-size:16px;
+        }
+
+        /* 경주로 범례 - 트랙 아래 */
+        .legend-mini{
+            position:relative !important;
+            top:auto !important;
+            right:auto !important;
+            left:auto !important;
+
+            width:100%;
+            max-width:100%;
+            margin:12px auto 0;
+
+            transform:scale(0.75);
+            transform-origin:top center;
+
+            z-index:auto;
+        }
     }
 
-    .pace-card strong{
-        font-size:18px !important;
-        line-height:1.5;
+    @media (max-width: 600px){
+
+        .pace-rank-score{
+            flex-shrink:0;
+            min-width:55px;
+            margin-left:8px;
+
+            white-space:nowrap;
+            text-align:right;
+
+            font-size:18px;
+        }
+
     }
 
-    /* AI 전개 해석 */
-    .pace-analysis{
-        font-size:17px !important;
-        line-height:1.9 !important;
+    /* AI 최종결론 카드 */
+    #pace-final > div{
+        position:relative;
+        overflow:hidden;
+        border:1px solid #e5e7eb;
     }
 
-    /* 일반 분석 본문 */
-    .analysis-box{
-        font-size:17px !important;
-        line-height:1.9 !important;
+    /* 1단계 */
+    #pace-final > div:nth-child(1){
+        border-left:6px solid #3b82f6;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #eff6ff
+        );
     }
+
+    /* 2단계 */
+    #pace-final > div:nth-child(2){
+        border-left:6px solid #8b5cf6;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #f5f3ff
+        );
+    }
+
+    /* 3단계 */
+    #pace-final > div:nth-child(3){
+        border-left:6px solid #f59e0b;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #fffbeb
+        );
+    }
+
+    /* 마지막 단계가 있다면 */
+    #pace-final > div:nth-child(4){
+        border-left:6px solid #ef4444;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #fef2f2
+        );
+    }    
+
+    /* 최종결론 카드 전체 */
+    #pace-final > div{
+        font-size:16px;
+        line-height:1.7;
+    }
+
+    /* 카드 제목 */
+    #pace-final > div > div:first-child{
+        font-size:19px;
+        font-weight:800;
+        letter-spacing:-0.5px;
+    }
+
+    /* 말 목록 */
+    #pace-final > div{
+        letter-spacing:-0.2px;
+    }    
+
+    /* AI 최종결론 카드 제목 */
+    #pace-final .simulation-box h3{
+        font-size:19px;
+        font-weight:900;
+        letter-spacing:-0.5px;
+        margin:0 0 18px;
+    }
+
+    /* 카드 내부 전체 */
+    #pace-final .simulation-box{
+        font-size:16px;
+        line-height:1.9;
+        letter-spacing:-0.3px;
+    }
+
+    /* 모바일 */
+    @media (max-width:600px){
+
+        #pace-final .simulation-box{
+            padding:24px 18px;
+            font-size:16px;
+            line-height:1.9;
+        }
+
+        #pace-final .simulation-box h3{
+            font-size:19px;
+            margin-bottom:16px;
+        }
+    }    
+
+    .pace-type-notice{
+        margin:10px 2px 18px;
+        padding:0 4px;
+
+        font-size:12px;
+        line-height:1.6;
+        color:#7c8798;
+
+        letter-spacing:-0.3px;
+    }
+
+    @media (max-width:600px){
+
+        .pace-ai-box{
+            padding:14px 16px !important;
+        }
+
+        .pace-ai-box h4{
+            margin:0 0 12px !important;
+        }
+    }
+    
+/* =========================
+   AI 복병마 - 다크 스타일
+========================= */
+
+.dark-horse-box{
+    position:relative;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(139,92,246,0.28),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #20243a 0%,
+            #292342 55%,
+            #171a2b 100%
+        ) !important;
+
+    border-left:5px solid #8b5cf6 !important;
+
+    box-shadow:
+        0 10px 24px rgba(15,23,42,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -20px 35px rgba(0,0,0,0.12) !important;
 }
+
+    /* 제목 */
+    .dark-horse-box h3{
+        color:#c4b5fd !important;
+        text-shadow:0 1px 8px rgba(139,92,246,0.35);
+    }
+
+    /* 카드 안 글자 */
+    .dark-horse-box,
+    .dark-horse-box div,
+    .dark-horse-box p{
+        color:#f8fafc !important;
+    }
+
+    /* 복병마 이름 강조 */
+    .dark-horse-box strong{
+        color:#ffffff !important;
+        font-weight:900;
+    }
+
+    /* 은은한 DARK HORSE 워터마크 */
+    .dark-horse-box::after{
+        content:"DARK HORSE";
+
+        position:absolute;
+        right:12px;
+        top:14px;
+
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:2px;
+
+        color:rgba(255,255,255,0.10);
+
+        transform:rotate(5deg);
+
+        pointer-events:none;
+    }
 </style>
 
 </head>
@@ -1580,8 +1814,6 @@ background:#eff6ff;
     </button>
 
 </div>
-
-<h2>AI 분석 결과</h2>
 
 <div id="analysis-area"></div>
 
@@ -1807,6 +2039,12 @@ area.innerHTML = `
 
 </div>
 
+<div class="pace-type-notice">
+    ※ 주행유형은 최근 전개 데이터를 기준으로 분석합니다.<br>
+    데이터가 부족하거나 뚜렷한 특성이 없는 경우
+    ‘보통형’으로 표시될 수 있습니다.
+</div>
+
 </div>
 
 <hr>
@@ -1821,6 +2059,7 @@ area.innerHTML = `
     분석중...</div>
 
 </div>
+
 
 </div>
 
@@ -3908,17 +4147,19 @@ data[0]
 
     <button
     class="track-btn"
-    onclick="playRace()"
+    disabled
+    style="opacity:0.55; cursor:not-allowed;"
     >
-    ▶ 자동재생
+    ▶ 자동재생 <small>(준비중)</small>
     </button>
 
     </div>    
 
     <svg
     width="100%"
-    height="900"
-    viewBox="0 0 1000 1100"
+    viewBox="0 0 1000 1000"
+    style="display:block; overflow:visible;"
+    >display:block;"
     >
 
     <!-- 경주로 -->
@@ -3968,6 +4209,28 @@ data[0]
     stroke="red"
     stroke-width="5"
     />
+
+    <!-- 출발선 -->
+    <line
+    x1="${currentTrack.start.innerX}"
+    y1="${currentTrack.start.innerY}"
+    x2="${currentTrack.start.outerX}"
+    y2="${currentTrack.start.outerY}"
+    stroke="red"
+    stroke-width="5"
+    />
+
+    <!-- START -->
+    <text
+    x="${startTextX}"
+    y="${startTextY}"
+    font-size="28"
+    font-weight="bold"
+    fill="red"
+    text-anchor="middle"
+    >
+    START
+    </text>
 
     <!-- START -->
 
@@ -4470,9 +4733,8 @@ ${row.코멘트 || "코멘트 없음"}
 
 <div class="simulation-box">
 
-<h3>
-🎯 AI 복병마
-</h3>
+<div class="simulation-box dark-horse-box">
+    <h3>🎯 AI 복병마</h3>
 
 <div id="dark-horse">
 

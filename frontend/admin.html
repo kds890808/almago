@@ -761,6 +761,503 @@ background:#15803d;
     transform:scale(1.15);
 
 }
+
+/* =====================================================
+   이용상품 / 포인트 정책 관리
+===================================================== */
+
+.fee-policy-page{
+    max-width:1100px;
+    margin:0 auto;
+}
+
+/* 상단 소개 영역 */
+.fee-policy-header{
+    position:relative;
+    overflow:hidden;
+
+    padding:28px 30px;
+    margin-bottom:18px;
+
+    color:white;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #173f7a 0%,
+            #2563eb 65%,
+            #4388ee 100%
+        );
+
+    box-shadow:
+        0 12px 28px
+        rgba(37, 99, 235, 0.22);
+}
+
+.fee-policy-header::after{
+    content:"💰";
+
+    position:absolute;
+    right:25px;
+    bottom:-28px;
+
+    opacity:0.12;
+
+    font-size:120px;
+}
+
+.fee-policy-header h2{
+    position:relative;
+    z-index:1;
+
+    margin:0 0 8px;
+
+    font-size:27px;
+    font-weight:900;
+}
+
+.fee-policy-header p{
+    position:relative;
+    z-index:1;
+
+    margin:0;
+
+    color:#dceaff;
+
+    font-size:14px;
+    font-weight:600;
+
+    line-height:1.7;
+}
+
+/* 요약 카드 */
+.fee-summary-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap:12px;
+
+    margin-bottom:18px;
+}
+
+.fee-summary-card{
+    padding:18px;
+
+    border:
+        1px solid
+        #e0e8f2;
+
+    border-radius:16px;
+
+    background:white;
+
+    box-shadow:
+        0 5px 16px
+        rgba(26, 52, 87, 0.07);
+}
+
+.fee-summary-label{
+    margin-bottom:7px;
+
+    color:#718096;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+.fee-summary-value{
+    color:#172337;
+
+    font-size:25px;
+    font-weight:900;
+}
+
+.fee-summary-value.active{
+    color:#16935c;
+}
+
+.fee-summary-value.inactive{
+    color:#db4055;
+}
+
+.fee-summary-value.reward{
+    color:#d89516;
+}
+
+/* 정책 목록 카드 */
+.fee-policy-card{
+    padding:0;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        #dfe7f1;
+
+    border-radius:19px;
+
+    background:white;
+
+    box-shadow:
+        0 8px 22px
+        rgba(26, 52, 87, 0.08);
+}
+
+.fee-policy-card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:20px 22px;
+
+    border-bottom:
+        1px solid
+        #e6edf5;
+}
+
+.fee-policy-card-header h3{
+    margin:0;
+
+    color:#172337;
+
+    font-size:20px;
+    font-weight:900;
+}
+
+.fee-policy-card-header span{
+    color:#7a889a;
+
+    font-size:13px;
+    font-weight:650;
+}
+
+/* 표 전체 */
+.fee-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.fee-policy-table{
+    width:100%;
+    min-width:660px;
+
+    margin:0;
+
+    border-collapse:collapse;
+}
+
+.fee-policy-table thead th{
+    padding:13px 15px;
+
+    color:#dfeaff;
+
+    background:#172b46;
+
+    font-size:13px;
+    font-weight:800;
+
+    text-align:center;
+}
+
+.fee-policy-table thead th:first-child{
+    text-align:left;
+}
+
+/* 카테고리 행 */
+.fee-category-row td{
+    padding:13px 18px !important;
+
+    color:#174a8c;
+
+    border-top:
+        1px solid
+        #cfe0f5;
+
+    border-bottom:
+        1px solid
+        #cfe0f5;
+
+    background:
+        linear-gradient(
+            90deg,
+            #eaf3ff,
+            #f7fbff
+        ) !important;
+
+    font-size:15px;
+    font-weight:900;
+
+    text-align:left;
+}
+
+/* 정책 행 */
+.fee-policy-row{
+    background:white !important;
+}
+
+.fee-policy-row:hover{
+    background:#f8fbff !important;
+}
+
+.fee-policy-row td{
+    padding:13px 15px !important;
+
+    border-bottom:
+        1px solid
+        #edf1f6;
+
+    vertical-align:middle;
+}
+
+/* 항목명 */
+.fee-item-info{
+    display:flex;
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:3px;
+
+    text-align:left;
+}
+
+.fee-item-name{
+    color:#22344d;
+
+    font-size:15px;
+    font-weight:900;
+}
+
+.fee-item-description{
+    color:#8491a2;
+
+    font-size:12px;
+    font-weight:600;
+
+    white-space:normal;
+}
+
+/* 포인트 입력 영역 */
+.fee-point-field{
+    display:inline-flex;
+    align-items:center;
+
+    gap:7px;
+}
+
+.fee-point-input{
+    width:115px !important;
+    height:39px !important;
+
+    margin:0 !important;
+    padding:0 11px !important;
+
+    color:#1557b0;
+
+    border:
+        2px solid
+        #cfe1f8 !important;
+
+    border-radius:10px !important;
+
+    background:#f7fbff;
+
+    font-size:16px !important;
+    font-weight:900;
+
+    text-align:right;
+}
+
+.fee-point-input:focus{
+    outline:none;
+
+    border-color:
+        #2563eb !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.12);
+}
+
+.fee-point-unit{
+    color:#718096;
+
+    font-size:13px;
+    font-weight:800;
+}
+
+/* 사용 스위치 */
+.fee-switch{
+    position:relative;
+
+    display:inline-block;
+
+    width:48px;
+    height:26px;
+}
+
+.fee-switch input{
+    width:0 !important;
+    height:0 !important;
+
+    margin:0 !important;
+
+    opacity:0;
+}
+
+.fee-switch-slider{
+    position:absolute;
+
+    inset:0;
+
+    border-radius:999px;
+
+    background:#cbd5e1;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.fee-switch-slider::before{
+    content:"";
+
+    position:absolute;
+    left:3px;
+    top:3px;
+
+    width:20px;
+    height:20px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 2px 5px
+        rgba(0,0,0,0.2);
+
+    transition:0.2s;
+}
+
+.fee-switch input:checked
++ .fee-switch-slider{
+    background:#16935c;
+}
+
+.fee-switch input:checked
++ .fee-switch-slider::before{
+    transform:translateX(22px);
+}
+
+/* 저장 버튼 */
+.fee-save-button{
+    min-width:76px;
+
+    padding:9px 15px;
+
+    color:white;
+
+    border:none;
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #174fb8
+        );
+
+    box-shadow:
+        0 5px 12px
+        rgba(37, 99, 235, 0.2);
+
+    font-size:13px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:0.18s;
+}
+
+.fee-save-button:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 8px 16px
+        rgba(37, 99, 235, 0.28);
+}
+
+.fee-save-button:active{
+    transform:translateY(0);
+}
+
+/* 데이터가 없을 때 */
+.fee-empty-row td{
+    padding:50px 20px !important;
+
+    color:#8592a3;
+
+    font-size:14px;
+    font-weight:700;
+
+    text-align:center;
+}
+
+/* 모바일 */
+@media(max-width:850px){
+
+    .fee-summary-grid{
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media(max-width:600px){
+
+    .fee-policy-header{
+        padding:22px 19px;
+    }
+
+    .fee-policy-header h2{
+        font-size:22px;
+    }
+
+    .fee-policy-header p{
+        font-size:12px;
+    }
+
+    .fee-summary-grid{
+        gap:8px;
+    }
+
+    .fee-summary-card{
+        padding:14px;
+    }
+
+    .fee-summary-value{
+        font-size:21px;
+    }
+
+    .fee-policy-card-header{
+        display:block;
+
+        padding:17px;
+    }
+
+    .fee-policy-card-header span{
+        display:block;
+
+        margin-top:5px;
+    }
+
+}
 </style>
 </head>
 
@@ -836,7 +1333,7 @@ class="analysis-modal-body"
     <button onclick="showPage('analysis')">🧠 분석 관리</button>
     <button onclick="showPage('users')">👤 회원 관리</button>
     <button onclick="showPage('race')">🏇 경주정보</button>
-    <button onclick="showPage('fee')">💰 이용상품관리</button>
+    <button onclick="showPage('fee')">⚙️ 포인트 정책관리</button>
     <button onclick="showPage('charge')">💳 충전관리</button>
     <button onclick="showPage('design')">🎨 디자인관리</button>
     <hr>
@@ -1049,42 +1546,168 @@ onclick="testTelegram()"
 loadTelegramSetting();
 
 }
-  // =========================
-  // 이용상품관리
-  // =========================
-  if(page==="fee"){
 
-  document.getElementById("content").innerHTML=`
+// =========================
+// 포인트 정책관리
+// =========================
+if(page === "fee"){
 
-  <div class="card">
+    document.getElementById("content").innerHTML = `
 
-  <h2>💰 이용상품관리</h2>
+    <div class="fee-policy-page">
 
-  <table>
+        <!-- 상단 안내 -->
+        <section class="fee-policy-header">
 
-  <thead>
+            <h2>
+                ⚙️ 포인트 정책관리
+            </h2>
 
-  <tr>
-  <th>항목</th>
-  <th>금액</th>
-  <th>저장</th>
-  </tr>
+            <p>
+                분석상품 이용료와 회원 보상 포인트를 관리합니다.<br>
+                저장한 포인트는 서비스 화면과 실제 지급 정책에 적용됩니다.
+            </p>
 
-  </thead>
+        </section>
 
-  <tbody id="fee-table">
 
-  </tbody>
+        <!-- 요약 카드 -->
+        <section class="fee-summary-grid">
 
-  </table>
+            <div class="fee-summary-card">
 
-  </div>
+                <div class="fee-summary-label">
+                    전체 정책
+                </div>
 
-  `;
+                <div
+                    class="fee-summary-value"
+                    id="feeTotalCount"
+                >
+                    0개
+                </div>
 
-  loadFeeSettings();
+            </div>
 
-  }
+
+            <div class="fee-summary-card">
+
+                <div class="fee-summary-label">
+                    사용 중
+                </div>
+
+                <div
+                    class="fee-summary-value active"
+                    id="feeActiveCount"
+                >
+                    0개
+                </div>
+
+            </div>
+
+
+            <div class="fee-summary-card">
+
+                <div class="fee-summary-label">
+                    사용 중지
+                </div>
+
+                <div
+                    class="fee-summary-value inactive"
+                    id="feeInactiveCount"
+                >
+                    0개
+                </div>
+
+            </div>
+
+
+            <div class="fee-summary-card">
+
+                <div class="fee-summary-label">
+                    보상 정책
+                </div>
+
+                <div
+                    class="fee-summary-value reward"
+                    id="feeRewardCount"
+                >
+                    0개
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 정책 목록 -->
+        <section class="fee-policy-card">
+
+            <div class="fee-policy-card-header">
+
+                <h3>
+                    📋 정책 설정
+                </h3>
+
+                <span>
+                    항목별 포인트와 사용 여부를 설정하세요.
+                </span>
+
+            </div>
+
+            <div class="fee-table-wrapper">
+
+                <table class="fee-policy-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                정책 항목
+                            </th>
+
+                            <th>
+                                포인트
+                            </th>
+
+                            <th>
+                                사용
+                            </th>
+
+                            <th>
+                                관리
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="fee-table">
+
+                        <tr class="fee-empty-row">
+
+                            <td colspan="4">
+                                정책을 불러오는 중입니다.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    `;
+
+    loadFeeSettings();
+
+}
   // =========================
   // 충전
   // =========================
@@ -1487,9 +2110,10 @@ showAnalysisTab("basic");
               <th>이름</th>
               <th>생년월일</th>
               <th>전화번호</th>
+              <th>추천인코드</th>
               <th>유료</th>
               <th>포인트</th>
-              <th>관리</th> <!-- 🔥 추가 -->
+              <th>관리</th> 
             </tr>
           </thead>
           <tbody id="member-table"></tbody>
@@ -2282,79 +2906,411 @@ async function deleteSidebarMenu(id) {
     alert(data.detail);
   }
 }
-// =========================
-// 이용요금관리
-// =========================
+
 async function loadFeeSettings(){
 
-    const res =
-    await fetch(
-        "/fee-settings"
-    );
-
-    const data =
-    await res.json();
-
     const tbody =
-    document.getElementById(
-        "fee-table"
-    );
+        document.getElementById("fee-table");
 
-    tbody.innerHTML = "";
+    if(!tbody){
+        return;
+    }
 
-    data.forEach(r=>{
+    try{
 
-        let name = r.item;
+        const res =
+            await fetch("/fee-settings");
 
-        if(r.item==="basic"){
-            name = "기본분석";
+        if(!res.ok){
+
+            throw new Error(
+                "정책 조회 실패: " + res.status
+            );
+
         }
 
-        if(r.item==="blood"){
-            name = "혈통분석";
+        const data =
+            await res.json();
+
+
+        if(!Array.isArray(data)){
+
+            throw new Error(
+                "정책 데이터 형식이 올바르지 않습니다."
+            );
+
         }
 
-        if(r.item==="pace"){
-            name = "전개분석";
+
+        /* =========================
+           상단 요약 숫자
+        ========================= */
+
+        const totalCount =
+            data.length;
+
+        const activeCount =
+            data.filter(
+                item => item.is_active
+            ).length;
+
+        const inactiveCount =
+            totalCount - activeCount;
+
+        const rewardCount =
+            data.filter(item => {
+
+                const category =
+                    String(
+                        item.category || ""
+                    );
+
+                return (
+                    category.includes("보상") ||
+                    category.includes("출석") ||
+                    category.includes("미션") ||
+                    category.includes("퀴즈")
+                );
+
+            }).length;
+
+
+        const totalEl =
+            document.getElementById(
+                "feeTotalCount"
+            );
+
+        const activeEl =
+            document.getElementById(
+                "feeActiveCount"
+            );
+
+        const inactiveEl =
+            document.getElementById(
+                "feeInactiveCount"
+            );
+
+        const rewardEl =
+            document.getElementById(
+                "feeRewardCount"
+            );
+
+
+        if(totalEl){
+            totalEl.innerText =
+                totalCount + "개";
         }
 
-        if(r.item==="total"){
-            name = "종합분석";
+        if(activeEl){
+            activeEl.innerText =
+                activeCount + "개";
         }
 
-        tbody.innerHTML += `
+        if(inactiveEl){
+            inactiveEl.innerText =
+                inactiveCount + "개";
+        }
 
-        <tr>
+        if(rewardEl){
+            rewardEl.innerText =
+                rewardCount + "개";
+        }
 
-            <td>${name}</td>
 
-            <td>
+        /* =========================
+           목록 출력
+        ========================= */
 
-                <input
-                id="fee-${r.item}"
-                value="${r.point}"
-                >
+        tbody.innerHTML = "";
 
-            </td>
+        if(data.length === 0){
 
-            <td>
+            tbody.innerHTML = `
 
-                <button
-                class="btn btn-admin"
-                onclick="saveFee('${r.item}')"
-                >
+                <tr class="fee-empty-row">
 
-                저장
+                    <td colspan="4">
 
-                </button>
+                        등록된 포인트 정책이 없습니다.
 
-            </td>
+                    </td>
 
-        </tr>
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        let currentCategory = "";
+
+
+        data.forEach(r => {
+
+            const category =
+                r.category || "기타 정책";
+
+            const name =
+                r.name || r.item;
+
+            const description =
+                r.description ||
+                getFeeDescription(
+                    r.item,
+                    category
+                );
+
+
+            /* 카테고리가 바뀔 때 제목 행 추가 */
+            if(currentCategory !== category){
+
+                currentCategory = category;
+
+                tbody.insertAdjacentHTML(
+                    "beforeend",
+                    `
+
+                    <tr class="fee-category-row">
+
+                        <td colspan="4">
+
+                            ${getFeeCategoryIcon(category)}
+                            ${category}
+
+                        </td>
+
+                    </tr>
+
+                    `
+                );
+
+            }
+
+
+            /* 실제 정책 항목 */
+            tbody.insertAdjacentHTML(
+                "beforeend",
+                `
+
+                <tr class="fee-policy-row">
+
+                    <td>
+
+                        <div class="fee-item-info">
+
+                            <div class="fee-item-name">
+
+                                ${getFeeItemIcon(r.item)}
+                                ${name}
+
+                            </div>
+
+                            <div class="fee-item-description">
+
+                                ${description}
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="fee-point-field">
+
+                            <input
+                                id="fee-${r.item}"
+                                class="fee-point-input"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="${r.point ?? 0}"
+                            >
+
+                            <span class="fee-point-unit">
+                                P
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <label class="fee-switch">
+
+                            <input
+                                id="active-${r.item}"
+                                type="checkbox"
+                                ${r.is_active ? "checked" : ""}
+                            >
+
+                            <span class="fee-switch-slider">
+                            </span>
+
+                        </label>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="fee-save-button"
+                            onclick="saveFee('${r.item}', this)"
+                        >
+
+                            저장
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `
+            );
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "포인트 정책 로딩 오류:",
+            error
+        );
+
+        tbody.innerHTML = `
+
+            <tr class="fee-empty-row">
+
+                <td colspan="4">
+
+                    포인트 정책을 불러오지 못했습니다.<br>
+                    잠시 후 다시 시도해주세요.
+
+                </td>
+
+            </tr>
 
         `;
 
-    });
+    }
+
+}
+
+function getFeeCategoryIcon(category){
+
+    const text =
+        String(category || "");
+
+    if(text.includes("분석")){
+        return "📊";
+    }
+
+    if(text.includes("출석")){
+        return "📅";
+    }
+
+    if(text.includes("퀴즈")){
+        return "🧠";
+    }
+
+    if(
+        text.includes("보상") ||
+        text.includes("미션")
+    ){
+        return "🎁";
+    }
+
+    if(text.includes("회원")){
+        return "👤";
+    }
+
+    return "⚙️";
+
+}
+
+
+function getFeeItemIcon(item){
+
+    const iconMap = {
+
+        basic:"📊",
+        blood:"🧬",
+        pace:"🏇",
+        total:"🏆",
+
+        attendance_daily:"📅",
+        attendance_streak_7:"🔥",
+        attendance_streak_30:"🏅",
+
+        quiz_daily:"🧠",
+
+        signup_reward:"🎉",
+        referral_reward:"🤝",
+        birthday_reward:"🎂"
+
+    };
+
+    return iconMap[item] || "🔹";
+
+}
+
+
+function getFeeDescription(
+    item,
+    category
+){
+
+    const descriptionMap = {
+
+        basic:
+            "기본분석을 이용할 때 차감되는 포인트입니다.",
+
+        blood:
+            "혈통분석을 이용할 때 차감되는 포인트입니다.",
+
+        pace:
+            "전개분석을 이용할 때 차감되는 포인트입니다.",
+
+        total:
+            "종합분석을 이용할 때 차감되는 포인트입니다.",
+
+        attendance_daily:
+            "회원이 하루 출석을 완료하면 지급됩니다.",
+
+        attendance_streak_7:
+            "7일 연속 출석을 달성하면 추가 지급됩니다.",
+
+        attendance_streak_30:
+            "30일 연속 출석을 달성하면 추가 지급됩니다.",
+
+        quiz_daily:
+            "오늘의 퀴즈를 완료하면 지급됩니다.",
+
+        signup_reward:
+            "신규 회원가입이 완료되면 지급됩니다.",
+
+        referral_reward:
+            "추천인 조건을 달성하면 지급됩니다.",
+
+        birthday_reward:
+            "회원 생일 보상으로 지급됩니다."
+
+    };
+
+    return (
+        descriptionMap[item] ||
+        `${category}에 적용되는 포인트 정책입니다.`
+    );
 
 }
 
@@ -2428,7 +3384,17 @@ table.innerHTML = "";
 </td>
         <td>${u.birth || "-"}</td>
         <td>${u.phone || "-"}</td>
+        <td>
+        <code style="
+            color:#2563eb;
+            font-weight:bold;
+            font-size:13px;
+        ">
+            ${u.referral_code || "-"}
+        </code>
+        </td>
 
+        <td>
         <td>
           <span class="badge ${u.is_premium ? 'badge-premium' : 'badge-free'}">
             ${u.is_premium ? '유료' : '무료'}
@@ -7115,65 +8081,163 @@ raceDate
 
 }
 
-async function saveFee(item){
+async function saveFee(
+    item,
+    button = null
+){
+
+    const pointInput =
+        document.getElementById(
+            `fee-${item}`
+        );
+
+    const activeInput =
+        document.getElementById(
+            `active-${item}`
+        );
+
+
+    if(!pointInput || !activeInput){
+
+        alert(
+            "정책 입력 항목을 찾지 못했습니다."
+        );
+
+        return;
+
+    }
+
 
     const point =
-    document.getElementById(
-        `fee-${item}`
-    ).value;
+        Number(pointInput.value);
+
+    if(
+        !Number.isFinite(point) ||
+        point < 0
+    ){
+
+        alert(
+            "포인트는 0 이상의 숫자로 입력해주세요."
+        );
+
+        pointInput.focus();
+
+        return;
+
+    }
+
 
     const password =
-    prompt(
-        "비밀번호를 입력하세요."
-    );
+        prompt(
+            "관리자 비밀번호를 입력해주세요."
+        );
 
-    if(!password){
+    if(password === null){
         return;
     }
 
-    const res =
-    await fetch(
-        "/save-fee-setting",
-        {
-            method:"POST",
 
-            headers:{
-                "Content-Type":
-                "application/json"
-            },
+    const originalText =
+        button
+        ? button.innerText
+        : "";
 
-            body:JSON.stringify({
 
-                item:item,
+    try{
 
-                point:Number(point),
+        if(button){
 
-                password:password
+            button.disabled = true;
 
-            })
+            button.innerText =
+                "저장 중";
+
         }
-    );
 
-    const data =
-    await res.json();
 
-    if(res.ok){
+        const res =
+            await fetch(
+                "/save-fee-setting",
+                {
+                    method:"POST",
 
-        alert(
-            "저장 완료"
-        );
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    }else{
+                    body:JSON.stringify({
 
-        alert(
-            data.detail ||
-            "저장 실패"
-        );
+                        item:item,
+
+                        point:point,
+
+                        is_active:
+                            activeInput.checked,
+
+                        password:password
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        if(!res.ok){
+
+            throw new Error(
+                data.detail ||
+                data.message ||
+                "저장에 실패했습니다."
+            );
+
+        }
+
+
+        if(button){
+
+            button.innerText =
+                "✓ 저장완료";
+
+        }
+
+
+        setTimeout(() => {
+
+            if(button){
+
+                button.innerText =
+                    originalText;
+
+                button.disabled =
+                    false;
+
+            }
+
+        }, 900);
+
+
+    }catch(error){
+
+        alert(error.message);
+
+        if(button){
+
+            button.innerText =
+                originalText;
+
+            button.disabled =
+                false;
+
+        }
 
     }
 
 }
-
 
 async function loadChargeRequests(){
 

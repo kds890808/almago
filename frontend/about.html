@@ -449,19 +449,210 @@ translateY(0);
 
 }
 
-@media(max-width:768px){
+@media (max-width:500px){
 
-.hero h1{
-font-size:38px;
+/* =========================
+   Hero
+========================= */
+
+.hero{
+
+    min-height:85vh;
+    height:auto;
+
+    padding:50px 18px;
+
 }
 
-.stats{
-grid-template-columns:
-1fr 1fr;
+.logo{
+
+    font-size:60px;
+
+}
+
+.badge{
+
+    font-size:12px;
+
+    padding:8px 16px;
+
+}
+
+.hero h1{
+
+    font-size:34px;
+
+    line-height:1.3;
+
+}
+
+.hero p{
+
+    font-size:16px;
+
+    line-height:1.7;
+
+    word-break:keep-all;
+
+}
+
+.scroll{
+
+    bottom:20px;
+
+    font-size:12px;
+
+}
+
+/* =========================
+   Section
+========================= */
+
+.section{
+
+    padding:60px 15px;
+
 }
 
 .section-title{
-font-size:28px;
+
+    font-size:28px;
+
+    margin-bottom:30px;
+
+}
+
+/* =========================
+   분석 카드
+========================= */
+
+.cards{
+
+    grid-template-columns:1fr;
+
+    gap:15px;
+
+}
+
+.card{
+
+    padding:22px;
+
+    border-radius:18px;
+
+}
+
+.icon{
+
+    font-size:42px;
+
+}
+
+.card h3{
+
+    font-size:22px;
+
+}
+
+.card p{
+
+    font-size:15px;
+
+    line-height:1.7;
+
+}
+
+/* =========================
+   누적 데이터
+========================= */
+
+.stats{
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+}
+
+.stat{
+
+    padding:18px 10px;
+
+    border-radius:16px;
+
+}
+
+.number{
+
+    font-size:32px;
+
+    line-height:1.1;
+
+}
+
+.stat{
+
+    font-size:15px;
+
+}
+
+/* =========================
+   차별점
+========================= */
+
+.feature{
+
+    align-items:flex-start;
+
+    font-size:16px;
+
+    line-height:1.6;
+
+}
+
+.check{
+
+    width:34px;
+    height:34px;
+
+    margin-right:12px;
+
+    flex-shrink:0;
+
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+
+    padding:70px 18px;
+
+}
+
+.cta h2{
+
+    font-size:30px;
+
+    line-height:1.4;
+
+}
+
+.cta-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    font-size:18px;
+
+}
+
+.footer{
+
+    font-size:13px;
+
 }
 
 }

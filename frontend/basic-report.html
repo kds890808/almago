@@ -1783,6 +1783,74 @@ z-index:59;
     }
 
 }
+
+    /* 기본분석 비교테이블 콤팩트 */
+    .compare-table-wrap th,
+    .compare-table-wrap td{
+        padding:4px 6px;
+        font-size:14px;
+        height:32px;
+    }
+
+    /* 번호 */
+    .compare-table-wrap th:nth-child(1),
+    .compare-table-wrap td:nth-child(1){
+        min-width:45px;
+        width:45px;
+    }
+
+    /* 마명 */
+    .compare-table-wrap th:nth-child(2),
+    .compare-table-wrap td:nth-child(2){
+        min-width:90px;
+        width:90px;
+    }
+
+    /* 점수 */
+    .compare-table-wrap th:nth-child(3),
+    .compare-table-wrap td:nth-child(3){
+        min-width:55px;
+        width:55px;
+    }
+
+    /* 기본분석 비교테이블 - 내용에 맞게 열너비 */
+    .compare-table-wrap table{
+        width:max-content;
+        min-width:0 !important;
+        table-layout:auto;
+    }
+
+    .compare-table-wrap th,
+    .compare-table-wrap td{
+        min-width:0 !important;
+        width:auto;
+        white-space:nowrap;
+        padding:4px 6px;
+    }
+
+    .basic-scroll-guide{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:12px;
+
+        padding:8px 0 4px;
+
+        font-size:13px;
+        color:#64748b;
+        white-space:nowrap;
+    }
+
+    .basic-scroll-guide span{
+        font-size:22px;
+        font-weight:900;
+        color:#2563eb;
+    }
+
+    .basic-scroll-guide b{
+        font-size:13px;
+        font-weight:700;
+    }
 </style>
 
 </head>
@@ -2429,6 +2497,9 @@ basicData.forEach(h=>{
     <tr>
     <td>${h.번호}</td>
     <td>${h.마명}</td>
+    <td class="${scoreClass}">
+    ${h.점수}
+    </td>
     <td>${h.성별}</td>
     <td>${h.나이}</td>
     <td>${h.통산전적}</td>
@@ -2452,9 +2523,7 @@ basicData.forEach(h=>{
     </span>
 
     </td>
-    <td class="${scoreClass}">
-    ${h.점수}
-    </td>
+
     </tr>
     `;
 
@@ -2772,7 +2841,7 @@ ${top5Html}
 
 <th>번호</th>
 <th>마명</th>
-
+<th>점수</th>
 <th>성별</th>
 <th>나이</th>
 
@@ -2784,13 +2853,22 @@ ${top5Html}
 
 <th>조교사승률</th>
 
-<th>점수</th>
 
 </tr>
 
 ${basicTable}
 
 </table>
+
+</div>
+
+<div class="basic-scroll-guide">
+    <span>←</span>
+    <b>좌우로 밀어서 확인하세요</b>
+    <span>→</span>
+</div>
+
+<br>
 
 </div>
 

@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>ALMAGO AI 분석 소개</title>
+
+<style>
+
+/* =========================
+   기본 설정
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f8ff 0%,
+            #eef3fb 100%
+        );
+
+    color: #172033;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+
+/* =========================
+   상단 HERO
+========================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+
+    padding:
+        54px 22px
+        48px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #081936 0%,
+            #102e67 55%,
+            #174ca7 100%
+        );
+
+    color: white;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    top: -150px;
+    right: -100px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            59,
+            130,
+            246,
+            0.25
+        );
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    bottom: -120px;
+    left: -80px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(
+            255,
+            193,
+            7,
+            0.12
+        );
+}
+
+.premium-badge {
+    position: relative;
+    z-index: 1;
+
+    display: inline-block;
+
+    padding: 7px 16px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid
+        rgba(
+            255,
+            215,
+            100,
+            0.6
+        );
+
+    border-radius: 30px;
+
+    background:
+        rgba(
+            255,
+            193,
+            7,
+            0.12
+        );
+
+    color: #ffd866;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.hero-logo {
+    position: relative;
+    z-index: 1;
+
+    font-size: 35px;
+    font-weight: 1000;
+
+    letter-spacing: -1.5px;
+}
+
+.hero-logo span {
+    color: #ffd54a;
+}
+
+.hero-title {
+    position: relative;
+    z-index: 1;
+
+    margin-top: 14px;
+
+    font-size: 22px;
+    font-weight: 900;
+
+    line-height: 1.4;
+}
+
+.hero-description {
+    position: relative;
+    z-index: 1;
+
+    max-width: 470px;
+
+    margin:
+        15px auto 0;
+
+    color: #dce8ff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   공통 영역
+========================= */
+
+.section {
+    padding:
+        38px 18px
+        0;
+}
+
+.section-heading {
+    margin-bottom: 22px;
+
+    text-align: center;
+}
+
+.section-small-title {
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 1000;
+
+    letter-spacing: 1px;
+}
+
+.section-title {
+    margin-top: 5px;
+
+    color: #111827;
+
+    font-size: 23px;
+    font-weight: 1000;
+
+    line-height: 1.4;
+}
+
+.section-description {
+    margin-top: 10px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   분석 카드
+========================= */
+
+.analysis-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.analysis-card {
+    position: relative;
+
+    padding: 22px 20px;
+
+    background: white;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            15,
+            23,
+            42,
+            0.06
+        );
+}
+
+.analysis-card.premium {
+    border:
+        1px solid
+        #d6b44b;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #fffdf5 100%
+        );
+}
+
+.analysis-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.analysis-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 15px;
+
+    background: #eff6ff;
+
+    font-size: 27px;
+}
+
+.analysis-card:nth-child(2)
+.analysis-icon {
+    background: #f0fdf4;
+}
+
+.analysis-card:nth-child(3)
+.analysis-icon {
+    background: #fff7ed;
+}
+
+.analysis-card.premium
+.analysis-icon {
+    background:
+        linear-gradient(
+            145deg,
+            #fff4c2,
+            #ffe47a
+        );
+}
+
+.analysis-name {
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 1000;
+
+    letter-spacing: 0.5px;
+}
+
+.analysis-title {
+    margin-top: 1px;
+
+    color: #172033;
+
+    font-size: 19px;
+    font-weight: 1000;
+}
+
+.analysis-description {
+    margin-top: 15px;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.75;
+}
+
+
+/* =========================
+   기능 태그
+========================= */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: 16px;
+}
+
+.tag {
+    padding:
+        6px 10px;
+
+    border-radius: 20px;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.analysis-card.premium
+.tag {
+    background: #fff6d9;
+    color: #856100;
+}
+
+
+/* =========================
+   분석 흐름
+========================= */
+
+.flow-box {
+    margin-top: 18px;
+
+    padding:
+        25px 15px;
+
+    background: white;
+
+    border:
+        1px solid
+        #dbe5f5;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            15,
+            23,
+            42,
+            0.05
+        );
+}
+
+.flow-list {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+}
+
+.flow-item {
+    flex: 1;
+
+    text-align: center;
+}
+
+.flow-icon {
+    display: flex;
+
+    width: 46px;
+    height: 46px;
+
+    margin: auto;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+
+    font-size: 23px;
+}
+
+.flow-name {
+    margin-top: 8px;
+
+    color: #334155;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.flow-arrow {
+    color: #94a3b8;
+
+    font-size: 17px;
+    font-weight: 900;
+}
+
+
+/* =========================
+   SAMPLE 분석
+========================= */
+
+.sample-section {
+    margin-top: 40px;
+
+    padding:
+        40px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #081936,
+            #102d62
+        );
+}
+
+.sample-title-area {
+    text-align: center;
+}
+
+.sample-label {
+    color: #ffd866;
+
+    font-size: 12px;
+    font-weight: 1000;
+
+    letter-spacing: 1px;
+}
+
+.sample-title {
+    margin-top: 5px;
+
+    color: white;
+
+    font-size: 23px;
+    font-weight: 1000;
+}
+
+.sample-description {
+    margin-top: 8px;
+
+    color: #b9c9e8;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   SAMPLE CARD
+========================= */
+
+.sample-card {
+    position: relative;
+
+    max-width: 520px;
+
+    margin:
+        25px auto 0;
+
+    padding:
+        24px 20px;
+
+    overflow: hidden;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+}
+
+.sample-watermark {
+    position: absolute;
+
+    top: 15px;
+    right: -7px;
+
+    padding:
+        4px 14px;
+
+    background: #e5e7eb;
+
+    color: #64748b;
+
+    font-size: 10px;
+    font-weight: 1000;
+
+    transform:
+        rotate(8deg);
+}
+
+.sample-head {
+    padding-bottom: 15px;
+
+    border-bottom:
+        1px solid
+        #e5e7eb;
+}
+
+.sample-head-small {
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.sample-head-title {
+    margin-top: 2px;
+
+    color: #111827;
+
+    font-size: 20px;
+    font-weight: 1000;
+}
+
+
+/* 추천마 */
+
+.recommend-box {
+    margin-top: 20px;
+
+    padding:
+        18px;
+
+    text-align: center;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #eff6ff,
+            #f8fbff
+        );
+
+    border:
+        1px solid
+        #bfdbfe;
+}
+
+.recommend-label {
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 1000;
+}
+
+.horse-name {
+    margin-top: 5px;
+
+    color: #0f172a;
+
+    font-size: 25px;
+    font-weight: 1000;
+}
+
+.score {
+    margin-top: 8px;
+
+    color: #e11d48;
+
+    font-size: 28px;
+    font-weight: 1000;
+}
+
+.score span {
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* AI COMMENT */
+
+.ai-comment {
+    margin-top: 18px;
+
+    padding: 17px;
+
+    background: #f8fafc;
+
+    border-radius: 14px;
+
+    color: #334155;
+
+    font-size: 14px;
+    font-weight: 650;
+
+    line-height: 1.8;
+}
+
+.comment-title {
+    margin-bottom: 7px;
+
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 1000;
+}
+
+
+/* =========================
+   핵심 장점
+========================= */
+
+.point-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 12px;
+}
+
+.point-card {
+    padding:
+        22px 14px;
+
+    text-align: center;
+
+    background: white;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    border-radius: 17px;
+}
+
+.point-icon {
+    font-size: 27px;
+}
+
+.point-title {
+    margin-top: 8px;
+
+    color: #1e293b;
+
+    font-size: 15px;
+    font-weight: 1000;
+}
+
+.point-text {
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   안내 문구
+========================= */
+
+.notice-box {
+    margin-top: 30px;
+
+    padding: 18px;
+
+    background: #fff;
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    border-radius: 15px;
+
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   마지막 CTA
+========================= */
+
+.final-section {
+    margin-top: 42px;
+
+    padding:
+        48px 22px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d1f42,
+            #174ba3
+        );
+
+    color: white;
+}
+
+.final-icon {
+    font-size: 38px;
+}
+
+.final-title {
+    margin-top: 12px;
+
+    font-size: 24px;
+    font-weight: 1000;
+
+    line-height: 1.45;
+}
+
+.final-text {
+    max-width: 450px;
+
+    margin:
+        12px auto 0;
+
+    color: #d8e5ff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.8;
+}
+
+.final-brand {
+    margin-top: 28px;
+
+    color: #ffd866;
+
+    font-size: 13px;
+    font-weight: 1000;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media (
+    max-width: 420px
+) {
+
+    .hero {
+        padding:
+            44px 18px
+            40px;
+    }
+
+    .hero-logo {
+        font-size: 31px;
+    }
+
+    .hero-title {
+        font-size: 20px;
+    }
+
+    .section {
+        padding:
+            32px 15px
+            0;
+    }
+
+    .analysis-card {
+        padding:
+            19px 17px;
+    }
+
+    .analysis-title {
+        font-size: 18px;
+    }
+
+    .flow-list {
+        gap: 3px;
+    }
+
+    .flow-icon {
+        width: 40px;
+        height: 40px;
+
+        font-size: 20px;
+    }
+
+    .flow-name {
+        font-size: 11px;
+    }
+
+    .flow-arrow {
+        font-size: 13px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="premium-badge">
+        ALMAGO PREMIUM
+    </div>
+
+    <div class="hero-logo">
+        ALMA<span>GO</span>
+    </div>
+
+    <div class="hero-title">
+        경주를 보는 것에서<br>
+        흐름을 읽는 것까지
+    </div>
+
+    <div class="hero-description">
+
+        하나의 기록만으로 판단하지 않습니다.<br>
+
+        출전마의 기본 능력부터
+        혈통과 예상 전개,
+        최종 AI 판단까지
+
+        알마고만의 분석을
+        단계별로 제공합니다.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ANALYSIS
+========================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="section-small-title">
+            ALMAGO AI ANALYSIS
+        </div>
+
+        <div class="section-title">
+            알마고는 이렇게 분석합니다
+        </div>
+
+        <div class="section-description">
+
+            각각의 분석은 서로 다른 관점에서<br>
+            출전마의 경쟁력을 살펴봅니다.
+
+        </div>
+
+    </div>
+
+
+    <div class="analysis-list">
+
+
+        <!-- BASIC -->
+
+        <div class="analysis-card">
+
+            <div class="analysis-top">
+
+                <div class="analysis-icon">
+                    🐎
+                </div>
+
+                <div>
+
+                    <div class="analysis-name">
+                        BASIC ANALYSIS
+                    </div>
+
+                    <div class="analysis-title">
+                        기본 분석
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-description">
+
+                출전마의 기본적인 경주 데이터를
+                비교하여 현재 경주에서의
+                경쟁력을 살펴봅니다.
+
+                기록을 단순하게 나열하는 것이 아니라
+                여러 조건을 함께 비교해
+                이해하기 쉽게 제공합니다.
+
+            </div>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    기본 능력
+                </span>
+
+                <span class="tag">
+                    최근 흐름
+                </span>
+
+                <span class="tag">
+                    경쟁력 비교
+                </span>
+
+                <span class="tag">
+                    데이터 분석
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BLOOD -->
+
+        <div class="analysis-card">
+
+            <div class="analysis-top">
+
+                <div class="analysis-icon">
+                    🧬
+                </div>
+
+                <div>
+
+                    <div class="analysis-name">
+                        BLOOD ANALYSIS
+                    </div>
+
+                    <div class="analysis-title">
+                        혈통 분석
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-description">
+
+                경주마의 혈통 데이터를 바탕으로
+                해당 말이 가진 특성과
+                거리 적성을 분석합니다.
+
+                현재 기록만으로 확인하기 어려운
+                경주마의 잠재적인 특성을
+                또 다른 관점에서 살펴봅니다.
+
+            </div>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    혈통 특성
+                </span>
+
+                <span class="tag">
+                    거리 적성
+                </span>
+
+                <span class="tag">
+                    계통 분석
+                </span>
+
+                <span class="tag">
+                    잠재력
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PACE -->
+
+        <div class="analysis-card">
+
+            <div class="analysis-top">
+
+                <div class="analysis-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <div class="analysis-name">
+                        PACE ANALYSIS
+                    </div>
+
+                    <div class="analysis-title">
+                        전개 분석
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-description">
+
+                출전마별 경주 스타일과
+                주행 특성을 분석하여
+
+                이번 경주가 어떤 흐름으로
+                진행될 가능성이 있는지
+                예상합니다.
+
+                단순한 순위뿐 아니라
+                경주의 전체적인 흐름을
+                이해할 수 있도록 도와줍니다.
+
+            </div>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    예상 전개
+                </span>
+
+                <span class="tag">
+                    선두 경쟁
+                </span>
+
+                <span class="tag">
+                    주행 위치
+                </span>
+
+                <span class="tag">
+                    복병 가능성
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FINAL -->
+
+        <div class="analysis-card premium">
+
+            <div class="analysis-top">
+
+                <div class="analysis-icon">
+                    👑
+                </div>
+
+                <div>
+
+                    <div
+                        class="analysis-name"
+                        style="
+                            color:#9a7200;
+                        "
+                    >
+                        AI FINAL REPORT
+                    </div>
+
+                    <div class="analysis-title">
+                        AI 종합 분석
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="analysis-description">
+
+                여러 분석 데이터를 종합하여
+                경주의 핵심 포인트를
+                하나의 리포트로 제공합니다.
+
+                주목해야 할 출전마와
+                예상되는 경주 흐름을
+                AI 분석 코멘트와 함께
+                확인할 수 있습니다.
+
+            </div>
+
+
+            <div class="tags">
+
+                <span class="tag">
+                    AI 추천마
+                </span>
+
+                <span class="tag">
+                    TOP3
+                </span>
+
+                <span class="tag">
+                    복병마
+                </span>
+
+                <span class="tag">
+                    AI 코멘트
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FLOW
+========================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="section-small-title">
+            ANALYSIS PROCESS
+        </div>
+
+        <div class="section-title">
+            단계별 분석 시스템
+        </div>
+
+    </div>
+
+
+    <div class="flow-box">
+
+        <div class="flow-list">
+
+
+            <div class="flow-item">
+
+                <div class="flow-icon">
+                    🐎
+                </div>
+
+                <div class="flow-name">
+                    기본
+                </div>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                ›
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-icon">
+                    🧬
+                </div>
+
+                <div class="flow-name">
+                    혈통
+                </div>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                ›
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-icon">
+                    ⚡
+                </div>
+
+                <div class="flow-name">
+                    전개
+                </div>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                ›
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-icon">
+                    👑
+                </div>
+
+                <div class="flow-name">
+                    종합
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     SAMPLE
+========================= -->
+
+<section class="sample-section">
+
+    <div class="sample-title-area">
+
+        <div class="sample-label">
+            PREMIUM REPORT SAMPLE
+        </div>
+
+        <div class="sample-title">
+            AI 분석은 이렇게 제공됩니다
+        </div>
+
+        <div class="sample-description">
+            아래 내용은 이해를 돕기 위한 예시입니다.
+        </div>
+
+    </div>
+
+
+    <div class="sample-card">
+
+        <div class="sample-watermark">
+            SAMPLE
+        </div>
+
+
+        <div class="sample-head">
+
+            <div class="sample-head-small">
+                ALMAGO AI FINAL REPORT
+            </div>
+
+            <div class="sample-head-title">
+                🏆 AI 종합 분석
+            </div>
+
+        </div>
+
+
+        <div class="recommend-box">
+
+            <div class="recommend-label">
+                AI 추천 1위
+            </div>
+
+            <div class="horse-name">
+                ⑦ 알마고스타
+            </div>
+
+            <div class="score">
+
+                92.4
+
+                <span>
+                    / 100
+                </span>
+
+            </div>
+
+
+            <div class="tags"
+                 style="
+                    justify-content:center;
+                 "
+            >
+
+                <span class="tag">
+                    추천 1위
+                </span>
+
+                <span class="tag">
+                    전개 우세
+                </span>
+
+                <span class="tag">
+                    주목마
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-comment">
+
+            <div class="comment-title">
+                🤖 AI 상세 코멘트
+            </div>
+
+            기본 경쟁력과 예상 전개에서
+            높은 평가를 받은 출전마입니다.
+
+            초반부터 유리한 위치를
+            확보할 가능성이 있으며,
+
+            현재 경주 조건을 종합적으로
+            고려했을 때 주목할 필요가 있는
+            출전마로 분석됩니다.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     POINT
+========================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <div class="section-small-title">
+            WHY ALMAGO
+        </div>
+
+        <div class="section-title">
+            숫자보다 이해하기 쉽게
+        </div>
+
+        <div class="section-description">
+
+            복잡한 데이터를 직접 비교하지 않아도<br>
+            경주의 핵심을 빠르게 확인할 수 있습니다.
+
+        </div>
+
+    </div>
+
+
+    <div class="point-grid">
+
+
+        <div class="point-card">
+
+            <div class="point-icon">
+                📊
+            </div>
+
+            <div class="point-title">
+                데이터 비교
+            </div>
+
+            <div class="point-text">
+                다양한 데이터를<br>
+                한눈에 비교합니다.
+            </div>
+
+        </div>
+
+
+        <div class="point-card">
+
+            <div class="point-icon">
+                🤖
+            </div>
+
+            <div class="point-title">
+                AI 해석
+            </div>
+
+            <div class="point-text">
+                복잡한 내용을<br>
+                이해하기 쉽게 제공합니다.
+            </div>
+
+        </div>
+
+
+        <div class="point-card">
+
+            <div class="point-icon">
+                🔍
+            </div>
+
+            <div class="point-title">
+                다양한 관점
+            </div>
+
+            <div class="point-text">
+                능력·혈통·전개를<br>
+                함께 살펴봅니다.
+            </div>
+
+        </div>
+
+
+        <div class="point-card">
+
+            <div class="point-icon">
+                🏆
+            </div>
+
+            <div class="point-title">
+                핵심 요약
+            </div>
+
+            <div class="point-text">
+                중요한 분석 결과를<br>
+                빠르게 확인합니다.
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="notice-box">
+
+        ※ 알마고의 분석 정보는
+        경주 데이터에 기반한 참고용 분석 자료이며,
+        실제 경주 결과를 보장하지 않습니다.
+
+        경마는 결과를 예측할 수 없는
+        불확실성이 존재하며,
+        이용자의 최종 판단과 책임하에
+        건전하게 이용해 주시기 바랍니다.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FINAL
+========================= -->
+
+<section class="final-section">
+
+    <div class="final-icon">
+        🐎
+    </div>
+
+    <div class="final-title">
+
+        단순한 예상이 아닌,<br>
+
+        데이터를 통해<br>
+        경주를 이해하세요.
+
+    </div>
+
+
+    <div class="final-text">
+
+        출전마의 기록부터
+        혈통과 경주 전개까지.
+
+        알마고는 다양한 데이터를 분석하여
+        경주를 바라보는 새로운 정보를
+        제공합니다.
+
+    </div>
+
+
+    <div class="final-brand">
+        ALMAGO AI ANALYSIS
+    </div>
+
+</section>
+
+
+</div>
+
+</body>
+</html>

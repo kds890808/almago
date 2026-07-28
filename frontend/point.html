@@ -578,6 +578,39 @@ body{
     font-weight:900;
 }
 
+/* 누적 포인트 숨김 */
+.summary-card{
+    cursor:pointer;
+    user-select:none;
+}
+
+.summary-card .summary-count,
+.summary-card .summary-value{
+    filter:blur(7px);
+    transition:filter 0.25s ease;
+}
+
+/* 클릭 후 공개 */
+.summary-card.open .summary-count,
+.summary-card.open .summary-value{
+    filter:blur(0);
+}
+
+/* 안내 문구 */
+.summary-card::after{
+    content:"터치하여 보기";
+    display:block;
+    margin-top:8px;
+    font-size:11px;
+    font-weight:700;
+    color:#94a3b8;
+}
+
+.summary-card.open::after{
+    content:"";
+    margin-top:0;
+}
+
 /* 받은 포인트 */
 .summary-card.received .summary-value{
     color:#16a34a;
@@ -663,10 +696,11 @@ body{
 
 <div class="point-summary">
 
-    <div class="summary-card received">
+    <div class="summary-card received"
+        onclick="toggleSummary(this)">
 
         <div class="summary-title">
-            🎁 누적 받은 포인트
+            🎁 누적 충전 포인트
         </div>
 
         <div
@@ -686,7 +720,8 @@ body{
     </div>
 
 
-    <div class="summary-card used">
+    <div class="summary-card used"
+        onclick="toggleSummary(this)">
 
         <div class="summary-title">
             📉 누적 사용 포인트
@@ -979,6 +1014,10 @@ function goCharge(){
 
     location.href="/charge.html";
 
+}
+
+function toggleSummary(card){
+    card.classList.toggle("open");
 }
 </script>
 

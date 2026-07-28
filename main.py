@@ -13,9 +13,42 @@ from models import (
     PointHistory,
     PaceAnalysis,
     TelegramSetting,
-    TelegramSettingUpdate
+    TelegramSettingUpdate,
+    Race,
+    RaceDetail,
+    Horse,
+    Jockey,
+    TrainerHorse,
+    TrainerYear,
+    TrainerRecent,
+    Trainer,
+    Blood,
+    BasicAnalysis,
+    BloodAnalysis,
+    FinalAnalysis,
+    FeeSetting,
+    ChargeSetting,
+    ChargeRequest,
+    ChargeAccount,
+    FeePassword,
+    RaceAnalysis,
+    Attendance,
+    QuizHistory,
 )
-from schemas import MenuCreate
+
+from schemas import (
+    MenuCreate,
+    FindAccountRequest,
+    ResetPasswordRequest,
+    FeeUpdate,
+    PasswordChange,
+    ChargeSettingUpdate,
+    ChargeSettingCreate,
+    ChargeAccountUpdate,
+    ChargeRequestCreate,
+    AttendanceCheck,
+    QuizCheck,
+)
 from passlib.context import CryptContext
 from auth import create_access_token 
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,22 +64,11 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func
 import requests
 from config import BOT_TOKEN
+from sqlalchemy import func
+from quiz_answers import QUIZ_ANSWER
+import random
+import string
 
-
-
-
-class FindAccountRequest(BaseModel):
-    name: str
-    birth: str
-    phone: str
-
-
-class ResetPasswordRequest(BaseModel):
-    email: str
-    name: str
-    birth: str
-    phone: str
-    new_password: str
 
 
 print("🔥 현재 DB 위치:", os.path.abspath("db.sqlite3"))
@@ -54,755 +76,98 @@ from database import DATABASE_URL
 
 print("🔥 현재 DATABASE_URL:", DATABASE_URL)
 
-# =========================
-# 경주 테이블
-# =========================
-class Race(Base):
-    __tablename__ = "race"
-
-    id = Column(Integer, primary_key=True, index=True)
-    지역 = Column(String)
-    마명=Column(String)
-    순 = Column(Integer)
-    경주일자 = Column(String)
-    경주 = Column(Integer)
-    등급 = Column(String)
-    거리 = Column(String)
-    편성 = Column(String)
-    출전 = Column(String)
-    경주명 = Column(String)
-    출발시각 = Column(String)
-    비고 = Column(String)
-    취소마 = Column(Integer, default=0)
-    
-# =========================
-# 분석 테이블
-# =========================
-class raceAnalysis(Base):
-    __tablename__ = "analysis"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    region = Column(String)
-    race_no = Column(Integer)
-    race_date = Column(String)
-
-    star = Column(String)
-    square = Column(String)
-    empty = Column(String)
-    up = Column(String)
-    triangle = Column(String)
-    darkhorse = Column(String)
-
-    single = Column(String)
-    double = Column(String)
-    triple = Column(String)
-
-# =========================
-# 종합분석 테이블
-# =========================
-class FinalAnalysis(Base):
-
-    __tablename__ = "final_analysis"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    예상순위 = Column(Integer)
-
-    번호 = Column(Integer)
-    마명 = Column(String)
-
-    종합점수 = Column(Float)
-
-    실전점수 = Column(Float)
-    최근폼점수 = Column(Float)
-    혈통점수 = Column(Float)
-    거리점수 = Column(Float)
-    주로점수 = Column(Float)
-
-    RI = Column(Float)
-    CPI = Column(Float)
-    SPR = Column(Float)
-
-    평균속도지수 = Column(Float)
-    최대속도지수 = Column(Float)
-
-    DI = Column(Float)
-    CD = Column(Float)
-    COI = Column(Float)
-
-    승률 = Column(Float)
-    복승률 = Column(Float)
-    연승률 = Column(Float)
-
-    오착내율 = Column(Float)
-
-    최근5전평균착순 = Column(Float)
-    최근10전평균착순 = Column(Float)
-
-    주행유형 = Column(String)
-
-    과거최적거리 = Column(String)
-    과거최적주로 = Column(String)
-
-    추천사유 = Column(Text)
-
-    위험등급 = Column(String)
-    추천유형 = Column(String)
-    최종추천 = Column(String)
-
-    RI순위 = Column(Integer)
-    CPI순위 = Column(Integer)
-    SPR순위 = Column(Integer)
-
-    승률순위 = Column(Integer)
-    복승률순위 = Column(Integer)
-    연승률순위 = Column(Integer)
-
-    폼순위 = Column(Integer)
-    혈통순위 = Column(Integer)
-
-    강점 = Column(Text)
-    약점 = Column(Text)
-
-    종합코멘트 = Column(Text)
-
-    기수명 = Column(String)
-    조교사명 = Column(String)
-
-    중량 = Column(Float)
-
-    기수점수 = Column(Float)
-    조교사점수 = Column(Float)
-    부담중량점수 = Column(Float)
-
-    날짜 = Column(String)
-
-    지역 = Column(String)
-    경주번호 = Column(Integer)
-
-    최근순위 = Column(String)
-
-    평균경주전개 = Column(String)
-
-    도착차 = Column(String)
-
-    평균S1F = Column(String)
-
-    평균G1F = Column(String)
-
-    평균훈련량 = Column(String)
-
-    수영훈련 = Column(String)
-
-
-# =========================
-# 경주상세 테이블
-# =========================
-class RaceDetail(Base):
-
-    __tablename__="race_detail"
-
-    id=Column(Integer,primary_key=True,index=True)
-
-    경주일자=Column(String)
-    지역=Column(String)
-    경주=Column(Integer)
-
-    번호=Column(String)
-    마명=Column(String)
-    성별=Column(String)
-    나이=Column(String)
-
-    기수=Column(String)
-    조교사=Column(String)
-
-    부담중량=Column(String)
-    체중=Column(String)
-
-    레이팅=Column(String)
-    증감=Column(String)
-    마주명=Column(String)
-    조교횟수=Column(String)
-    출전주기=Column(String)
-    장구현황=Column(String)
-    특이사항=Column(String)
-    마종=Column(String)
-    최근전적=Column(String)
-
-# =========================
-# 경주마 테이블
-# =========================
-class Horse(Base):
-
-    __tablename__="horse"
-
-    id=Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    hr_no=Column(String)
-
-    마명=Column(String)
-    성별=Column(String)
-    나이=Column(String)
-
-    생년월일=Column(String)
-
-    기수=Column(String)
-    조교사=Column(String)
-    마주=Column(String)
-
-    부마=Column(String)
-    모마=Column(String)
-
-    통산전적=Column(String)
-    승률=Column(String)
-
-    수득상금=Column(String)
-    특징=Column(String)
-
-    최근전적=Column(String)
-
-
-# =========================
-# 기수 테이블
-# =========================
-class Jockey(Base):
-
-    __tablename__="jockey"
-
-    id=Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    jk_no=Column(String)
-
-    지역명=Column(String)
-    기수명=Column(String)
-
-    생년월일=Column(String)
-    데뷔일자=Column(String)
-    기승가능중량=Column(String)
-
-    통산전적=Column(String)
-
-    통산승률=Column(String)
-    통산복승률=Column(String)
-    통산연승률=Column(String)
-
-    최근1년=Column(String)
-
-    최근1년승률=Column(String)
-    최근1년복승률=Column(String)
-    최근1년연승률=Column(String)
-
-# =========================
-# 위탁관리말
-# =========================
-class TrainerHorse(Base):
-
-    __tablename__="trainer_horse"
-
-    id=Column(Integer,primary_key=True,index=True)
-
-    tr_no=Column(String)
-
-    마명=Column(String)
-    마주명=Column(String)
-
-    조번=Column(String)
-    등급=Column(String)
-
-    레이팅=Column(String)
-
-    산지=Column(String)
-    성별=Column(String)
-
-    연령=Column(String)
-
-    데뷔일자=Column(String)
-
-    전적=Column(String)
-
-
-# =========================
-# 연도별성적
-# =========================
-class TrainerYear(Base):
-
-    __tablename__="trainer_year"
-
-    id=Column(Integer,primary_key=True,index=True)
-
-    tr_no=Column(String)
-
-    연도=Column(String)
-
-    출전=Column(String)
-
-    일위=Column(String)
-    이위=Column(String)
-    삼위=Column(String)
-
-    승률=Column(String)
-    복승률=Column(String)
-    연승률=Column(String)
-
-    순위상금=Column(String)
-
-
-# =========================
-# 최근1개월
-# =========================
-class TrainerRecent(Base):
-
-    __tablename__="trainer_recent"
-
-    id=Column(Integer,primary_key=True,index=True)
-
-    tr_no=Column(String)
-
-    경주일자=Column(String)
-
-    마번=Column(String)
-    마명=Column(String)
-
-    기수명=Column(String)
-
-    등급=Column(String)
-
-    순위=Column(String)
-
-    중량=Column(String)
-
-    거리=Column(String)
-
-    기록=Column(String)
-
-    도착차=Column(String)
-
-    마체중=Column(String)
-
-
-
-
-# =========================
-# 조교사 테이블
-# =========================
-class Trainer(Base):
-
-    __tablename__="trainer"
-
-    id=Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    tr_no=Column(String)
-
-    지역명=Column(String)
-    조교사명=Column(String)
-
-    데뷔일자=Column(String)
-
-    통산전적=Column(String)
-
-    통산승률=Column(String)
-    통산복승률=Column(String)
-    통산연승률=Column(String)
-
-    최근1년=Column(String)
-
-    최근1년승률=Column(String)
-    최근1년복승률=Column(String)
-    최근1년연승률=Column(String)
-
-class FeeUpdate(BaseModel):
-
-    item:str
-    point:int
-    password:str
-
-
-# =========================
-# 충전신청 요청
-# =========================
-class ChargeRequestCreate(BaseModel):
-
-    depositor_name:str
-
-    product_name:str
-
-    point:int
-
-    amount:int
-
-# =========================
-# 충전계좌변경
-# =========================   
-class ChargeAccountUpdate(BaseModel):
-
-    bank_name:str
-    account_number:str
-    account_holder:str
-
-    password:str 
-
-# =========================
-# 이용요금관리
-# ========================= 
-class ChargeSettingUpdate(BaseModel):
-
-    id:int
-
-    name:str
-
-    point:int
-
-    price:int
-
-    is_active:int
-
-    password:str
-
-class ChargeSettingCreate(BaseModel):
-
-    name:str
-    point:int
-    price:int
-    is_active:int = 1
-    password:str    
-
-class BasicAnalysis(Base):
-
-    __tablename__ = "basic_analysis"
-
-    id = Column(Integer, primary_key=True)
-
-    지역 = Column(String)
-    경주 = Column(Integer)
-    경주일자 = Column(String)
-
-    번호 = Column(Integer)
-    마명 = Column(String)
-
-    기본점수 = Column(Integer)
-    기본코멘트 = Column(String)
-
-    혈통점수 = Column(Integer)
-    혈통코멘트 = Column(String)
-
-    전개점수 = Column(Integer)
-    전개코멘트 = Column(String)
-
-    종합점수 = Column(Integer)
-    종합코멘트 = Column(String)
-
-class BloodAnalysis(Base):
-
-    __tablename__ = "blood_analysis"
-
-    id = Column(Integer, primary_key=True)
-
-    지역 = Column(String)
-    경주 = Column(Integer)
-    경주일자 = Column(String)
-
-    번호 = Column(Integer)
-    마명 = Column(String)
-
-    도시지프로필 = Column(String)
-
-    DI = Column(String)
-    CD = Column(String)
-
-    근친 = Column(String)
-
-    AWD = Column(String)
-    부AWD = Column(String)
-    모AWD = Column(String)
-    모부AWD = Column(String)
-
-    경주마특성 = Column(String)
-    거리적합 = Column(String)
-
-    코멘트 = Column(String)
-
-    점수 = Column(Integer)
-
-
-# =========================
-# 혈통테이블
-# =========================
-class Blood(Base):
-
-    __tablename__="blood"
-
-    id=Column(Integer, primary_key=True, index=True)
-
-    출전날짜=Column(String)
-
-    지역=Column(String)
-    meet=Column(String)
-
-    경주번호=Column(String)
-    거리=Column(String)
-
-    표번호=Column(String)
-    원본URL=Column(String)
-
-    번호=Column(String)
-
-    부마=Column(String)
-    모마=Column(String)
-    외조부마=Column(String)
-
-    도시지프로필=Column(String)
-
-    DI=Column(String)
-    CD=Column(String)
-
-    근친=Column(String)
-
-    AWD=Column(String)
-    부AWD=Column(String)
-    모AWD=Column(String)
-    모부AWD=Column(String)
-
-    마명=Column(String)
-
-    연령=Column(String)
-    레이팅=Column(String)
-
-    최근순위=Column(String)
-    도착차=Column(String)
-
-    경주성적=Column(String)
-
-    기수=Column(String)
-    기수복승률=Column(String)
-
-    부담중량=Column(String)
-
-    최고기록=Column(String)
-    평균기록=Column(String)
-
-    평균S1F=Column(String)
-    평균G3F=Column(String)
-    평균G1F=Column(String)
-
-    최고G3F=Column(String)
-
-    통산펄롱=Column(String)
-    통산부담=Column(String)
-
-    평균경주전개=Column(String)
-
-    전적=Column(String)
-    현군성적=Column(String)
-
-    상금비율=Column(String)
-
-    훈련량수영훈련=Column(String)
-    평균훈련량=Column(String)
-
-    수입전경주성적=Column(String)
-
-    경매가수입가=Column(String)
-
-    조교사=Column(String)
-
-# =========================
-# 이용요금 설정 테이블
-# =========================
-class FeeSetting(Base):
-
-    __tablename__ = "fee_settings"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    item = Column(
-        String,
-        unique=True
-    )
-
-    point = Column(
-        Integer,
-        default=0
-    )
-# =========================
-# 충전상품 설정
-# =========================
-class ChargeSetting(Base):
-
-    __tablename__ = "charge_settings"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    name = Column(String)
-
-    point = Column(Integer)
-
-    price = Column(Integer)
-
-    sort_order = Column(
-        Integer,
-        default=0
-    )
-
-    is_active = Column(
-        Integer,
-        default=1
-    )
-
-# =========================
-# 입금계좌 설정
-# =========================
-class ChargeAccount(Base):
-
-    __tablename__ = "charge_account"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    bank_name = Column(String)
-
-    account_number = Column(String)
-
-    account_holder = Column(String)
-
-    notice = Column(String)
-
-# =========================
-# 충전신청
-# =========================
-class ChargeRequest(Base):
-
-    __tablename__ = "charge_requests"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True
-    )
-
-    email = Column(String)
-
-    depositor_name = Column(String)
-
-    product_name = Column(String)
-
-    point = Column(Integer)
-
-    amount = Column(Integer)
-
-    status = Column(
-        String,
-        default="대기"
-    )
-
-    created_at = Column(String)
-
-    processed_at = Column(String)
-
-# =========================
-# 관리자 비밀번호변경
-# =========================
-class PasswordChange(BaseModel):
-
-    current_password:str
-
-    new_password:str
-
-    confirm_password:str
-
-# =========================
-# 이용요금 변경 비밀번호
-# =========================
-class FeePassword(Base):
-
-    __tablename__ = "fee_password"
-
-    id = Column(Integer, primary_key=True)
-
-    password = Column(String)
-
-
-Base.metadata.create_all(bind=engine)
-
-# =========================
-# race_detail 마종 컬럼 추가
-# =========================
-try:
-    with engine.begin() as conn:
-
-        conn.execute(text("""
-            ALTER TABLE race_detail
-            ADD COLUMN "마종" VARCHAR
-        """))
-
-    print("✅ race_detail 마종 컬럼 추가 완료")
-
-except Exception as e:
-    print("ℹ️ race_detail 마종 컬럼 이미 존재:", e)
 
 with engine.begin() as conn:
 
-    conn.execute(text("""
-    INSERT INTO fee_settings
-    (item, point)
-    VALUES
-    ('basic',100)
-    ON CONFLICT DO NOTHING
-    """))
+    fee_settings = [
+
+        # =========================
+        # 분석상품
+        # =========================
+        ("basic", "기본분석", "분석상품", 100, 1, 1, "기본 AI 분석"),
+        ("blood", "혈통분석", "분석상품", 200, 2, 1, "혈통 AI 분석"),
+        ("pace", "전개분석", "분석상품", 400, 3, 1, "전개 AI 분석"),
+        ("total", "종합분석", "분석상품", 300, 4, 1, "종합 AI 분석"),
+
+        # =========================
+        # 출석보상
+        # =========================
+        ("attendance_daily", "하루 출석", "출석보상", 10, 101, 1, "하루 출석 완료 시 지급"),
+
+        ("attendance_streak_7", "7일 연속 출석", "출석보상", 100, 102, 1, "7일 연속 출석 보상"),
+
+        ("attendance_streak_30", "30일 연속 출석", "출석보상", 1000, 103, 1, "30일 연속 출석 보상"),
+
+        # =========================
+        # 퀴즈보상
+        # =========================
+        ("quiz_daily", "오늘의 퀴즈", "퀴즈보상", 20, 201, 1, "퀴즈 정답 보상"),
+
+        ("knowledge_daily", "경마상식", "퀴즈보상", 10, 202, 1, "경마 상식 학습 보상"),
+
+        # =========================
+        # 회원보상
+        # =========================
+        ("signup_reward", "회원가입", "회원보상", 500, 301, 1, "신규 회원가입 보상"),
+
+        ("referral_reward", "추천인", "회원보상", 500, 302, 1, "추천인 등록 보상"),
+
+        ("birthday_reward", "생일축하", "회원보상", 1000, 303, 1, "생일 축하 포인트"),
+
+        # =========================
+        # 이벤트
+        # =========================
+        ("event_reward", "이벤트 지급", "이벤트", 1000, 401, 1, "이벤트 지급 포인트"),
+
+        ("admin_reward", "관리자 지급", "이벤트", 1000, 402, 1, "관리자 수동 지급"),
+
+    ]
+
+    for item, name, category, point, sort_order, is_active, description in fee_settings:
+
+        conn.execute(text("""
+            INSERT INTO fee_settings
+            (
+                item,
+                name,
+                category,
+                point,
+                sort_order,
+                is_active,
+                description
+            )
+            VALUES
+            (
+                :item,
+                :name,
+                :category,
+                :point,
+                :sort_order,
+                :is_active,
+                :description
+            )
+            ON CONFLICT(item)
+            DO UPDATE SET
+                name = excluded.name,
+                category = excluded.category,
+                sort_order = excluded.sort_order,
+                description = excluded.description
+        """),{
+            "item": item,
+            "name": name,
+            "category": category,
+            "point": point,
+            "sort_order": sort_order,
+            "is_active": is_active,
+            "description": description
+        })
 
     conn.execute(text("""
-    INSERT INTO fee_settings
-    (item, point)
-    VALUES
-    ('blood',200)
-    ON CONFLICT DO NOTHING
-    """))
-
-    conn.execute(text("""
-    INSERT INTO fee_settings
-    (item, point)
-    VALUES
-    ('pace',200)
-    ON CONFLICT DO NOTHING
-    """))
-
-    conn.execute(text("""
-    INSERT INTO fee_settings
-    (item, point)
-    VALUES
-    ('total',300)
-    ON CONFLICT DO NOTHING
-    """))
-
-    conn.execute(text("""
-    INSERT INTO fee_password
-    (id,password)
-    VALUES
-    (1,'admin')
-    ON CONFLICT DO NOTHING
+        INSERT INTO fee_password
+        (id,password)
+        VALUES
+        (1,'admin')
+        ON CONFLICT DO NOTHING
     """))
 
 # =========================
@@ -932,6 +297,78 @@ try:
 except Exception:
 
     pass
+
+    try:
+
+        with engine.begin() as conn:
+
+            conn.execute(text("""
+            ALTER TABLE members
+            ADD COLUMN referral_code VARCHAR
+            """))
+
+            print("✅ referral_code 컬럼 추가")
+
+    except Exception:
+        pass
+
+
+    try:
+
+        with engine.begin() as conn:
+
+            conn.execute(text("""
+            ALTER TABLE members
+            ADD COLUMN referred_by VARCHAR
+            """))
+
+            print("✅ referred_by 컬럼 추가")
+
+    except Exception:
+        pass
+
+    with engine.connect() as conn:
+
+        conn.commit()
+
+    # =========================
+    # fee_settings 컬럼 추가
+    # =========================
+
+    NEW_FEE_COLUMNS = [
+
+        ("name", "VARCHAR"),
+
+        ("category", "VARCHAR"),
+
+        ("sort_order", "INTEGER DEFAULT 0"),
+
+        ("is_active", "BOOLEAN DEFAULT 1"),
+
+        ("description", "VARCHAR DEFAULT ''")
+
+    ]
+
+    for col, col_type in NEW_FEE_COLUMNS:
+
+        try:
+
+            with engine.begin() as conn:
+
+                conn.execute(text(f'''
+                    ALTER TABLE fee_settings
+                    ADD COLUMN "{col}" {col_type}
+                '''))
+
+            print(f"✅ fee_settings {col} 컬럼 추가")
+
+        except Exception as e:
+
+            print(f"ℹ️ fee_settings {col} 컬럼 이미 존재:", e)
+
+    app = FastAPI()
+
+    Base.metadata.create_all(bind=engine)
 
 NEW_COLUMNS = [
 
@@ -1237,10 +674,18 @@ with engine.connect() as conn:
 
 app = FastAPI()
 
+Base.metadata.create_all(bind=engine)
+
 app.mount(
     "/frontend",
     StaticFiles(directory="frontend"),
     name="frontend"
+)
+
+app.mount(
+    "/js",
+    StaticFiles(directory="frontend/js"),
+    name="js"
 )
 
 app.add_middleware(
@@ -1601,6 +1046,29 @@ def verify_password(plain, hashed):
     return pwd_context.verify(plain, hashed)
 
 
+
+# =========================
+# 추천코드 생성
+# =========================
+def make_referral_code(db):
+
+    while True:
+
+        code = "ALM" + "".join(
+            random.choices(
+                string.ascii_uppercase + string.digits,
+                k=6
+            )
+        )
+
+        exist = db.query(Member).filter(
+            Member.referral_code == code
+        ).first()
+
+        if not exist:
+            return code
+
+
 # =========================
 # 현재 로그인 사용자
 # =========================
@@ -1645,6 +1113,21 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if exist:
         raise HTTPException(400, "이미 존재하는 이메일")
 
+    # =========================
+    # 회원가입 보상
+    # =========================
+    signup_reward = db.query(FeeSetting).filter(
+        FeeSetting.item == "signup_reward"
+    ).first()
+
+    signup_point = 0
+
+    if signup_reward and signup_reward.is_active:
+        signup_point = signup_reward.point
+
+        print("signup_reward =", signup_reward)
+        print("signup_point =", signup_point)
+
     new_user = Member(
         email=user.email,
         password=hash_password(user.password),
@@ -1652,16 +1135,47 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
         birth=user.birth,
         phone=user.phone,
 
-        created_at=datetime.now().strftime(
-            "%Y-%m-%d %H:%M:%S"
-        ),
+        created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
 
         is_premium=False,
-        point=0
+
+        point=signup_point,
+
+        referral_code=make_referral_code(db),
+
+        referred_by=user.referred_by
     )
 
     db.add(new_user)
     db.commit()
+
+    # =========================
+    # 추천인 보상
+    # =========================
+    if user.referred_by:
+
+        print("입력 추천인:", user.referred_by)
+
+        referrer = db.query(Member).filter(
+            Member.referral_code == user.referred_by
+        ).first()
+
+        print("조회결과:", referrer)
+
+        if referrer:
+
+            print("추천인 이메일:", referrer.email)
+
+            referral_reward = db.query(FeeSetting).filter(
+                FeeSetting.item == "referral_reward"
+            ).first()
+
+            print("보상:", referral_reward)
+
+            if referral_reward and referral_reward.is_active:
+                referrer.point += referral_reward.point
+                new_user.point += referral_reward.point
+                db.commit()
 
     return {"msg": "회원가입 완료"}
 
@@ -1700,16 +1214,18 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
             str(e)
         )
 
+    login_email = user.email.strip().lower()
+
     member = db.query(Member).filter(
-        Member.email == user.email
+        func.lower(Member.email) == login_email
     ).first()
 
     admin = db.query(Admin).filter(
-        Admin.email == user.email
+        func.lower(Admin.email) == login_email
     ).first()
 
     superadmin = db.query(SuperAdmin).filter(
-        SuperAdmin.email == user.email
+        func.lower(SuperAdmin.email) == login_email
     ).first()
 
     print("member =", member)
@@ -3083,10 +2599,10 @@ async def save_raceanalysis(req: Request, db: Session = Depends(get_db)):
     data = await req.json()
 
     # 🔥 기존 데이터 있는지 확인
-    existing = db.query(raceAnalysis).filter(
-        raceAnalysis.region == data["region"],
-        raceAnalysis.race_no == data["race_no"],
-        raceAnalysis.race_date == data["race_date"]
+    existing = db.query(RaceAnalysis).filter(
+        RaceAnalysis.region == data["region"],
+        RaceAnalysis.race_no == data["race_no"],
+        RaceAnalysis.race_date == data["race_date"]
     ).first()
 
     if existing:
@@ -3103,7 +2619,7 @@ async def save_raceanalysis(req: Request, db: Session = Depends(get_db)):
 
     else:
         # 🔥 신규 생성
-        new_data = raceAnalysis(**data)
+        new_data = RaceAnalysis(**data)
         db.add(new_data)
 
     db.commit()
@@ -3126,7 +2642,7 @@ def get_raceanalysis_table(
             raise HTTPException(403, "결제 필요")
 
     races = db.query(Race).all()
-    analyses = db.query(raceAnalysis).all()
+    analyses = db.query(RaceAnalysis).all()
 
     result = []
 
@@ -3179,6 +2695,7 @@ def get_users(db: Session = Depends(get_db), current=Depends(get_current_user)):
             "name": m.name,
             "birth": m.birth,
             "phone": m.phone,
+            "referral_code": m.referral_code, 
             "is_premium": m.is_premium,
             "is_admin": m.email in admin_emails,
             "point": m.point
@@ -4988,7 +4505,8 @@ def my_profile(
         "name":user.name,
         "birth":user.birth,
         "phone":user.phone,
-        "point":user.point
+        "point":user.point,
+        "referral_code": user.referral_code
     }
 @app.get("/my.html")
 def my_page():
@@ -6045,41 +5563,160 @@ def make_pace_analysis(row):
 
     running = "보통"
 
-    if row.평균경주전개:
+    try:
 
-        try:
+        pace_value = row.평균경주전개
 
-            nums = [
-                int(x)
-                for x in str(
-                    row.평균경주전개
-                ).split("-")
-                if x.strip().isdigit()
-            ]
+        if pace_value:
+
+            # 여러 구분자를 "-"로 통일
+            pace_text = str(pace_value)
+
+            pace_text = (
+                pace_text
+                .replace(",", "-")
+                .replace("/", "-")
+                .replace(" ", "-")
+            )
+
+            nums = []
+
+            for x in pace_text.split("-"):
+
+                x = x.strip()
+
+                if x.isdigit():
+
+                    nums.append(
+                        int(x)
+                    )
 
             if nums:
 
+                # 전체 평균 위치
                 avg_pos = (
-                    sum(nums) / len(nums)
+                    sum(nums)
+                    / len(nums)
                 )
 
-                if avg_pos <= 3:
+                # 첫 번째 전개 위치
+                first_pos = nums[0]
+
+
+                # =====================
+                # 선행
+                # =====================
+
+                if avg_pos <= 3.5:
 
                     running = "선행"
                     score += 20
 
-                elif avg_pos <= 6:
+
+                # 초반 선행권 진입형
+                elif (
+                    first_pos <= 3
+                    and avg_pos <= 5.5
+                ):
+
+                    running = "선행"
+                    score += 18
+
+
+                # =====================
+                # 선입
+                # =====================
+
+                elif avg_pos <= 6.5:
 
                     running = "선입"
                     score += 15
 
-                else:
+
+                # =====================
+                # 추입
+                # =====================
+
+                elif avg_pos >= 8:
 
                     running = "추입"
                     score += 10
 
-        except:
-            pass
+
+                # =====================
+                # 보통
+                # =====================
+
+                else:
+
+                    running = "보통"
+                    score += 12
+
+
+    except Exception as e:
+
+        print(
+            "주행유형 계산 오류:",
+            e
+        )
+
+
+        # =====================
+        # 주행유형 보조판정
+        # 전개자료가 부족한 경우
+        # =====================
+
+        if running == "보통":
+
+            try:
+
+                rank_text = str(row.최근순위)
+
+                rank_text = (
+                    rank_text
+                    .replace("-", " ")
+                    .replace(",", " ")
+                    .replace("/", " ")
+                )
+
+                rank_nums = [
+                    int(x)
+                    for x in rank_text.split()
+                    if x.isdigit()
+                ]
+
+                if rank_nums:
+
+                    avg_rank = (
+                        sum(rank_nums)
+                        / len(rank_nums)
+                    )
+
+                    # 최근 성적이 좋은 말
+                    if avg_rank <= 4:
+
+                        running = "선입"
+                        score += 15
+
+                    # 중간권 성적
+                    elif avg_rank <= 8:
+
+                        running = "추입"
+                        score += 10
+
+                    # 그 외
+                    else:
+
+                        running = "보통"
+                        score += 8
+
+            except Exception as e:
+
+                print(
+                    "주행유형 보조판정 오류:",
+                    row.최근순위,
+                    e
+                )
 
     # =====================
     # 최근흐름
@@ -6087,24 +5724,32 @@ def make_pace_analysis(row):
 
     trend = "보통"
 
-    if row.최근순위:
+    try:
 
-        try:
+        rank_value = row.최근순위
+
+        if rank_value:
+
+            rank_text = str(rank_value)
+
+            rank_text = (
+                rank_text
+                .replace("-", " ")
+                .replace(",", " ")
+                .replace("/", " ")
+            )
 
             nums = [
                 int(x)
-                for x in str(
-                    row.최근순위
-                ).replace("-", " ")
-                 .replace(",", " ")
-                 .split()
+                for x in rank_text.split()
                 if x.isdigit()
             ]
 
             if nums:
 
                 avg_rank = (
-                    sum(nums) / len(nums)
+                    sum(nums)
+                    / len(nums)
                 )
 
                 if avg_rank <= 3:
@@ -6122,8 +5767,14 @@ def make_pace_analysis(row):
                     trend = "부진"
                     score += 10
 
-        except:
-            pass
+
+    except Exception as e:
+
+        print(
+            "최근흐름 계산 오류:",
+            e
+        )
+
 
     # =====================
     # 코스적합
@@ -6152,27 +5803,47 @@ def make_pace_analysis(row):
             course = "보통"
             score += 10
 
-    except:
+
+    except Exception:
+
         pass
+
 
     # =====================
     # 전개패턴
     # =====================
 
-    pattern = f"{running}형"
+    pattern = (
+        f"{running}형"
+    )
+
+
+    # =====================
+    # 코멘트
+    # =====================
 
     comment = (
         f"{trend}, "
         f"{running} 전개 예상"
     )
 
+
+    # =====================
+    # 결과 반환
+    # =====================
+
     return {
 
         "주행유형": running,
+
         "최근흐름": trend,
+
         "전개패턴": pattern,
+
         "코스적합": course,
+
         "코멘트": comment,
+
         "점수": score
 
     }
@@ -6406,19 +6077,41 @@ app.mount(
 
 @app.get("/fee-settings")
 def get_fee_settings(
+
     db: Session = Depends(get_db)
+
 ):
 
-    rows = db.query(
-        FeeSetting
-    ).all()
+    rows = (
+        db.query(FeeSetting)
+        .order_by(
+            FeeSetting.sort_order
+        )
+        .all()
+    )
 
     return [
+
         {
+
             "item": r.item,
-            "point": r.point
+
+            "name": r.name,
+
+            "category": r.category,
+
+            "point": r.point,
+
+            "sort_order": r.sort_order,
+
+            "is_active": r.is_active,
+
+            "description": r.description
+
         }
+
         for r in rows
+
     ]
 
 @app.post("/save-fee-setting")
@@ -6430,11 +6123,13 @@ def save_fee_setting(
 
 ):
 
-    pw = db.query(
-        FeePassword
-    ).filter(
-        FeePassword.id == 1
-    ).first()
+    pw = (
+        db.query(FeePassword)
+        .filter(
+            FeePassword.id == 1
+        )
+        .first()
+    )
 
     if not pw:
 
@@ -6450,11 +6145,13 @@ def save_fee_setting(
             "비밀번호 불일치"
         )
 
-    row = db.query(
-        FeeSetting
-    ).filter(
-        FeeSetting.item == data.item
-    ).first()
+    row = (
+        db.query(FeeSetting)
+        .filter(
+            FeeSetting.item == data.item
+        )
+        .first()
+    )
 
     if not row:
 
@@ -6464,11 +6161,14 @@ def save_fee_setting(
         )
 
     row.point = data.point
+    row.is_active = data.is_active
 
     db.commit()
 
     return {
+
         "msg":"저장 완료"
+
     }
 
 @app.get("/charge-settings")
@@ -8145,5 +7845,485 @@ def get_similar_report_data(
         "return horses =",
         len(result["horses"])
     )
+
+    return result
+
+@app.get("/weekly-race.html")
+def weekly_race_page():
+    return FileResponse("frontend/weekly-race.html")    
+
+# =========================
+# 이번주 경주 조회
+# =========================
+@app.get("/weekly-race-data")
+def weekly_race_data(db: Session = Depends(get_db)):
+
+    rows = (
+        db.query(Race)
+        .order_by(
+            Race.경주일자,
+            Race.지역,
+            Race.경주
+        )
+        .all()
+    )
+
+    result = {}
+
+    for row in rows:
+
+        date = row.경주일자
+
+        if date not in result:
+
+            result[date] = {
+                "title": date,
+                "regions": {}
+            }
+
+        if row.지역 not in result[date]["regions"]:
+
+            result[date]["regions"][row.지역] = []
+
+        result[date]["regions"][row.지역].append({
+
+            "race": row.경주,
+            "grade": row.등급,
+            "distance": row.거리,
+            "horse_count": row.출전,
+            "start_time": row.출발시각,
+            "cancel": row.취소마
+
+        })
+
+    return result
+
+
+# =========================
+# 출석상태 조회
+# =========================
+@app.get("/attendance-status")
+def attendance_status(
+
+    email: str,
+
+    db: Session = Depends(get_db)
+
+):
+
+    member = (
+        db.query(Member)
+        .filter(Member.email == email)
+        .first()
+    )
+
+    if not member:
+
+        raise HTTPException(
+            status_code=404,
+            detail="회원이 없습니다."
+        )
+
+    today = datetime.now().strftime("%Y%m%d")
+
+    attendance = (
+        db.query(Attendance)
+        .filter(
+            Attendance.member_id == member.id,
+            Attendance.attend_date == today
+        )
+        .first()
+    )
+
+    latest = (
+        db.query(Attendance)
+        .filter(
+            Attendance.member_id == member.id
+        )
+        .order_by(
+            Attendance.id.desc()
+        )
+        .first()
+    )
+
+    # 이번 달 출석 날짜 조회
+    current_month = datetime.now().strftime("%Y%m")
+
+    monthly_attendances = (
+        db.query(Attendance)
+        .filter(
+            Attendance.member_id == member.id,
+            Attendance.attend_date.like(f"{current_month}%")
+        )
+        .order_by(Attendance.attend_date.asc())
+        .all()
+    )
+
+    attended_dates = [
+        item.attend_date
+        for item in monthly_attendances
+    ]
+
+    return {
+
+        "today": attendance is not None,
+
+        "streak": latest.streak if latest else 0,
+
+        "reward": 10,
+
+        "point": member.point,
+
+        "attended_dates": attended_dates
+
+    }
+
+# =========================
+# 출석하기
+# =========================
+@app.post("/attendance-check")
+def attendance_check(
+
+    item: AttendanceCheck,
+
+    db: Session = Depends(get_db)
+
+):
+
+    member = (
+        db.query(Member)
+        .filter(Member.email == item.email)
+        .first()
+    )
+
+    if not member:
+
+        raise HTTPException(
+            404,
+            "회원 없음"
+        )
+
+    today = datetime.now().strftime("%Y%m%d")
+
+    exist = (
+        db.query(Attendance)
+        .filter(
+            Attendance.member_id == member.id,
+            Attendance.attend_date == today
+        )
+        .first()
+    )
+
+    if exist:
+
+        return {
+
+            "success": False,
+
+            "msg": "오늘 이미 출석했습니다.",
+
+            "point": member.point,
+
+            "streak": exist.streak
+
+        }
+
+    last = (
+        db.query(Attendance)
+        .filter(
+            Attendance.member_id == member.id
+        )
+        .order_by(
+            Attendance.id.desc()
+        )
+        .first()
+    )
+
+    streak = 1
+
+    if last:
+        streak = last.streak + 1
+
+    # =========================
+    # 보상 계산
+    # =========================
+    reward = 10
+
+    bonus_message = ""
+
+    if streak == 7:
+        bonus_message = "🎉 7일 연속출석 보너스 +100P!"
+
+    elif streak == 30:
+        bonus_message = "🏆 30일 연속출석 보너스 +1000P!"
+
+    attendance = Attendance(
+
+        member_id = member.id,
+
+        attend_date = today,
+
+        streak = streak,
+
+        reward = reward,
+
+        created_at = datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+    )
+
+    db.add(attendance)
+
+    # =========================
+    # 출석 기본 보상
+    # =========================
+
+    member.point += 10
+
+    history = PointHistory(
+
+        email = member.email,
+
+        type = "attendance",
+
+        amount = 10,
+
+        remain_point = member.point,
+
+        description = "출석체크 보상",
+
+        created_at = str(datetime.now())
+
+    )
+
+    db.add(history)
+
+    # =========================
+    # 연속출석 보너스
+    # =========================
+
+    if streak == 7:
+
+        member.point += 100
+
+        history = PointHistory(
+
+            email = member.email,
+
+            type = "attendance",
+
+            amount = 100,
+
+            remain_point = member.point,
+
+            description = "7일 연속출석 보너스",
+
+            created_at = str(datetime.now())
+
+        )
+
+        db.add(history)
+
+    elif streak == 30:
+
+        member.point += 1000
+
+        history = PointHistory(
+
+            email = member.email,
+
+            type = "attendance",
+
+            amount = 1000,
+
+            remain_point = member.point,
+
+            description = "30일 연속출석 보너스",
+
+            created_at = str(datetime.now())
+
+        )
+
+        db.add(history)
+
+    db.commit()
+
+    return {
+
+        "success": True,
+
+        "point": member.point,
+
+        "streak": streak,
+
+        "reward": reward,
+
+        "bonus_message": bonus_message
+
+    }
+
+# =========================
+# 퀴즈 정답 확인
+# =========================
+@app.post("/quiz-check")
+def quiz_check(
+
+    item: QuizCheck,
+
+    db: Session = Depends(get_db)
+
+):
+
+    member = (
+        db.query(Member)
+        .filter(Member.email == item.email)
+        .first()
+    )
+
+    if not member:
+
+        raise HTTPException(
+            404,
+            "회원 없음"
+        )
+
+    today = datetime.now().strftime("%Y%m%d")
+
+    # 오늘 이미 퀴즈를 풀었는지
+    exist = (
+        db.query(QuizHistory)
+        .filter(
+            QuizHistory.member_id == member.id,
+            QuizHistory.quiz_date == today
+        )
+        .first()
+    )
+
+    if exist:
+
+        return {
+
+            "success": False,
+
+            "msg": "오늘 이미 퀴즈를 완료했습니다.",
+
+            "point": member.point
+
+        }
+
+    # =========================
+    # 정답 판정
+    # =========================
+
+    correct_answer = QUIZ_ANSWER.get(item.quiz_id)
+
+    if correct_answer is None:
+
+        raise HTTPException(
+            status_code=400,
+            detail="존재하지 않는 퀴즈입니다."
+        )
+
+    correct = (
+        item.answer == correct_answer
+    )
+
+    reward = 20 if correct else 0
+
+    history = QuizHistory(
+
+        member_id = member.id,
+
+        quiz_date = today,
+
+        quiz_id = item.quiz_id,
+
+        is_correct = correct,
+
+        point = reward
+
+    )
+
+    db.add(history)
+
+    if reward > 0:
+
+        member.point += reward
+
+        point_history = PointHistory(
+
+            email = member.email,
+
+            type = "quiz",
+
+            amount = reward,
+
+            remain_point = member.point,
+
+            description = "오늘의 경마퀴즈",
+
+            created_at = str(datetime.now())
+
+        )
+
+        db.add(point_history)
+
+    db.commit()
+
+    return {
+
+        "success": True,
+
+        "correct": correct,
+
+        "correct_answer": correct_answer,
+
+        "reward": reward,
+
+        "point": member.point
+
+    }
+
+@app.get("/attendance-list")
+def attendance_list(db: Session = Depends(get_db)):
+    return db.query(Attendance).all()
+
+# =========================
+# HTML 페이지
+# =========================
+
+@app.get("/")
+def home():
+    return FileResponse("frontend/index.html")
+
+
+@app.get("/attendance")
+def attendance():
+    print("★★★★ attendance route 실행 ★★★★")
+    return FileResponse("frontend/attendance.html")
+
+
+@app.get("/analysis")
+def analysis():
+    return FileResponse("frontend/analysis.html")
+
+@app.get("/point-policy")
+def point_policy(db: Session = Depends(get_db)):
+
+    rows = db.query(FeeSetting).filter(
+        FeeSetting.is_active == True
+    ).all()
+
+    result = {}
+
+    for r in rows:
+
+        result[r.item] = {
+            "point": r.point,
+            "name": r.name,
+            "category": r.category,
+            "is_active": r.is_active
+        }
 
     return result

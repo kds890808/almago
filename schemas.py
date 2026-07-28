@@ -9,7 +9,8 @@ class UserCreate(BaseModel):
     name: str
     birth: str
     phone: str
-
+    referred_by: str | None = None
+    
 class UserLogin(BaseModel):
     email: str
     password: str
@@ -79,3 +80,108 @@ class PaceAnalysisSave(BaseModel):
 
     코멘트:str
     점수:int
+
+
+class FindAccountRequest(BaseModel):
+    name: str
+    birth: str
+    phone: str
+
+
+class ResetPasswordRequest(BaseModel):
+    email: str
+    name: str
+    birth: str
+    phone: str
+    new_password: str    
+
+
+class FeeUpdate(BaseModel):
+
+    item: str
+
+    point: int
+
+    is_active: bool
+
+    password: str
+
+# =========================
+# 관리자 비밀번호변경
+# =========================
+class PasswordChange(BaseModel):
+
+    current_password:str
+
+    new_password:str
+
+    confirm_password:str    
+
+
+# =========================
+# 이용요금관리
+# ========================= 
+class ChargeSettingUpdate(BaseModel):
+
+    id:int
+
+    name:str
+
+    point:int
+
+    price:int
+
+    is_active:int
+
+    password:str
+
+class ChargeSettingCreate(BaseModel):
+
+    name:str
+    point:int
+    price:int
+    is_active:int = 1
+    password:str            
+
+# =========================
+# 충전계좌변경
+# =========================   
+class ChargeAccountUpdate(BaseModel):
+
+    bank_name:str
+    account_number:str
+    account_holder:str
+
+    password:str         
+
+
+# =========================
+# 충전신청 요청
+# =========================
+class ChargeRequestCreate(BaseModel):
+
+    depositor_name:str
+
+    product_name:str
+
+    point:int
+
+    amount:int      
+
+# =========================
+# 출석체크
+# =========================
+class AttendanceCheck(BaseModel):
+
+    email: str    
+
+# =========================
+# 퀴즈풀었는지
+# =========================
+class QuizCheck(BaseModel):
+
+    email: str
+
+    quiz_id: int
+
+    answer: int    

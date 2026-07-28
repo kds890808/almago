@@ -2371,23 +2371,120 @@ td{
 /* 출전마 정보 모바일 축소 */
 @media(max-width:520px){
 
-    .entry-detail{
-        margin-bottom:18px;
-        border-radius:12px;
+    .blood-summary-grid{
+        gap:10px;
     }
 
-    .entry-detail summary{
-        padding:10px 12px;
+    .summary-item{
+        padding:14px 12px;
         font-size:14px;
-        line-height:1.3;
     }
 
-    .entry-detail summary::before{
-        margin-right:6px;
-        font-size:12px;
+    .summary-title{
+        font-size:16px;
+        white-space:nowrap;
     }
 
+    .summary-body{
+        font-size:14px;
+        line-height:1.7;
+    }
+
+    .summary-value{
+        font-size:27px;
+        white-space:nowrap;
+    }
 }
+
+    /* COI 상태 배지 모바일 */
+    .compare-normal,
+    .compare-warning,
+    .compare-danger{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:3px;
+
+        padding:5px 7px;
+        font-size:13px;
+        line-height:1;
+
+        white-space:nowrap;
+        border-radius:999px;
+    }
+
+    .awd-summary-wrap{
+        flex-direction:column;
+        align-items:stretch;
+        gap:20px;
+    }
+
+    .awd-summary-text{
+        min-width:0;
+        width:100%;
+        padding-left:0;
+    }
+
+    .awd-summary-right{
+        max-width:100%;
+        width:100%;
+        text-align:left;
+    }
+
+    .awd-summary-result{
+        font-size:24px;
+        white-space:normal;
+    }
+
+    .awd-header{
+        font-size:20px;
+        white-space:nowrap;
+    }    
+
+    /* 혈통 원본 데이터 좌우 스크롤 화살표 */
+    .basic-scroll-guide{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:12px;
+
+        padding:8px 0 4px;
+
+        font-size:13px;
+        color:#64748b;
+        white-space:nowrap;
+    }
+
+    .basic-scroll-guide span{
+        font-size:22px;
+        font-weight:900;
+        color:#2563eb;
+    }
+
+    .basic-scroll-guide b{
+        font-size:13px;
+        font-weight:700;
+    }
+
+    /* 혈통 원본 테이블 모바일 콤팩트 */
+    @media (max-width:520px){
+
+        .blood-table th,
+        .blood-table td{
+            padding:-4px 6px !important;
+            height:36px !important;
+            min-height:0 !important;
+            line-height:1.15 !important;
+            font-size:13px !important;
+            white-space:nowrap;
+        }
+
+        .blood-table .distance-badge{
+            padding:4px 7px !important;
+            font-size:12px !important;
+        }
+
+    }
 </style>
 
 </head>
@@ -2993,10 +3090,10 @@ margin-top:4px;
 font-weight:500;
 ">
 
-근친도 (낮을수록 안정적)
+근친도 (낮을수록 안정적)<br>
 
-🟡 주의 : 오늘 출전마 중 근친도가 높은 편
-🔴 위험 : 12.5% 이상
+🟡 주의 : 오늘 출전마 중 근친도가 높은 편<br>
+🔴 위험 : 12.5% 이상<br>
 
 </div>
 
@@ -3647,6 +3744,27 @@ if(h.점수 >= 95){
         <td>${h.번호}</td>
         <td>${h.마명}</td>
 
+        <td>
+            <div class="${scoreClass}">
+                ${h.점수}
+            </div>
+        </td>
+
+        <td>
+            <span class="
+                distance-badge
+                ${
+                    h.거리적합 === "단거리"
+                    ? "distance-short"
+                    : h.거리적합 === "중거리"
+                    ? "distance-middle"
+                    : "distance-long"
+                }
+            ">
+                ${h.거리적합}
+            </span>
+        </td>
+
         <td>${h.도시지프로필 || "-"}</td>
 
         <td>${h.DI}</td>
@@ -3688,36 +3806,11 @@ if(h.점수 >= 95){
         </span>
 
         </td>
-        <td>
+        
 
-        <span class="
-        distance-badge
-        ${
-        h.거리적합==="단거리"
-        ? "distance-short"
-        :
-        h.거리적합==="중거리"
-        ? "distance-middle"
-        :
-        "distance-long"
-        }
-        ">
 
-        ${h.거리적합}
 
-        </span>
 
-        </td>
-
-        <td>
-
-        <div class="${scoreClass}">
-
-        ${h.점수}
-
-        </div>
-
-        </td>
     </tr>
     `;
 
@@ -3775,7 +3868,7 @@ console.log(detailData);
 
 </summary>
 
-<div class="table-wrap">
+<div class="table-wrap blood-table-wrap">
 
 <table>
 
@@ -3987,15 +4080,18 @@ ${(() => {
 
 </h3>
 
-<div class="table-wrap">
+<div class="blood-scroll-area">
 
-<table>
+    <div class="table-wrap" id="bloodTableScroll">
+
+        <table>
 
 <tr>
 
 <th>번호</th>
 <th>마명</th>
-
+<th>점수</th>
+<th>거리적합</th>
 <th>도시지</th>
 
 <th>DI</th>
@@ -4008,15 +4104,23 @@ ${(() => {
 <th>모부AWD</th>
 
 <th>선천적주행습성</th>
-<th>거리적합</th>
 
-<th>점수</th>
+
+
 
 </tr>
 
 ${bloodTable}
 
-</table>
+        </table>
+
+    </div>
+
+    <div class="basic-scroll-guide">
+        <span>←</span>
+        <b>좌우로 밀어서 확인하세요</b>
+        <span>→</span>
+    </div>
 
 </div>
 
@@ -6057,6 +6161,18 @@ behavior:"smooth"
 });
 
 toggleFloatingMenu();
+
+}
+
+function scrollBloodTable(direction){
+
+    const table =
+    document.getElementById("bloodTableScroll");
+
+    table.scrollBy({
+        left: direction * 300,
+        behavior:"smooth"
+    });
 
 }
 </script>

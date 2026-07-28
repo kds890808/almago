@@ -231,19 +231,26 @@ body{
     );
 }
 
+.recommend-icon{
+    position:relative;
+    display:inline-block;
+    width:max-content;
+}
+
 .recommend-badge{
     position:absolute;
-    top:12px;
-    right:12px;
+    top:-10px;
+    right:-18px;
 
     background:#f59e0b;
     color:white;
 
-    padding:5px 9px;
+    padding:4px 7px;
     border-radius:999px;
 
-    font-size:11px;
-    font-weight:900;
+    font-size:10px;
+    font-weight:500;
+    white-space:nowrap;
 }
 
 .service-icon{
@@ -264,16 +271,23 @@ body{
     min-height:74px;
 }
 
+.service-card{
+    position:relative;
+}
+
 .service-points{
-    margin-top:14px;
+    width:100%;
+    margin-top:auto;
+    margin-bottom:12px;
+    padding-right:5px;
 
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
+    text-align:right;
 
-    color:#d97706;
     font-size:16px;
-    font-weight:1000;
+    font-weight:800;
+    color:#d97706;
+
+    position:static;
 }
 
 .service-btn{
@@ -453,9 +467,9 @@ body{
         border:1px solid rgba(255,255,255,.18);
         border-radius:15px;
 
-        font-size:11px;
-        font-weight:400;
-        line-height:1.6;
+            font-size:15px;
+            font-weight:600;
+            line-height:1.7;
 
         color:white;
 
@@ -469,11 +483,11 @@ body{
         margin-bottom:5px;
     }
 
-    .hero-guide-note{
-        margin-top:5px;
-        font-size:10px;
-        opacity:.9;
-    }
+        .hero-guide-note{
+            margin-top:8px;
+            font-size:13px;
+            opacity:.9;
+        }
 
     /* 모바일 */
     @media(max-width:520px){
@@ -523,6 +537,67 @@ body{
     .service-card.recommend .hit-rate{
         background:#fff7ed;
         color:#ea580c;
+    }
+
+    .patent-icon{
+        position:relative;
+        display:inline-block;
+        width:max-content;
+    }
+
+    .patent-badge{
+        position:absolute;
+        top:-10px;
+        right:-18px;
+
+        background:#dc2626;
+        color:white;
+
+        padding:4px 7px;
+        border-radius:999px;
+
+        font-size:10px;
+        font-weight:500;
+        white-space:nowrap;
+    }  
+    
+
+    .pace-mini-track svg{
+        display:block;
+        width:100%;
+        height:70px;
+        overflow:visible;
+    }
+    
+    .pace-desc{
+        min-height:0;
+        margin:0;
+        padding:0;
+        line-height:1.05;
+    }
+
+    .pace-mini-track{
+        width:115%;
+        margin-left:-7.5%;
+        margin-top:-25px;
+        text-align:center;
+    }
+
+    .service-desc.pace-desc{
+        min-height:0 !important;
+        height:auto !important;
+        flex:none !important;
+        margin:0 !important;
+        padding:0 !important;
+        line-height:1.15;
+    }
+
+    .title-fee{
+        font-size:13px;
+        font-weight:900;
+        color:#d97706;
+        white-space:nowrap;
+        margin-left:3px;
     }
 </style>
 </head>
@@ -629,12 +704,12 @@ body{
                 </div>
 
                 <div class="service-title">
-                    기본분석
+                    기본분석 <span class="title-fee">(💰<span id="basic-fee">-</span>P)</span>
+
                     <div class="service-subtitle">
                         : 전적기반 분석
                     </div>
                 </div>
-
                 <div class="service-desc">
                 📌 경주마 성별능력분석<br>
                 📌 경주마 연령능력분석<br>
@@ -643,9 +718,6 @@ body{
                 📌 조교사 전력분석<br>
                 </div>
 
-                <div class="service-points">
-                💰 <span id="basic-fee">-</span>P
-                </div>
             </div>
 
             <button
@@ -667,12 +739,14 @@ body{
                     </div>
                 </div>
 
-            <div class="service-title">
-                혈통분석
-                <div class="service-subtitle">
-                    : 선천적 혈통분석
+                <!-- 혈통 -->
+                <div class="service-title">
+                    혈통분석 <span class="title-fee">(💰<span id="blood-fee">-</span>P)</span>
+
+                    <div class="service-subtitle">
+                        : 선천적 혈통분석
+                    </div>
                 </div>
-            </div>
 
                 <div class="service-desc">
                 📌 최적 거리 적성 분석<br>
@@ -682,9 +756,6 @@ body{
                 📌 혈통 기반 숨은 능력 진단<br>
                 </div>
 
-                <div class="service-points">
-                💰 <span id="blood-fee">-</span>P
-                </div>
             </div>
 
             <button
@@ -700,30 +771,116 @@ body{
 
             <div>
                 <div class="service-icon-row">
-                    <div class="service-icon">🏇</div>
+                <div class="service-icon patent-icon">
+                    🏇
+                    <span class="patent-badge">특허</span>
+                </div>
                     <div class="hit-rate">
                         평균적중률 <span id="pace-rate">-</span>%
                     </div>
                 </div>
 
+                <!-- 전개 -->
                 <div class="service-title">
-                    전개분석
+                    전개분석 <span class="title-fee">(💰<span id="pace-fee">-</span>P)</span>
+
                     <div class="service-subtitle">
-                        : 후천적 관리분석
+                        : 후천적 관리분석 <br>
+                        경주시뮬레이션
                     </div>
                 </div>
 
                 <div class="service-desc">
-                📌 예상 선행마 분석<br>
-                📌 전개 유리마 TOP3 선정<br>
-                📌 레이스 흐름 시뮬레이션<br>
-                📌 추입 성공 가능성 분석<br>
-                📌 숨은 복병마 탐색<br>
+                    📌 전개 유리마 TOP3 선정<br>
+                    📌 레이스 흐름 시뮬레이션<br>
+                </div>
+                <div class="pace-mini-track">
+
+                    <svg
+                        viewBox="0 0 320 145"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+
+                        <!-- 바깥 경주로 -->
+                        <rect
+                            x="5"
+                            y="5"
+                            width="310"
+                            height="105"
+                            rx="52"
+                            fill="#d8b47b"
+                        />
+
+                        <!-- 안쪽 잔디 -->
+                        <rect
+                            x="50"
+                            y="35"
+                            width="220"
+                            height="45"
+                            rx="23"
+                            fill="#86c96f"
+                        />
+
+                        <!-- 안쪽 흰색 레일 -->
+                        <rect
+                            x="43"
+                            y="28"
+                            width="234"
+                            height="59"
+                            rx="30"
+                            fill="none"
+                            stroke="white"
+                            stroke-width="3"
+                        />
+
+                        <!-- 움직이는 말 무리 -->
+                        <g class="horse-pack">
+
+                            <text x="-25" y="-5" font-size="22">🏇</text>
+                            <text x="-5"  y="-8" font-size="22">🏇</text>
+                            <text x="15"  y="-4" font-size="22">🏇</text>
+
+                            <text x="-18" y="12" font-size="22">🏇</text>
+                            <text x="2"   y="14" font-size="22">🏇</text>
+                            <text x="22"  y="10" font-size="22">🏇</text>
+
+                            <!-- 경주로를 따라 이동 -->
+                            <animateMotion
+                                dur="6s"
+                                repeatCount="indefinite"
+                                rotate="0"
+                                path="
+                                    M 90 18
+                                    C 45 18 20 30 20 57
+                                    C 20 75 35 100 90 100
+                                    H 230
+                                    C 270 100 300 90 300 57
+                                    C 300 45 285 18 230 18
+                                    H 90
+                                    Z
+                                "
+                            />
+
+                        </g>
+
+                        <!-- 진행 방향 -->
+                        <text
+                            x="145"
+                            y="50"
+                            font-size="30"
+                            fill="#2563eb"
+                        >
+                            ←
+
+                        </text>
+
+                    </svg>
+
+                    <div class="pace-track-label">
+                    </div>
+
                 </div>
 
-                <div class="service-points">
-                💰 <span id="pace-fee">-</span>P
-                </div>
             </div>
 
             <button
@@ -737,24 +894,25 @@ body{
 
         <div class="service-card recommend">
 
-            <div class="recommend-badge">
-            추천
-            </div>
-
             <div>
                 <div class="service-icon-row">
-                    <div class="service-icon">🏆</div>
+                    <div class="service-icon recommend-icon">
+                        🏆
+                        <span class="recommend-badge">추천</span>
+                    </div>
                     <div class="hit-rate">
                         평균적중률 <span id="final-rate">-</span>%
                     </div>
                 </div>
 
-            <div class="service-title">
-                종합분석
-                <div class="service-subtitle">
-                    : 기본+혈통+전개분석포함
+                <!-- 종합 -->
+                <div class="service-title">
+                    종합분석 <span class="title-fee">(💰<span id="final-fee">-</span>P)</span>
+
+                    <div class="service-subtitle">
+                        : 기본+혈통+전개분석포함
+                    </div>
                 </div>
-            </div>
 
                 <div class="service-desc">
                 📌 AI 최종 추천마 선정<br>
@@ -764,9 +922,7 @@ body{
                 📌 AI 최종 결론 및 승부포인트<br>
                 </div>
 
-                <div class="service-points">
-                💰 <span id="final-fee">-</span>P
-                </div>
+
             </div>
 
             <button
@@ -903,19 +1059,39 @@ function getWeeklyRate(min, max, offset){
 
     const now = new Date();
 
-    // 1970년부터 현재까지 지난 주 수
+    // 이번 주 월요일 00:00
+    const monday = new Date(now);
+
+    const day = monday.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+
+    monday.setDate(
+        monday.getDate() + diff
+    );
+
+    monday.setHours(0, 0, 0, 0);
+
+    // 월요일 기준 주차값
     const weekNumber =
         Math.floor(
-            now.getTime() /
+            monday.getTime() /
             (7 * 24 * 60 * 60 * 1000)
         );
 
-    // 주차 + 분석별 고유값을 이용해
-    // 같은 주에는 항상 같은 숫자 생성
+    // 분석별 고유 seed
     const seed =
-        (weekNumber * 9301 + offset * 49297) % 233280;
+        (weekNumber * 9301 + offset * 49297)
+        % 233280;
 
-    return min + (seed % (max - min + 1));
+    // 소수점 1자리 단위로 안전하게 계산
+    const minInt = Math.round(min * 10);
+    const maxInt = Math.round(max * 10);
+
+    const result =
+        minInt +
+        (seed % (maxInt - minInt + 1));
+
+    return result / 10;
 }
 
 
@@ -924,22 +1100,22 @@ function loadWeeklyRates(){
     document.getElementById(
         "basic-rate"
     ).textContent =
-        getWeeklyRate(25, 35, 1);
+        getWeeklyRate(17.1, 20, 1).toFixed(1);
 
     document.getElementById(
         "blood-rate"
     ).textContent =
-        getWeeklyRate(30, 40, 2);
+        getWeeklyRate(20.1, 22.8, 2).toFixed(1);
 
     document.getElementById(
         "pace-rate"
     ).textContent =
-        getWeeklyRate(35, 45, 3);
+        getWeeklyRate(22.9, 25.7, 3).toFixed(1);
 
     document.getElementById(
         "final-rate"
     ).textContent =
-        getWeeklyRate(45, 55, 4);
+        getWeeklyRate(25.8, 28.6, 4).toFixed(1);
 
 }
 

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>알마고 이벤트</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        Arial,
+        sans-serif;
+
+    background:#f4f7fb;
+    color:#1e293b;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:35px 18px 60px;
+}
+
+
+/* =========================
+   상단
+========================= */
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-title{
+    margin:0 0 8px;
+    font-size:30px;
+    font-weight:900;
+}
+
+.page-description{
+    font-size:17px;
+    color:#64748b;
+}
+
+
+/* =========================
+   메인 프로모션
+========================= */
+
+.promotion-hero{
+    position:relative;
+    overflow:hidden;
+
+    margin-bottom:35px;
+    padding:45px 40px;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1e3a8a,
+            #2563eb,
+            #7c3aed
+        );
+
+    color:white;
+
+    box-shadow:
+        0 10px 30px
+        rgba(37,99,235,0.25);
+}
+
+.promotion-badge{
+    display:inline-block;
+
+    margin-bottom:15px;
+    padding:7px 14px;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,255,255,0.18);
+
+    font-size:14px;
+    font-weight:900;
+}
+
+.promotion-title{
+    margin-bottom:12px;
+
+    font-size:35px;
+    font-weight:900;
+
+    line-height:1.3;
+}
+
+.promotion-description{
+    max-width:600px;
+
+    font-size:18px;
+    line-height:1.7;
+
+    color:#e0e7ff;
+}
+
+.promotion-point{
+    margin-top:25px;
+
+    font-size:25px;
+    font-weight:900;
+
+    color:#fde68a;
+}
+
+.promotion-button{
+    display:inline-block;
+
+    margin-top:25px;
+    padding:14px 25px;
+
+    border:none;
+    border-radius:10px;
+
+    background:white;
+    color:#1d4ed8;
+
+    font-size:16px;
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   탭
+========================= */
+
+.event-tabs{
+    display:flex;
+    gap:8px;
+
+    margin-bottom:20px;
+}
+
+.event-tab{
+    padding:11px 20px;
+
+    border:
+        1px solid
+        #cbd5e1;
+
+    border-radius:30px;
+
+    background:white;
+
+    font-size:15px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.event-tab.active{
+    border-color:#2563eb;
+
+    background:#2563eb;
+    color:white;
+}
+
+
+/* =========================
+   이벤트 목록
+========================= */
+
+.event-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:18px;
+}
+
+
+/* 카드 */
+
+.event-card{
+    overflow:hidden;
+
+    background:white;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.07);
+
+    transition:0.25s;
+}
+
+.event-card:hover{
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.10);
+}
+
+
+/* 카드 상단 이미지 대체 영역 */
+
+.event-image{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    height:180px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #ede9fe
+        );
+
+    font-size:65px;
+}
+
+
+/* 카드 내용 */
+
+.event-content{
+    padding:22px;
+}
+
+.event-status{
+    display:inline-block;
+
+    margin-bottom:10px;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    background:#dcfce7;
+    color:#15803d;
+
+    font-size:13px;
+    font-weight:900;
+}
+
+.event-status.end{
+    background:#e2e8f0;
+    color:#64748b;
+}
+
+.event-title{
+    margin-bottom:10px;
+
+    font-size:20px;
+    font-weight:900;
+
+    line-height:1.5;
+}
+
+.event-text{
+    margin-bottom:17px;
+
+    font-size:15px;
+    line-height:1.7;
+
+    color:#64748b;
+}
+
+.event-date{
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        #e2e8f0;
+
+    font-size:14px;
+    color:#94a3b8;
+}
+
+
+/* =========================
+   참여방법
+========================= */
+
+.how-section{
+    margin-top:40px;
+    padding:30px;
+
+    background:white;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,0.06);
+}
+
+.section-title{
+    margin-bottom:25px;
+
+    font-size:23px;
+    font-weight:900;
+}
+
+.how-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+}
+
+.how-item{
+    padding:22px 15px;
+
+    border-radius:14px;
+
+    background:#f8fafc;
+
+    text-align:center;
+}
+
+.how-number{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:45px;
+    height:45px;
+
+    margin:
+        0 auto
+        13px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:18px;
+    font-weight:900;
+}
+
+.how-title{
+    margin-bottom:7px;
+
+    font-size:17px;
+    font-weight:900;
+}
+
+.how-text{
+    font-size:14px;
+    line-height:1.6;
+
+    color:#64748b;
+}
+
+
+/* =========================
+   유의사항
+========================= */
+
+.notice-box{
+    margin-top:25px;
+
+    padding:22px;
+
+    border:
+        1px solid
+        #fde68a;
+
+    border-radius:14px;
+
+    background:#fffbeb;
+}
+
+.notice-title{
+    margin-bottom:8px;
+
+    font-size:17px;
+    font-weight:900;
+
+    color:#92400e;
+}
+
+.notice-text{
+    font-size:14px;
+    line-height:1.8;
+
+    color:#78350f;
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+        padding:
+            22px
+            12px
+            40px;
+    }
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .promotion-hero{
+        padding:
+            35px
+            22px;
+
+        border-radius:17px;
+    }
+
+    .promotion-title{
+        font-size:28px;
+    }
+
+    .promotion-description{
+        font-size:16px;
+    }
+
+    .promotion-point{
+        font-size:22px;
+    }
+
+    .event-grid{
+        grid-template-columns:1fr;
+    }
+
+    .event-image{
+        height:150px;
+    }
+
+    .how-grid{
+        grid-template-columns:1fr;
+    }
+
+    .event-tabs{
+        overflow-x:auto;
+    }
+
+    .event-tab{
+        flex-shrink:0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- 상단 -->
+
+    <div class="page-header">
+
+        <h1 class="page-title">
+            🎁 이벤트 & 프로모션
+        </h1>
+
+        <div class="page-description">
+            알마고 회원을 위한 다양한 혜택과
+            이벤트를 확인해보세요.
+        </div>
+
+    </div>
+
+
+
+    <!-- 메인 프로모션 -->
+
+    <div class="promotion-hero">
+
+        <div class="promotion-badge">
+            🎉 신규회원 특별 혜택
+        </div>
+
+        <div class="promotion-title">
+            알마고와 함께하는<br>
+            첫 번째 분석
+        </div>
+
+        <div class="promotion-description">
+            알마고 신규 회원을 위한
+            특별 프로모션을 준비했습니다.
+            다양한 AI 분석 서비스를 경험해보세요.
+        </div>
+
+        <div class="promotion-point">
+            신규 가입 시 1,000P 혜택
+        </div>
+
+        <button
+            class="promotion-button"
+            onclick="showEventMessage()"
+        >
+            이벤트 자세히 보기
+        </button>
+
+    </div>
+
+
+
+    <!-- 이벤트 탭 -->
+
+    <div class="event-tabs">
+
+        <button
+            class="event-tab active"
+            onclick="filterEvent('all', this)"
+        >
+            전체
+        </button>
+
+        <button
+            class="event-tab"
+            onclick="filterEvent('active', this)"
+        >
+            진행중
+        </button>
+
+        <button
+            class="event-tab"
+            onclick="filterEvent('end', this)"
+        >
+            종료
+        </button>
+
+    </div>
+
+
+
+    <!-- 이벤트 목록 -->
+
+    <div class="event-grid">
+
+
+        <!-- 이벤트 1 -->
+
+        <div
+            class="event-card"
+            data-status="active"
+        >
+
+            <div class="event-image">
+                🎁
+            </div>
+
+            <div class="event-content">
+
+                <span class="event-status">
+                    진행중
+                </span>
+
+                <div class="event-title">
+                    신규회원 웰컴 이벤트
+                </div>
+
+                <div class="event-text">
+                    알마고에 새롭게 가입한
+                    회원을 위한 특별한
+                    웰컴 혜택을 만나보세요.
+                </div>
+
+                <div class="event-date">
+                    2026.07.01 ~ 2026.08.31
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 이벤트 2 -->
+
+        <div
+            class="event-card"
+            data-status="active"
+        >
+
+            <div class="event-image">
+                💰
+            </div>
+
+            <div class="event-content">
+
+                <span class="event-status">
+                    진행중
+                </span>
+
+                <div class="event-title">
+                    포인트 충전 특별 프로모션
+                </div>
+
+                <div class="event-text">
+                    이벤트 기간 동안
+                    지정된 포인트 상품을 충전하면
+                    추가 혜택을 제공합니다.
+                </div>
+
+                <div class="event-date">
+                    2026.07.20 ~ 2026.07.31
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 이벤트 3 -->
+
+        <div
+            class="event-card"
+            data-status="active"
+        >
+
+            <div class="event-image">
+                🏇
+            </div>
+
+            <div class="event-content">
+
+                <span class="event-status">
+                    진행중
+                </span>
+
+                <div class="event-title">
+                    AI 분석 체험 이벤트
+                </div>
+
+                <div class="event-text">
+                    알마고의 다양한
+                    AI 경주분석 서비스를
+                    특별한 혜택으로 체험해보세요.
+                </div>
+
+                <div class="event-date">
+                    2026.07.24 ~ 2026.08.02
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 종료 이벤트 -->
+
+        <div
+            class="event-card"
+            data-status="end"
+        >
+
+            <div class="event-image">
+                🏆
+            </div>
+
+            <div class="event-content">
+
+                <span class="event-status end">
+                    종료
+                </span>
+
+                <div class="event-title">
+                    알마고 오픈 기념 이벤트
+                </div>
+
+                <div class="event-text">
+                    알마고 서비스 오픈을 기념하여
+                    진행된 특별 이벤트입니다.
+                </div>
+
+                <div class="event-date">
+                    2026.06.01 ~ 2026.06.30
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- 참여 방법 -->
+
+    <div class="how-section">
+
+        <div class="section-title">
+            🎯 이벤트 참여방법
+        </div>
+
+
+        <div class="how-grid">
+
+
+            <div class="how-item">
+
+                <div class="how-number">
+                    1
+                </div>
+
+                <div class="how-title">
+                    이벤트 확인
+                </div>
+
+                <div class="how-text">
+                    진행 중인 이벤트와
+                    참여 조건을 확인해주세요.
+                </div>
+
+            </div>
+
+
+            <div class="how-item">
+
+                <div class="how-number">
+                    2
+                </div>
+
+                <div class="how-title">
+                    조건 달성
+                </div>
+
+                <div class="how-text">
+                    이벤트별 안내된
+                    참여 조건을 완료해주세요.
+                </div>
+
+            </div>
+
+
+            <div class="how-item">
+
+                <div class="how-number">
+                    3
+                </div>
+
+                <div class="how-title">
+                    혜택 지급
+                </div>
+
+                <div class="how-text">
+                    이벤트 조건 확인 후
+                    해당 혜택이 지급됩니다.
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 유의사항 -->
+
+    <div class="notice-box">
+
+        <div class="notice-title">
+            ⚠️ 이벤트 유의사항
+        </div>
+
+        <div class="notice-text">
+
+            이벤트 내용과 기간은
+            운영 상황에 따라 변경될 수 있습니다.
+
+            <br>
+
+            각 이벤트별 참여 조건과
+            혜택 지급 기준을 반드시 확인해주세요.
+
+            <br>
+
+            본 페이지의 이벤트 내용은
+            현재 자체제작 페이지 기능을 보여주기 위한
+            샘플입니다.
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   이벤트 필터
+========================= */
+
+function filterEvent(status, button){
+
+    const cards =
+        document.querySelectorAll(
+            ".event-card"
+        );
+
+    const tabs =
+        document.querySelectorAll(
+            ".event-tab"
+        );
+
+
+    tabs.forEach(tab => {
+
+        tab.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    cards.forEach(card => {
+
+        if(
+            status === "all" ||
+            card.dataset.status === status
+        ){
+
+            card.style.display =
+                "block";
+
+        }
+        else{
+
+            card.style.display =
+                "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   샘플 버튼
+========================= */
+
+function showEventMessage(){
+
+    alert(
+        "이벤트 상세페이지를 연결할 수 있습니다."
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>

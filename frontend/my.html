@@ -279,6 +279,28 @@ button.change-btn{
         width:100%;
     }
 }
+
+.referral-guide{
+
+    margin-top:14px;
+
+    padding:12px;
+
+    background:#eef7ff;
+
+    border:1px solid #cfe4ff;
+
+    border-radius:12px;
+
+    font-size:13px;
+
+    color:#1e3a8a;
+
+    line-height:1.6;
+
+    text-align:center;
+
+}
 </style>
 
 </head>
@@ -343,6 +365,35 @@ button.change-btn{
     >
     -
     </span>
+</div>
+
+<div class="info-row">
+    <span class="info-label">
+    추천인 코드
+    </span>
+
+    <span
+    id="my-referral-code"
+    class="info-data"
+    >
+    -
+    </span>
+</div>
+
+<button
+class="change-btn"
+style="margin-top:15px;background:#16a34a;"
+onclick="copyReferralCode()"
+>
+📋 추천인 코드 복사
+</button>
+
+<div class="referral-guide">
+
+🎁 <b>추천 혜택</b><br>
+
+친구가 회원가입 시 추천인 코드를 입력하면 <br>포인트가 지급됩니다<br>
+
 </div>
 
 </div>
@@ -449,6 +500,12 @@ document.getElementById(
     ).innerText =
     user.phone || "-";
 
+    document.getElementById(
+        "my-referral-code"
+    ).innerText =
+    user.referral_code || "-";    
+
+
 }
 
 function logout(){
@@ -525,6 +582,18 @@ function goHome(){
 
     location.href="/";
 
+}
+
+function copyReferralCode(){
+
+    const code =
+    document.getElementById(
+        "my-referral-code"
+    ).innerText;
+
+    navigator.clipboard.writeText(code);
+
+    alert("추천인 코드가 복사되었습니다.");
 }
 
 </script>

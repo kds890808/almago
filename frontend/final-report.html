@@ -5137,6 +5137,59 @@ background:none;
     background:#fef3c7;
     color:#b45309;
 }
+
+.final-report-btn-wrap{
+    margin-top:20px;
+    text-align:center;
+}
+
+.final-report-btn{
+    width:100%;
+    padding:16px 20px;
+
+    border:none;
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    color:white;
+    font-size:17px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 18px rgba(37,99,235,0.25);
+}
+
+    .final-report-btn:active{
+        transform:scale(0.98);
+    }
+
+    .report-float-btn{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        padding-top:5px;
+    }
+
+    .report-float-btn .float-icon{
+        font-size:24px;
+        line-height:1;
+    }
+
+    .report-float-btn .float-label{
+        font-size:8px;
+        font-weight:400;
+        line-height:1;
+        white-space:nowrap;
+    }
 </style>
 
 </head>
@@ -5508,8 +5561,8 @@ class="fade-up">
         </div>
 
         <div class="notice-desc">
-            아래로 스크롤하면 모든 분석 데이터를 종합한
-            최종 보고서가 자동으로 생성됩니다.
+            모든 분석 데이터를 종합한
+            AI 최종 보고서를 확인할 수 있습니다.
         </div>
 
     </div>
@@ -5520,12 +5573,18 @@ class="fade-up">
 로딩중...
 </div>
 
-</section>
+<div class="final-report-btn-wrap">
 
-<div
-id="final-trigger"
-style="height:30px;">
+    <button
+        class="final-report-btn"
+        onclick="showFinalReport()"
+    >
+        📄 최종보고서 보기
+    </button>
+
 </div>
+
+</section>
 
 <script>
 
@@ -7004,18 +7063,6 @@ ${formRank1}위
 
 }
 
-// ===========================
-// 종합분석 Trigger 등록
-// ===========================
-
-const trigger =
-document.getElementById("final-trigger");
-
-if(trigger){
-
-    finalObserver.observe(trigger);
-
-}
 
 }   // ← renderReport() 종료
 
@@ -9727,10 +9774,11 @@ class="loading-overlay"
     </button>
 
     <button
-    class="float-btn"
-    onclick="showFinalReport()"
+        class="float-btn report-float-btn"
+        onclick="showFinalReport()"
     >
-    📄
+        <span class="float-icon">📄</span>
+        <span class="float-label">최종보고서</span>
     </button>
 
     <button
