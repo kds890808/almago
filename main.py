@@ -5851,32 +5851,56 @@ def get_pace_analysis_data(
 
         analysis = make_pace_analysis(r)
 
-        saved_rows = db.query(
-            PaceAnalysis
-        ).filter(
-
-            PaceAnalysis.지역 == region,
-            PaceAnalysis.경주 == race_no,
-            PaceAnalysis.번호 == int(r.번호)
-
-        ).all()
-
-        saved_rows = [
-
-            x for x in saved_rows
-
-            if ''.join(
-                c for c in str(x.경주일자)
-                if c.isdigit()
-            )[:8] == date_clean
-
-        ]
-
-        saved = (
-            saved_rows[0]
-            if saved_rows
-            else None
+        # =========================
+        # 출전번호 안전 변환
+        # =========================
+        horse_no_text = ''.join(
+            c for c in str(r.번호)
+            if c.isdigit()
         )
+
+        saved = None
+
+        if horse_no_text:
+
+            horse_no = int(horse_no_text)
+
+            saved_rows = db.query(
+                PaceAnalysis
+            ).filter(
+
+                PaceAnalysis.지역 == region,
+                PaceAnalysis.경주 == race_no,
+                PaceAnalysis.번호 == horse_no
+
+            ).all()
+
+            saved_rows = [
+
+                x for x in saved_rows
+
+                if ''.join(
+                    c for c in str(x.경주일자)
+                    if c.isdigit()
+                )[:8] == date_clean
+
+            ]
+
+            saved = (
+                saved_rows[0]
+                if saved_rows
+                else None
+            )
+
+        else:
+
+            print(
+                "⚠️ 전개분석 번호 변환 실패:",
+                "지역 =", region,
+                "경주 =", race_no,
+                "번호 =", repr(r.번호),
+                "마명 =", repr(r.마명)
+            )
 
         result.append({
 
