@@ -380,6 +380,32 @@ button.change-btn{
     </span>
 </div>
 
+<div class="info-row">
+    <span class="info-label">
+    추천횟수
+    </span>
+
+    <span
+    id="my-referral-count"
+    class="info-data"
+    >
+    0명
+    </span>
+</div>
+
+<div class="info-row">
+    <span class="info-label">
+    추천누적수입
+    </span>
+
+    <span
+    id="my-referral-income"
+    class="info-data"
+    >
+    0P
+    </span>
+</div>
+
 <button
 class="change-btn"
 style="margin-top:15px;background:#16a34a;"
@@ -504,6 +530,16 @@ document.getElementById(
         "my-referral-code"
     ).innerText =
     user.referral_code || "-";    
+
+    document.getElementById(
+        "my-referral-count"
+    ).innerText =
+    (user.referral_count ?? 0) + "명";
+
+    document.getElementById(
+        "my-referral-income"
+    ).innerText =
+    (user.referral_income ?? 0) + "P";
 
 
 }

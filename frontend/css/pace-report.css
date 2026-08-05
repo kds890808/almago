@@ -1,0 +1,2014 @@
+.user-name,
+.user-point{
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.user-name:hover{
+
+    color:#2563eb;
+
+}
+
+.user-point:hover{
+
+    transform:scale(1.05);
+
+}
+
+.user-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:14px 18px;
+
+    margin-bottom:20px;
+
+    border-radius:18px;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.user-name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    color:#111827;
+
+}
+
+.user-point{
+
+    background:#eef2ff;
+
+    color:#1d4ed8;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+
+
+.user-left{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
+.logout-top-btn{
+
+    background:#111827;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}
+
+body{
+
+    padding-bottom:90px;
+
+}
+    
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 20px;
+  padding-bottom:100px;
+}
+
+/* 상단 추천 */
+.top-area {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.main-picks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  flex: 1;
+}
+
+.pick {
+  text-align: center;
+}
+
+.pick .icon {
+  font-size: 20px;
+}
+
+.pick .name {
+  font-size: 14px;
+  color: #555;
+}
+
+.pick .num {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* 복병마 */
+.darkhorse {
+  width: 140px;
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+.darkhorse .title {
+  font-size: 14px;
+}
+
+.darkhorse .name {
+  font-size: 12px;
+  color: gray;
+}
+
+.darkhorse .num {
+  font-size: 40px;
+  font-weight: bold;
+  background: black;
+  color: white;
+}
+
+/* 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #3b82f6;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #e0e7ff;
+}
+
+.btn {
+  background: #2563eb;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.locked-box{
+
+    background:#eee;
+    padding:12px;
+    text-align:center;
+    border-radius:10px;
+
+}
+
+.card{
+
+background:white;
+padding:12px;
+border-radius:8px;
+box-shadow:0 1px 3px rgba(0,0,0,.1);
+
+}
+
+.pace-summary-box{
+
+display:flex;
+
+gap:15px;
+
+margin-top:10px;
+
+margin-bottom:20px;
+
+}
+
+.pace-card{
+
+flex:1;
+
+padding:20px;
+
+border-radius:15px;
+
+text-align:center;
+
+font-size:18px;
+
+font-weight:bold;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.12);
+
+}
+
+.pace-card.lead{
+
+background:#ffe5e5;
+
+}
+
+.pace-card.middle{
+
+background:#fff3d8;
+
+}
+
+.pace-card.chase{
+
+background:#e6f0ff;
+
+}
+
+.pace-card.normal{
+
+background:#f2f2f2;
+
+}
+
+.pace-ai-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:15px;
+
+border-left:
+6px solid #2d7cff;
+
+line-height:1.8;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.pace-rank-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px;
+
+margin-bottom:10px;
+
+background:white;
+
+border-radius:12px;
+
+box-shadow:
+0 2px 8px rgba(0,0,0,.08);
+
+}
+
+.pace-rank-left{
+
+font-size:18px;
+font-weight:bold;
+
+}
+
+.pace-rank-score{
+
+font-size:22px;
+font-weight:bold;
+
+color:#2d7cff;
+
+}
+
+.pace-rank-sub{
+
+font-size:13px;
+
+font-weight:normal;
+
+color:#666;
+
+margin-top:6px;
+
+line-height:1.4;
+
+}
+
+.horse-card{
+
+background:white;
+
+padding:20px;
+
+margin-bottom:15px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.horse-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+font-size:20px;
+
+font-weight:bold;
+
+margin-bottom:12px;
+
+}
+
+.horse-score{
+
+color:#2d7cff;
+
+font-size:24px;
+
+font-weight:bold;
+
+}
+
+.horse-badges{
+
+margin-bottom:15px;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+margin-right:8px;
+
+font-size:13px;
+
+font-weight:bold;
+
+background:#f3f3f3;
+
+}
+
+.horse-section{
+
+margin-bottom:8px;
+
+line-height:1.5;
+
+}
+
+.horse-comment{
+
+margin-top:15px;
+
+padding:12px;
+
+background:#f8fbff;
+
+border-left:4px solid #2d7cff;
+
+border-radius:8px;
+
+line-height:1.6;
+
+}
+
+.horse-status-grid{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:15px;
+
+}
+
+.status-item{
+
+flex:1;
+
+background:#f8f9fb;
+
+padding:12px;
+
+border-radius:10px;
+
+text-align:center;
+
+}
+
+.status-title{
+
+font-size:12px;
+
+color:#666;
+
+margin-bottom:5px;
+
+}
+
+.status-value{
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+.horse-data-grid{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:10px;
+
+margin-top:15px;
+
+margin-bottom:15px;
+
+}
+
+.data-box{
+
+background:#f8f9fb;
+
+padding:12px;
+
+border-radius:10px;
+
+text-align:center;
+
+}
+
+.data-title{
+
+font-size:12px;
+
+color:#666;
+
+margin-bottom:5px;
+
+}
+
+.data-value{
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+.data-rank{
+
+margin-top:4px;
+
+font-size:12px;
+
+font-weight:bold;
+
+color:#2d7cff;
+
+}
+
+.simulation-box{
+
+background:white;
+
+padding:20px;
+
+margin-bottom:15px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.simulation-box h3{
+
+margin-bottom:12px;
+
+color:#2d7cff;
+
+}
+
+.track-board{
+
+background:#f8fbff;
+
+padding:25px;
+
+border-radius:15px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.08);
+
+}
+
+.track-start,
+.track-goal{
+
+font-size:32px;
+
+font-weight:bold;
+
+text-align:center;
+
+color:#d00000;
+
+}
+
+.track-line{
+
+height:4px;
+
+background:#d00000;
+
+margin:15px 0;
+
+}
+
+.track-group{
+
+padding:15px;
+
+margin-bottom:12px;
+
+border-radius:12px;
+
+text-align:center;
+
+}
+
+.track-group.lead{
+background:#ffe5e5;
+}
+
+.track-group.middle{
+background:#fff3d8;
+}
+
+.track-group.normal{
+background:#f2f2f2;
+}
+
+.track-group.chase{
+background:#e6f0ff;
+}
+
+.track-area{
+
+position:relative;
+
+height:350px;
+
+background:#f8fbff;
+
+border-radius:15px;
+
+overflow:hidden;
+
+}
+
+.track-row{
+
+text-align:center;
+
+margin-top:20px;
+
+}
+
+.track-horse{
+
+display:inline-flex;
+
+justify-content:center;
+align-items:center;
+
+width:42px;
+height:42px;
+
+margin:6px;
+
+border-radius:50%;
+
+background:white;
+
+font-weight:bold;
+
+font-size:16px;
+
+box-shadow:
+0 2px 6px rgba(0,0,0,.15);
+
+}
+
+.gate-row{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+}
+
+.gate-bar{
+width:3px;
+height:24px;
+background:#555;
+display:inline-block;
+}
+
+.track-rank-row{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+gap:20px;
+
+}
+
+.race-track-wrap{
+
+position:relative;
+
+width:100%;
+max-width:1000px;
+
+margin:auto;
+
+}
+
+.race-track-img{
+
+width:100%;
+
+display:block;
+
+}
+
+.track-point{
+
+position:absolute;
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+
+background:#4da3df;
+color:white;
+
+font-weight:bold;
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+border:2px solid #246aa0;
+
+}
+
+.legend-mini{
+
+position:absolute;
+
+top:15px;
+right:15px;
+
+background:
+rgba(255,255,255,.97);
+
+padding:10px 12px;
+
+border-radius:12px;
+
+font-size:11px;
+
+box-shadow:
+0 4px 12px rgba(0,0,0,.12);
+
+border:
+1px solid #e5e7eb;
+
+z-index:100;
+
+}
+
+.legend-mini table{
+
+border-collapse:separate;
+
+border-spacing:4px;
+
+}
+
+.legend-mini th,
+.legend-mini td{
+
+padding:4px 8px;
+
+white-space:nowrap;
+
+border:none;
+
+}
+
+.legend-mini th{
+
+background:#dbeafe;
+
+color:#1d4ed8;
+
+font-weight:700;
+
+padding:5px 8px;
+
+}
+
+.track-btn{
+
+padding:8px 14px;
+
+border:none;
+
+border-radius:8px;
+
+font-size:14px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:#f1f5f9;
+
+color:#334155;
+
+box-shadow:
+0 1px 3px rgba(0,0,0,.1);
+
+transition:.2s;
+
+}
+
+.analysis-title{
+
+font-size:22px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.analysis-desc{
+
+font-size:14px;
+
+color:#64748b;
+
+margin-bottom:15px;
+
+line-height:1.5;
+
+}
+
+.unlock-btn{
+
+background:#ec4899;
+
+color:white;
+
+border:none;
+
+padding:12px 24px;
+
+border-radius:999px;
+
+font-weight:bold;
+
+font-size:15px;
+
+cursor:pointer;
+
+}
+
+.unlock-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+.pace-box{
+
+background:
+linear-gradient(
+135deg,
+#eff6ff,
+#dbeafe
+);
+
+border:
+2px solid #93c5fd;
+
+}
+
+.pace-btn{
+
+background:#2563eb;
+
+}
+
+.track-btn:hover{
+
+transform:translateY(-2px);
+
+background:#e2e8f0;
+
+}
+
+.track-btn:active{
+
+transform:translateY(0);
+
+}
+
+.point-info{
+
+margin-top:10px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#92400e;
+
+}
+
+
+.info-pill{
+
+display:inline-flex;
+
+align-items:center;
+justify-content:center;
+
+padding:4px 10px;
+
+border-radius:999px;
+
+background:#f1f5f9;
+
+color:#0f172a;
+
+font-weight:700;
+
+font-size:13px;
+
+text-decoration:none;
+
+border:1px solid #cbd5e1;
+
+cursor:pointer;
+
+transition:.2s;
+
+white-space:nowrap;
+
+/* 삭제 */
+min-width:90px;
+
+}
+
+.info-pill:hover{
+
+background:#dbeafe;
+
+border-color:#60a5fa;
+
+}
+
+
+th,
+td{
+
+white-space:nowrap;
+
+}
+
+.table-wrap{
+
+    width:100%;
+    max-width:100%;
+
+    overflow-x:scroll;
+    overflow-y:hidden;
+
+    scrollbar-gutter:stable;
+
+    display:block;
+
+}
+
+.table-wrap table{
+
+    width:max-content;
+    min-width:1200px;
+
+}
+
+.home-btn{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eef2ff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.home-btn:hover{
+
+    background:#dbeafe;
+
+    transform:translateY(-2px);
+
+}
+
+.modal-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    rgba(0,0,0,.55);
+
+    backdrop-filter:
+    blur(4px);
+
+    z-index:999999;
+
+}
+
+.modal-box{
+
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+}
+
+.modal-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+
+}
+
+.modal-title{
+
+    font-size:24px;
+
+    font-weight:800;
+
+    margin-bottom:10px;
+
+}
+
+.modal-message{
+
+    color:#475569;
+
+    line-height:1.7;
+
+    margin-bottom:25px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.modal-cancel{
+
+    background:#e5e7eb;
+
+}
+
+.modal-confirm{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.charge-btn{
+
+    background:
+    linear-gradient(
+    135deg,
+    #f59e0b,
+    #d97706
+    );
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.charge-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* =========================
+플로팅 네비게이션
+========================= */
+
+.floating-nav{
+
+position:fixed;
+
+right:20px;
+
+bottom:100px;
+
+z-index:99999;
+
+}
+
+.floating-menu{
+
+position:fixed;
+
+right:20px;
+
+bottom:25px;
+
+z-index:99999;
+
+}
+
+.floating-btn{
+
+width:60px;
+
+height:60px;
+
+border:none;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#3b82f6
+);
+
+color:white;
+
+font-size:30px;
+
+font-weight:900;
+
+cursor:pointer;
+
+box-shadow:
+0 12px 30px
+rgba(37,99,235,.35);
+
+transition:.25s;
+
+}
+
+.floating-btn:hover{
+
+transform:
+translateY(-4px)
+scale(1.05);
+
+}
+
+.floating-list{
+
+position:absolute;
+
+right:70px;
+
+bottom:0;
+
+display:none;
+
+background:white;
+
+border-radius:16px;
+
+padding:10px;
+
+min-width:220px;
+
+box-shadow:
+0 12px 30px
+rgba(0,0,0,.15);
+
+}
+
+.floating-list.show{
+
+display:block;
+
+}
+
+.floating-item{
+
+display:block;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:15px;
+
+transition:.2s;
+
+white-space:nowrap;
+
+}
+
+.floating-item:hover{
+
+background:#eff6ff;
+
+}
+
+/* =========================================
+   PACE REPORT 모바일 + 시니어 가독성 대응
+========================================= */
+
+@media (max-width:700px){
+
+    /* 전체 화면 */
+    body{
+        padding:12px !important;
+        padding-bottom:100px !important;
+        overflow-x:hidden;
+    }
+
+/* =========================
+   상단바 - basic-report와 동일
+========================= */
+
+.user-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 8px;
+    gap:6px;
+}
+
+.user-left{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    min-width:0;
+}
+
+.home-btn{
+    width:36px;
+    height:36px;
+    min-width:36px;
+    font-size:19px;
+    border-radius:10px;
+    flex-shrink:0;
+}
+
+.user-name{
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:80px;
+}
+
+.user-point{
+    font-size:14px;
+    padding:7px 10px;
+    white-space:nowrap;
+}
+
+.charge-btn{
+    padding:7px 9px;
+    font-size:14px;
+    flex-shrink:0;
+}
+
+.logout-top-btn{
+    padding:8px 10px;
+    font-size:13px;
+    white-space:nowrap;
+    flex-shrink:0;
+}
+
+
+    /* =========================
+       전개 요약 카드
+    ========================= */
+
+    .summary-grid,
+    .pace-summary-grid{
+        grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+        gap:10px !important;
+    }
+
+    .summary-card,
+    .pace-summary-card{
+        min-width:0;
+        padding:15px 10px !important;
+    }
+
+
+    /* =========================
+       가로 FLEX 영역
+    ========================= */
+
+    .top-area,
+    .pace-top,
+    .pace-summary,
+    .race-summary{
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+
+    /* =========================
+       경주로 / 전개 시각화
+    ========================= */
+
+    .race-track,
+    .track-area,
+    .simulation-area,
+    .pace-track{
+        width:100% !important;
+        max-width:100% !important;
+        overflow-x:auto;
+    }
+
+
+    /* =========================
+       순위 및 분석 카드
+    ========================= */
+
+    .rank-grid,
+    .advantage-grid,
+    .pace-rank-grid{
+        grid-template-columns:
+        1fr !important;
+    }
+
+    .rank-card,
+    .advantage-card{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+
+    /* =========================
+       상세 분석표
+    ========================= */
+
+    .table-wrap{
+        width:100%;
+        max-width:100%;
+        overflow-x:auto;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .table-wrap table{
+        width:max-content;
+        min-width:900px;
+    }
+
+    th,
+    td{
+        white-space:nowrap;
+        font-size:15px;
+        padding:10px 12px;
+    }
+
+
+    /* =========================
+       AI 분석 글씨
+    ========================= */
+
+    .ai-comment,
+    .ai-comment-box,
+    .pace-comment,
+    .final-comment,
+    .opinion-box{
+        font-size:17px !important;
+        line-height:1.9 !important;
+    }
+
+
+    /* =========================
+       작은 설명 글씨 확대
+    ========================= */
+
+    .summary-desc,
+    .description,
+    .sub-text,
+    .pace-desc{
+        font-size:15px !important;
+        line-height:1.7;
+    }
+
+
+    /* =========================
+       하단 분석 메뉴
+    ========================= */
+
+    .analysis-tabs{
+        width:100%;
+        max-width:100%;
+        padding:10px 0;
+    }
+
+    .analysis-tab-btn{
+        min-width:0;
+        font-size:12px;
+    }
+
+    .tab-icon{
+        font-size:24px;
+        margin-bottom:5px;
+    }
+
+    .tab-text{
+        font-size:12px;
+    }
+}
+
+
+/* =========================================
+   아주 작은 스마트폰
+========================================= */
+
+@media (max-width:400px){
+
+    .user-name{
+        max-width:75px;
+        font-size:14px;
+    }
+
+    .user-point{
+        font-size:13px;
+        padding:6px 8px;
+    }
+
+    .logout-top-btn{
+        font-size:12px;
+        padding:7px 8px;
+    }
+
+    .summary-grid,
+    .pace-summary-grid{
+        grid-template-columns:1fr !important;
+    }
+}
+
+    @media (max-width:700px){
+
+        /* 섹션 제목 */
+        .section-title{
+            font-size:20px !important;
+        }
+
+        /* 전개요약 4개 카드 */
+        .pace-card{
+            font-size:17px !important;
+        }
+
+        .pace-card strong{
+            font-size:18px !important;
+            line-height:1.5;
+        }
+
+        /* AI 전개 해석 */
+        .pace-analysis{
+            font-size:17px !important;
+            line-height:1.9 !important;
+        }
+
+        /* 일반 분석 본문 */
+        .analysis-box{
+            font-size:17px !important;
+            line-height:1.9 !important;
+        }
+    }
+
+    @media (max-width: 600px){
+
+        /* AI 전개요약 4개 카드 */
+        .pace-summary-box{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:8px;
+        }
+
+        .pace-card{
+            min-width:0;
+            padding:18px 4px;
+            box-sizing:border-box;
+            white-space:nowrap;
+            font-size:16px;
+        }
+
+        /* 경주로 범례 - 트랙 아래 */
+        .legend-mini{
+            position:relative !important;
+            top:auto !important;
+            right:auto !important;
+            left:auto !important;
+
+            width:100%;
+            max-width:100%;
+            margin:12px auto 0;
+
+            transform:scale(0.75);
+            transform-origin:top center;
+
+            z-index:auto;
+        }
+    }
+
+    @media (max-width: 600px){
+
+        .pace-rank-score{
+            flex-shrink:0;
+            min-width:55px;
+            margin-left:8px;
+
+            white-space:nowrap;
+            text-align:right;
+
+            font-size:18px;
+        }
+
+    }
+
+    /* AI 최종결론 카드 */
+    #pace-final > div{
+        position:relative;
+        overflow:hidden;
+        border:1px solid #e5e7eb;
+    }
+
+    /* 1단계 */
+    #pace-final > div:nth-child(1){
+        border-left:6px solid #3b82f6;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #eff6ff
+        );
+    }
+
+    /* 2단계 */
+    #pace-final > div:nth-child(2){
+        border-left:6px solid #8b5cf6;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #f5f3ff
+        );
+    }
+
+    /* 3단계 */
+    #pace-final > div:nth-child(3){
+        border-left:6px solid #f59e0b;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #fffbeb
+        );
+    }
+
+    /* 마지막 단계가 있다면 */
+    #pace-final > div:nth-child(4){
+        border-left:6px solid #ef4444;
+        background:linear-gradient(
+            135deg,
+            #ffffff 65%,
+            #fef2f2
+        );
+    }    
+
+    /* 최종결론 카드 전체 */
+    #pace-final > div{
+        font-size:16px;
+        line-height:1.7;
+    }
+
+    /* 카드 제목 */
+    #pace-final > div > div:first-child{
+        font-size:19px;
+        font-weight:800;
+        letter-spacing:-0.5px;
+    }
+
+    /* 말 목록 */
+    #pace-final > div{
+        letter-spacing:-0.2px;
+    }    
+
+    /* AI 최종결론 카드 제목 */
+    #pace-final .simulation-box h3{
+        font-size:19px;
+        font-weight:900;
+        letter-spacing:-0.5px;
+        margin:0 0 18px;
+    }
+
+    /* 카드 내부 전체 */
+    #pace-final .simulation-box{
+        font-size:16px;
+        line-height:1.9;
+        letter-spacing:-0.3px;
+    }
+
+    /* 모바일 */
+    @media (max-width:600px){
+
+        #pace-final .simulation-box{
+            padding:24px 18px;
+            font-size:16px;
+            line-height:1.9;
+        }
+
+        #pace-final .simulation-box h3{
+            font-size:19px;
+            margin-bottom:16px;
+        }
+    }    
+
+    .pace-type-notice{
+        margin:10px 2px 18px;
+        padding:0 4px;
+
+        font-size:12px;
+        line-height:1.6;
+        color:#7c8798;
+
+        letter-spacing:-0.3px;
+    }
+
+    @media (max-width:600px){
+
+        .pace-ai-box{
+            padding:14px 16px !important;
+        }
+
+        .pace-ai-box h4{
+            margin:0 0 12px !important;
+        }
+    }
+    
+/* =========================
+   AI 복병마 - 다크 스타일
+========================= */
+
+.dark-horse-box{
+    position:relative;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(139,92,246,0.28),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #20243a 0%,
+            #292342 55%,
+            #171a2b 100%
+        ) !important;
+
+    border-left:5px solid #8b5cf6 !important;
+
+    box-shadow:
+        0 10px 24px rgba(15,23,42,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -20px 35px rgba(0,0,0,0.12) !important;
+}
+
+    /* 제목 */
+    .dark-horse-box h3{
+        color:#c4b5fd !important;
+        text-shadow:0 1px 8px rgba(139,92,246,0.35);
+    }
+
+    /* 카드 안 글자 */
+    .dark-horse-box,
+    .dark-horse-box div,
+    .dark-horse-box p{
+        color:#f8fafc !important;
+    }
+
+    /* 복병마 이름 강조 */
+    .dark-horse-box strong{
+        color:#ffffff !important;
+        font-weight:900;
+    }
+
+    /* 은은한 DARK HORSE 워터마크 */
+    .dark-horse-box::after{
+        content:"DARK HORSE";
+
+        position:absolute;
+        right:12px;
+        top:14px;
+
+        font-size:10px;
+        font-weight:900;
+        letter-spacing:2px;
+
+        color:rgba(255,255,255,0.10);
+
+        transform:rotate(5deg);
+
+        pointer-events:none;
+    }
+
+    .section-title{
+
+    background:linear-gradient(
+        135deg,
+        #dbeafe 0%,
+        #bfdbfe 45%,
+        #ffffff 100%
+    );
+
+    border-left:7px solid #2563eb;
+
+    border:1px solid #93c5fd;
+
+    border-radius:14px;
+
+    padding:12px 16px;
+
+    color:#1e40af;
+
+    font-size:20px;
+    font-weight:900;
+
+    box-shadow:
+        0 4px 14px rgba(37,99,235,.18);
+
+    margin:24px 0 18px;
+}
+
+/* =========================
+AI 추천 TOP5
+========================= */
+
+.top5-area{
+
+margin:30px 0;
+
+}
+
+.top5-area h3{
+
+font-size:24px;
+
+font-weight:900;
+
+color:#15803d;
+
+margin-bottom:18px;
+
+}
+
+.top5-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(5,1fr);
+
+gap:16px;
+
+}
+
+.top5-card{
+
+background:#f8fbff;
+
+border-radius:22px;
+
+padding:22px 18px;
+
+text-align:center;
+
+border:1px solid #bbf7d0;
+
+box-shadow:
+0 8px 22px rgba(37,99,235,.08);
+
+transition:.25s;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.top5-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+0 18px 35px rgba(34,197,94,.18);
+
+}
+
+.top5-card::after{
+
+content:"";
+
+position:absolute;
+
+right:-30px;
+top:-30px;
+
+width:90px;
+height:90px;
+
+background:#dcfce7;
+
+border-radius:50%;
+
+opacity:.55;
+
+}
+
+.top5-rank{
+
+font-size:34px;
+
+font-weight:900;
+
+margin-bottom:12px;
+
+position:relative;
+
+z-index:1;
+
+}
+
+.top5-name{
+
+font-size:15px;
+
+font-weight:800;
+
+line-height:1.35;
+
+height:42px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+color:#1e293b;
+
+margin-bottom:10px;
+
+position:relative;
+
+z-index:1;
+
+}
+
+.top5-score{
+
+font-size:34px;
+
+font-weight:900;
+
+color:#16a34a;
+
+margin-bottom:14px;
+
+position:relative;
+
+z-index:1;
+
+}
+
+.top5-reason{
+
+display:inline-block;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#dcfce7;
+
+color:#166534;
+
+font-size:14px;
+
+font-weight:900;
+
+line-height:1.5;
+
+position:relative;
+
+z-index:1;
+
+}
+
+@media(max-width:900px){
+
+    .top5-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
+    }
+
+    .top5-card{
+        padding:14px 6px;
+    }
+
+    .top5-rank{
+        font-size:26px;
+    }
+
+    .top5-name{
+        font-size:12px;
+        height:36px;
+    }
+
+    .top5-score{
+        font-size:25px;
+        margin-bottom:10px;
+    }
+
+    .top5-reason{
+
+        display:block;
+
+        padding:10px 14px;
+
+        border-radius:18px;
+
+        background:#f3f4f6;
+
+        font-size:13px;
+
+        font-weight:700;
+
+        line-height:1.7;
+
+        white-space:normal;
+
+    }
+}
+
+.ai-first-card{
+
+    grid-column:1 / -1;
+
+    margin-top:15px;
+
+    background:#eef6ff;
+
+    border:1px solid #b9d8ff;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    text-align:center;
+
+}

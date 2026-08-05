@@ -68,613 +68,468 @@ from sqlalchemy import func
 from quiz_answers import QUIZ_ANSWER
 import random
 import string
-
+from datetime import datetime
+import re
 
 
 print("🔥 현재 DB 위치:", os.path.abspath("db.sqlite3"))
+
 from database import DATABASE_URL
 
 print("🔥 현재 DATABASE_URL:", DATABASE_URL)
 
 
-with engine.begin() as conn:
+# ==================================================
+# FastAPI 앱 생성
+# ==================================================
+app = FastAPI()
 
-    fee_settings = [
 
-        # =========================
-        # 분석상품
-        # =========================
-        ("basic", "기본분석", "분석상품", 100, 1, 1, "기본 AI 분석"),
-        ("blood", "혈통분석", "분석상품", 200, 2, 1, "혈통 AI 분석"),
-        ("pace", "전개분석", "분석상품", 400, 3, 1, "전개 AI 분석"),
-        ("total", "종합분석", "분석상품", 300, 4, 1, "종합 AI 분석"),
-
-        # =========================
-        # 출석보상
-        # =========================
-        ("attendance_daily", "하루 출석", "출석보상", 10, 101, 1, "하루 출석 완료 시 지급"),
-
-        ("attendance_streak_7", "7일 연속 출석", "출석보상", 100, 102, 1, "7일 연속 출석 보상"),
-
-        ("attendance_streak_30", "30일 연속 출석", "출석보상", 1000, 103, 1, "30일 연속 출석 보상"),
-
-        # =========================
-        # 퀴즈보상
-        # =========================
-        ("quiz_daily", "오늘의 퀴즈", "퀴즈보상", 20, 201, 1, "퀴즈 정답 보상"),
-
-        ("knowledge_daily", "경마상식", "퀴즈보상", 10, 202, 1, "경마 상식 학습 보상"),
-
-        # =========================
-        # 회원보상
-        # =========================
-        ("signup_reward", "회원가입", "회원보상", 500, 301, 1, "신규 회원가입 보상"),
-
-        ("referral_reward", "추천인", "회원보상", 500, 302, 1, "추천인 등록 보상"),
-
-        ("birthday_reward", "생일축하", "회원보상", 1000, 303, 1, "생일 축하 포인트"),
-
-        # =========================
-        # 이벤트
-        # =========================
-        ("event_reward", "이벤트 지급", "이벤트", 1000, 401, 1, "이벤트 지급 포인트"),
-
-        ("admin_reward", "관리자 지급", "이벤트", 1000, 402, 1, "관리자 수동 지급"),
-
-    ]
-
-    for item, name, category, point, sort_order, is_active, description in fee_settings:
-
-        conn.execute(text("""
-            INSERT INTO fee_settings
-            (
-                item,
-                name,
-                category,
-                point,
-                sort_order,
-                is_active,
-                description
-            )
-            VALUES
-            (
-                :item,
-                :name,
-                :category,
-                :point,
-                :sort_order,
-                :is_active,
-                :description
-            )
-            ON CONFLICT(item)
-            DO UPDATE SET
-                name = excluded.name,
-                category = excluded.category,
-                sort_order = excluded.sort_order,
-                description = excluded.description
-        """),{
-            "item": item,
-            "name": name,
-            "category": category,
-            "point": point,
-            "sort_order": sort_order,
-            "is_active": is_active,
-            "description": description
-        })
-
-    conn.execute(text("""
-        INSERT INTO fee_password
-        (id,password)
-        VALUES
-        (1,'admin')
-        ON CONFLICT DO NOTHING
-    """))
-
-# =========================
-# race 취소마 컬럼 추가
-# =========================
+# ==================================================
+# DB 테이블 생성
+#
+# 새 DB에서는 models.py에 정의된 구조를 기준으로
+# 모든 테이블과 컬럼을 처음부터 생성한다.
+# ==================================================
 try:
-    with engine.begin() as conn:
-        conn.execute(text("""
-            ALTER TABLE race
-            ADD COLUMN "취소마" INTEGER DEFAULT 0
-        """))
 
-    print("✅ race 취소마 컬럼 추가 완료")
+    Base.metadata.create_all(bind=engine)
+
+    print("✅ 전체 DB 테이블 생성 완료")
 
 except Exception as e:
-    print("ℹ️ race 취소마 컬럼 이미 존재:", e)
 
-with engine.begin() as conn:
+    print("❌ DB 테이블 생성 실패:", repr(e))
+    raise
 
-    conn.execute(text("""
-    INSERT INTO charge_settings
-    (id,name,point,price,sort_order,is_active)
-    VALUES
-    (1,'Starter',1000,5000,1,1)
-    ON CONFLICT DO NOTHING
-    """))
 
-    conn.execute(text("""
-    INSERT INTO charge_settings
-    (id,name,point,price,sort_order,is_active)
-    VALUES
-    (2,'Premium',3000,12000,2,1)
-    ON CONFLICT DO NOTHING
-    """))
+# ==================================================
+# 충전상품 기본 설정
+# ==================================================
+CHARGE_SETTINGS = [
 
-    conn.execute(text("""
-    INSERT INTO charge_settings
-    (id,name,point,price,sort_order,is_active)
-    VALUES
-    (3,'VIP',5000,18000,3,1)
-    ON CONFLICT DO NOTHING
-    """))
+    {
+        "id": 1,
+        "name": "Starter",
+        "point": 1000,
+        "price": 5000,
+        "sort_order": 1,
+        "is_active": 1
+    },
 
-    conn.execute(text("""
-    INSERT INTO charge_settings
-    (id,name,point,price,sort_order,is_active)
-    VALUES
-    (4,'MASTER',10000,30000,4,1)
-    ON CONFLICT DO NOTHING
-    """))
+    {
+        "id": 2,
+        "name": "Premium",
+        "point": 3000,
+        "price": 12000,
+        "sort_order": 2,
+        "is_active": 1
+    },
 
-# =========================
-# PostgreSQL charge_settings 시퀀스 동기화
-# =========================
+    {
+        "id": 3,
+        "name": "VIP",
+        "point": 5000,
+        "price": 18000,
+        "sort_order": 3,
+        "is_active": 1
+    },
+
+    {
+        "id": 4,
+        "name": "MASTER",
+        "point": 10000,
+        "price": 30000,
+        "sort_order": 4,
+        "is_active": 1
+    }
+
+]
+
+
+try:
+
+    with engine.begin() as conn:
+
+        for setting in CHARGE_SETTINGS:
+
+            conn.execute(
+                text("""
+                    INSERT INTO charge_settings
+                    (
+                        id,
+                        name,
+                        point,
+                        price,
+                        sort_order,
+                        is_active
+                    )
+                    VALUES
+                    (
+                        :id,
+                        :name,
+                        :point,
+                        :price,
+                        :sort_order,
+                        :is_active
+                    )
+                    ON CONFLICT(id)
+                    DO UPDATE SET
+                        name = excluded.name,
+                        point = excluded.point,
+                        price = excluded.price,
+                        sort_order = excluded.sort_order,
+                        is_active = excluded.is_active
+                """),
+                setting
+            )
+
+    print("✅ charge_settings 기본 데이터 저장 완료")
+
+except Exception as e:
+
+    print("❌ charge_settings 기본 데이터 저장 실패:", repr(e))
+    raise
+
+
+# ==================================================
+# 입금계좌 기본 설정
+# ==================================================
+try:
+
+    with engine.begin() as conn:
+
+        conn.execute(
+            text("""
+                INSERT INTO charge_account
+                (
+                    id,
+                    bank_name,
+                    account_number,
+                    account_holder,
+                    notice
+                )
+                VALUES
+                (
+                    1,
+                    :bank_name,
+                    :account_number,
+                    :account_holder,
+                    :notice
+                )
+                ON CONFLICT(id)
+                DO UPDATE SET
+                    bank_name = excluded.bank_name,
+                    account_number = excluded.account_number,
+                    account_holder = excluded.account_holder,
+                    notice = excluded.notice
+            """),
+            {
+                "bank_name": "농협은행",
+                "account_number": "123-456-789012",
+                "account_holder": "알마고",
+                "notice": "입금 후 반드시 충전 신청 버튼을 눌러주세요."
+            }
+        )
+
+    print("✅ charge_account 기본 데이터 저장 완료")
+
+except Exception as e:
+
+    print("❌ charge_account 기본 데이터 저장 실패:", repr(e))
+    raise
+
+
+# ==================================================
+# 포인트 정책 및 이용요금 기본 설정
+# ==================================================
+FEE_SETTINGS = [
+
+    # 분석상품
+    (
+        "basic",
+        "기본분석",
+        "분석상품",
+        100,
+        1,
+        True,
+        "기본 AI 분석"
+    ),
+
+    (
+        "blood",
+        "혈통분석",
+        "분석상품",
+        200,
+        2,
+        True,
+        "혈통 AI 분석"
+    ),
+
+    (
+        "pace",
+        "전개분석",
+        "분석상품",
+        400,
+        3,
+        True,
+        "전개 AI 분석"
+    ),
+
+    (
+        "total",
+        "종합분석",
+        "분석상품",
+        300,
+        4,
+        True,
+        "종합 AI 분석"
+    ),
+
+    # 출석보상
+    (
+        "attendance_daily",
+        "하루 출석",
+        "출석보상",
+        10,
+        101,
+        True,
+        "하루 출석 완료 시 지급"
+    ),
+
+    (
+        "attendance_streak_7",
+        "7일 연속 출석",
+        "출석보상",
+        100,
+        102,
+        True,
+        "7일 연속 출석 보상"
+    ),
+
+    (
+        "attendance_streak_30",
+        "30일 연속 출석",
+        "출석보상",
+        1000,
+        103,
+        True,
+        "30일 연속 출석 보상"
+    ),
+
+    # 퀴즈보상
+    (
+        "quiz_daily",
+        "오늘의 퀴즈",
+        "퀴즈보상",
+        20,
+        201,
+        True,
+        "퀴즈 정답 보상"
+    ),
+
+    (
+        "knowledge_daily",
+        "경마상식",
+        "퀴즈보상",
+        10,
+        202,
+        True,
+        "경마 상식 학습 보상"
+    ),
+
+    # 회원보상
+    (
+        "signup_reward",
+        "회원가입",
+        "회원보상",
+        500,
+        301,
+        True,
+        "신규 회원가입 보상"
+    ),
+
+    (
+        "referral_reward",
+        "추천인",
+        "회원보상",
+        500,
+        302,
+        True,
+        "추천인 등록 보상"
+    ),
+
+    (
+        "birthday_reward",
+        "생일축하",
+        "회원보상",
+        1000,
+        303,
+        True,
+        "생일 축하 포인트"
+    ),
+
+    # 이벤트
+    (
+        "event_reward",
+        "이벤트 지급",
+        "이벤트",
+        1000,
+        401,
+        True,
+        "이벤트 지급 포인트"
+    ),
+
+    (
+        "admin_reward",
+        "관리자 지급",
+        "이벤트",
+        1000,
+        402,
+        True,
+        "관리자 수동 지급"
+    )
+
+]
+
+
+try:
+
+    with engine.begin() as conn:
+
+        for (
+            item,
+            name,
+            category,
+            point,
+            sort_order,
+            is_active,
+            description
+        ) in FEE_SETTINGS:
+
+            conn.execute(
+                text("""
+                    INSERT INTO fee_settings
+                    (
+                        item,
+                        name,
+                        category,
+                        point,
+                        sort_order,
+                        is_active,
+                        description
+                    )
+                    VALUES
+                    (
+                        :item,
+                        :name,
+                        :category,
+                        :point,
+                        :sort_order,
+                        :is_active,
+                        :description
+                    )
+                    ON CONFLICT(item)
+                    DO UPDATE SET
+                        name = excluded.name,
+                        category = excluded.category,
+                        point = excluded.point,
+                        sort_order = excluded.sort_order,
+                        is_active = excluded.is_active,
+                        description = excluded.description
+                """),
+                {
+                    "item": item,
+                    "name": name,
+                    "category": category,
+                    "point": point,
+                    "sort_order": sort_order,
+                    "is_active": is_active,
+                    "description": description
+                }
+            )
+
+    print("✅ fee_settings 기본 데이터 저장 완료")
+
+except Exception as e:
+
+    print("❌ fee_settings 기본 데이터 저장 실패:", repr(e))
+    raise
+
+
+# ==================================================
+# 이용요금 설정 비밀번호
+#
+# 이미 비밀번호가 존재하면 덮어쓰지 않는다.
+# ==================================================
+try:
+
+    with engine.begin() as conn:
+
+        conn.execute(
+            text("""
+                INSERT INTO fee_password
+                (
+                    id,
+                    password
+                )
+                VALUES
+                (
+                    1,
+                    'admin'
+                )
+                ON CONFLICT(id)
+                DO NOTHING
+            """)
+        )
+
+    print("✅ fee_password 기본 데이터 확인 완료")
+
+except Exception as e:
+
+    print("❌ fee_password 기본 데이터 저장 실패:", repr(e))
+    raise
+
+
+# ==================================================
+# PostgreSQL 시퀀스 동기화
+# ==================================================
 if DATABASE_URL.startswith("postgresql"):
 
     try:
 
         with engine.begin() as conn:
 
-            conn.execute(text("""
-                SELECT setval(
-                    pg_get_serial_sequence(
-                        'charge_settings',
-                        'id'
-                    ),
-                    COALESCE(
-                        (
-                            SELECT MAX(id)
-                            FROM charge_settings
+            conn.execute(
+                text("""
+                    SELECT setval(
+                        pg_get_serial_sequence(
+                            'charge_settings',
+                            'id'
                         ),
-                        1
-                    ),
-                    true
-                )
-            """))
+                        COALESCE(
+                            (
+                                SELECT MAX(id)
+                                FROM charge_settings
+                            ),
+                            1
+                        ),
+                        true
+                    )
+                """)
+            )
 
-        print(
-            "✅ charge_settings ID 시퀀스 동기화 완료"
-        )
+        print("✅ charge_settings ID 시퀀스 동기화 완료")
 
     except Exception as e:
 
         print(
-            "❌ charge_settings ID 시퀀스 동기화 실패:",
-            e
+            "⚠️ charge_settings ID 시퀀스 동기화 실패:",
+            repr(e)
         )
 
-with engine.begin() as conn:
 
-    conn.execute(text("""
-    INSERT INTO charge_account
-    (
-        id,
-        bank_name,
-        account_number,
-        account_holder,
-        notice
-    )
-    VALUES
-    (
-        1,
-        '농협은행',
-        '123-456-789012',
-        '알마고',
-        '입금 후 반드시 충전 신청 버튼을 눌러주세요.'
-    )
-    ON CONFLICT DO NOTHING
-    """))
-
-try:
-
-    with engine.connect() as conn:
-
-        conn.execute(text("""
-        ALTER TABLE members
-        ADD COLUMN created_at VARCHAR
-        """))
-
-        conn.commit()
-
-        print(
-            "created_at 컬럼 생성 완료"
-        )
-        
-
-except Exception:
-
-    pass
-
-    try:
-
-        with engine.begin() as conn:
-
-            conn.execute(text("""
-            ALTER TABLE members
-            ADD COLUMN referral_code VARCHAR
-            """))
-
-            print("✅ referral_code 컬럼 추가")
-
-    except Exception:
-        pass
-
-
-    try:
-
-        with engine.begin() as conn:
-
-            conn.execute(text("""
-            ALTER TABLE members
-            ADD COLUMN referred_by VARCHAR
-            """))
-
-            print("✅ referred_by 컬럼 추가")
-
-    except Exception:
-        pass
-
-    with engine.connect() as conn:
-
-        conn.commit()
-
-    # =========================
-    # fee_settings 컬럼 추가
-    # =========================
-
-    NEW_FEE_COLUMNS = [
-
-        ("name", "VARCHAR"),
-
-        ("category", "VARCHAR"),
-
-        ("sort_order", "INTEGER DEFAULT 0"),
-
-        ("is_active", "BOOLEAN DEFAULT 1"),
-
-        ("description", "VARCHAR DEFAULT ''")
-
-    ]
-
-    for col, col_type in NEW_FEE_COLUMNS:
-
-        try:
-
-            with engine.begin() as conn:
-
-                conn.execute(text(f'''
-                    ALTER TABLE fee_settings
-                    ADD COLUMN "{col}" {col_type}
-                '''))
-
-            print(f"✅ fee_settings {col} 컬럼 추가")
-
-        except Exception as e:
-
-            print(f"ℹ️ fee_settings {col} 컬럼 이미 존재:", e)
-
-    app = FastAPI()
-
-    Base.metadata.create_all(bind=engine)
-
-NEW_COLUMNS = [
-
-    "최근순위",
-    "평균경주전개",
-    "도착차",
-    "평균S1F",
-    "평균G1F",
-    "평균훈련량",
-    "수영훈련"
-
-]
-
-for col in NEW_COLUMNS:
-
-    try:
-
-        with engine.begin() as conn:
-
-            conn.execute(text(
-                f'''
-                ALTER TABLE final_analysis
-                ADD COLUMN "{col}" VARCHAR
-                '''
-            ))
-
-        print(col, "추가")
-
-    except Exception:
-        pass    
-    
-    # race_detail 컬럼 추가
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "나이" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "기수" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        ##ADD COLUMN IF NOT EXISTS "조교사" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "부담중량" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "체중" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "최근전적" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "레이팅" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "증감" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "마주명" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "조교횟수" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "출전주기" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "장구현황" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        ##ALTER TABLE race_detail
-        #ADD COLUMN IF NOT EXISTS "특이사항" VARCHAR
-    #"""))
-
-    # horse
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "성별" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "나이" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "최근전적" VARCHAR
-    #"""))
-
-with engine.connect() as conn:
-
-    pass
-
-# =========================
-# horse
-# =========================
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "성별" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "나이" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "최근전적" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "생년월일" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "기수" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "조교사" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "마주" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "부마" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "모마" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "통산전적" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "수득상금" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE horse
-        #ADD COLUMN IF NOT EXISTS "특징" VARCHAR
-    #"""))
-    # 👆 여기까지 추가
-
-    #conn.execute(text("""
-    #ALTER TABLE race
-    #ADD COLUMN IF NOT EXISTS "마명" VARCHAR
-    #"""))
-
-# =========================
-# jockey
-# =========================
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "지역명" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "생년월일" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "데뷔일자" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "기승가능중량" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "통산전적" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "통산승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "통산복승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "통산연승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "최근1년" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "최근1년승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "최근1년복승률" VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-    #ALTER TABLE jockey
-    #ADD COLUMN IF NOT EXISTS "최근1년연승률" VARCHAR
-    #"""))
-
-
-#with engine.connect() as conn:
-
-
-
-    # =========================
-    # trainer
-    # =========================
-    #for col in [
-
-        #"지역명",
-        #"데뷔일자",
-
-        #"통산전적",
-        #"통산승률",
-        #"통산복승률",
-        #"통산연승률",
-
-        #"최근1년",
-        #"최근1년승률",
-        #"최근1년복승률",
-        #"최근1년연승률"
-
-    #]:
-
-        #conn.execute(text(
-            #f'''
-            #ALTER TABLE trainer
-            #ADD COLUMN IF NOT EXISTS "{col}" VARCHAR
-            #'''
-        #))
-
-    #conn.commit()
-
-with engine.connect() as conn:
-
-    #conn.execute(text("""
-        #ALTER TABLE menus
-        #ADD COLUMN IF NOT EXISTS template VARCHAR
-    #"""))
-
-    #conn.execute(text("""
-        #ALTER TABLE members
-        #ADD COLUMN IF NOT EXISTS "point" INTEGER DEFAULT 0
-    #"""))
-
-    conn.commit()
-
-app = FastAPI()
-
-Base.metadata.create_all(bind=engine)
+print("✅ 알마고 DB 초기화 완료")
 
 app.mount(
     "/frontend",
@@ -1729,9 +1584,6 @@ def get_race():
         for r in data
     ]
 
-
-from datetime import datetime
-import re
 
 
 @app.get("/current-race")
@@ -4486,12 +4338,12 @@ def get_my_info(
 
 @app.get("/my-profile/{email}")
 def my_profile(
-    email:str,
-    db:Session=Depends(get_db)
+    email: str,
+    db: Session = Depends(get_db)
 ):
 
-    user=db.query(Member).filter(
-        Member.email==email
+    user = db.query(Member).filter(
+        Member.email == email
     ).first()
 
     if not user:
@@ -4500,14 +4352,39 @@ def my_profile(
             "회원 없음"
         )
 
+    # 추천한 회원 수
+    referral_count = db.query(Member).filter(
+        Member.referred_by == user.referral_code
+    ).count()
+
+    # 추천 누적수입
+    referral_reward = db.query(FeeSetting).filter(
+        FeeSetting.item == "referral_reward"
+    ).first()
+
+    referral_income = 0
+
+    if referral_reward:
+        referral_income = (
+            referral_count *
+            referral_reward.point
+        )
+
     return {
-        "email":user.email,
-        "name":user.name,
-        "birth":user.birth,
-        "phone":user.phone,
-        "point":user.point,
-        "referral_code": user.referral_code
+
+        "email": user.email,
+        "name": user.name,
+        "birth": user.birth,
+        "phone": user.phone,
+        "point": user.point,
+
+        "referral_code": user.referral_code,
+
+        "referral_count": referral_count,
+        "referral_income": referral_income
+
     }
+    
 @app.get("/my.html")
 def my_page():
     return FileResponse(
@@ -4778,7 +4655,11 @@ def get_basic_analysis_data(
 
             "코멘트": comment,
 
-            "점수": score
+            "점수": (
+                saved.기본점수
+                if saved and saved.기본점수 is not None
+                else score
+            )
 
         })
 
@@ -5081,9 +4962,26 @@ def get_user_basic_analysis(
             horse_name = race.마명
 
         horse = db.query(
-        Horse
+            Horse
         ).filter(
             Horse.마명 == horse_name
+        ).first()
+
+        blood = db.query(
+            Blood
+        ).filter(
+            Blood.마명.like(f"% {horse_name}")
+        ).first()
+
+        final = db.query(
+            FinalAnalysis
+        ).filter(
+
+            FinalAnalysis.지역 == row.지역,
+            FinalAnalysis.경주번호 == row.경주,
+            FinalAnalysis.번호 == row.번호,
+            FinalAnalysis.날짜 == row.경주일자
+
         ).first()
 
         print(
@@ -5144,6 +5042,22 @@ def get_user_basic_analysis(
             "조교사":
             race.조교사 if race else "-",
 
+            "레이팅":
+            race.레이팅 if race else "-",
+
+            "출전주기":
+            race.출전주기 if race else "-",
+
+            "조교횟수":
+            race.조교횟수 if race else "-",
+
+            "평균훈련량":
+            blood.평균훈련량 if blood else "-",
+
+            "수영훈련":
+            blood.훈련량수영훈련 if blood else "-",
+
+
             "기수승률":
             jockey.최근1년승률
             if jockey else "-",
@@ -5156,7 +5070,14 @@ def get_user_basic_analysis(
             row.기본코멘트,
 
             "점수":
-            row.기본점수
+            row.기본점수,
+
+            "최근순위":
+            final.최근순위 if final else "-",
+
+            "최근5전평균착순":
+            final.최근5전평균착순 if final else "-",     
+              
 
         })
 
@@ -8327,3 +8248,9 @@ def point_policy(db: Session = Depends(get_db)):
         }
 
     return result
+
+app.mount(
+    "/css",
+    StaticFiles(directory="frontend/css"),
+    name="css"
+)
